@@ -1,0 +1,131 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Prefab>
+  <Catsland.Core.GameObject>
+    <String name="m_name" value="dreamcatcher" />
+    <CatVector3 name="m_position" value="0.8231309,0.05602002,0" />
+    <CatQuaternion name="m_rotation" value="0,0,0,1" />
+    <CatVector3 name="m_scale" value="1,1,1" />
+    <IDictionary name="m_components" typeinfo="System.Collections.Generic.Dictionary`2[System.String,Catsland.Core.CatComponent]">
+      <KeyValue>
+        <Key>
+          <String name="" value="Catsland.Plugin.BasicPlugin.ModelComponent" />
+        </Key>
+        <Value>
+          <Catsland.Plugin.BasicPlugin.ModelComponent name="">
+            <String name="m_guid" value="d09f640f-762b-4a70-b6d7-0911d6401eff" />
+            <Post_ModelName value="dream" />
+            <Material name="BasicEffect1">
+              <Parameter name="Alpha" type="Catsland.Core.CatFloat" value="0.8" />
+              <Parameter name="DiffuseMap" type="Catsland.Core.CatTexture" value="dream" />
+              <Parameter name="BiasColor" type="Catsland.Core.CatColor" value="0.5019608,0.2509804,0,0" />
+            </Material>
+          </Catsland.Plugin.BasicPlugin.ModelComponent>
+        </Value>
+      </KeyValue>
+      <KeyValue>
+        <Key>
+          <String name="" value="Catsland.Plugin.BasicPlugin.QuadRender" />
+        </Key>
+        <Value>
+          <Catsland.Plugin.BasicPlugin.QuadRender name="">
+            <CatVector2 name="m_size" value="0.03,0.03" />
+            <CatVector2 name="m_offset" value="0,0" />
+            <String name="m_guid" value="5b7d9fe5-d396-42e4-9cf0-774eabe429f1" />
+          </Catsland.Plugin.BasicPlugin.QuadRender>
+        </Value>
+      </KeyValue>
+      <KeyValue>
+        <Key>
+          <String name="" value="HorseRiding.ButterflyController" />
+        </Key>
+        <Value>
+          <HorseRiding.ButterflyController name="">
+            <CatFloat name="m_verticalCycleSmall" value="3" />
+            <CatFloat name="m_verticalAmplitudeSmall" value="0.1" />
+            <CatFloat name="m_verticalCycleLarge" value="10" />
+            <CatFloat name="m_verticalAmplitudeLarge" value="0.01" />
+            <CatFloat name="m_horizontalVelocity" value="0.7" />
+            <String name="m_guid" value="62767431-cc3f-4596-9ec5-f6d6d9cf10e0" />
+          </HorseRiding.ButterflyController>
+        </Value>
+      </KeyValue>
+      <KeyValue>
+        <Key>
+          <String name="" value="HorseRiding.DreamCatcher" />
+        </Key>
+        <Value>
+          <HorseRiding.DreamCatcher name="">
+            <String name="m_playerGameObjectName" value="horse" />
+            <String name="m_scoreboardGameObjectName" value="scoreboard" />
+            <CatVector2 name="m_offset" value="0,0" />
+            <CatVector2 name="m_size" value="0.03,0.03" />
+            <String name="m_guid" value="79c46786-bb5a-422e-97d6-e3825b074e72" />
+          </HorseRiding.DreamCatcher>
+        </Value>
+      </KeyValue>
+      <KeyValue>
+        <Key>
+          <String name="" value="HorseRiding.OffSreenSuicide" />
+        </Key>
+        <Value>
+          <HorseRiding.OffSreenSuicide name="">
+            <CatFloat name="m_suicideDistance" value="5" />
+            <String name="m_guid" value="ce7d3262-515b-447b-b9d8-a357c8e4e2ea" />
+          </HorseRiding.OffSreenSuicide>
+        </Value>
+      </KeyValue>
+    </IDictionary>
+    <String name="m_guid" value="b9e290cd-0915-4e1e-b2e7-0cde50325a53" />
+  </Catsland.Core.GameObject>
+  <Catsland.Core.GameObject>
+    <String name="m_name" value="tail" />
+    <CatVector3 name="m_position" value="0,0,-0.01" />
+    <CatQuaternion name="m_rotation" value="0,0,0,1" />
+    <CatVector3 name="m_scale" value="1,1,1" />
+    <IDictionary name="m_components" typeinfo="System.Collections.Generic.Dictionary`2[System.String,Catsland.Core.CatComponent]">
+      <KeyValue>
+        <Key>
+          <String name="" value="Catsland.Plugin.BasicPlugin.ModelComponent" />
+        </Key>
+        <Value>
+          <Catsland.Plugin.BasicPlugin.ModelComponent name="">
+            <String name="m_guid" value="9fef3b78-8347-446f-9206-aae5f37f7601" />
+            <Post_ModelName value="dream" />
+            <Material name="BasicEffect1">
+              <Parameter name="Alpha" type="Catsland.Core.CatFloat" value="0.52" />
+              <Parameter name="DiffuseMap" type="Catsland.Core.CatTexture" value="dream" />
+              <Parameter name="BiasColor" type="Catsland.Core.CatColor" value="0.5019608,0.2509804,0,0" />
+            </Material>
+          </Catsland.Plugin.BasicPlugin.ModelComponent>
+        </Value>
+      </KeyValue>
+      <KeyValue>
+        <Key>
+          <String name="" value="Catsland.Plugin.BasicPlugin.ParticleEmitter" />
+        </Key>
+        <Value>
+          <Catsland.Plugin.BasicPlugin.ParticleEmitter name="">
+            <CatVector3 name="m_emitterSize" value="0,0,0" />
+            <CatVector3 name="m_emitterOffset" value="0,0,0" />
+            <CatBool name="m_isEmitting" value="True" />
+            <CatInteger name="m_generateRatePerSecond" value="50" />
+            <CatInteger name="m_maxParticleNumber" value="50" />
+            <CatVector3 name="m_emitDirection" value="-1,0,0" />
+            <CatFloat name="m_emitBiasDegree" value="0" />
+            <CatFloat name="m_emitSpeed" value="0" />
+            <CatFloat name="m_emitSpeedBias" value="0" />
+            <CatVector3 name="m_particleAcceleration" value="0,0,0" />
+            <CatFloat name="m_angularVelocityOnZ" value="0" />
+            <CatVector2 name="m_particleSize" value="0.04,0.02" />
+            <CatVector2 name="m_particleSizeBias" value="0,0.01" />
+            <CatInteger name="m_particleLifetimeInMS" value="100" />
+            <String name="m_particleUpdateComponentName" value="Catsland.Plugin.BasicPlugin.ParticleEmitter" />
+            <String name="m_guid" value="eb69ea2c-4f59-404a-8d92-05fa1e5f5220" />
+          </Catsland.Plugin.BasicPlugin.ParticleEmitter>
+        </Value>
+      </KeyValue>
+    </IDictionary>
+    <GameObject value="b9e290cd-0915-4e1e-b2e7-0cde50325a53" name="m_parent" />
+    <String name="m_guid" value="b8daaa35-3245-4b43-92fc-d9ed911cc9a7" />
+  </Catsland.Core.GameObject>
+</Prefab>

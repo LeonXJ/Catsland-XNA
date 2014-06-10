@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Prefab>
+  <Catsland.Core.GameObject>
+    <String name="m_name" value="wildgoose" />
+    <CatVector3 name="m_position" value="0.7252944,-0.2666385,0" />
+    <CatQuaternion name="m_rotation" value="0,0,0,1" />
+    <CatVector3 name="m_scale" value="1,1,1" />
+    <IDictionary name="m_components" typeinfo="System.Collections.Generic.Dictionary`2[System.String,Catsland.Core.CatComponent]">
+      <KeyValue>
+        <Key>
+          <String name="" value="Catsland.Plugin.BasicPlugin.ModelComponent" />
+        </Key>
+        <Value>
+          <Catsland.Plugin.BasicPlugin.ModelComponent name="">
+            <String name="m_guid" value="3a8818bf-22eb-433b-aa61-cd2eec5259be" />
+            <Post_ModelName value="wildgorse" />
+            <Material name="BasicEffect1">
+              <Parameter name="Alpha" type="Catsland.Core.CatFloat" value="1" />
+              <Parameter name="DiffuseMap" type="Catsland.Core.CatTexture" value="grassland_wildgorse" />
+              <Parameter name="BiasColor" type="Catsland.Core.CatColor" value="0,0,0,0" />
+            </Material>
+          </Catsland.Plugin.BasicPlugin.ModelComponent>
+        </Value>
+      </KeyValue>
+      <KeyValue>
+        <Key>
+          <String name="" value="Catsland.Plugin.BasicPlugin.QuadRender" />
+        </Key>
+        <Value>
+          <Catsland.Plugin.BasicPlugin.QuadRender name="">
+            <CatVector2 name="m_size" value="0.04,0.01" />
+            <CatVector2 name="m_offset" value="0,0" />
+            <String name="m_guid" value="6e4b09cb-4cff-4812-a5d2-cf5543a0de18" />
+          </Catsland.Plugin.BasicPlugin.QuadRender>
+        </Value>
+      </KeyValue>
+      <KeyValue>
+        <Key>
+          <String name="" value="Catsland.Plugin.BasicPlugin.Animator" />
+        </Key>
+        <Value>
+          <Catsland.Plugin.BasicPlugin.Animator name="">
+            <CatBool name="m_isPlaying" value="True" />
+            <CatInteger name="m_millionSecondPreFrame" value="100" />
+            <String name="m_currentAnimationName" value="flying" />
+            <String name="m_guid" value="62239e41-76de-4045-8f68-1653ff82ebd3" />
+          </Catsland.Plugin.BasicPlugin.Animator>
+        </Value>
+      </KeyValue>
+    </IDictionary>
+    <String name="m_guid" value="49e8d065-e3fc-4d3c-95ac-e7afc18ec7ad" />
+  </Catsland.Core.GameObject>
+</Prefab>

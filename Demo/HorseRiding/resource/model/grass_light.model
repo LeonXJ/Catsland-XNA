@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Catsland.Core.CatModel>
+  <String name="m_name" value="grass_light" />
+  <Catsland.Core.Animation name="m_animation">
+    <IDictionary name="m_animationClips" typeinfo="System.Collections.Generic.Dictionary`2[System.String,Catsland.Core.AnimationClip]" />
+    <CatPoint name="m_tiltUV" value="1,1" />
+    <String name="m_defaultAnimationClipName" value="" />
+    <CatInteger name="m_millionSecondPerFrame" value="50" />
+    <String name="m_guid" value="2b7090b5-abca-4c90-97ce-e14891f38293" />
+  </Catsland.Core.Animation>
+  <String name="m_guid" value="91bfce8a-fa59-43d7-8931-ef18c44c0af5" />
+  <Material name="BasicEffect1">
+    <Parameter name="World" type="Catsland.Core.CatMatrix" value="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" />
+    <Parameter name="View" type="Catsland.Core.CatMatrix" value="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" />
+    <Parameter name="Projection" type="Catsland.Core.CatMatrix" value="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" />
+    <Parameter name="Alpha" type="Catsland.Core.CatFloat" value="1" />
+    <Parameter name="DiffuseMap" type="Catsland.Core.CatTexture" value="grass_light" />
+    <Parameter name="BiasColor" type="Catsland.Core.CatColor" value="0,0,0,0" />
+  </Material>
+</Catsland.Core.CatModel>

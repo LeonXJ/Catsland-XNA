@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Prefab>
+  <Catsland.Core.GameObject>
+    <String name="m_name" value="finalPos" />
+    <CatVector3 name="m_position" value="2.219025,0.8,0" />
+    <CatQuaternion name="m_rotation" value="0,0,0,1" />
+    <CatVector3 name="m_scale" value="1,1,1" />
+    <String name="m_guid" value="d35c50ce-5363-48e8-844d-456f609e7963" />
+  </Catsland.Core.GameObject>
+</Prefab>

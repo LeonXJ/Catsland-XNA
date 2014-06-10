@@ -1,0 +1,204 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Scene>
+  <SceneBasic viewAngle="45">
+    <XBound min="-4" max="4" />
+    <YBound min="-0.2" max="0.2" />
+    <ZBound min="0" max="4" />
+  </SceneBasic>
+  <GameObjects>
+    <Catsland.Core.GameObject>
+      <Property name="m_name" type="System.String" value="background" />
+      <Property name="m_position" type="Catsland.Core.CatVector3" value="0,1.029947,0.2427141" />
+      <Property name="m_components" type="System.Collections.Generic.Dictionary`2[System.String,Catsland.Core.CatComponent]" value="System.String,Catsland.Core.CatComponent">
+        <KeyValue>
+          <Key>
+            <Property type="System.String" value="ModelComponent" />
+          </Key>
+          <Value>
+            <Catsland.Plugin.BasicPlugin.ModelComponent />
+          </Value>
+        </KeyValue>
+        <KeyValue>
+          <Key>
+            <Property type="System.String" value="QuadRender" />
+          </Key>
+          <Value>
+            <Catsland.Plugin.BasicPlugin.QuadRender />
+          </Value>
+        </KeyValue>
+        <KeyValue>
+          <Key>
+            <Property type="System.String" value="BackgroundController" />
+          </Key>
+          <Value>
+            <Catsland.Plugin.BasicPlugin.BackgroundController />
+          </Value>
+        </KeyValue>
+      </Property>
+      <Property name="m_parent" type="Catsland.Core.GameObject" value="" />
+    </Catsland.Core.GameObject>
+    <Catsland.Core.GameObject>
+      <Property name="m_name" type="System.String" value="plain" />
+      <Property name="m_position" type="Catsland.Core.CatVector3" value="-1.020572,3.72529E-09,0.1999964" />
+      <Property name="m_components" type="System.Collections.Generic.Dictionary`2[System.String,Catsland.Core.CatComponent]" value="System.String,Catsland.Core.CatComponent">
+        <KeyValue>
+          <Key>
+            <Property type="System.String" value="ModelComponent" />
+          </Key>
+          <Value>
+            <Catsland.Plugin.BasicPlugin.ModelComponent />
+          </Value>
+        </KeyValue>
+        <KeyValue>
+          <Key>
+            <Property type="System.String" value="QuadRender" />
+          </Key>
+          <Value>
+            <Catsland.Plugin.BasicPlugin.QuadRender />
+          </Value>
+        </KeyValue>
+      </Property>
+      <Property name="m_parent" type="Catsland.Core.GameObject" value="" />
+    </Catsland.Core.GameObject>
+    <Catsland.Core.GameObject>
+      <Property name="m_name" type="System.String" value="plain" />
+      <Property name="m_position" type="Catsland.Core.CatVector3" value="-108.2278,3.98606E-07,21.23387" />
+      <Property name="m_components" type="System.Collections.Generic.Dictionary`2[System.String,Catsland.Core.CatComponent]" value="System.String,Catsland.Core.CatComponent">
+        <KeyValue>
+          <Key>
+            <Property type="System.String" value="ModelComponent" />
+          </Key>
+          <Value>
+            <Catsland.Plugin.BasicPlugin.ModelComponent />
+          </Value>
+        </KeyValue>
+        <KeyValue>
+          <Key>
+            <Property type="System.String" value="QuadRender" />
+          </Key>
+          <Value>
+            <Catsland.Plugin.BasicPlugin.QuadRender />
+          </Value>
+        </KeyValue>
+      </Property>
+      <Property name="m_parent" type="Catsland.Core.GameObject" value="2926f6df-8765-42b1-bafb-9819cf43804e" />
+    </Catsland.Core.GameObject>
+    <Catsland.Core.GameObject>
+      <Property name="m_name" type="System.String" value="rise" />
+      <Property name="m_position" type="Catsland.Core.CatVector3" value="0.1429633,0.228232,0.2094783" />
+      <Property name="m_components" type="System.Collections.Generic.Dictionary`2[System.String,Catsland.Core.CatComponent]" value="System.String,Catsland.Core.CatComponent">
+        <KeyValue>
+          <Key>
+            <Property type="System.String" value="ModelComponent" />
+          </Key>
+          <Value>
+            <Catsland.Plugin.BasicPlugin.ModelComponent />
+          </Value>
+        </KeyValue>
+        <KeyValue>
+          <Key>
+            <Property type="System.String" value="QuadRender" />
+          </Key>
+          <Value>
+            <Catsland.Plugin.BasicPlugin.QuadRender />
+          </Value>
+        </KeyValue>
+        <KeyValue>
+          <Key>
+            <Property type="System.String" value="CatsCollider" />
+          </Key>
+          <Value>
+            <Catsland.Plugin.BasicPlugin.CatsCollider />
+          </Value>
+        </KeyValue>
+      </Property>
+      <Property name="m_parent" type="Catsland.Core.GameObject" value="" />
+    </Catsland.Core.GameObject>
+    <Catsland.Core.GameObject>
+      <Property name="m_name" type="System.String" value="rabby" />
+      <Property name="m_position" type="Catsland.Core.CatVector3" value="-0.2967588,0.1292286,0.08702698" />
+      <Property name="m_components" type="System.Collections.Generic.Dictionary`2[System.String,Catsland.Core.CatComponent]" value="System.String,Catsland.Core.CatComponent">
+        <KeyValue>
+          <Key>
+            <Property type="System.String" value="ModelComponent" />
+          </Key>
+          <Value>
+            <Catsland.Plugin.BasicPlugin.ModelComponent />
+          </Value>
+        </KeyValue>
+        <KeyValue>
+          <Key>
+            <Property type="System.String" value="QuadRender" />
+          </Key>
+          <Value>
+            <Catsland.Plugin.BasicPlugin.QuadRender />
+          </Value>
+        </KeyValue>
+        <KeyValue>
+          <Key>
+            <Property type="System.String" value="Animator" />
+          </Key>
+          <Value>
+            <Catsland.Plugin.BasicPlugin.Animator />
+          </Value>
+        </KeyValue>
+        <KeyValue>
+          <Key>
+            <Property type="System.String" value="CharacterController" />
+          </Key>
+          <Value>
+            <Catsland.Plugin.BasicPlugin.CharacterController />
+          </Value>
+        </KeyValue>
+        <KeyValue>
+          <Key>
+            <Property type="System.String" value="KeyboardInput" />
+          </Key>
+          <Value>
+            <Catsland.Plugin.BasicPlugin.KeyboardInput />
+          </Value>
+        </KeyValue>
+        <KeyValue>
+          <Key>
+            <Property type="System.String" value="CatsCollider" />
+          </Key>
+          <Value>
+            <Catsland.Plugin.BasicPlugin.CatsCollider />
+          </Value>
+        </KeyValue>
+      </Property>
+      <Property name="m_parent" type="Catsland.Core.GameObject" value="" />
+    </Catsland.Core.GameObject>
+    <Catsland.Core.GameObject>
+      <Property name="m_name" type="System.String" value="shadow" />
+      <Property name="m_position" type="Catsland.Core.CatVector3" value="-0.2967588,0.005880684,0.2093783" />
+      <Property name="m_components" type="System.Collections.Generic.Dictionary`2[System.String,Catsland.Core.CatComponent]" value="System.String,Catsland.Core.CatComponent">
+        <KeyValue>
+          <Key>
+            <Property type="System.String" value="ModelComponent" />
+          </Key>
+          <Value>
+            <Catsland.Plugin.BasicPlugin.ModelComponent />
+          </Value>
+        </KeyValue>
+        <KeyValue>
+          <Key>
+            <Property type="System.String" value="QuadRender" />
+          </Key>
+          <Value>
+            <Catsland.Plugin.BasicPlugin.QuadRender />
+          </Value>
+        </KeyValue>
+        <KeyValue>
+          <Key>
+            <Property type="System.String" value="Shadow" />
+          </Key>
+          <Value>
+            <Catsland.Plugin.BasicPlugin.Shadow />
+          </Value>
+        </KeyValue>
+      </Property>
+      <Property name="m_parent" type="Catsland.Core.GameObject" value="" />
+    </Catsland.Core.GameObject>
+  </GameObjects>
+</Scene>

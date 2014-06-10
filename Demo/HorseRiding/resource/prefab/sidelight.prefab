@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Prefab>
+  <Catsland.Core.GameObject>
+    <String name="m_name" value="sidelight" />
+    <CatVector3 name="m_position" value="-0.5539818,-0.2281257,-0.9" />
+    <CatQuaternion name="m_rotation" value="0,0,0,1" />
+    <CatVector3 name="m_scale" value="1,1,1" />
+    <IDictionary name="m_components" typeinfo="System.Collections.Generic.Dictionary`2[System.String,Catsland.Core.CatComponent]">
+      <KeyValue>
+        <Key>
+          <String name="" value="Catsland.Plugin.BasicPlugin.ModelComponent" />
+        </Key>
+        <Value>
+          <Catsland.Plugin.BasicPlugin.ModelComponent name="">
+            <String name="m_guid" value="c505fe8d-f60d-4640-b996-0f11f6a5cc48" />
+            <Post_ModelName value="firework" />
+            <Material name="Additive">
+              <Parameter name="Alpha" type="Catsland.Core.CatFloat" value="0" />
+              <Parameter name="DiffuseMap" type="Catsland.Core.CatTexture" value="firework" />
+              <Parameter name="BiasColor" type="Catsland.Core.CatColor" value="1,1,0.5019608,0" />
+            </Material>
+          </Catsland.Plugin.BasicPlugin.ModelComponent>
+        </Value>
+      </KeyValue>
+      <KeyValue>
+        <Key>
+          <String name="" value="Catsland.Plugin.BasicPlugin.QuadRender" />
+        </Key>
+        <Value>
+          <Catsland.Plugin.BasicPlugin.QuadRender name="">
+            <CatVector2 name="m_size" value="0.05,0.01" />
+            <CatVector2 name="m_offset" value="0,0" />
+            <String name="m_guid" value="39572090-8f88-41bb-9732-f03966402c7d" />
+          </Catsland.Plugin.BasicPlugin.QuadRender>
+        </Value>
+      </KeyValue>
+      <KeyValue>
+        <Key>
+          <String name="" value="HorseRiding.ButterflyController" />
+        </Key>
+        <Value>
+          <HorseRiding.ButterflyController name="">
+            <CatFloat name="m_verticalCycleSmall" value="7" />
+            <CatFloat name="m_verticalAmplitudeSmall" value="0.01" />
+            <CatFloat name="m_verticalCycleLarge" value="17" />
+            <CatFloat name="m_verticalAmplitudeLarge" value="0.008" />
+            <CatFloat name="m_horizontalVelocity" value="0" />
+            <String name="m_guid" value="8d018c73-6a5c-41af-aa5c-571d7e8d0bde" />
+          </HorseRiding.ButterflyController>
+        </Value>
+      </KeyValue>
+      <KeyValue>
+        <Key>
+          <String name="" value="HorseRiding.WonderLightSensor" />
+        </Key>
+        <Value>
+          <HorseRiding.WonderLightSensor name="">
+            <CatVector2 name="m_offset" value="0,0" />
+            <CatVector2 name="m_size" value="0.05,0.05" />
+            <String name="m_guid" value="b5cd7513-6788-4be5-9ff8-8813e7d96a1c" />
+          </HorseRiding.WonderLightSensor>
+        </Value>
+      </KeyValue>
+    </IDictionary>
+    <String name="m_guid" value="bed1edad-c46b-43ef-b8cd-812683b047cf" />
+  </Catsland.Core.GameObject>
+</Prefab>

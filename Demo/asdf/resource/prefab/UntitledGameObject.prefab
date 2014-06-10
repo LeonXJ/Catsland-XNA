@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Prefab>
+  <Catsland.Core.GameObject>
+    <String name="m_name" value="UntitledGameObject" />
+    <CatVector3 name="m_position" value="-0.2006079,0.1119403,0" />
+    <CatQuaternion name="m_rotation" value="0,0,0,1" />
+    <CatVector3 name="m_scale" value="1,1,1" />
+    <String name="m_guid" value="fcb0ae01-f49f-4b95-9cf0-65f2ac2d326f" />
+  </Catsland.Core.GameObject>
+  <Catsland.Core.GameObject>
+    <String name="m_name" value="UntitledGameObject" />
+    <CatVector3 name="m_position" value="0.1969217,0.1657434,0" />
+    <CatQuaternion name="m_rotation" value="0,0,0,1" />
+    <CatVector3 name="m_scale" value="1,1,1" />
+    <IDictionary name="m_components" typeinfo="System.Collections.Generic.Dictionary`2[System.String,Catsland.Core.CatComponent]">
+      <KeyValue>
+        <Key>
+          <String name="" value="Catsland.Plugin.BasicPlugin.QuadRender" />
+        </Key>
+        <Value>
+          <Catsland.Plugin.BasicPlugin.QuadRender name="">
+            <CatVector2 name="m_size" value="0.1,0.1" />
+            <CatVector2 name="m_offset" value="0,0" />
+            <String name="m_guid" value="87644f0e-5fb8-4068-ae0b-d78561cc3acd" />
+          </Catsland.Plugin.BasicPlugin.QuadRender>
+        </Value>
+      </KeyValue>
+      <KeyValue>
+        <Key>
+          <String name="" value="Catsland.Plugin.BasicPlugin.ModelComponent" />
+        </Key>
+        <Value>
+          <Catsland.Plugin.BasicPlugin.ModelComponent name="">
+            <String name="m_guid" value="464cf532-9012-437f-8d74-38cd1cf996af" />
+            <Post_ModelName value="Untitled1" />
+            <Material name="BasicEffect1">
+              <Parameter name="Alpha" type="Catsland.Core.CatFloat" value="1" />
+              <Parameter name="DiffuseMap" type="Catsland.Core.CatTexture" value="road_plain" />
+              <Parameter name="BiasColor" type="Catsland.Core.CatColor" value="0,0,0,0" />
+            </Material>
+          </Catsland.Plugin.BasicPlugin.ModelComponent>
+        </Value>
+      </KeyValue>
+    </IDictionary>
+    <GameObject value="fcb0ae01-f49f-4b95-9cf0-65f2ac2d326f" name="m_parent" />
+    <String name="m_guid" value="d69f1cab-1d93-4b20-a4a5-e6cb9728c4df" />
+  </Catsland.Core.GameObject>
+</Prefab>

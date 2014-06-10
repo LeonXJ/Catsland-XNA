@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Models>
+  <Model name="background" material="BasicEffect1">
+    <Animation>
+      <tiltUV U="1" V="1" />
+      <defaultAnimationClipName>
+      </defaultAnimationClipName>
+      <isAutoPlay>True</isAutoPlay>
+      <millionSecondPerFrame>50</millionSecondPerFrame>
+      <AnimationClips />
+    </Animation>
+  </Model>
+  <Model name="catty" material="BasicEffect1">
+    <Animation>
+      <tiltUV U="5" V="3" />
+      <defaultAnimationClipName>stand</defaultAnimationClipName>
+      <isAutoPlay>True</isAutoPlay>
+      <millionSecondPerFrame>50</millionSecondPerFrame>
+      <AnimationClips>
+        <AnimationClip name="stand" beginIndex="0" endIndex="0" mode="LOOP" />
+        <AnimationClip name="walk" beginIndex="1" endIndex="10" mode="LOOP" />
+        <AnimationClip name="jump" beginIndex="11" endIndex="13" mode="CLAMP" />
+      </AnimationClips>
+    </Animation>
+  </Model>
+  <Model name="plain" material="BasicEffect1">
+    <Animation>
+      <tiltUV U="1" V="1" />
+      <defaultAnimationClipName>
+      </defaultAnimationClipName>
+      <isAutoPlay>True</isAutoPlay>
+      <millionSecondPerFrame>50</millionSecondPerFrame>
+      <AnimationClips />
+    </Animation>
+  </Model>
+  <Model name="rise" material="BasicEffect1">
+    <Animation>
+      <tiltUV U="1" V="1" />
+      <defaultAnimationClipName>
+      </defaultAnimationClipName>
+      <isAutoPlay>True</isAutoPlay>
+      <millionSecondPerFrame>50</millionSecondPerFrame>
+      <AnimationClips />
+    </Animation>
+  </Model>
+  <Model name="shadow" material="BasicEffect1">
+    <Animation>
+      <tiltUV U="1" V="1" />
+      <defaultAnimationClipName>
+      </defaultAnimationClipName>
+      <isAutoPlay>True</isAutoPlay>
+      <millionSecondPerFrame>50</millionSecondPerFrame>
+      <AnimationClips />
+    </Animation>
+  </Model>
+</Models>

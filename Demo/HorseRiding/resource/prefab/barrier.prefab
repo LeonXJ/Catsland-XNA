@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Prefab>
+  <Catsland.Core.GameObject>
+    <String name="m_name" value="barrier" />
+    <CatVector3 name="m_position" value="0.5890884,-0.3237813,0" />
+    <CatQuaternion name="m_rotation" value="0,0,0,1" />
+    <CatVector3 name="m_scale" value="1,1,1" />
+    <IDictionary name="m_components" typeinfo="System.Collections.Generic.Dictionary`2[System.String,Catsland.Core.CatComponent]">
+      <KeyValue>
+        <Key>
+          <String name="" value="Catsland.Plugin.BasicPlugin.ModelComponent" />
+        </Key>
+        <Value>
+          <Catsland.Plugin.BasicPlugin.ModelComponent name="">
+            <String name="m_guid" value="8471cad1-e854-441e-9de5-e0b81ab3587b" />
+            <Post_ModelName value="grass_block" />
+            <Material name="BasicEffect1">
+              <Parameter name="Alpha" type="Catsland.Core.CatFloat" value="1" />
+              <Parameter name="DiffuseMap" type="Catsland.Core.CatTexture" value="grassland_box" />
+              <Parameter name="BiasColor" type="Catsland.Core.CatColor" value="0,0,0,0" />
+            </Material>
+          </Catsland.Plugin.BasicPlugin.ModelComponent>
+        </Value>
+      </KeyValue>
+      <KeyValue>
+        <Key>
+          <String name="" value="Catsland.Plugin.BasicPlugin.QuadRender" />
+        </Key>
+        <Value>
+          <Catsland.Plugin.BasicPlugin.QuadRender name="">
+            <CatVector2 name="m_size" value="0.1,0.1" />
+            <CatVector2 name="m_offset" value="0,0" />
+            <String name="m_guid" value="beb82b63-3786-4c1d-ae55-c2fde81295dc" />
+          </Catsland.Plugin.BasicPlugin.QuadRender>
+        </Value>
+      </KeyValue>
+      <KeyValue>
+        <Key>
+          <String name="" value="Catsland.Plugin.BasicPlugin.RectangleCollider" />
+        </Key>
+        <Value>
+          <Catsland.Plugin.BasicPlugin.RectangleCollider name="">
+            <CatVector2 name="m_size" value="0.08,0.08" />
+            <CatInteger name="m_bodyType" value="0" />
+            <CatFloat name="m_mass" value="1.8" />
+            <CatFloat name="m_friction" value="0.9" />
+            <CatFloat name="m_restitution" value="0.5" />
+            <String name="m_guid" value="5c237c8a-98b0-45ed-b721-b84437e30f25" />
+          </Catsland.Plugin.BasicPlugin.RectangleCollider>
+        </Value>
+      </KeyValue>
+      <KeyValue>
+        <Key>
+          <String name="" value="HorseRiding.OffSreenSuicide" />
+        </Key>
+        <Value>
+          <HorseRiding.OffSreenSuicide name="">
+            <CatFloat name="m_suicideDistance" value="4" />
+            <String name="m_guid" value="2906307c-4276-47a7-be1c-3079a5d8289c" />
+          </HorseRiding.OffSreenSuicide>
+        </Value>
+      </KeyValue>
+    </IDictionary>
+    <String name="m_guid" value="e56b8ba4-1a93-406b-978e-c3a7507ee0fc" />
+  </Catsland.Core.GameObject>
+</Prefab>

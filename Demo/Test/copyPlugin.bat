@@ -1,0 +1,1 @@
+xcopy /Y ..\..\bin\debug\plugin\BasicPlugin.* plugin\

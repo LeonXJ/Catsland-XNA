@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Scene>
+  <SceneBasic viewAngle="45">
+    <XBound min="-4" max="4" />
+    <YBound min="-0.2" max="0.2" />
+    <ZBound min="0" max="4" />
+  </SceneBasic>
+  <GameObjects>
+    <Catsland.Core.GameObject>
+      <Property name="m_name" type="System.String" value="background" />
+      <Property name="m_position" type="Catsland.Core.CatVector3" value="0,0,0" />
+      <Property name="m_components" type="System.Collections.Generic.Dictionary`2[System.String,Catsland.Core.CatComponent]" value="System.String,Catsland.Core.CatComponent">
+        <KeyValue>
+          <Key>
+            <Property type="System.String" value="ModelComponent" />
+          </Key>
+          <Value>
+            <Property type="Catsland.Plugin.BasicPlugin.ModelComponent" value="">
+              <Catsland.Plugin.BasicPlugin.ModelComponent>
+                <Property name="m_guid" type="System.String" value="abcd-abce" />
+              </Catsland.Plugin.BasicPlugin.ModelComponent>
+            </Property>
+          </Value>
+        </KeyValue>
+      </Property>
+      <Property name="m_parent" type="Catsland.Core.GameObject" value="" />
+      <Property name="m_guid" type="System.String" value="abcd-abcd" />
+    </Catsland.Core.GameObject>
+    <Catsland.Core.GameObject>
+      <Property name="m_name" type="System.String" value="backson" />
+      <Property name="m_position" type="Catsland.Core.CatVector3" value="0,0.1,0" />
+      <Property name="m_components" type="System.Collections.Generic.Dictionary`2[System.String,Catsland.Core.CatComponent]" value="System.String,Catsland.Core.CatComponent" />
+      <Property name="m_parent" type="Catsland.Core.GameObject" value="abcd-abcd" />
+      <Property name="m_guid" type="System.String" value="abcd-absdf" />
+    </Catsland.Core.GameObject>
+  </GameObjects>
+</Scene>

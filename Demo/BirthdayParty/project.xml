@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Project>
+  <ProjectName>BirthdayParty</ProjectName>
+  <Materials>config\materials.xml</Materials>
+  <Models>config\models.xml</Models>
+  <Prefabs>config\prefabs.xml</Prefabs>
+  <Scenes>scene</Scenes>
+  <Plugins>plugin</Plugins>
+  <Resources>resource</Resources>
+  <Images>image</Images>
+  <SceneLoad startup="party" current="party" />
+</Project>

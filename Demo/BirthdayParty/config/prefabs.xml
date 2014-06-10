@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Prefabs>
+  <GameObject name="level1" guid="0aa8fdc7-f3d0-4d78-9697-96b5240dbc5b" parent="">
+    <Position X="-4.5" Y="0" Z="0" />
+    <Components>
+      <ModelComponent name="level_plain" />
+      <QuadRender enable="True" alpha="1">
+        <Size Width="1.56" Height="0.6" />
+        <Offset X="0" Y="-0.3" />
+      </QuadRender>
+    </Components>
+  </GameObject>
+  <GameObject name="level_rise" guid="6a6f59e8-d9a4-4baa-a475-bc547a693f7f" parent="">
+    <Position X="0.17" Y="0" Z="0.2" />
+    <Components>
+      <ModelComponent name="level_rize" />
+      <QuadRender enable="True" alpha="1">
+        <Size Width="1.56" Height="0.8" />
+        <Offset X="0" Y="-0.3" />
+      </QuadRender>
+    </Components>
+  </GameObject>
+  <GameObject name="far_tree" guid="898f9fe7-27d9-471d-9217-870fe5e2f06c" parent="">
+    <Position X="-5" Y="0.08" Z="0" />
+    <Components>
+      <ModelComponent name="far_tree" />
+      <QuadRender enable="True" alpha="1">
+        <Size Width="2.25" Height="0.56" />
+        <Offset X="0" Y="0" />
+      </QuadRender>
+    </Components>
+  </GameObject>
+  <GameObject name="lamtent" guid="97a0a91e-9d0f-4d57-b292-383f7a1444ef" parent="">
+    <Position X="0.88" Y="0" Z="0.4544179" />
+    <Components>
+      <ModelComponent name="lamtent" />
+      <QuadRender enable="True" alpha="1">
+        <Size Width="0.2" Height="0.24" />
+        <Offset X="0" Y="0" />
+      </QuadRender>
+      <Animator currentClip="" isXMirror="False" animationName="" />
+      <Lamtent rizeSpeed="0.15" expireHight="3.5" />
+      <BackgroundController zOffset="0" adjustY="False" useThisWidth="False" pictureWidth="10" pictureOffsetX="0" />
+    </Components>
+  </GameObject>
+  <GameObject name="end05" guid="cc3f9ab1-b087-4baf-8cef-f32011c5b9c9" parent="">
+    <Position X="0" Y="0" Z="0" />
+    <Components>
+      <ModelComponent name="end5" />
+      <QuadRender enable="True" alpha="1">
+        <Size Width="1.5" Height="0.45" />
+        <Offset X="0" Y="0.2" />
+      </QuadRender>
+    </Components>
+  </GameObject>
+</Prefabs>

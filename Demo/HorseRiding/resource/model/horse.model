@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Catsland.Core.CatModel>
+  <String name="m_name" value="horse" />
+  <Catsland.Core.Animation name="m_animation">
+    <IDictionary name="m_animationClips" typeinfo="System.Collections.Generic.Dictionary`2[System.String,Catsland.Core.AnimationClip]">
+      <KeyValue>
+        <Key>
+          <String name="" value="run" />
+        </Key>
+        <Value>
+          <Catsland.Core.AnimationClip name="">
+            <String name="m_name" value="run" />
+            <CatInteger name="m_beginIndex" value="0" />
+            <CatInteger name="m_endIndex" value="4" />
+            <String name="m_guid" value="d045bd21-8fd1-4e37-9731-c5ab5556322c" />
+            <Post_PlayMode value="LOOP" />
+          </Catsland.Core.AnimationClip>
+        </Value>
+      </KeyValue>
+      <KeyValue>
+        <Key>
+          <String name="" value="up" />
+        </Key>
+        <Value>
+          <Catsland.Core.AnimationClip name="">
+            <String name="m_name" value="up" />
+            <CatInteger name="m_beginIndex" value="2" />
+            <CatInteger name="m_endIndex" value="2" />
+            <String name="m_guid" value="ae358163-b5ca-447d-b6eb-56cb57e3c1aa" />
+            <Post_PlayMode value="CLAMP" />
+          </Catsland.Core.AnimationClip>
+        </Value>
+      </KeyValue>
+      <KeyValue>
+        <Key>
+          <String name="" value="down" />
+        </Key>
+        <Value>
+          <Catsland.Core.AnimationClip name="">
+            <String name="m_name" value="down" />
+            <CatInteger name="m_beginIndex" value="3" />
+            <CatInteger name="m_endIndex" value="3" />
+            <String name="m_guid" value="8563edf4-fe85-4f03-8a5c-aa5fbd67cf5d" />
+            <Post_PlayMode value="CLAMP" />
+          </Catsland.Core.AnimationClip>
+        </Value>
+      </KeyValue>
+    </IDictionary>
+    <CatPoint name="m_tiltUV" value="3,2" />
+    <String name="m_defaultAnimationClipName" value="run" />
+    <CatInteger name="m_millionSecondPerFrame" value="50" />
+    <String name="m_guid" value="e2cf02ce-208b-4bc8-a4b2-17264c56c293" />
+  </Catsland.Core.Animation>
+  <String name="m_guid" value="6e3a8735-6276-4445-835d-adcfc7af980f" />
+  <Material name="BasicEffect1">
+    <Parameter name="World" type="Catsland.Core.CatMatrix" value="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" />
+    <Parameter name="View" type="Catsland.Core.CatMatrix" value="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" />
+    <Parameter name="Projection" type="Catsland.Core.CatMatrix" value="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" />
+    <Parameter name="Alpha" type="Catsland.Core.CatFloat" value="1" />
+    <Parameter name="DiffuseMap" type="Catsland.Core.CatTexture" value="grassland_horse" />
+    <Parameter name="BiasColor" type="Catsland.Core.CatColor" value="0,0,0,0" />
+  </Material>
+</Catsland.Core.CatModel>

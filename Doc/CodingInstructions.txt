@@ -1,0 +1,50 @@
+CatsEngine Coding Instructions
+Author: Leon Xie
+Date: 2013-04-19
+
+0. Content
+1) Coding requirements
+2) Steps to compile and run
+3) Coding style
+
+1. Coding Requirements
+- Microsoft XNA 4.0
+- Microsoft Visual Studio 2010+ with C#
+Tip:
+If your vedio card does not support DirectX 10+, please set the compiling level to ``Reach'' with following steps:
+1) Open CatsEngine solution with visual studio
+2) Right click XNA projects (Basic Plugin and Core), select ``Property''
+3) Set to ``Reach''
+
+2. Steps to Compile and Run
+1) Open CatsEngine solution with visual studio
+2) Compile Basic Plugin
+3) Compile CatsEditor
+4) To run editor, right click the project ``CatsEditor'' and ``set as startup project''. A demo level is placed under Demo.
+5) To run game, right click the project ``GameEntrance'' and ``set as startup project''. You have to copy a published game project to bin/Debug or bin/Release before run GameEntrance.
+Tip:
+Project ``BasicPlugin'' should be compiled separately, for it is a plugin project and so is depended by no other project.
+
+3. Coding Style
+Generally, CatsEngine project adopts Camel-Case as coding style. Here's an example:
+
+public class CamelCase{
+  /**
+  * @brief the class demonstrating coding style in CatsEngine
+  */
+  public int Size;  // public variables are with capital heads
+  private Dictionary<string,string> names;
+  
+  /**
+   * @brief public function are with capital heads
+   * @param _name params come with underscore prefix
+   * @return name of _name
+   */
+  public string GetName(string _name){
+    return names[_name];
+  }
+  
+  private Dictionary<string, string> getNames(){
+    return names;
+  }
+}

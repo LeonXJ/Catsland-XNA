@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Materials>
+  <Material name="background" texture="snowmountains.png" effect="BasicEffect" />
+  <Material name="plain" texture="road_plain.png" effect="BasicEffect" />
+  <Material name="rise" texture="road_rise.png" effect="BasicEffect" />
+  <Material name="catty" texture="rabcatty.png" effect="BasicEffect" />
+  <Material name="shadow" texture="shadow.png" effect="BasicEffect" />
+</Materials>

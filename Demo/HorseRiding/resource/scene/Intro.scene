@@ -1,0 +1,229 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Scene>
+  <SceneBasic viewAngle="45">
+    <XBound min="-4" max="4" />
+    <YBound min="-0.2" max="0.2" />
+    <ZBound min="0" max="4" />
+  </SceneBasic>
+  <Catsland.Core.Camera>
+    <CatVector3 name="m_targetPosition" value="-0.009999806,2.235174E-08,0" />
+    <CatFloat name="m_cameraDistance" value="2" />
+    <CatVector3 name="m_cameraPRY" value="0,0,0" />
+    <CatVector2 name="m_viewSize" value="2,0.9565217" />
+    <CatFloat name="m_fieldOfView" value="45" />
+    <CatVector2 name="m_clipDistance" value="0.01,1000" />
+    <String name="m_guid" value="7b4c85e5-861d-46d6-a2b0-663b3087d8f0" />
+  </Catsland.Core.Camera>
+  <Catsland.Core.PostProcessManager>
+    <IDictionary name="m_postProcesses" typeinfo="System.Collections.Generic.Dictionary`2[System.String,Catsland.Core.PostProcess]">
+      <KeyValue>
+        <Key>
+          <String name="" value="Catsland.Core.PostProcessMotionBlur" />
+        </Key>
+        <Value>
+          <Catsland.Core.PostProcessMotionBlur name="">
+            <CatFloat name="m_blurIntensity" value="0.2" />
+            <CatBool name="m_enable" value="True" />
+            <String name="m_guid" value="0cba3df7-4314-45fa-bf3d-bd67f9ee45b2" />
+          </Catsland.Core.PostProcessMotionBlur>
+        </Value>
+      </KeyValue>
+      <KeyValue>
+        <Key>
+          <String name="" value="Catsland.Core.PostProcessColorAdjustment" />
+        </Key>
+        <Value>
+          <Catsland.Core.PostProcessColorAdjustment name="">
+            <CatFloat name="m_saturability" value="1" />
+            <CatFloat name="m_illuminate" value="0" />
+            <CatBool name="m_enable" value="True" />
+            <String name="m_guid" value="0d7c47ec-554d-4634-9e98-dd67435141e3" />
+          </Catsland.Core.PostProcessColorAdjustment>
+        </Value>
+      </KeyValue>
+      <KeyValue>
+        <Key>
+          <String name="" value="Catsland.Core.PostProcessVignette" />
+        </Key>
+        <Value>
+          <Catsland.Core.PostProcessVignette name="">
+            <CatVector2 name="m_radius" value="0,1.4" />
+            <CatBool name="m_enable" value="True" />
+            <String name="m_guid" value="0bc14750-0287-4861-bdb2-84ad98c0da27" />
+          </Catsland.Core.PostProcessVignette>
+        </Value>
+      </KeyValue>
+      <KeyValue>
+        <Key>
+          <String name="" value="Catsland.Core.PostProcessBloom" />
+        </Key>
+        <Value>
+          <Catsland.Core.PostProcessBloom name="">
+            <CatFloat name="m_highlightThreshold" value="0.95" />
+            <CatFloat name="m_blurWidth" value="3" />
+            <CatFloat name="m_sceneIntensity" value="0.9" />
+            <CatFloat name="m_glowIntensity" value="0.15" />
+            <CatFloat name="m_highlightIntensity" value="1.2" />
+            <CatBool name="m_enable" value="True" />
+            <String name="m_guid" value="b38da22b-932e-4025-80fe-e82ad1afacb1" />
+          </Catsland.Core.PostProcessBloom>
+        </Value>
+      </KeyValue>
+    </IDictionary>
+    <String name="m_guid" value="c7ad8925-1199-47bc-b03a-2e0d1287ceb5" />
+  </Catsland.Core.PostProcessManager>
+  <GameObjects>
+    <Catsland.Core.GameObject>
+      <String name="m_name" value="logo" />
+      <CatVector3 name="m_position" value="0.01974848,0.002288352,0" />
+      <CatQuaternion name="m_rotation" value="0,0,0,1" />
+      <CatVector3 name="m_scale" value="1,1,1" />
+      <IDictionary name="m_components" typeinfo="System.Collections.Generic.Dictionary`2[System.String,Catsland.Core.CatComponent]">
+        <KeyValue>
+          <Key>
+            <String name="" value="Catsland.Plugin.BasicPlugin.ModelComponent" />
+          </Key>
+          <Value>
+            <Catsland.Plugin.BasicPlugin.ModelComponent name="">
+              <String name="m_guid" value="6e56486e-a984-4ae6-8901-cd45d1f0255d" />
+              <Post_ModelName value="logo" />
+              <Material name="Additive">
+                <Parameter name="Alpha" type="Catsland.Core.CatFloat" value="0" />
+                <Parameter name="DiffuseMap" type="Catsland.Core.CatTexture" value="logo" />
+                <Parameter name="BiasColor" type="Catsland.Core.CatColor" value="0,0,0,0" />
+              </Material>
+            </Catsland.Plugin.BasicPlugin.ModelComponent>
+          </Value>
+        </KeyValue>
+        <KeyValue>
+          <Key>
+            <String name="" value="HorseRiding.CameraSpaceRender" />
+          </Key>
+          <Value>
+            <HorseRiding.CameraSpaceRender name="">
+              <CatVector2 name="m_position" value="0,0" />
+              <CatVector2 name="m_size" value="1,0.25" />
+              <CatVector2 name="m_offset" value="0,0" />
+              <CatFloat name="m_depth" value="0" />
+              <String name="m_guid" value="ca7c959c-e29a-45ea-ad2c-d9243db925c5" />
+            </HorseRiding.CameraSpaceRender>
+          </Value>
+        </KeyValue>
+      </IDictionary>
+      <String name="m_guid" value="436a3abb-a041-47ac-a72f-ef0bf59c6c05" />
+    </Catsland.Core.GameObject>
+    <Catsland.Core.GameObject>
+      <String name="m_name" value="intro" />
+      <CatVector3 name="m_position" value="0,0,0" />
+      <CatQuaternion name="m_rotation" value="0,0,0,1" />
+      <CatVector3 name="m_scale" value="1,1,1" />
+      <IDictionary name="m_components" typeinfo="System.Collections.Generic.Dictionary`2[System.String,Catsland.Core.CatComponent]">
+        <KeyValue>
+          <Key>
+            <String name="" value="Catsland.Plugin.BasicPlugin.ModelComponent" />
+          </Key>
+          <Value>
+            <Catsland.Plugin.BasicPlugin.ModelComponent name="">
+              <String name="m_guid" value="3ea18064-c6d5-4be0-ae59-6044559f631b" />
+              <Post_ModelName value="intro" />
+              <Material name="Additive">
+                <Parameter name="Alpha" type="Catsland.Core.CatFloat" value="0" />
+                <Parameter name="DiffuseMap" type="Catsland.Core.CatTexture" value="intro" />
+                <Parameter name="BiasColor" type="Catsland.Core.CatColor" value="0,0,0,0" />
+              </Material>
+            </Catsland.Plugin.BasicPlugin.ModelComponent>
+          </Value>
+        </KeyValue>
+        <KeyValue>
+          <Key>
+            <String name="" value="HorseRiding.CameraSpaceRender" />
+          </Key>
+          <Value>
+            <HorseRiding.CameraSpaceRender name="">
+              <CatVector2 name="m_position" value="0,0" />
+              <CatVector2 name="m_size" value="1.2,0.4" />
+              <CatVector2 name="m_offset" value="0,0" />
+              <CatFloat name="m_depth" value="0" />
+              <String name="m_guid" value="13b64483-1b4c-4e5e-a1d2-52bb6763d6ff" />
+            </HorseRiding.CameraSpaceRender>
+          </Value>
+        </KeyValue>
+      </IDictionary>
+      <String name="m_guid" value="c0e29635-c8c3-4208-a893-20d1680a2a1c" />
+    </Catsland.Core.GameObject>
+    <Catsland.Core.GameObject>
+      <String name="m_name" value="storm" />
+      <CatVector3 name="m_position" value="1.36912,-0.04848924,0" />
+      <CatQuaternion name="m_rotation" value="0,0,0,1" />
+      <CatVector3 name="m_scale" value="1,1,1" />
+      <IDictionary name="m_components" typeinfo="System.Collections.Generic.Dictionary`2[System.String,Catsland.Core.CatComponent]">
+        <KeyValue>
+          <Key>
+            <String name="" value="Catsland.Plugin.BasicPlugin.ModelComponent" />
+          </Key>
+          <Value>
+            <Catsland.Plugin.BasicPlugin.ModelComponent name="">
+              <String name="m_guid" value="f9be5021-e45c-4645-92ec-114638128af3" />
+              <Post_ModelName value="firework" />
+              <Material name="Additive">
+                <Parameter name="Alpha" type="Catsland.Core.CatFloat" value="0.02" />
+                <Parameter name="DiffuseMap" type="Catsland.Core.CatTexture" value="firework" />
+                <Parameter name="BiasColor" type="Catsland.Core.CatColor" value="1,1,1,0" />
+              </Material>
+            </Catsland.Plugin.BasicPlugin.ModelComponent>
+          </Value>
+        </KeyValue>
+        <KeyValue>
+          <Key>
+            <String name="" value="Catsland.Plugin.BasicPlugin.ParticleEmitter" />
+          </Key>
+          <Value>
+            <Catsland.Plugin.BasicPlugin.ParticleEmitter name="">
+              <CatVector3 name="m_emitterSize" value="0.1,1.5,0.1" />
+              <CatVector3 name="m_emitterOffset" value="0,0,0" />
+              <CatBool name="m_isEmitting" value="False" />
+              <CatInteger name="m_generateRatePerSecond" value="10" />
+              <CatInteger name="m_maxParticleNumber" value="10000" />
+              <CatVector3 name="m_emitDirection" value="-1,0,0" />
+              <CatFloat name="m_emitBiasDegree" value="2" />
+              <CatFloat name="m_emitSpeed" value="3" />
+              <CatFloat name="m_emitSpeedBias" value="0.2" />
+              <CatVector3 name="m_particleAcceleration" value="0,0,0" />
+              <CatFloat name="m_angularVelocityOnZ" value="0" />
+              <CatVector2 name="m_particleSize" value="0.5,0.01" />
+              <CatVector2 name="m_particleSizeBias" value="0.1,0.005" />
+              <CatInteger name="m_particleLifetimeInMS" value="800" />
+              <String name="m_particleUpdateComponentName" value="Catsland.Plugin.BasicPlugin.ParticleEmitter" />
+              <String name="m_guid" value="9e937269-48c5-4657-a7bd-d0a98c406ac6" />
+            </Catsland.Plugin.BasicPlugin.ParticleEmitter>
+          </Value>
+        </KeyValue>
+      </IDictionary>
+      <String name="m_guid" value="e4b40d53-8d14-4e87-adb4-ec1c4167020b" />
+    </Catsland.Core.GameObject>
+    <Catsland.Core.GameObject>
+      <String name="m_name" value="director" />
+      <CatVector3 name="m_position" value="0,0,0" />
+      <CatQuaternion name="m_rotation" value="0,0,0,1" />
+      <CatVector3 name="m_scale" value="1,1,1" />
+      <IDictionary name="m_components" typeinfo="System.Collections.Generic.Dictionary`2[System.String,Catsland.Core.CatComponent]">
+        <KeyValue>
+          <Key>
+            <String name="" value="HorseRiding.LogoIntro" />
+          </Key>
+          <Value>
+            <HorseRiding.LogoIntro name="">
+              <String name="m_logoObjectName" value="logo" />
+              <String name="m_introObjectName" value="intro" />
+              <String name="m_emitterObjectName" value="storm" />
+              <String name="m_nextSceneName" value="Horseriding" />
+              <String name="m_musicName" value="horseriding" />
+              <String name="m_guid" value="2df191e7-2806-4c4a-b08e-9430105bac05" />
+            </HorseRiding.LogoIntro>
+          </Value>
+        </KeyValue>
+      </IDictionary>
+      <String name="m_guid" value="2f972f1a-cedd-4784-a4d4-193d8415ffc3" />
+    </Catsland.Core.GameObject>
+  </GameObjects>
+</Scene>

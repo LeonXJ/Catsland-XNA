@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Catsland.Core.CatModel>
+  <String name="m_name" value="windcar" />
+  <Catsland.Core.Animation name="m_animation">
+    <IDictionary name="m_animationClips" typeinfo="System.Collections.Generic.Dictionary`2[System.String,Catsland.Core.AnimationClip]">
+      <KeyValue>
+        <Key>
+          <String name="" value="run" />
+        </Key>
+        <Value>
+          <Catsland.Core.AnimationClip name="">
+            <String name="m_name" value="run" />
+            <CatInteger name="m_beginIndex" value="0" />
+            <CatInteger name="m_endIndex" value="3" />
+            <String name="m_guid" value="3ac36a8f-3580-4b6f-90c5-b1934503625a" />
+            <Post_PlayMode value="LOOP" />
+          </Catsland.Core.AnimationClip>
+        </Value>
+      </KeyValue>
+    </IDictionary>
+    <CatPoint name="m_tiltUV" value="2,2" />
+    <String name="m_defaultAnimationClipName" value="run" />
+    <CatInteger name="m_millionSecondPerFrame" value="50" />
+    <String name="m_guid" value="805a7c48-6280-41b5-85c8-935bfadaefcb" />
+  </Catsland.Core.Animation>
+  <String name="m_guid" value="b70047a7-bf09-44cb-82b6-31c1b9529007" />
+  <Material name="BasicEffect1">
+    <Parameter name="World" type="Catsland.Core.CatMatrix" value="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" />
+    <Parameter name="View" type="Catsland.Core.CatMatrix" value="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" />
+    <Parameter name="Projection" type="Catsland.Core.CatMatrix" value="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" />
+    <Parameter name="Alpha" type="Catsland.Core.CatFloat" value="1" />
+    <Parameter name="DiffuseMap" type="Catsland.Core.CatTexture" value="wonder_windcar" />
+    <Parameter name="BiasColor" type="Catsland.Core.CatColor" value="0,0,0,0" />
+  </Material>
+</Catsland.Core.CatModel>

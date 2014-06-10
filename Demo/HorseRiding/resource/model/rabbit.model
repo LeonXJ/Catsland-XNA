@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Catsland.Core.CatModel>
+  <String name="m_name" value="rabbit" />
+  <Catsland.Core.Animation name="m_animation">
+    <IDictionary name="m_animationClips" typeinfo="System.Collections.Generic.Dictionary`2[System.String,Catsland.Core.AnimationClip]">
+      <KeyValue>
+        <Key>
+          <String name="" value="run" />
+        </Key>
+        <Value>
+          <Catsland.Core.AnimationClip name="">
+            <String name="m_name" value="run" />
+            <CatInteger name="m_beginIndex" value="1" />
+            <CatInteger name="m_endIndex" value="10" />
+            <String name="m_guid" value="5b0a9eea-9647-4088-99ad-0a9243cd4f72" />
+            <Post_PlayMode value="LOOP" />
+          </Catsland.Core.AnimationClip>
+        </Value>
+      </KeyValue>
+      <KeyValue>
+        <Key>
+          <String name="" value="stand" />
+        </Key>
+        <Value>
+          <Catsland.Core.AnimationClip name="">
+            <String name="m_name" value="stand" />
+            <CatInteger name="m_beginIndex" value="0" />
+            <CatInteger name="m_endIndex" value="0" />
+            <String name="m_guid" value="a7af09fa-c876-48df-9f87-8dba4e584fa6" />
+            <Post_PlayMode value="STOP" />
+          </Catsland.Core.AnimationClip>
+        </Value>
+      </KeyValue>
+    </IDictionary>
+    <CatPoint name="m_tiltUV" value="5,3" />
+    <String name="m_defaultAnimationClipName" value="run" />
+    <CatInteger name="m_millionSecondPerFrame" value="80" />
+    <String name="m_guid" value="ec25cde1-fc0a-41f8-9067-4bb3096b11bd" />
+  </Catsland.Core.Animation>
+  <String name="m_guid" value="2804a8ae-806b-4cd0-ab62-f6c5bb0178f0" />
+  <Material name="BasicEffect1">
+    <Parameter name="World" type="Catsland.Core.CatMatrix" value="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" />
+    <Parameter name="View" type="Catsland.Core.CatMatrix" value="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" />
+    <Parameter name="Projection" type="Catsland.Core.CatMatrix" value="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" />
+    <Parameter name="Alpha" type="Catsland.Core.CatFloat" value="1" />
+    <Parameter name="DiffuseMap" type="Catsland.Core.CatTexture" value="rabcatty" />
+    <Parameter name="BiasColor" type="Catsland.Core.CatColor" value="0,0,0,0" />
+  </Material>
+</Catsland.Core.CatModel>

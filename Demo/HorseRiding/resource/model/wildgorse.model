@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Catsland.Core.CatModel>
+  <String name="m_name" value="wildgorse" />
+  <Catsland.Core.Animation name="m_animation">
+    <IDictionary name="m_animationClips" typeinfo="System.Collections.Generic.Dictionary`2[System.String,Catsland.Core.AnimationClip]">
+      <KeyValue>
+        <Key>
+          <String name="" value="flying" />
+        </Key>
+        <Value>
+          <Catsland.Core.AnimationClip name="">
+            <String name="m_name" value="flying" />
+            <CatInteger name="m_beginIndex" value="0" />
+            <CatInteger name="m_endIndex" value="5" />
+            <String name="m_guid" value="b52fc9dc-a3a9-4179-a725-75a641a5cfa7" />
+            <Post_PlayMode value="LOOP" />
+          </Catsland.Core.AnimationClip>
+        </Value>
+      </KeyValue>
+    </IDictionary>
+    <CatPoint name="m_tiltUV" value="3,2" />
+    <String name="m_defaultAnimationClipName" value="flying" />
+    <CatInteger name="m_millionSecondPerFrame" value="50" />
+    <String name="m_guid" value="5d03d76a-4c61-4627-9a9b-3801057922ff" />
+  </Catsland.Core.Animation>
+  <String name="m_guid" value="aca65d2e-3ce1-461f-a7e8-3b22509e45e6" />
+  <Material name="BasicEffect1">
+    <Parameter name="World" type="Catsland.Core.CatMatrix" value="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" />
+    <Parameter name="View" type="Catsland.Core.CatMatrix" value="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" />
+    <Parameter name="Projection" type="Catsland.Core.CatMatrix" value="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" />
+    <Parameter name="Alpha" type="Catsland.Core.CatFloat" value="1" />
+    <Parameter name="DiffuseMap" type="Catsland.Core.CatTexture" value="grassland_wildgorse" />
+    <Parameter name="BiasColor" type="Catsland.Core.CatColor" value="0,0,0,0" />
+  </Material>
+</Catsland.Core.CatModel>

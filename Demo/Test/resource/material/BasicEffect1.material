@@ -1,0 +1,8 @@
+<Material fxname="BasicEffect1">
+  <Parameter name="World" type="Catsland.Core.CatMatrix" note="NotInEditor"/>
+  <Parameter name="View" type="Catsland.Core.CatMatrix" note="NotInEditor"/>
+  <Parameter name="Projection" type="Catsland.Core.CatMatrix" note="NotInEditor"/>
+  <Parameter name="Alpha" type="Catsland.Core.CatFloat" />
+  <Parameter name="DiffuseMap" type="Catsland.Core.CatTexture" /> 
+  <Parameter name="BiasColor" type="Catsland.Core.CatColor" />
+</Material>

@@ -5,7 +5,7 @@
     <XnaProfile>HiDef</XnaProfile>
     <XnaFrameworkVersion>v4.0</XnaFrameworkVersion>
     <Configuration>Release</Configuration>
-    <OutputPath>D:\workspace\catsland_china\Demo\HorseRiding/asset</OutputPath>
+    <OutputPath>D:\workspace\catsland_git\Demo\HorseRiding/asset</OutputPath>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Xna.Framework.Content.Pipeline.EffectImporter, Version=4.0.0.0, PublicKeyToken=842cf8be1de50553" />

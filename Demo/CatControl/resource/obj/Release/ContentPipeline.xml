@@ -1,0 +1,120 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<XnaContent xmlns:Pipeline="Microsoft.Xna.Framework.Content.Pipeline">
+  <Asset Type="Pipeline:BuildItemCollection">
+    <Item>
+      <Source>effect\Additive.fx</Source>
+      <Name>effect\Additive</Name>
+      <Importer>EffectImporter</Importer>
+      <Processor>EffectProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\workspace\catsland_git\Demo\CatControl\asset\resource\effect\Additive.xnb</Output>
+      <Time>2014-01-17T22:18:16.613273+08:00</Time>
+    </Item>
+    <Item>
+      <Source>effect\BasicEffect1.fx</Source>
+      <Name>effect\BasicEffect1</Name>
+      <Importer>EffectImporter</Importer>
+      <Processor>EffectProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\workspace\catsland_git\Demo\CatControl\asset\resource\effect\BasicEffect1.xnb</Output>
+      <Time>2014-01-28T17:48:59.8767852+08:00</Time>
+    </Item>
+    <Item>
+      <Source>effect\Bloom.fx</Source>
+      <Name>effect\Bloom</Name>
+      <Importer>EffectImporter</Importer>
+      <Processor>EffectProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\workspace\catsland_git\Demo\CatControl\asset\resource\effect\Bloom.xnb</Output>
+      <Time>2014-01-28T17:44:56.9288893+08:00</Time>
+    </Item>
+    <Item>
+      <Source>effect\ColorAdjustment.fx</Source>
+      <Name>effect\ColorAdjustment</Name>
+      <Importer>EffectImporter</Importer>
+      <Processor>EffectProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\workspace\catsland_git\Demo\CatControl\asset\resource\effect\ColorAdjustment.xnb</Output>
+      <Time>2014-01-28T17:50:27.535799+08:00</Time>
+    </Item>
+    <Item>
+      <Source>effect\HDR.fx</Source>
+      <Name>effect\HDR</Name>
+      <Importer>EffectImporter</Importer>
+      <Processor>EffectProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\workspace\catsland_git\Demo\CatControl\asset\resource\effect\HDR.xnb</Output>
+      <Time>2014-01-12T23:35:58.868637+08:00</Time>
+    </Item>
+    <Item>
+      <Source>effect\MotionBlur.fx</Source>
+      <Name>effect\MotionBlur</Name>
+      <Importer>EffectImporter</Importer>
+      <Processor>EffectProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\workspace\catsland_git\Demo\CatControl\asset\resource\effect\MotionBlur.xnb</Output>
+      <Time>2014-01-15T14:26:31.0382759+08:00</Time>
+    </Item>
+    <Item>
+      <Source>effect\Vignette.fx</Source>
+      <Name>effect\Vignette</Name>
+      <Importer>EffectImporter</Importer>
+      <Processor>EffectProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\workspace\catsland_git\Demo\CatControl\asset\resource\effect\Vignette.xnb</Output>
+      <Time>2014-01-28T17:44:51.8585993+08:00</Time>
+    </Item>
+    <Item>
+      <Source>image\wonder_block.png</Source>
+      <Name>image\wonder_block</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Parameters>
+        <Data Key="ColorKeyEnabled">False</Data>
+        <Data Key="PremultiplyAlpha">False</Data>
+        <Data Key="TextureFormat">Color</Data>
+        <Data Key="GenerateMipmaps">True</Data>
+      </Parameters>
+      <Options>None</Options>
+      <Output>D:\workspace\catsland_git\Demo\CatControl\asset\resource\image\wonder_block.xnb</Output>
+      <Time>2014-02-01T13:48:50.9684307+08:00</Time>
+    </Item>
+    <BuildSuccessful>true</BuildSuccessful>
+    <Settings>
+      <TargetPlatform>Windows</TargetPlatform>
+      <TargetProfile>HiDef</TargetProfile>
+      <BuildConfiguration>Release</BuildConfiguration>
+      <CompressContent>false</CompressContent>
+      <RootDirectory>D:\workspace\catsland_git\Demo\CatControl\resource\</RootDirectory>
+      <LoggerRootDirectory Null="true" />
+      <IntermediateDirectory>D:\workspace\catsland_git\Demo\CatControl\resource\obj\Release\</IntermediateDirectory>
+      <OutputDirectory>D:\workspace\catsland_git\Demo\CatControl\asset\resource\</OutputDirectory>
+    </Settings>
+    <Assemblies>
+      <Assembly>
+        <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.XImporter.dll</Key>
+        <Value>2010-08-23T12:41:18+08:00</Value>
+      </Assembly>
+      <Assembly>
+        <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.TextureImporter.dll</Key>
+        <Value>2010-08-23T12:41:18+08:00</Value>
+      </Assembly>
+      <Assembly>
+        <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.FBXImporter.dll</Key>
+        <Value>2010-08-23T12:41:18+08:00</Value>
+      </Assembly>
+      <Assembly>
+        <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.EffectImporter.dll</Key>
+        <Value>2010-08-23T12:41:18+08:00</Value>
+      </Assembly>
+      <Assembly>
+        <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.AudioImporters.dll</Key>
+        <Value>2010-08-23T12:41:18+08:00</Value>
+      </Assembly>
+      <Assembly>
+        <Key>C:\Windows\Microsoft.Net\assembly\GAC_32\Microsoft.Xna.Framework.Content.Pipeline\v4.0_4.0.0.0__842cf8be1de50553\Microsoft.Xna.Framework.Content.Pipeline.dll</Key>
+        <Value>2013-11-12T10:59:32.1473935+08:00</Value>
+      </Assembly>
+    </Assemblies>
+  </Asset>
+</XnaContent>

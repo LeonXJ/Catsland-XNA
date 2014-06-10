@@ -1,0 +1,8 @@
+resource\effect\Additive.xnb
+resource\effect\BasicEffect1.xnb
+resource\effect\Bloom.xnb
+resource\effect\ColorAdjustment.xnb
+resource\effect\HDR.xnb
+resource\effect\MotionBlur.xnb
+resource\effect\Vignette.xnb
+resource\image\wonder_block.xnb

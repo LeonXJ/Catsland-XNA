@@ -1,0 +1,82 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <XnaPlatform>Windows</XnaPlatform>
+    <XnaProfile>HiDef</XnaProfile>
+    <XnaFrameworkVersion>v4.0</XnaFrameworkVersion>
+    <Configuration>Release</Configuration>
+    <OutputPath>D:\workspace\catsland_git\Demo\CatControl/asset</OutputPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Xna.Framework.Content.Pipeline.EffectImporter, Version=4.0.0.0, PublicKeyToken=842cf8be1de50553" />
+    <Reference Include="Microsoft.Xna.Framework.Content.Pipeline.FBXImporter, Version=4.0.0.0, PublicKeyToken=842cf8be1de50553" />
+    <Reference Include="Microsoft.Xna.Framework.Content.Pipeline.TextureImporter, Version=4.0.0.0, PublicKeyToken=842cf8be1de50553" />
+    <Reference Include="Microsoft.Xna.Framework.Content.Pipeline.XImporter, Version=4.0.0.0, PublicKeyToken=842cf8be1de50553" />
+    <Reference Include="Microsoft.Xna.Framework.Content.Pipeline.AudioImporters, Version=4.0.0.0, PublicKeyToken=842cf8be1de50553" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="effect\\**\*.fx">
+      <Link>effect\\**\*.fx</Link>
+      <Processor>EffectProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="music\\**\*.mp3">
+      <Link>music\\**\*.mp3</Link>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="sound\\**\*.mp3">
+      <Link>sound\\**\*.mp3</Link>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\v4.0\Microsoft.Xna.GameStudio.ContentPipeline.targets" />
+  <ItemGroup>
+    <WildcardContent Include="effect\\**\*.fx">
+      <Importer>EffectImporter</Importer>
+      <Processor>EffectProcessor</Processor>
+    </WildcardContent>
+  </ItemGroup>
+  <ItemGroup>
+    <WildcardContent Include="music\\**\*.mp3">
+      <Importer>Mp3Importer</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </WildcardContent>
+  </ItemGroup>
+  <ItemGroup>
+    <WildcardContent Include="sound\\**\*.mp3">
+      <Importer>Mp3Importer</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </WildcardContent>
+  </ItemGroup>
+  <Target Name="BeforeBuild">
+    <CreateItem Include="@(WildcardContent)" AdditionalMetadata="Name=%(FileName)">
+      <Output TaskParameter="Include" ItemName="Compile" />
+    </CreateItem>
+  </Target>
+  <Target Name="AfterBuild">
+    <ItemGroup>
+      <MaterialFiles Include="material\\*.material" />
+      <ModelFiles Include="model\\*.model" />
+      <PrefabFiles Include="prefab\\*.prefab" />
+      <SceneFiles Include="scene\\*.scene" />
+    </ItemGroup>
+    <Copy SourceFiles="@(MaterialFiles)" DestinationFolder="$(OutputPath)\resource\material" />
+    <Copy SourceFiles="@(ModelFiles)" DestinationFolder="$(OutputPath)\resource\model" />
+    <Copy SourceFiles="@(PrefabFiles)" DestinationFolder="$(OutputPath)\resource\prefab" />
+    <Copy SourceFiles="@(SceneFiles)" DestinationFolder="$(OutputPath)\resource\scene" />
+  </Target>
+  <ItemGroup>
+    <Compile Include="image\wonder_block.png">
+      <Name>wonder_block</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <ProcessorParameters_ColorKeyEnabled>False</ProcessorParameters_ColorKeyEnabled>
+      <ProcessorParameters_PremultiplyAlpha>False</ProcessorParameters_PremultiplyAlpha>
+      <ProcessorParameters_TextureFormat>Color</ProcessorParameters_TextureFormat>
+      <ProcessorParameters_GenerateMipmaps>True</ProcessorParameters_GenerateMipmaps>
+    </Compile>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,2 @@
+D:\workspace\catsland_china\Demo\CatControl\resource\obj\Release\resource.projResolveAssemblyReference.cache
+D:\workspace\catsland_git\Demo\CatControl\resource\obj\Release\resource.projResolveAssemblyReference.cache

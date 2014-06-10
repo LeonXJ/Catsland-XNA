@@ -105,6 +105,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="CameraLookAt.cs" />
+    <Compile Include="CatController.cs" />
     <Compile Include="CatsCollider.cs" />
     <Compile Include="CharacterController.cs" />
     <Compile Include="CircleCollider.cs" />
@@ -121,6 +122,7 @@
     <Compile Include="QuadRender.cs" />
     <Compile Include="RectangleCollider.cs" />
     <Compile Include="SelfDestroyer.cs" />
+    <Compile Include="SensorAttachment.cs" />
     <Compile Include="Shadow.cs" />
     <Compile Include="SoundEmitter.cs" />
     <Compile Include="SubLocation.cs" />

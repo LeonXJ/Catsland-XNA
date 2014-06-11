@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using FarseerPhysics.Dynamics;
 using Microsoft.Xna.Framework;
+using FarseerPhysics.Dynamics.Contacts;
+using FarseerPhysics.Collision;
 
 namespace Catsland.Core {
     public class PhysicsSystem {
@@ -23,9 +25,37 @@ namespace Catsland.Core {
         public bool Initialize() {
             if (m_world == null) {
                 m_world = new World(new Vector2(0.0f, -9.8f));
+                m_world.ContactManager.PreSolve += PreSolve;
             }
             m_enable = true;
             return true;
+        }
+
+        protected void PreSolve(Contact contact, ref Manifold oldManifold) {
+            Fixture fixtureA = contact.FixtureA;
+            Fixture fixtureB = contact.FixtureB;
+
+            Fixture platform = null;
+            Fixture thing = null;
+            if(fixtureA.Body.UserData != null){
+                if(Tag.Platform == (fixtureA.Body.UserData as Tag)){
+                    platform = fixtureA;
+                    thing = fixtureB;
+                }
+            }
+            if(fixtureB.Body.UserData != null){
+                if(Tag.Platform == (fixtureB.Body.UserData as Tag)){
+                    platform = fixtureB;
+                    thing = fixtureA;
+                }
+            }
+            if (thing != null && platform != null) {
+                Tag thingTag = thing.Body.UserData as Tag;
+                if (thing.Body.Position.Y < platform.Body.Position.Y + 0.05f + thingTag.getHalfHeight()) {
+                    contact.Enabled = false;
+                }
+            }
+            
         }
 
         public void Update(int timeLastFrame) {
@@ -48,6 +78,33 @@ namespace Catsland.Core {
             if (m_world != null) {
                 m_enable = true;
             }
+        }
+    }
+
+    public class Tag {
+        static public Tag Platform = new Tag(1);
+
+        private int m_kind = 0;
+        private float m_halfHeight = 0.0f;
+
+        public Tag(int _kind, float _halfHeight = 0.0f) {
+            m_kind = _kind;
+            m_halfHeight = _halfHeight;
+        }
+
+        public override bool Equals(object obj) {
+            if (obj is Tag) {
+                Tag b = obj as Tag;
+                return b.m_kind == m_kind;
+            }
+            return false;
+        }
+
+        public float getHalfHeight() {
+            return m_halfHeight;
+        }
+        public void setHalfHeight(float _halfHeight) {
+            m_halfHeight = _halfHeight;
         }
     }
 }

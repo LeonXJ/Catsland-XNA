@@ -35,6 +35,8 @@ namespace Catsland.Plugin.BasicPlugin {
                 float width = MathHelper.Clamp(value.X, 0.0f, m_outSize.X);
                 float height = MathHelper.Clamp(value.Y, 0.0f, m_outSize.Y);
                 m_inSize.SetValue(new Vector2(width, height));
+                Tag bodyTag = m_body.UserData as Tag;
+                bodyTag.setHalfHeight(height / 2.0f);
                 UpdateAll();
             }
             get {
@@ -99,13 +101,35 @@ namespace Catsland.Plugin.BasicPlugin {
         }
 
         [SerialAttribute]
-        private readonly CatFloat m_jumpForce = new CatFloat(2.0f);
+        private readonly CatFloat m_jumpForce = new CatFloat(20.0f);
         public float JumpForce {
             set {
                 m_jumpForce.SetValue(MathHelper.Max(0.0f, value));
             }
             get {
                 return m_jumpForce.GetValue();
+            }
+        }
+
+        [SerialAttribute]
+        private readonly CatFloat m_wallJumpForce = new CatFloat(10.0f);
+        public float WallJumpForce {
+            set {
+                m_wallJumpForce.SetValue(MathHelper.Max(0.0f, value));
+            }
+            get {
+                return m_wallJumpForce.GetValue();
+            }
+        }
+
+        [SerialAttribute]
+        private readonly CatFloat m_airBiasForce = new CatFloat(0.2f);
+        public float AirBiasForce {
+            set {
+                m_airBiasForce.SetValue(MathHelper.Max(0.0f, value));
+            }
+            get {
+                return m_airBiasForce.GetValue();
             }
         }
 
@@ -126,6 +150,8 @@ namespace Catsland.Plugin.BasicPlugin {
 
         public bool m_wantLeft = false;
         public bool m_wantRight = false;
+        public bool m_wantUp = false;
+        public bool m_wantDown = false;
         public bool m_wantRun = false;
         public bool m_wantJump = false;
 
@@ -177,7 +203,7 @@ namespace Catsland.Plugin.BasicPlugin {
             m_body = BodyFactory.CreateRectangle(physicsSystem.GetWorld(),
                                                  m_inSize.X,
                                                  m_inSize.Y,
-                                                 m_mass, "player");
+                                                 m_mass, new Tag(0, m_inSize.Y/2.0f));
             m_body.BodyType = BodyType.Dynamic;
             m_body.SleepingAllowed = false;
             m_body.FixedRotation = true;
@@ -340,6 +366,14 @@ namespace Catsland.Plugin.BasicPlugin {
             return m_onGroundSensor.IsTriggered;
         }
 
+        public bool IsRightAttachable() {
+            return m_rightAttachableSensor.IsTriggered;
+        }
+
+        public bool IsLeftAttachable() {
+            return m_leftAttachableSensor.IsTriggered;
+        }
+
         public float GetDepth(){
             return 0;
         }
@@ -349,8 +383,21 @@ namespace Catsland.Plugin.BasicPlugin {
         }
 
         public void DoJump() {
-            m_body.ApplyForce(new Vector2(0.0f, m_jumpForce));
-            CurrentState = StateJumpUp.GetState();
+            if (m_wantDown) {
+                if (m_onGroundSensor.LastContactFixture != null
+                    && m_onGroundSensor.LastContactFixture.Body != null) {
+                    Tag bodyTag = m_onGroundSensor.LastContactFixture.Body.UserData as Tag;
+                    if (bodyTag != null && Tag.Platform == bodyTag) {
+                        StateFall.GetState().IgnoreBody = m_onGroundSensor.LastContactFixture.Body;
+                        m_body.IgnoreCollisionWith(m_onGroundSensor.LastContactFixture.Body);
+                        CurrentState = StateFall.GetState();
+                    }
+                }
+            }
+            else {
+                m_body.ApplyForce(new Vector2(0.0f, m_jumpForce));
+                CurrentState = StateJumpUp.GetState();
+            }
         }
 
     }
@@ -501,11 +548,33 @@ namespace Catsland.Plugin.BasicPlugin {
             if (_controller.m_body.LinearVelocity.Y <= 0.0f) {
                 _controller.CurrentState = StateFall.GetState();
             }
+            if (_controller.IsRightAttachable() && _controller.m_wantRight) {
+                _controller.CurrentState = StateAttach.GetState();
+            }
+            else if (_controller.IsLeftAttachable() && _controller.m_wantLeft) {
+                _controller.CurrentState = StateAttach.GetState();
+            }
+            float hor_force = 0.0f;
+            if (_controller.m_wantLeft) {
+                hor_force -= 1.0f;
+            }
+            if (_controller.m_wantRight) {
+                hor_force += 1.0f;
+            }
+            if (hor_force * hor_force > 0.1f) {
+                _controller.m_body.ApplyForce(new Vector2(hor_force * _controller.AirBiasForce, 0.0f));
+            }
         }
     }
 
     class StateFall : ControllState {
         static private StateFall state;
+        private Body m_ignoreBody;
+        public Body IgnoreBody {
+            set {
+                m_ignoreBody = value;
+            }
+        }
 
         static public StateFall GetState() {
             if (StateFall.state == null) {
@@ -514,9 +583,67 @@ namespace Catsland.Plugin.BasicPlugin {
             return StateFall.state;
         }
 
+        private void RestoreIgnoreBody(Body _body) {
+            if (m_ignoreBody != null) {
+                _body.RestoreCollisionWith(m_ignoreBody);
+            }
+            m_ignoreBody = null;
+        }
+
         public void Do(CatController _controller) {
             if (_controller.IsOnGround()) {
+                RestoreIgnoreBody(_controller.m_body);
                 _controller.CurrentState = StateStandWalk.GetState();
+            }
+            if (_controller.IsRightAttachable() && _controller.m_wantRight) {
+                RestoreIgnoreBody(_controller.m_body);
+                _controller.CurrentState = StateAttach.GetState();
+            }
+            else if (_controller.IsLeftAttachable() && _controller.m_wantLeft) {
+                RestoreIgnoreBody(_controller.m_body);
+                _controller.CurrentState = StateAttach.GetState();
+            }
+            float hor_force = 0.0f;
+            if (_controller.m_wantLeft) {
+                hor_force -= 1.0f;
+            }
+            if (_controller.m_wantRight) {
+                hor_force += 1.0f;
+            }
+            if (hor_force * hor_force > 0.1f) {
+                _controller.m_body.ApplyForce(new Vector2(hor_force * _controller.AirBiasForce, 0.0f));
+            }
+        }
+    }
+
+    class StateAttach : ControllState {
+        static private StateAttach state;
+
+        static public StateAttach GetState() {
+            if (StateAttach.state == null) {
+                StateAttach.state = new StateAttach();
+            }
+            return StateAttach.state;
+        }
+
+        public void Do(CatController _controller) {
+            _controller.m_body.LinearVelocity = Vector2.Zero;
+            _controller.m_body.IgnoreGravity = true;
+            float hor_force = 0.0f;
+            if (_controller.m_wantLeft) {
+                hor_force += -1.0f;
+            }
+            if (_controller.m_wantRight) {
+                hor_force += 1.0f;
+            }
+            float ver_force = 1.0f;
+            if (_controller.m_wantDown && !_controller.m_wantUp) {
+                ver_force = 0.0f;
+            }
+            if (_controller.m_wantJump) {
+                _controller.m_body.ApplyForce(new Vector2(hor_force, ver_force) * _controller.WallJumpForce);
+                _controller.CurrentState = StateJumpUp.GetState();
+                _controller.m_body.IgnoreGravity = false;
             }
         }
     }

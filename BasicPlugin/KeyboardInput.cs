@@ -79,8 +79,8 @@ namespace Catsland.Plugin.BasicPlugin {
             if (!Enable) {
                 characterController.m_wantLeft = false;
                 characterController.m_wantRight = false;
-//                 characterController.m_wantUp = false;
-//                 characterController.m_wantDown = false;
+                 characterController.m_wantUp = false;
+                 characterController.m_wantDown = false;
                  characterController.m_wantRun = false;
                  characterController.m_wantJump = false;
 //                 characterController.m_wantDefence = false;
@@ -92,8 +92,8 @@ namespace Catsland.Plugin.BasicPlugin {
             KeyboardState keyboardState = Keyboard.GetState();
             characterController.m_wantLeft = keyboardState.IsKeyDown(Left);
             characterController.m_wantRight = keyboardState.IsKeyDown(Right);
-//             characterController.m_wantUp = keyboardState.IsKeyDown(Up);
-//             characterController.m_wantDown = keyboardState.IsKeyDown(Down);
+             characterController.m_wantUp = keyboardState.IsKeyDown(Up);
+             characterController.m_wantDown = keyboardState.IsKeyDown(Down);
             characterController.m_wantRun = keyboardState.IsKeyDown(Run);
              characterController.m_wantJump = keyboardState.IsKeyDown(Jump);
 //             characterController.m_wantDefence = keyboardState.IsKeyDown(Defence);

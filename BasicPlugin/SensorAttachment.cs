@@ -58,6 +58,12 @@ namespace Catsland.Plugin.BasicPlugin {
 
         private VertexPositionColor []m_vertex;
         private VertexBuffer m_vertexBuffer;
+        private Fixture m_lastContactFixture;
+        public Fixture LastContactFixture {
+            get {
+                return m_lastContactFixture;
+            }
+        }
 
 #endregion
 
@@ -121,6 +127,12 @@ namespace Catsland.Plugin.BasicPlugin {
         protected bool OnCollision(Fixture _fixtureA, Fixture _fixtureB, Contact _contact) {
             // TODO: add mask
             ++m_touchCount;
+            if (_fixtureA == m_fixture) {
+                m_lastContactFixture = _fixtureB;
+            }
+            else {
+                m_lastContactFixture = _fixtureA;
+            }
             return Enter(_fixtureA, _fixtureB, _contact);
         }
 

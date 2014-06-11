@@ -29,6 +29,20 @@ namespace Catsland.Plugin.BasicPlugin {
             }
         }
 
+        public bool IsPlatform {
+            set {
+                if (value) {
+                    m_body.UserData = Tag.Platform;
+                }
+                else {
+                    m_body.UserData = null;
+                }
+            }
+            get {
+                return m_body.UserData == Tag.Platform;
+            }
+        }
+
 #endregion
 
         public RectangleCollider() 
@@ -45,7 +59,7 @@ namespace Catsland.Plugin.BasicPlugin {
             return BodyFactory.CreateRectangle(_physicsSystem.GetWorld(),
                                                m_size.X,
                                                m_size.Y,
-                                               m_mass);
+                                               m_mass, Tag.Platform);
         }
 
         protected override void UpdateDebugVertex() {

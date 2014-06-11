@@ -173,6 +173,8 @@
               <CatFloat name="m_runAcc" value="2" />
               <CatFloat name="m_runSpeed" value="0.9" />
               <CatFloat name="m_jumpForce" value="24" />
+              <CatFloat name="m_wallJumpForce" value="10" />
+              <CatFloat name="m_airBiasForce" value="0.2" />
               <String name="m_guid" value="0aacbd9a-9f10-4f39-bb32-56bc0755d2e2" />
             </Catsland.Plugin.BasicPlugin.CatController>
           </Value>

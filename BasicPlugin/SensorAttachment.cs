@@ -65,6 +65,13 @@ namespace Catsland.Plugin.BasicPlugin {
             }
         }
 
+        private Tag acceptTag;
+        public Tag AcceptTag {
+            set {
+                acceptTag = value;
+            }
+        }
+
 #endregion
 
         public SensorAttachment(Body _body) {
@@ -126,18 +133,52 @@ namespace Catsland.Plugin.BasicPlugin {
 
         protected bool OnCollision(Fixture _fixtureA, Fixture _fixtureB, Contact _contact) {
             // TODO: add mask
-            ++m_touchCount;
-            if (_fixtureA == m_fixture) {
-                m_lastContactFixture = _fixtureB;
+            if (acceptTag != null) {
+                if (_fixtureA == m_fixture) {
+                    if (_fixtureB.Body != null && _fixtureB.Body.UserData != null &&
+                        _fixtureB.Body.UserData as Tag == acceptTag) {
+                        ++m_touchCount;
+                        m_lastContactFixture = _fixtureB;
+                    }
+                }
+                else if (_fixtureB == m_fixture) {
+                    if (_fixtureA.Body != null && _fixtureA.Body.UserData != null &&
+                        _fixtureA.Body.UserData as Tag == acceptTag) {
+                        ++m_touchCount;
+                        m_lastContactFixture = _fixtureA;
+                    }
+                }  
             }
             else {
-                m_lastContactFixture = _fixtureA;
+                ++m_touchCount;
+                if (_fixtureA == m_fixture) {
+                    m_lastContactFixture = _fixtureB;
+                }
+                else {
+                    m_lastContactFixture = _fixtureA;
+                }
             }
             return Enter(_fixtureA, _fixtureB, _contact);
         }
 
         protected void OnSeparation(Fixture _fixtureA, Fixture _fixtureB) {
-            --m_touchCount;
+            if (acceptTag != null) {
+                if (_fixtureA == m_fixture) {
+                    if (_fixtureB.Body != null && _fixtureB.Body.UserData != null &&
+                        _fixtureB.Body.UserData as Tag == acceptTag) {
+                        --m_touchCount;
+                    }
+                }
+                else if (_fixtureB == m_fixture) {
+                    if (_fixtureA.Body != null && _fixtureA.Body.UserData != null &&
+                        _fixtureA.Body.UserData as Tag == acceptTag) {
+                        --m_touchCount;
+                    }
+                }
+            }
+            else {
+                --m_touchCount;
+            }
             Exit(_fixtureA, _fixtureB);
         }
 

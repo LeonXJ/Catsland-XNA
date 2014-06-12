@@ -29,17 +29,27 @@ namespace Catsland.Plugin.BasicPlugin {
             }
         }
 
-        public bool IsPlatform {
+//         [SerialAttribute]
+//         protected readonly CatBool m_isPlatform = new CatBool(false);
+//         public bool IsPlatform {
+//             set {
+//                 m_isPlatform.SetValue(value);
+//                 UpdateIsPlatform();
+//             }
+//             get {
+//                 return m_isPlatform.GetValue();
+//             }
+//         }
+
+        [SerialAttribute]
+        protected readonly CatInteger m_collideType = new CatInteger(0);
+        public int CollideType {
             set {
-                if (value) {
-                    m_body.UserData = Tag.Platform;
-                }
-                else {
-                    m_body.UserData = null;
-                }
+                m_collideType.SetValue(value);
+                UpdateCollideType();
             }
             get {
-                return m_body.UserData == Tag.Platform;
+                return m_collideType.GetValue();
             }
         }
 
@@ -60,6 +70,25 @@ namespace Catsland.Plugin.BasicPlugin {
                                                m_size.X,
                                                m_size.Y,
                                                m_mass, Tag.Platform);
+        }
+
+        public override void Initialize(Scene scene) {
+            base.Initialize(scene);
+            //UpdateIsPlatform();
+            UpdateCollideType();
+        }
+
+//         private void UpdateIsPlatform() {
+//             if (m_isPlatform) {
+//                 m_body.UserData = Tag.Platform;
+//             }
+//             else {
+//                 m_body.UserData = null;
+//             }
+//         }
+
+        private void UpdateCollideType() {
+            m_body.UserData = new Tag(m_collideType);
         }
 
         protected override void UpdateDebugVertex() {

@@ -82,7 +82,8 @@ namespace Catsland.Core {
     }
 
     public class Tag {
-        static public Tag Platform = new Tag(1);
+        static readonly public Tag Platform = new Tag(1);
+        static readonly public Tag AttachPoint = new Tag(2);
 
         private int m_kind = 0;
         private float m_halfHeight = 0.0f;
@@ -92,12 +93,32 @@ namespace Catsland.Core {
             m_halfHeight = _halfHeight;
         }
 
-        public override bool Equals(object obj) {
-            if (obj is Tag) {
-                Tag b = obj as Tag;
-                return b.m_kind == m_kind;
+//         public override bool Equals(object obj) {
+//             if (obj is Tag) {
+//                 Tag b = obj as Tag;
+//                 return b.m_kind == m_kind;
+//             }
+//             return false;
+//         }
+
+        public static bool operator ==(Tag _a, Tag _b) {
+            if (_a as object == null && _b as object == null) {
+                return true;
             }
-            return false;
+            else if (_a as object == null || _b as object == null) {
+                return false;
+            }
+            return _a.m_kind == _b.m_kind;
+        }
+
+        public static bool operator !=(Tag _a, Tag _b) {
+            if (_a as object == null && _b as object == null) {
+                return false;
+            }
+            else if (_a as object == null || _b as object == null) {
+                return true;
+            }
+            return _a.m_kind != _b.m_kind;
         }
 
         public float getHalfHeight() {
@@ -106,5 +127,18 @@ namespace Catsland.Core {
         public void setHalfHeight(float _halfHeight) {
             m_halfHeight = _halfHeight;
         }
+
+//         public static implicit operator Tag(int _type) {
+//             switch (_type) {
+//                 case 1:
+//                     return Tag.Platform;
+//                     break;
+//                 case 2:
+//                     return Tag.AttachPoint;
+//                     break;
+//                 default:
+//                     return new Tag(_type);
+//             }
+//         }
     }
 }

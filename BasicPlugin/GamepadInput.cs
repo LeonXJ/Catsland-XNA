@@ -48,5 +48,9 @@ namespace Catsland.Plugin.BasicPlugin {
             catController.m_wantJump = gamePadState.IsButtonDown(Buttons.A);
             catController.m_wantRun = gamePadState.IsButtonDown(Buttons.LeftShoulder);
         }
+
+        public static string GetMenuNames() {
+            return "Controller|GamePad Input";
+        }
     }
 }

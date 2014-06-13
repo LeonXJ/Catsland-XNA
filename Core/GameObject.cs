@@ -239,7 +239,6 @@ namespace Catsland.Core {
                     _selectionVertexBuffer.SetData<VertexPositionColor>(m_selectionVertex);
                 }
             }
-            
         }
 
         /**

@@ -134,6 +134,7 @@
     <Compile Include="DataType\CatPoint.cs" />
     <Compile Include="DataType\CatQuaternion.cs" />
     <Compile Include="Animation\IMoiveClip.cs" />
+    <Compile Include="DebugShape.cs" />
     <Compile Include="Math\CatMath.cs" />
     <Compile Include="Animation\MotionDelegatePack.cs" />
     <Compile Include="Animation\MotionDelegator.cs" />

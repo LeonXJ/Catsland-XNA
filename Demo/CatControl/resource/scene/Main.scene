@@ -351,6 +351,17 @@
             </Catsland.Plugin.BasicPlugin.RectangleCollider>
           </Value>
         </KeyValue>
+        <KeyValue>
+          <Key>
+            <String name="" value="Catsland.Plugin.BasicPlugin.ShadingRectangle" />
+          </Key>
+          <Value>
+            <Catsland.Plugin.BasicPlugin.ShadingRectangle name="">
+              <CatVector2 name="m_size" value="0.2,0.2" />
+              <String name="m_guid" value="98cffa1d-1a41-4615-9531-5e4fbd05835c" />
+            </Catsland.Plugin.BasicPlugin.ShadingRectangle>
+          </Value>
+        </KeyValue>
       </IDictionary>
       <String name="m_guid" value="27b5e9d4-34d1-4536-927a-2eea074820dc" />
     </Catsland.Core.GameObject>

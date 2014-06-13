@@ -112,6 +112,7 @@
     <Compile Include="DialogAnimator.cs" />
     <Compile Include="DialogResponser.cs" />
     <Compile Include="DialogTrigger.cs" />
+    <Compile Include="GamepadInput.cs" />
     <Compile Include="KeyboardInput.cs" />
     <Compile Include="ModelComponent.cs" />
     <Compile Include="ColliderBase.cs" />

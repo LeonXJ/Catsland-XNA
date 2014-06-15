@@ -109,11 +109,14 @@
     <Compile Include="CatsCollider.cs" />
     <Compile Include="CharacterController.cs" />
     <Compile Include="CircleCollider.cs" />
+    <Compile Include="LightShadow.cs" />
+    <Compile Include="PointLight.cs" />
     <Compile Include="DialogAnimator.cs" />
     <Compile Include="DialogResponser.cs" />
     <Compile Include="DialogTrigger.cs" />
     <Compile Include="GamepadInput.cs" />
     <Compile Include="KeyboardInput.cs" />
+    <Compile Include="Light.cs" />
     <Compile Include="ModelComponent.cs" />
     <Compile Include="ColliderBase.cs" />
     <Compile Include="ParticleController.cs" />

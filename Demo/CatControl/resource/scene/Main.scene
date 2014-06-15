@@ -789,5 +789,26 @@
       </IDictionary>
       <String name="m_guid" value="6c591f20-be8e-47a9-b90f-6a4f491018d4" />
     </Catsland.Core.GameObject>
+    <Catsland.Core.GameObject>
+      <String name="m_name" value="pointlight" />
+      <CatVector3 name="m_position" value="0,2,0" />
+      <CatQuaternion name="m_rotation" value="0,0,0,1" />
+      <CatVector3 name="m_scale" value="1,1,1" />
+      <IDictionary name="m_components" typeinfo="System.Collections.Generic.Dictionary`2[System.String,Catsland.Core.CatComponent]">
+        <KeyValue>
+          <Key>
+            <String name="" value="Catsland.Plugin.BasicPlugin.PointLight" />
+          </Key>
+          <Value>
+            <Catsland.Plugin.BasicPlugin.PointLight name="">
+              <CatFloat name="m_radius" value="0.4" />
+              <CatVector2 name="m_offset" value="0,0" />
+              <String name="m_guid" value="4c844550-6dee-46e5-8272-7133eb5a8874" />
+            </Catsland.Plugin.BasicPlugin.PointLight>
+          </Value>
+        </KeyValue>
+      </IDictionary>
+      <String name="m_guid" value="61c87ded-5419-4525-96bf-1f8ce420a0c7" />
+    </Catsland.Core.GameObject>
   </GameObjects>
 </Scene>

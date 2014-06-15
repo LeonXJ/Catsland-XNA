@@ -139,6 +139,7 @@ namespace Catsland.Core {
             Mgr<BasicEffect>.Singleton = new BasicEffect(GraphicsDevice);
             Mgr<BasicEffect>.Singleton.Name = "BasicEffect";
             Mgr<BasicEffect>.Singleton.GraphicsDevice.BlendState = BlendState.AlphaBlend;
+            
             Mgr<DebugTools>.Singleton = new DebugTools();
             Mgr<DebugTools>.Singleton.DrawEffect = new BasicEffect(GraphicsDevice);
 
@@ -360,11 +361,11 @@ namespace Catsland.Core {
 //                 rasterizerState.MultiSampleAntiAlias = true;
 //                 GraphicsDevice.RasterizerState = rasterizerState;
 
-                BlendState blendState = new BlendState();
-                blendState.AlphaSourceBlend = Blend.SourceAlpha;
-                blendState.AlphaDestinationBlend = Blend.InverseSourceAlpha;
-                blendState.ColorBlendFunction = BlendFunction.Add;
-                GraphicsDevice.BlendState = blendState;
+//                 BlendState blendState = new BlendState();
+//                 blendState.AlphaSourceBlend = Blend.SourceAlpha;
+//                 blendState.AlphaDestinationBlend = Blend.InverseSourceAlpha;
+//                 blendState.ColorBlendFunction = BlendFunction.Add;
+                GraphicsDevice.BlendState = BlendState.AlphaBlend;
 
                 GameObject selected = _editor.GetSelectedGameObject();
                 if(selected != null){

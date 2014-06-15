@@ -71,6 +71,15 @@ namespace Catsland.Plugin.BasicPlugin {
             return "Shadow|ShadingBase";
         }
 
+        public int GetVerticesNumber() {
+            return m_vertices.Count;
+        }
+
+        public Vector2 GetVertex(int _index) {
+            return m_vertices[_index];
+        }
+
+
 
 
     }

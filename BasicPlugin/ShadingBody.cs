@@ -79,6 +79,12 @@ namespace Catsland.Plugin.BasicPlugin {
             return m_vertices[_index];
         }
 
+        public Vector2 GetVertexInWorld(int _index) {
+            Vector4 pos = Vector4.Transform(new Vector4(m_vertices[_index].X, m_vertices[_index].Y, 0.0f, 1.0f),
+               Matrix.CreateTranslation(m_offset.X, m_offset.Y, 0.0f) * m_gameObject.AbsTransform);
+            return new Vector2(pos.X, pos.Y);
+        }
+
 
 
 

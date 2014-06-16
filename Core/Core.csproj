@@ -185,6 +185,10 @@
     <Compile Include="Serialize\SerializeIEffectParameter.cs" />
     <Compile Include="Serialize\SerializeSerialable.cs" />
     <Compile Include="Serialize\SerializeString.cs" />
+    <Compile Include="Shadow\Light.cs" />
+    <Compile Include="Shadow\LightShadow.cs" />
+    <Compile Include="Shadow\ShadingBody.cs" />
+    <Compile Include="Shadow\ShadowSystem.cs" />
     <Compile Include="Sound\SoundEffectPack.cs" />
     <Compile Include="Sound\SoundManager.cs" />
     <Compile Include="TypeManager.cs" />

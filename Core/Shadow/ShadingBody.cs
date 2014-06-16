@@ -5,7 +5,7 @@ using System.Text;
 using Catsland.Core;
 using Microsoft.Xna.Framework;
 
-namespace Catsland.Plugin.BasicPlugin {
+namespace Catsland.Core {
     public class ShadingBody : CatComponent{
     
 #region Properties
@@ -58,6 +58,7 @@ namespace Catsland.Plugin.BasicPlugin {
             if (Mgr<GameEngine>.Singleton._gameEngineMode == GameEngine.GameEngineMode.MapEditor) {
                 m_debugShape.BindToScene(scene);
             }
+            scene.m_shadowSystem.AddShadowBody(this);
         }
 
         public override void Destroy() {
@@ -65,6 +66,8 @@ namespace Catsland.Plugin.BasicPlugin {
             if (Mgr<GameEngine>.Singleton._gameEngineMode == GameEngine.GameEngineMode.MapEditor) {
                 m_debugShape.Destroy(Mgr<Scene>.Singleton);
             }
+            // TODO: remove from shadow system
+
         }
 
         public static string GetMenuNames() {

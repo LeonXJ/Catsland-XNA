@@ -76,6 +76,8 @@ namespace Catsland.Core {
         public GameObjectList _gameObjectList;
         // the list of renderable interfaces which will be rendered only in debug mode
         public DebugDrawableList _debugDrawableList;
+
+        public ShadowSystem m_shadowSystem;
         // the list of selectable rectangles
         public RepeatableList<ISelectable> _selectableList;
 
@@ -209,7 +211,9 @@ namespace Catsland.Core {
             // release all dynamic list
             _colliderList.ReleaseAll();
             _renderList.ReleaseAll();
+            // TODO: release shadow system
             _gameObjectList.ReleaseAll();
+            
             if (Mgr<GameEngine>.Singleton._gameEngineMode ==
                 GameEngine.GameEngineMode.MapEditor) {
                 _selectableList.ReleaseAll();
@@ -309,6 +313,7 @@ namespace Catsland.Core {
             newScene._renderList = new RenderList();
             newScene._colliderList = new ColliderList();
             newScene.m_physicsSystem = new PhysicsSystem();
+            newScene.m_shadowSystem = new ShadowSystem();
             newScene._uiRenderer = new UIRenderer();
             newScene.m_physicsSystem.Initialize();
 
@@ -346,6 +351,7 @@ namespace Catsland.Core {
             newScene._renderList = new RenderList();
             newScene._colliderList = new ColliderList();
             newScene.m_physicsSystem = new PhysicsSystem();
+            newScene.m_shadowSystem = new ShadowSystem();
             newScene._uiRenderer = new UIRenderer();
             newScene.m_physicsSystem.Initialize();
 

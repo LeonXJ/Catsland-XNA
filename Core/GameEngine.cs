@@ -275,12 +275,15 @@ namespace Catsland.Core {
                 if (gameObjectList != null) {
                     gameObjectList.Update(skewedTimeInMS);
                 }
+                // shadow system
+                if (Mgr<Scene>.Singleton.m_shadowSystem != null) {
+                    Mgr<Scene>.Singleton.m_shadowSystem.Update(skewedTimeInMS);
+                }
                 // sound manager
                 if (Mgr<CatProject>.Singleton.m_soundManager != null) {
                     Mgr<CatProject>.Singleton.m_soundManager.
                         Update(skewedTimeInMS);
                 }
-
             }
             else if (_gameInEditorMode == InEditorMode.Editing) {
                 // pose camera
@@ -288,6 +291,10 @@ namespace Catsland.Core {
                 // update gameObjects
                 if (gameObjectList != null) {
                     gameObjectList.EditorUpdate(skewedTimeInMS);
+                }
+                // shadow system
+                if (Mgr<Scene>.Singleton.m_shadowSystem != null) {
+                    Mgr<Scene>.Singleton.m_shadowSystem.Update(skewedTimeInMS);
                 }
             }
             base.Update(gameTime);

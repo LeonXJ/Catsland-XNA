@@ -6,7 +6,7 @@ using Catsland.Core;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Catsland.Plugin.BasicPlugin {
+namespace Catsland.Core {
     public class Light : CatComponent, Drawable{
 
 #region Properties
@@ -40,7 +40,6 @@ namespace Catsland.Plugin.BasicPlugin {
         protected VertexPositionColor[] m_vertice;
         protected VertexBuffer m_vertexBuffer;
 
-
 #endregion
 
         public Light(GameObject _gameObject)
@@ -63,8 +62,8 @@ namespace Catsland.Plugin.BasicPlugin {
             if (Mgr<GameEngine>.Singleton._gameEngineMode == GameEngine.GameEngineMode.MapEditor) {
                 m_debugShape.BindToScene(scene);
             }
-            // TODO: Bind light to lightlist
             scene._debugDrawableList.AddItem(this);
+            scene.m_shadowSystem.AddLight(this);
         }
 
         protected void UpdateDrawVertex(){
@@ -99,6 +98,7 @@ namespace Catsland.Plugin.BasicPlugin {
             }
             // remove light from light list
             Mgr<Scene>.Singleton._debugDrawableList.RemoveItem(this);
+            // TODO: remove from shadow system
         }
 
         public void Draw(int timeLastFrame){
@@ -140,9 +140,26 @@ namespace Catsland.Plugin.BasicPlugin {
             return -Vector2.UnitY;
         }
 
+        virtual public bool IsBodyInLight(ShadingBody _shadingBody) {
+            return false;
+        }
+
+        virtual public bool ShouldEdgeHasShadow(ShadingBody _shadingBody, int _edge) {
+            Vector2 startPoint = _shadingBody.GetVertexInWorld(_edge);
+            Vector2 edgeVector2 = _shadingBody.GetVertexInWorld((_edge + 1) % _shadingBody.GetVerticesNumber())
+                    - startPoint;
+            Vector3 edgeVector3 = new Vector3(edgeVector2.X, edgeVector2.Y, 0.0f);
+            Vector3 normal = Vector3.Cross(edgeVector3, -Vector3.UnitZ);
+            Vector2 lightDirection = GetLightDirection(startPoint);
+            Vector2 normal2D = new Vector2(normal.X, normal.Y);
+            return Vector2.Dot(normal2D, lightDirection) < 0.0f;
+        }
+
         public float GetDepth() {
             return 0;
         }
+
+        
 
         public int CompareTo(object obj) {
             return 1;

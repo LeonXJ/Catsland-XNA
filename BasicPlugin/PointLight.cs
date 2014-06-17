@@ -45,9 +45,12 @@ namespace Catsland.Plugin.BasicPlugin {
             if (m_verticeList == null) {
                 m_verticeList = new List<Vector2>(CircleSegment);
                 for (int segment = 0; segment < CircleSegment; ++segment) {
-                    m_verticeList.Add(m_radius * new Vector2((float)Math.Cos(2 * segment * MathHelper.Pi / CircleSegment),
-                                        (float)Math.Sin(2 * segment * MathHelper.Pi / CircleSegment)));
+                    m_verticeList.Add(Vector2.Zero);
                 }
+            }
+            for (int segment = 0; segment < CircleSegment; ++segment) {
+                m_verticeList[segment] = m_radius * new Vector2((float)Math.Cos(2 * segment * MathHelper.Pi / CircleSegment),
+                                    (float)Math.Sin(2 * segment * MathHelper.Pi / CircleSegment));
             }
             m_debugShape.SetVertices(m_verticeList);
             UpdateDrawVertex();

@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Catsland.Core {
-    public class ShadowSystem {
+    public class ShadowSystem : Renderer {
 
 #region Properties
 
@@ -22,6 +24,24 @@ namespace Catsland.Core {
         private static int MaxShadowBodyNumber = 128;
         private static int MaxEdgeNumber = 128;
 
+        private Effect m_shadowingEffect;
+        private Effect m_accumulateEffect;
+
+        // TODO: save this to file
+        private CatColor m_ambientColor = new CatColor(0.5f, 0.5f, 0.5f, 1.0f);
+        public Color AmbientColor {
+            set {
+                m_ambientColor.SetValue(value);
+            }
+            get {
+                return m_ambientColor;
+            }
+        }
+
+        private RenderTarget2D m_accumulateLight;
+        private RenderTarget2D m_lightMap;
+
+
 #endregion
 
         public ShadowSystem() {
@@ -30,6 +50,8 @@ namespace Catsland.Core {
 
         public void Initialize() {
             InitFreeList();
+            UpdateBuffer();
+            UpdateShadingEffect();
         }
 
         private void InitFreeList() {
@@ -41,6 +63,33 @@ namespace Catsland.Core {
             for (int i = 0; i < MaxShadowBodyNumber; ++i) {
                 m_freeShadowBodyIDList.Push(i);
             }
+        }
+
+        public void UpdateBuffer() {
+            m_accumulateLight = TestAndCreateColorBuffer(m_accumulateLight);
+            m_lightMap = TestAndCreateColorBuffer(m_lightMap);
+        }
+
+        private void UpdateShadingEffect() {
+            m_shadowingEffect = Mgr<CatProject>.Singleton.contentManger.Load<Effect>
+                ("effect\\Shadowing");
+            m_accumulateEffect = Mgr<CatProject>.Singleton.contentManger.Load<Effect>
+                ("effect\\AccumulateLight");
+        }
+
+        // TODO: combine with that in PostProcess
+        private RenderTarget2D TestAndCreateColorBuffer(
+            RenderTarget2D _oldRenderTarget,
+            float _widthRatio = 1.0f, float _heightRatio = 1.0f) {
+
+            GraphicsDevice graphicsDevice = Mgr<GraphicsDevice>.Singleton;
+            if (_oldRenderTarget != null) {
+                //_oldRenderTarget.Dispose();
+            }
+            return new RenderTarget2D(
+                graphicsDevice,
+                (int)(graphicsDevice.PresentationParameters.BackBufferWidth * _widthRatio),
+                (int)(graphicsDevice.PresentationParameters.BackBufferHeight * _heightRatio));
         }
 
         public void AddLight(Light _light) {
@@ -207,6 +256,56 @@ namespace Catsland.Core {
         public int GetLightShadowBodyEdgeID(int _lightID, int _shadowBodyID, int _edge) {
             return _lightID * (MaxShadowBodyNumber * MaxEdgeNumber) +
                 _shadowBodyID * MaxEdgeNumber + _edge;
+        }
+
+        // directly render out shadow
+        public override void DoRender(int _timeLastFrame) {
+            // Prepare accumulate
+            GraphicsDevice graphicsDevice = Mgr<GraphicsDevice>.Singleton;
+            graphicsDevice.Clear(m_ambientColor);
+           
+            // for each light
+            foreach (KeyValuePair<int, Light> keyValue in m_lightDict) {
+                // TODO: test if the light affects current scene
+                // init light map
+                Renderer.SetColorTarget(m_lightMap);
+                graphicsDevice.Clear(Color.Black);
+                // draw light
+                // TODO: draw light
+                keyValue.Value.Draw(_timeLastFrame);
+                // substract shadow
+                if (m_light2ShadingBodyDict.ContainsKey(keyValue.Key)) {
+                    foreach (int shadingBodyID in m_light2ShadingBodyDict[keyValue.Key]) {
+                        ShadingBody shadingBody = m_shadingBodyDict[shadingBodyID];
+                        for (int i = 0; i < shadingBody.GetVerticesNumber(); ++i) {
+                            int lightShadingBodyEdgeID = GetLightShadowBodyEdgeID(keyValue.Key, shadingBodyID, i);
+                            if (m_lightShadowEdgeDict.ContainsKey(lightShadingBodyEdgeID)) {
+                                m_lightShadowEdgeDict[lightShadingBodyEdgeID].Draw(_timeLastFrame);
+                            }
+                        }
+                    }
+                }
+
+                Renderer.CancelColorTarget();
+                // add to accumulate
+                m_accumulateEffect.CurrentTechnique = m_accumulateEffect.Techniques["Main"];
+                m_accumulateEffect.Parameters["LightMap"].SetValue((Texture2D)m_lightMap);
+                m_accumulateEffect.CurrentTechnique.Passes["P0"].Apply();
+                RenderQuad();
+            }
+        }
+
+        // shadow the given map
+        public void ShadowObject(int _timeLastFrame, RenderTarget2D _toBeShadow) {
+            Renderer.SetColorTarget(m_accumulateLight);
+            DoRender(_timeLastFrame);
+            Renderer.CancelColorTarget();
+
+            m_shadowingEffect.CurrentTechnique = m_shadowingEffect.Techniques["Main"];
+            m_shadowingEffect.Parameters["ColorMap"].SetValue((Texture2D)_toBeShadow);
+            m_shadowingEffect.Parameters["LightMap"].SetValue((Texture2D)m_accumulateLight);
+            m_shadowingEffect.CurrentTechnique.Passes["P0"].Apply();
+            RenderQuad();
         }
 
 

@@ -79,6 +79,24 @@
       <Output>D:\workspace\catsland_git\Demo\CatControl\asset\resource\image\wonder_block.xnb</Output>
       <Time>2014-02-01T13:48:50.9684307+08:00</Time>
     </Item>
+    <Item>
+      <Source>effect\Shadowing.fx</Source>
+      <Name>effect\Shadowing</Name>
+      <Importer>EffectImporter</Importer>
+      <Processor>EffectProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\workspace\catsland_git\Demo\CatControl\asset\resource\effect\Shadowing.xnb</Output>
+      <Time>2014-06-17T22:52:41.4014726+08:00</Time>
+    </Item>
+    <Item>
+      <Source>effect\AccumulateLight.fx</Source>
+      <Name>effect\AccumulateLight</Name>
+      <Importer>EffectImporter</Importer>
+      <Processor>EffectProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\workspace\catsland_git\Demo\CatControl\asset\resource\effect\AccumulateLight.xnb</Output>
+      <Time>2014-06-17T23:04:40.7776186+08:00</Time>
+    </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
       <TargetPlatform>Windows</TargetPlatform>

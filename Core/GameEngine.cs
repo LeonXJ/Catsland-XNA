@@ -424,6 +424,8 @@ namespace Catsland.Core {
             e.GraphicsDeviceInformation.PresentationParameters.BackBufferHeight = size.Y;
             if (Mgr<Scene>.Singleton != null) {
                 Mgr<Scene>.Singleton.PostProcessManager.UpdateBuffers();
+                Mgr<Scene>.Singleton._renderList.UpdateBuffer();
+                Mgr<Scene>.Singleton.m_shadowSystem.UpdateBuffer();
             }
            
         }
@@ -448,6 +450,8 @@ namespace Catsland.Core {
                     Mgr<Camera>.Singleton.ViewSize = new Vector2(viewWidth, viewHeight);  
                 }
                 Mgr<Scene>.Singleton.PostProcessManager.UpdateBuffers();
+                Mgr<Scene>.Singleton._renderList.UpdateBuffer();
+                Mgr<Scene>.Singleton.m_shadowSystem.UpdateBuffer();
             }
             else {
                 // TODO: replace with error log system
@@ -478,6 +482,8 @@ namespace Catsland.Core {
             _graphics.PreferredBackBufferWidth = Window.ClientBounds.Width;
             _graphics.PreferredBackBufferHeight = Window.ClientBounds.Height;
             Mgr<Scene>.Singleton.PostProcessManager.UpdateBuffers();
+            Mgr<Scene>.Singleton._renderList.UpdateBuffer();
+            Mgr<Scene>.Singleton.m_shadowSystem.UpdateBuffer();
         }
 
         /**

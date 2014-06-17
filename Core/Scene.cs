@@ -314,6 +314,7 @@ namespace Catsland.Core {
             newScene._colliderList = new ColliderList();
             newScene.m_physicsSystem = new PhysicsSystem();
             newScene.m_shadowSystem = new ShadowSystem();
+            newScene._renderList.SetShadowRender(newScene.m_shadowSystem);
             newScene._uiRenderer = new UIRenderer();
             newScene.m_physicsSystem.Initialize();
 
@@ -352,6 +353,7 @@ namespace Catsland.Core {
             newScene._colliderList = new ColliderList();
             newScene.m_physicsSystem = new PhysicsSystem();
             newScene.m_shadowSystem = new ShadowSystem();
+            newScene._renderList.SetShadowRender(newScene.m_shadowSystem);
             newScene._uiRenderer = new UIRenderer();
             newScene.m_physicsSystem.Initialize();
 

@@ -35,6 +35,17 @@ namespace Catsland.Core {
             }
         }
 
+        [SerialAttribute]
+        protected readonly CatColor m_diffuseColor = new CatColor(0.4f, 0.4f, 0.4f, 0.4f);
+        public Color DiffuseColor {
+            set {
+                m_diffuseColor.SetValue(value);
+            }
+            get {
+                return m_diffuseColor;
+            }
+        }
+
         protected List<Vector2> m_verticeList;
 
         protected VertexPositionColor[] m_vertice;
@@ -62,7 +73,7 @@ namespace Catsland.Core {
             if (Mgr<GameEngine>.Singleton._gameEngineMode == GameEngine.GameEngineMode.MapEditor) {
                 m_debugShape.BindToScene(scene);
             }
-            scene._debugDrawableList.AddItem(this);
+            //scene._debugDrawableList.AddItem(this);
             scene.m_shadowSystem.AddLight(this);
         }
 
@@ -103,14 +114,15 @@ namespace Catsland.Core {
 
         public void Draw(int timeLastFrame){
             // TODO: use light material
+            // draw light
             if(m_vertice == null){
                 return;
             }
             //Mgr<BasicEffect>.Singleton.GraphicsDevice.BlendState = BlendState.AlphaBlend;
             Mgr<GraphicsDevice>.Singleton.SetVertexBuffer(m_vertexBuffer);
             Effect effect = Mgr<DebugTools>.Singleton.DrawEffect;
-            ((BasicEffect)effect).Alpha = 0.2f;
-            ((BasicEffect)effect).DiffuseColor = new Vector3(1.0f, 0.0f, 1.0f);
+            ((BasicEffect)effect).Alpha = DiffuseColor.A;
+            ((BasicEffect)effect).DiffuseColor = new Vector3(DiffuseColor.R, DiffuseColor.G, DiffuseColor.B);
             ((BasicEffect)effect).View = Mgr<Camera>.Singleton.View;
             ((BasicEffect)effect).Projection = Mgr<Camera>.Singleton.m_projection;
             ((BasicEffect)effect).VertexColorEnabled = false;
@@ -125,6 +137,8 @@ namespace Catsland.Core {
                     0,
                     m_verticeList.Count - 2);
             }
+            // draw shadow
+
 
         }
 

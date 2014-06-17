@@ -6,3 +6,5 @@ resource\effect\HDR.xnb
 resource\effect\MotionBlur.xnb
 resource\effect\Vignette.xnb
 resource\image\wonder_block.xnb
+resource\effect\Shadowing.xnb
+resource\effect\AccumulateLight.xnb

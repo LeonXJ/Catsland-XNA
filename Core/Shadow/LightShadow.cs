@@ -85,7 +85,7 @@ namespace Catsland.Core {
         }
 
         public void BindToScene(Scene _scene) {
-            _scene._debugDrawableList.AddItem(this);
+            //_scene._debugDrawableList.AddItem(this);
         }
 
         private void UpdateDrawVertex() {
@@ -119,8 +119,8 @@ namespace Catsland.Core {
             }
             Mgr<GraphicsDevice>.Singleton.SetVertexBuffer(m_vertexBuffer);
             Effect effect = Mgr<DebugTools>.Singleton.DrawEffect;
-            ((BasicEffect)effect).Alpha = 0.4f;
-            ((BasicEffect)effect).DiffuseColor = new Vector3(0.0f, 0.0f, 1.0f);
+            ((BasicEffect)effect).Alpha = 1.0f;
+            ((BasicEffect)effect).DiffuseColor = new Vector3(0.0f, 0.0f, 0.0f);
             ((BasicEffect)effect).View = Mgr<Camera>.Singleton.View;
             ((BasicEffect)effect).Projection = Mgr<Camera>.Singleton.m_projection;
             ((BasicEffect)effect).VertexColorEnabled = false;

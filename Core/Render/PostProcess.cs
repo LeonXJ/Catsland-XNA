@@ -22,8 +22,6 @@ namespace Catsland.Core {
         }
 
         protected List<Renderer> m_dependRenderer = new List<Renderer>();
-        protected VertexPositionTexture[] m_vertex;
-        protected VertexBuffer m_vertexBuffer;
 
 #endregion
 
@@ -46,36 +44,6 @@ namespace Catsland.Core {
                 renderer.DoRender(_timeLastFrame);
             }
             return;
-        }
-
-        protected void CreateQuad() {
-            GraphicsDevice graphicsDevice = Mgr<GraphicsDevice>.Singleton;
-            int width = graphicsDevice.PresentationParameters.BackBufferWidth;
-            int height = graphicsDevice.PresentationParameters.BackBufferHeight;
-            float widthOffset = 1.0f / width;
-            float heightOffset = 1.0f / height;
-            m_vertex = new VertexPositionTexture[4];
-            m_vertex[0] = new VertexPositionTexture(
-                new Vector3(-1.0f, -1.0f + heightOffset, 1.0f),
-                new Vector2(0, 1));
-            m_vertex[1] = new VertexPositionTexture(
-                new Vector3(-1.0f, 1.0f, 1.0f),
-                new Vector2(0, 0));
-            m_vertex[2] = new VertexPositionTexture(
-                new Vector3(1.0f - widthOffset, -1.0f + heightOffset, 1.0f),
-                new Vector2(1, 1));
-            m_vertex[3] = new VertexPositionTexture(
-                new Vector3(1.0f - widthOffset, 1.0f, 1.0f),
-                new Vector2(1, 0));
-            m_vertexBuffer = new VertexBuffer(Mgr<GraphicsDevice>.Singleton,
-                typeof(VertexPositionTexture), 4, BufferUsage.None);
-            m_vertexBuffer.SetData<VertexPositionTexture>(m_vertex);
-        }
-
-        protected void RenderQuad() {
-            Mgr<GraphicsDevice>.Singleton.SetVertexBuffer(m_vertexBuffer);
-            Mgr<GraphicsDevice>.Singleton.DrawUserPrimitives<VertexPositionTexture>(
-                    PrimitiveType.TriangleStrip, m_vertex, 0, 2);
         }
 
         protected RenderTarget2D TestAndCreateColorBuffer(

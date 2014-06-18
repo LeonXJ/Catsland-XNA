@@ -9,6 +9,18 @@ sampler LightMapSampler = sampler_state
    AddressV  = Clamp;
 };
 
+texture PreColor;
+sampler PreColorSampler = sampler_state
+{
+   Texture = <PreColor>;
+   MinFilter = Linear;
+   MagFilter = Linear;
+   MipFilter = Linear;   
+   AddressU  = Clamp;
+   AddressV  = Clamp;
+};
+
+
 struct OUT
 {
     float4 Pos : POSITION;
@@ -25,9 +37,11 @@ OUT VS(float4 pos : POSITION, float2 tex : TEXCOORD0)
 
 float4 PS(float2 Tex: TEXCOORD) : COLOR
 {
+  float4 acc = tex2D(PreColorSampler, Tex);
   float4 light = tex2D(LightMapSampler, Tex);
   light = light * light.a;
-  return float4(light.rgb, 1.0);
+
+  return acc + float4(light.rgb, 1.0);
 }
 
 technique Main
@@ -37,10 +51,7 @@ technique Main
       VertexShader = compile vs_2_0 VS();
       ZEnable = false;
       ZWriteEnable = false;
-      AlphaBlendEnable = true;
-      SrcBlend = SrcAlpha;
-      DestBlend = One;
-      CullMode = None;
+      AlphaBlendEnable = false;
       PixelShader = compile ps_2_0 PS();
   }
 }

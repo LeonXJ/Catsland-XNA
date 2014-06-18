@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.IO;
 
 namespace Catsland.Core {
     public class ShadowSystem : Renderer {
@@ -28,7 +29,7 @@ namespace Catsland.Core {
         private Effect m_accumulateEffect;
 
         // TODO: save this to file
-        private CatColor m_ambientColor = new CatColor(0.5f, 0.5f, 0.5f, 1.0f);
+        private CatColor m_ambientColor = new CatColor(0.1f, 0.1f, 0.1f, 1.0f);
         public Color AmbientColor {
             set {
                 m_ambientColor.SetValue(value);
@@ -39,8 +40,11 @@ namespace Catsland.Core {
         }
 
         private RenderTarget2D m_accumulateLight;
+        private RenderTarget2D m_preAccumulateLight;
         private RenderTarget2D m_lightMap;
 
+
+        private int count = 0;
 
 #endregion
 
@@ -67,6 +71,7 @@ namespace Catsland.Core {
 
         public void UpdateBuffer() {
             m_accumulateLight = TestAndCreateColorBuffer(m_accumulateLight);
+            m_preAccumulateLight = TestAndCreateColorBuffer(m_preAccumulateLight);
             m_lightMap = TestAndCreateColorBuffer(m_lightMap);
         }
 
@@ -262,7 +267,9 @@ namespace Catsland.Core {
         public override void DoRender(int _timeLastFrame) {
             // Prepare accumulate
             GraphicsDevice graphicsDevice = Mgr<GraphicsDevice>.Singleton;
+            Renderer.SetColorTarget(m_accumulateLight);
             graphicsDevice.Clear(m_ambientColor);
+            Renderer.CancelColorTarget();
            
             // for each light
             foreach (KeyValuePair<int, Light> keyValue in m_lightDict) {
@@ -287,19 +294,42 @@ namespace Catsland.Core {
                 }
 
                 Renderer.CancelColorTarget();
+//                 if (count < 2) {
+//                     FileStream fs = new FileStream("D:\\a_" + count + ".jpg", FileMode.CreateNew);
+//                     m_lightMap.SaveAsPng(fs, m_lightMap.Width, m_lightMap.Height);
+//                     fs.Close();
+//                     ++count;
+//                 }
+                
+
                 // add to accumulate
+
+                Renderer.SetColorTarget(m_preAccumulateLight);
                 m_accumulateEffect.CurrentTechnique = m_accumulateEffect.Techniques["Main"];
+                m_accumulateEffect.Parameters["PreColor"].SetValue((Texture2D)m_accumulateLight);
                 m_accumulateEffect.Parameters["LightMap"].SetValue((Texture2D)m_lightMap);
                 m_accumulateEffect.CurrentTechnique.Passes["P0"].Apply();
                 RenderQuad();
+                Renderer.CancelColorTarget();
+                RenderTarget2D temp = m_preAccumulateLight;
+                m_preAccumulateLight = m_accumulateLight;
+                m_accumulateLight = temp;
+
+                if (count < 2) {
+                    FileStream fs = new FileStream("D:\\a_" + count + ".jpg", FileMode.Create);
+                    m_accumulateLight.SaveAsPng(fs, m_accumulateLight.Width, m_lightMap.Height);
+                    fs.Close();
+                    ++count;
+                }
+
             }
         }
 
         // shadow the given map
         public void ShadowObject(int _timeLastFrame, RenderTarget2D _toBeShadow) {
-            Renderer.SetColorTarget(m_accumulateLight);
+            //Renderer.SetColorTarget(m_accumulateLight);
             DoRender(_timeLastFrame);
-            Renderer.CancelColorTarget();
+            //Renderer.CancelColorTarget();
 
             m_shadowingEffect.CurrentTechnique = m_shadowingEffect.Techniques["Main"];
             m_shadowingEffect.Parameters["ColorMap"].SetValue((Texture2D)_toBeShadow);
@@ -307,8 +337,5 @@ namespace Catsland.Core {
             m_shadowingEffect.CurrentTechnique.Passes["P0"].Apply();
             RenderQuad();
         }
-
-
-
     }
 }

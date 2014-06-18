@@ -121,8 +121,8 @@ namespace Catsland.Core {
             //Mgr<BasicEffect>.Singleton.GraphicsDevice.BlendState = BlendState.AlphaBlend;
             Mgr<GraphicsDevice>.Singleton.SetVertexBuffer(m_vertexBuffer);
             Effect effect = Mgr<DebugTools>.Singleton.DrawEffect;
-            ((BasicEffect)effect).Alpha = DiffuseColor.A;
-            ((BasicEffect)effect).DiffuseColor = new Vector3(DiffuseColor.R, DiffuseColor.G, DiffuseColor.B);
+            ((BasicEffect)effect).Alpha = DiffuseColor.A / 255.0f;
+            ((BasicEffect)effect).DiffuseColor = new Vector3(DiffuseColor.R / 255.0f, DiffuseColor.G / 255.0f, DiffuseColor.B / 255.0f);
             ((BasicEffect)effect).View = Mgr<Camera>.Singleton.View;
             ((BasicEffect)effect).Projection = Mgr<Camera>.Singleton.m_projection;
             ((BasicEffect)effect).VertexColorEnabled = false;

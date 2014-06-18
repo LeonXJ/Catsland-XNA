@@ -22,10 +22,10 @@ namespace Catsland.Core {
         }
 
         public void SetValue(Color _color) {
-            m_value.X = _color.R;
-            m_value.Y = _color.G;
-            m_value.Z = _color.B;
-            m_value.W = _color.A;
+            m_value.X = _color.R / 255.0f;
+            m_value.Y = _color.G / 255.0f;
+            m_value.Z = _color.B / 255.0f;
+            m_value.W = _color.A / 255.0f;
         }
         
         public static implicit operator Vector4(CatColor _color){
@@ -33,10 +33,11 @@ namespace Catsland.Core {
         }
 
         public static implicit operator Color(CatColor _color) {
-            return new Color(_color.m_value.X,
-                             _color.m_value.Y,
-                             _color.m_value.Z,
-                             _color.m_value.W);
+            Color color = new Color((int)(_color.m_value.X * 255),
+                             (int)(_color.m_value.Y * 255),
+                             (int)(_color.m_value.Z * 255),
+                             (int)(_color.m_value.W * 255));
+            return color;
         }
 
         public string ToValueString() {

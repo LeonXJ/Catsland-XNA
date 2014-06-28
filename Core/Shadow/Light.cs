@@ -112,7 +112,7 @@ namespace Catsland.Core {
             // TODO: remove from shadow system
         }
 
-        public void Draw(int timeLastFrame){
+        virtual public void Draw(int timeLastFrame){
             // TODO: use light material
             // draw light
             if(m_vertice == null){

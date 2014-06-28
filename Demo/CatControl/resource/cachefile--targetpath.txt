@@ -8,3 +8,4 @@ resource\effect\Vignette.xnb
 resource\image\wonder_block.xnb
 resource\effect\Shadowing.xnb
 resource\effect\AccumulateLight.xnb
+resource\effect\PointLight.xnb

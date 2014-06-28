@@ -97,6 +97,15 @@
       <Output>D:\workspace\catsland_git\Demo\CatControl\asset\resource\effect\AccumulateLight.xnb</Output>
       <Time>2014-06-18T20:59:33.2400556+08:00</Time>
     </Item>
+    <Item>
+      <Source>effect\PointLight.fx</Source>
+      <Name>effect\PointLight</Name>
+      <Importer>EffectImporter</Importer>
+      <Processor>EffectProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\workspace\catsland_git\Demo\CatControl\asset\resource\effect\PointLight.xnb</Output>
+      <Time>2014-06-20T11:06:22.4404855+08:00</Time>
+    </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
       <TargetPlatform>Windows</TargetPlatform>

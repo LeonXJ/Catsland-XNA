@@ -35,6 +35,9 @@ namespace Catsland.Core {
         }
 
         protected List<Vector2> m_vertices;
+        public Vector2[] GetVertices() {
+            return m_vertices.ToArray();
+        }
 
 #endregion
 

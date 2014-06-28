@@ -125,6 +125,69 @@ namespace Catsland.Core {
         }
 
 
+        // SAT algorithm
+        public static bool IsConvexIntersect(
+            Vector2[] _convexA, Matrix _transfromA,
+            Vector2[] _convexB, Matrix _transformB) {
 
+            int i, j;
+            for (j = _convexA.Length - 1, i = 0;
+                i < _convexA.Length; j = i, ++i) {
+                Vector2 edge = _convexA[i] - _convexA[j];
+                Vector2 normal = new Vector2(-edge.Y, edge.X);
+
+                if (AxisSeparatePolygons(normal, _convexA, _transfromA, _convexB, _transformB)) {
+                    return false;
+                }
+            }
+
+            for (j = _convexB.Length - 1, i = 0;
+                i < _convexB.Length; j = i, ++i) {
+                Vector2 edge = _convexB[i] - _convexB[j];
+                Vector2 normal = new Vector2(-edge.Y, edge.X);
+                if (AxisSeparatePolygons(normal, _convexA, _transfromA, _convexA, _transfromA)) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        private static bool AxisSeparatePolygons(Vector2 _axis, 
+            Vector2[] _convexA, Matrix _transformA,
+            Vector2[] _convexB, Matrix _transformB) {
+
+            float minA, maxA, minB, maxB;
+            Vector2 minMax = CalculateInterval(_axis, _convexA, _transformA);
+            minA = minMax.X;
+            maxA = minMax.Y;
+            minMax = CalculateInterval(_axis, _convexB, _transformB);
+            minB = minMax.X;
+            maxB = minMax.Y;
+
+            if (minA > maxB || minB > maxA) {
+                return true;
+            }
+            return false;
+        }
+
+        private static Vector2 CalculateInterval(Vector2 _axis,
+            Vector2[] _convex, Matrix _transform) {
+
+            float min, max;
+            float d = Vector2.Dot(_axis, Vector2.Transform(_convex[0], _transform));
+            min = max = d;
+            for (int i = 0; i < _convex.Length; ++i) {
+                float e = Vector2.Dot(Vector2.Transform(_convex[i], _transform), _axis);
+                if (e < min) {
+                    min = e;
+                }
+                else if (e > max) {
+                    max = e;
+                }
+            }
+            return new Vector2(min, max);
+        }
+
+        
     }
 }

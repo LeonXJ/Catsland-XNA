@@ -95,19 +95,18 @@ namespace Catsland.Plugin.BasicPlugin {
             }
         }
 
-        public override bool IsBodyInLight(ShadingBody _shadingBody) {
+        public override bool IsBodyInLight(Vector2[] _vertices, Matrix _transform) {
             // TODO: need to judge whether the centroid is in the body
             // TODO: if necessary, add a broad phase to do bounding circle detection
-            int num = _shadingBody.GetVerticesNumber();
-            if (num < 2) {
+            if (_vertices.Length < 2) {
                 return false;
             }
             Vector2 centroidInWorld = GetCentroidInWorld();
-            Vector2 prePoint = _shadingBody.GetVertexInWorld(0);
-            for (int si = 0; si < num; ++si) {
-                int ei = (si + 1) % num;
+            Vector2 prePoint = Vector2.Transform(_vertices[0], _transform);
+            for (int si = 0; si < _vertices.Length; ++si) {
+                int ei = (si + 1) % _vertices.Length;
                 Vector2 sp = prePoint;
-                Vector2 ep = _shadingBody.GetVertexInWorld(ei);
+                Vector2 ep = Vector2.Transform(_vertices[ei], _transform);
                 Vector2 v0 = centroidInWorld - sp;
                 Vector2 v1 = ep - sp;
                 float shadowLength = Vector2.Dot(v0, v1) / v1.Length();
@@ -130,7 +129,7 @@ namespace Catsland.Plugin.BasicPlugin {
                     if (v0.LengthSquared() < m_outRadius * m_outRadius) {
                         return true;
                     }
-                    
+
                     if (v2.LengthSquared() < m_outRadius * m_outRadius) {
                         return true;
                     }
@@ -167,6 +166,12 @@ namespace Catsland.Plugin.BasicPlugin {
                     m_vertice,
                     0,
                     m_verticeList.Count - 2);
+        }
+
+        public override bool IsBodyEnlighted(Vector2[] _vertices, Matrix _tranform) {
+            return true;
+
+
         }
 
         public static new string GetMenuNames() {

@@ -154,7 +154,7 @@ namespace Catsland.Core {
             return -Vector2.UnitY;
         }
 
-        virtual public bool IsBodyInLight(ShadingBody _shadingBody) {
+        virtual public bool IsBodyInLight(Vector2[] _vertices, Matrix _transform) {
             return false;
         }
 
@@ -167,6 +167,10 @@ namespace Catsland.Core {
             Vector2 lightDirection = GetLightDirection(startPoint);
             Vector2 normal2D = new Vector2(normal.X, normal.Y);
             return Vector2.Dot(normal2D, lightDirection) < 0.0f;
+        }
+
+        virtual public bool IsBodyEnlighted(Vector2[] _vertices, Matrix _tranform) {
+            return false;
         }
 
         public float GetDepth() {

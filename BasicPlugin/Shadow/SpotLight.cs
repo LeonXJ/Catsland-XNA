@@ -76,13 +76,11 @@ namespace Catsland.Plugin.BasicPlugin {
             UpdateDrawVertex();
         }
 
-        public override bool IsBodyInLight(ShadingBody _shadingBody) {
+        public override bool IsBodyInLight(Vector2[] _vertices, Matrix _transform) {
             return CatMath.IsConvexIntersect(m_verticeList.ToArray(), 
                 Matrix.CreateTranslation(new Vector3(m_offset.X, m_offset.Y, 0.0f))
                     * m_gameObject.AbsTransform,
-                _shadingBody.GetVertices(),
-                Matrix.CreateTranslation(new Vector3(_shadingBody.Offset.X, _shadingBody.Offset.Y, 0.0f))
-                    * _shadingBody.m_gameObject.AbsTransform);  
+                _vertices, _transform); 
         }
 
         public static new string GetMenuNames() {

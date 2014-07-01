@@ -136,7 +136,7 @@ namespace Catsland.Core {
 
             foreach (KeyValuePair<int, Light> keyValue in m_lightDict) {
                 // if body in light
-                if (keyValue.Value.IsBodyInLight(_shadowBody)) {
+                if (keyValue.Value.IsBodyInLight(_shadowBody.GetVertices(), _shadowBody.GetTransform2World())) {
                     // update shadow
                     int edgeNumber = _shadowBody.GetVerticesNumber();
                     for (int e = 0; e < edgeNumber; ++e) {
@@ -197,7 +197,7 @@ namespace Catsland.Core {
             }
 
             foreach(KeyValuePair<int, ShadingBody> KeyValuePair in m_shadingBodyDict){
-                if (_light.IsBodyInLight(KeyValuePair.Value)) {
+                if (_light.IsBodyInLight(KeyValuePair.Value.GetVertices(), KeyValuePair.Value.GetTransform2World())) {
                     int edgeNumber = KeyValuePair.Value.GetVerticesNumber();
                     for (int e = 0; e < edgeNumber; ++e) {
                         int lightShadowBodyEdgeID = GetLightShadowBodyEdgeID(_light.ID, KeyValuePair.Key, e);

@@ -91,8 +91,8 @@ namespace Catsland.Core {
             return new Vector2(pos.X, pos.Y);
         }
 
-
-
-
+        public Matrix GetTransform2World() {
+            return Matrix.CreateTranslation(m_offset.X, m_offset.Y, 0.0f) * m_gameObject.AbsTransform;
+        }
     }
 }

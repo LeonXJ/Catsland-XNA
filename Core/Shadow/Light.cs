@@ -46,6 +46,39 @@ namespace Catsland.Core {
             }
         }
 
+        [SerialAttribute]
+        protected readonly CatBool m_isLightOn = new CatBool(true);
+        public bool IsLightOn {
+            set {
+                m_isLightOn.SetValue(value);
+            }
+            get {
+                return m_isLightOn;
+            }
+        }
+        
+        [SerialAttribute]
+        protected readonly CatBool m_renderLight = new CatBool(true);
+        public bool RenderLight {
+            set {
+                m_renderLight.SetValue(value);
+            }
+            get {
+                return m_renderLight;
+            }
+        }
+
+        [SerialAttribute]
+        protected readonly CatBool m_enlight = new CatBool(true);
+        public bool Enlight {
+            set {
+                m_enlight.SetValue(value);
+            }
+            get {
+                return m_enlight;
+            }
+        }
+
         protected List<Vector2> m_verticeList;
 
         protected VertexPositionColor[] m_vertice;
@@ -115,7 +148,7 @@ namespace Catsland.Core {
         virtual public void Draw(int timeLastFrame){
             // TODO: use light material
             // draw light
-            if(m_vertice == null){
+            if(m_vertice == null || !m_isLightOn || !m_renderLight){
                 return;
             }
             //Mgr<BasicEffect>.Singleton.GraphicsDevice.BlendState = BlendState.AlphaBlend;
@@ -137,12 +170,12 @@ namespace Catsland.Core {
                     0,
                     m_verticeList.Count - 2);
             }
-            // draw shadow
-
-
         }
 
-        public virtual bool IsPointInLight(Vector2 _point) {
+        public virtual bool IsPointInLightRange(Vector2 _point) {
+            if (!m_isLightOn) {
+                return false;
+            }
             return false;
         }
 
@@ -154,7 +187,10 @@ namespace Catsland.Core {
             return -Vector2.UnitY;
         }
 
-        virtual public bool IsBodyInLight(Vector2[] _vertices, Matrix _transform) {
+        virtual public bool IsBodyInLightRange(Vector2[] _vertices, Matrix _transform) {
+            if (!m_isLightOn) {
+                return false;
+            }
             return false;
         }
 
@@ -170,20 +206,25 @@ namespace Catsland.Core {
         }
 
         virtual public bool IsPointEnlighted(Vector2 _point) {
-            return Mgr<Scene>.Singleton.m_shadowSystem.IsPointEnlightByLight(_point, ID);
+            if (!m_enlight) {
+                return false;
+            }
+            return IsPointInLight(_point);
+        }
+
+        virtual public bool IsPointInLight(Vector2 _point) {
+            if (!m_isLightOn) {
+                return false;
+            }
+            return Mgr<Scene>.Singleton.m_shadowSystem.IsPointInLight(_point, ID);
         }
 
         public float GetDepth() {
             return 0;
         }
 
-        
-
         public int CompareTo(object obj) {
             return 1;
         }
-
-
-
     }
 }

@@ -76,14 +76,20 @@ namespace Catsland.Plugin.BasicPlugin {
             UpdateDrawVertex();
         }
 
-        public override bool IsBodyInLight(Vector2[] _vertices, Matrix _transform) {
+        public override bool IsBodyInLightRange(Vector2[] _vertices, Matrix _transform) {
+            if (!m_isLightOn) {
+                return false;
+            }
             return CatMath.IsConvexIntersect(m_verticeList.ToArray(), 
                 Matrix.CreateTranslation(new Vector3(m_offset.X, m_offset.Y, 0.0f))
                     * m_gameObject.AbsTransform,
                 _vertices, _transform); 
         }
 
-        public override bool IsPointInLight(Vector2 _point) {
+        public override bool IsPointInLightRange(Vector2 _point) {
+            if (!m_isLightOn) {
+                return false;
+            }
             Vector2 centroid = GetCentroidInWorld();
             Vector2 delta = _point - centroid;
             if (delta.LengthSquared() > m_outRadius * m_outRadius) {

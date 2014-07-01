@@ -101,6 +101,9 @@
     <Compile Include="Animator.cs" />
     <Compile Include="AttackInvoke.cs" />
     <Compile Include="BackgroundController.cs" />
+    <Compile Include="Blacklist\Blacklist.cs" />
+    <Compile Include="Blacklist\Hunter.cs" />
+    <Compile Include="Blacklist\Prey.cs" />
     <Compile Include="Breakable.cs">
       <SubType>Code</SubType>
     </Compile>

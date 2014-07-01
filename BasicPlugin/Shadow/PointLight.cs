@@ -95,9 +95,12 @@ namespace Catsland.Plugin.BasicPlugin {
             }
         }
 
-        public override bool IsBodyInLight(Vector2[] _vertices, Matrix _transform) {
+        public override bool IsBodyInLightRange(Vector2[] _vertices, Matrix _transform) {
             // TODO: need to judge whether the centroid is in the body
             // TODO: if necessary, add a broad phase to do bounding circle detection
+            if (!m_isLightOn) {
+                return false;
+            }
             if (_vertices.Length < 2) {
                 return false;
             }
@@ -142,6 +145,9 @@ namespace Catsland.Plugin.BasicPlugin {
         public override void Draw(int timeLastFrame) {
             base.Draw(timeLastFrame);
 
+            if (!m_isLightOn || !m_renderLight) {
+                return;
+            }
             if (m_vertice == null) {
                 return;
             }
@@ -168,7 +174,10 @@ namespace Catsland.Plugin.BasicPlugin {
                     m_verticeList.Count - 2);
         }
 
-        public override bool IsPointInLight(Vector2 _point) {
+        public override bool IsPointInLightRange(Vector2 _point) {
+            if (!m_isLightOn) {
+                return false;
+            }
             Vector2 centroid = GetCentroidInWorld();
             Vector2 delta = _point - centroid;
             if (delta.LengthSquared() > m_outRadius * m_outRadius) {

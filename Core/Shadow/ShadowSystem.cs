@@ -136,7 +136,7 @@ namespace Catsland.Core {
 
             foreach (KeyValuePair<int, Light> keyValue in m_lightDict) {
                 // if body in light
-                if (keyValue.Value.IsBodyInLight(_shadowBody.GetVertices(), _shadowBody.GetTransform2World())) {
+                if (keyValue.Value.IsBodyInLightRange(_shadowBody.GetVertices(), _shadowBody.GetTransform2World())) {
                     // update shadow
                     int edgeNumber = _shadowBody.GetVerticesNumber();
                     for (int e = 0; e < edgeNumber; ++e) {
@@ -197,7 +197,7 @@ namespace Catsland.Core {
             }
 
             foreach(KeyValuePair<int, ShadingBody> KeyValuePair in m_shadingBodyDict){
-                if (_light.IsBodyInLight(KeyValuePair.Value.GetVertices(), KeyValuePair.Value.GetTransform2World())) {
+                if (_light.IsBodyInLightRange(KeyValuePair.Value.GetVertices(), KeyValuePair.Value.GetTransform2World())) {
                     int edgeNumber = KeyValuePair.Value.GetVerticesNumber();
                     for (int e = 0; e < edgeNumber; ++e) {
                         int lightShadowBodyEdgeID = GetLightShadowBodyEdgeID(_light.ID, KeyValuePair.Key, e);
@@ -338,9 +338,9 @@ namespace Catsland.Core {
             RenderQuad();
         }
 
-        public bool IsPointEnlightByLight(Vector2 _point, int _lightID) {
+        public bool IsPointInLight(Vector2 _point, int _lightID) {
             if (!m_lightDict.ContainsKey(_lightID) ||
-                !m_lightDict[_lightID].IsPointInLight(_point)) {
+                !m_lightDict[_lightID].IsPointInLightRange(_point)) {
                 return false;
             }
             // in light, consider shadow
@@ -348,16 +348,24 @@ namespace Catsland.Core {
                 return true;
             }
             foreach (int bodyID in m_light2ShadingBodyDict[_lightID]) {
-                for(int edgeID = 0; edgeID < 4; ++edgeID){
+                for (int edgeID = 0; edgeID < 4; ++edgeID) {
                     int lightShadowBodyEdgeId = GetLightShadowBodyEdgeID(_lightID, bodyID, edgeID);
                     if (m_lightShadowEdgeDict.ContainsKey(lightShadowBodyEdgeId)
-                        && m_lightShadowEdgeDict[lightShadowBodyEdgeId].IsPointInShadow(_point)){
+                        && m_lightShadowEdgeDict[lightShadowBodyEdgeId].IsPointInShadow(_point)) {
                         return false;
                     }
                 }
             }
             // 
             return true;
+        }
+
+        public bool IsPointEnlightByLight(Vector2 _point, int _lightID) {
+            if (!m_lightDict.ContainsKey(_lightID) ||
+                !m_lightDict[_lightID].Enlight) {
+                return false;
+            }
+            return IsPointInLight(_point, _lightID);
         }
 
         public bool IsPointEnlighted(Vector2 _point) {

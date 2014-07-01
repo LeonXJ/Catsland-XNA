@@ -159,7 +159,7 @@ namespace Catsland.Plugin.BasicPlugin {
         
         }
 
-        public override bool IsBodyInLight(Vector2[] _vertices, Matrix _transform) {
+        public override bool IsBodyInLightRange(Vector2[] _vertices, Matrix _transform) {
             return CatMath.IsConvexIntersect(
                 m_verticeList.ToArray(),
                 Matrix.CreateTranslation(new Vector3(m_offset.X, m_offset.Y, 0.0f))

@@ -62,6 +62,17 @@ namespace Catsland.Core {
             }
         }
 
+        [SerialAttribute]
+        private CatColor m_diffuseColor = new CatColor(1.0f, 1.0f, 1.0f, 1.0f);
+        public Color DiffuseColor {
+            set {
+                m_diffuseColor.SetValue(value);
+            }
+            get {
+                return m_diffuseColor;
+            }
+        }
+
         private List<Vector2> m_verticeList;
         private VertexPositionColor[] m_vertices;
         private VertexBuffer m_vertexBuffer;
@@ -138,7 +149,7 @@ namespace Catsland.Core {
             Mgr<GraphicsDevice>.Singleton.SetVertexBuffer(m_vertexBuffer);
             Effect effect = Mgr<DebugTools>.Singleton.DrawEffect;
             ((BasicEffect)effect).Alpha = 1.0f;
-            ((BasicEffect)effect).DiffuseColor = new Vector3(1.0f, 0.0f, 1.0f);
+            ((BasicEffect)effect).DiffuseColor = m_diffuseColor.RGB;
             ((BasicEffect)effect).View = Mgr<Camera>.Singleton.View;
             ((BasicEffect)effect).Projection = Mgr<Camera>.Singleton.m_projection;
             ((BasicEffect)effect).VertexColorEnabled = false;

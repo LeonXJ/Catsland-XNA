@@ -21,6 +21,36 @@ namespace Catsland.Core {
             m_value = _color;
         }
 
+        public float R {
+            get {
+                return m_value.X;
+            }
+        }
+
+        public float G {
+            get {
+                return m_value.Y;
+            }
+        }
+
+        public float B {
+            get {
+                return m_value.Z;
+            }
+        }
+
+        public float A {
+            get {
+                return m_value.W;
+            }
+        }
+
+        public Vector3 RGB {
+            get {
+                return new Vector3(R, G, B);
+            }
+        }
+
         public void SetValue(Color _color) {
             m_value.X = _color.R / 255.0f;
             m_value.Y = _color.G / 255.0f;

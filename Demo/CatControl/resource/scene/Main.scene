@@ -908,5 +908,24 @@
       </IDictionary>
       <String name="m_guid" value="443143b9-fef0-4089-b249-7b17d1a562c8" />
     </Catsland.Core.GameObject>
+    <Catsland.Core.GameObject>
+      <String name="m_name" value="UntitledGameObject" />
+      <CatVector3 name="m_position" value="-1.630418,0.2212653,0" />
+      <CatQuaternion name="m_rotation" value="0,0,0,1" />
+      <CatVector3 name="m_scale" value="1,1,1" />
+      <IDictionary name="m_components" typeinfo="System.Collections.Generic.Dictionary`2[System.String,Catsland.Core.CatComponent]">
+        <KeyValue>
+          <Key>
+            <String name="" value="Catsland.Plugin.BasicPlugin.LightSensor" />
+          </Key>
+          <Value>
+            <Catsland.Plugin.BasicPlugin.LightSensor name="">
+              <String name="m_guid" value="171867b5-e4eb-4f38-9f5d-f81675b8a134" />
+            </Catsland.Plugin.BasicPlugin.LightSensor>
+          </Value>
+        </KeyValue>
+      </IDictionary>
+      <String name="m_guid" value="b65464d1-e8f7-42be-8579-fe80db7eb1e9" />
+    </Catsland.Core.GameObject>
   </GameObjects>
 </Scene>

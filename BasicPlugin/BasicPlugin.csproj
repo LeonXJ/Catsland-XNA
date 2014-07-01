@@ -119,6 +119,7 @@
     <Compile Include="ParticleController.cs" />
     <Compile Include="ParticleEmitter.cs" />
     <Compile Include="IParticleUpdater.cs" />
+    <Compile Include="Shadow\LightSensor.cs" />
     <Compile Include="Shadow\LineLight.cs" />
     <Compile Include="Shadow\PointLight.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

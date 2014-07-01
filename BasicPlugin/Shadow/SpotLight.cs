@@ -83,6 +83,18 @@ namespace Catsland.Plugin.BasicPlugin {
                 _vertices, _transform); 
         }
 
+        public override bool IsPointInLight(Vector2 _point) {
+            Vector2 centroid = GetCentroidInWorld();
+            Vector2 delta = _point - centroid;
+            if (delta.LengthSquared() > m_outRadius * m_outRadius) {
+                return false;
+            }
+            return true;
+//             Vector2 frontPoint = Vector2.Transform(new Vector2((float)Math.Sin(m_directionToDown * 2 * MathHelper.Pi / 180),
+//                                   -(float)Math.Cos(m_directionToDown * 2 * MathHelper.Pi / 180)), 
+           // TODO: judge by angle                       
+        }
+
         public static new string GetMenuNames() {
             return "Shadow|Spot Light";
         }

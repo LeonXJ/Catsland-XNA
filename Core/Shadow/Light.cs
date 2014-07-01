@@ -169,8 +169,8 @@ namespace Catsland.Core {
             return Vector2.Dot(normal2D, lightDirection) < 0.0f;
         }
 
-        virtual public bool IsBodyEnlighted(Vector2[] _vertices, Matrix _tranform) {
-            return false;
+        virtual public bool IsPointEnlighted(Vector2 _point) {
+            return Mgr<Scene>.Singleton.m_shadowSystem.IsPointEnlightByLight(_point, ID);
         }
 
         public float GetDepth() {

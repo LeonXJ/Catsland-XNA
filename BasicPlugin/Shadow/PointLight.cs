@@ -168,10 +168,15 @@ namespace Catsland.Plugin.BasicPlugin {
                     m_verticeList.Count - 2);
         }
 
-        public override bool IsBodyEnlighted(Vector2[] _vertices, Matrix _tranform) {
-            return true;
-
-
+        public override bool IsPointInLight(Vector2 _point) {
+            Vector2 centroid = GetCentroidInWorld();
+            Vector2 delta = _point - centroid;
+            if (delta.LengthSquared() > m_outRadius * m_outRadius) {
+                return false;
+            }
+            else {
+                return true;
+            }
         }
 
         public static new string GetMenuNames() {

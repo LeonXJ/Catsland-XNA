@@ -337,5 +337,36 @@ namespace Catsland.Core {
             m_shadowingEffect.CurrentTechnique.Passes["P0"].Apply();
             RenderQuad();
         }
+
+        public bool IsPointEnlightByLight(Vector2 _point, int _lightID) {
+            if (!m_lightDict.ContainsKey(_lightID) ||
+                !m_lightDict[_lightID].IsPointInLight(_point)) {
+                return false;
+            }
+            // in light, consider shadow
+            if (!m_light2ShadingBodyDict.ContainsKey(_lightID)) {
+                return true;
+            }
+            foreach (int bodyID in m_light2ShadingBodyDict[_lightID]) {
+                for(int edgeID = 0; edgeID < 4; ++edgeID){
+                    int lightShadowBodyEdgeId = GetLightShadowBodyEdgeID(_lightID, bodyID, edgeID);
+                    if (m_lightShadowEdgeDict.ContainsKey(lightShadowBodyEdgeId)
+                        && m_lightShadowEdgeDict[lightShadowBodyEdgeId].IsPointInShadow(_point)){
+                        return false;
+                    }
+                }
+            }
+            // 
+            return true;
+        }
+
+        public bool IsPointEnlighted(Vector2 _point) {
+            foreach (KeyValuePair<int, Light> keyValue in m_lightDict) {
+                if (IsPointEnlightByLight(_point, keyValue.Key)) {
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 }

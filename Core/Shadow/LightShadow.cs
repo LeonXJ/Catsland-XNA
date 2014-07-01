@@ -136,6 +136,10 @@ namespace Catsland.Core {
             }
         }
 
+        public bool IsBodyInShadow(Vector2[] _vertices, Matrix _transform) {
+            return CatMath.IsConvexIntersect(_vertices, _transform, m_vertexList, Matrix.Identity);
+        }
+
         public float GetDepth() {
             return 0;
         }

@@ -89,10 +89,16 @@ namespace Catsland.Plugin.BasicPlugin {
             if (delta.LengthSquared() > m_outRadius * m_outRadius) {
                 return false;
             }
+            Vector2 frontPoint = Vector2.Transform(new Vector2((float)Math.Sin(m_directionToDown * 2 * MathHelper.Pi / 180),
+                                                              -(float)Math.Cos(m_directionToDown * 2 * MathHelper.Pi / 180)),
+                                                   Matrix.CreateTranslation(new Vector3(m_offset.X, m_offset.Y, 0.0f)) * m_gameObject.AbsTransform);
+            Vector2 frontDirection = frontPoint - centroid;
+            frontDirection.Normalize();
+            delta.Normalize();
+            if (Vector2.Dot(frontDirection, delta) < Math.Cos(m_fanInDegree * MathHelper.Pi / 90)) {
+                return false;
+            }
             return true;
-//             Vector2 frontPoint = Vector2.Transform(new Vector2((float)Math.Sin(m_directionToDown * 2 * MathHelper.Pi / 180),
-//                                   -(float)Math.Cos(m_directionToDown * 2 * MathHelper.Pi / 180)), 
-           // TODO: judge by angle                       
         }
 
         public static new string GetMenuNames() {

@@ -44,7 +44,7 @@ namespace Catsland.Core {
         private RenderTarget2D m_lightMap;
 
 
-        private int count = 0;
+        //private int count = 0;
 
 #endregion
 
@@ -315,12 +315,12 @@ namespace Catsland.Core {
                 m_preAccumulateLight = m_accumulateLight;
                 m_accumulateLight = temp;
 
-                if (count < 2) {
-                    FileStream fs = new FileStream("D:\\a_" + count + ".jpg", FileMode.Create);
-                    m_accumulateLight.SaveAsPng(fs, m_accumulateLight.Width, m_lightMap.Height);
-                    fs.Close();
-                    ++count;
-                }
+//                 if (count < 2) {
+//                     FileStream fs = new FileStream("D:\\a_" + count + ".jpg", FileMode.Create);
+//                     m_accumulateLight.SaveAsPng(fs, m_accumulateLight.Width, m_lightMap.Height);
+//                     fs.Close();
+//                     ++count;
+//                 }
 
             }
         }

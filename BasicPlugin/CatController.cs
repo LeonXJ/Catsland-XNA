@@ -50,7 +50,7 @@ namespace Catsland.Plugin.BasicPlugin {
         public float Mass{
             set{
                 m_mass.SetValue(MathHelper.Max(0.0f, value));
-                m_body.Mass = value;
+                m_body.Mass = m_mass;
             }
             get{
                 return m_mass.GetValue();
@@ -58,13 +58,38 @@ namespace Catsland.Plugin.BasicPlugin {
         }
 
         [SerialAttribute]
-        private readonly CatFloat m_walkAcc = new CatFloat(1.0f);
-        public float WalkAcc {
+        private readonly CatFloat m_restitution = new CatFloat(0.0f);
+        public float Restitution {
             set {
-                m_walkAcc.SetValue(MathHelper.Max(0.0f, value));
+                m_restitution.SetValue(MathHelper.Clamp(value, 0.0f, 1.0f));
+                m_body.Restitution = m_restitution;
             }
             get {
-                return m_walkAcc.GetValue();
+                return m_restitution.GetValue();
+            }
+        }
+
+        [SerialAttribute]
+        private readonly CatFloat m_friction = new CatFloat(0.8f);
+        public float Friction {
+            set {
+                m_friction.SetValue(MathHelper.Clamp(value, 0.0f, 1.0f));
+                m_body.Friction = m_restitution;
+            }
+            get {
+                return m_friction.GetValue();
+            }
+        }
+
+        [SerialAttribute]
+        private readonly CatFloat m_damping = new CatFloat(0.0f);
+        public float Damping {
+            set {
+                m_damping.SetValue(MathHelper.Max(value, 0.0f));
+                m_body.LinearDamping = m_damping;
+            }
+            get {
+                return m_damping.GetValue();
             }
         }
 
@@ -80,13 +105,24 @@ namespace Catsland.Plugin.BasicPlugin {
         }
 
         [SerialAttribute]
-        private readonly CatFloat m_runAcc = new CatFloat(2.0f);
+        private readonly CatFloat m_runAcc = new CatFloat(0.2f);
         public float RunAcc {
             set {
                 m_runAcc.SetValue(MathHelper.Max(0.0f, value));
             }
             get {
                 return m_runAcc.GetValue();
+            }
+        }
+
+        [SerialAttribute]
+        private readonly CatFloat m_breakAcc = new CatFloat(0.3f);
+        public float BreakAcc {
+            set {
+                m_breakAcc.SetValue(MathHelper.Max(0.0f, value));
+            }
+            get {
+                return m_breakAcc.GetValue();
             }
         }
 
@@ -100,6 +136,7 @@ namespace Catsland.Plugin.BasicPlugin {
                 return m_runSpeed.GetValue();
             }
         }
+
 
         [SerialAttribute]
         private readonly CatFloat m_jumpForce = new CatFloat(20.0f);
@@ -159,6 +196,7 @@ namespace Catsland.Plugin.BasicPlugin {
         public Body m_body;
         public Fixture m_taller;
         private SensorAttachment m_onGroundSensor;
+        private SensorAttachment m_jumpableSensor;
         private SensorAttachment m_leftAttachableSensor;
         private SensorAttachment m_rightAttachableSensor;
 
@@ -229,6 +267,7 @@ namespace Catsland.Plugin.BasicPlugin {
                                                  m_inSize.X,
                                                  m_inSize.Y/2.0f,
                                                  m_mass, new Tag(0, m_inSize.Y/4.0f));
+            
             m_body.BodyType = BodyType.Dynamic;
             m_body.SleepingAllowed = false;
             m_body.FixedRotation = true;
@@ -257,6 +296,14 @@ namespace Catsland.Plugin.BasicPlugin {
             float sensorGap = 0.01f;
             m_onGroundSensor.Size = new Vector2(m_inSize.X, sensorHalfSize);
             m_onGroundSensor.Offset = new Vector2(0.0f, 
+                - m_inSize.Y / 4.0f - sensorGap - sensorHalfSize);
+            // jumpable sensor
+            if (m_jumpableSensor == null) {
+                m_jumpableSensor = new SensorAttachment(m_body);
+                m_jumpableSensor.BindToScene(Mgr<Scene>.Singleton);
+            }
+            m_jumpableSensor.Size = new Vector2(m_inSize.X / 2.0f, sensorHalfSize);
+            m_jumpableSensor.Offset = new Vector2(0.0f, 
                 - m_inSize.Y / 4.0f - sensorGap - sensorHalfSize);
             // leftAttachableSensor
             if(m_leftAttachableSensor == null){
@@ -448,13 +495,16 @@ namespace Catsland.Plugin.BasicPlugin {
         }
 
         public void DoJump(bool _isStealth = false) {
+            if (!m_jumpableSensor.IsTriggered) {
+                return;
+            }
             if (m_wantDown) {
-                if (m_onGroundSensor.LastContactFixture != null
-                    && m_onGroundSensor.LastContactFixture.Body != null) {
-                    Tag bodyTag = m_onGroundSensor.LastContactFixture.Body.UserData as Tag;
+                if (m_jumpableSensor.LastContactFixture != null
+                    && m_jumpableSensor.LastContactFixture.Body != null) {
+                        Tag bodyTag = m_jumpableSensor.LastContactFixture.Body.UserData as Tag;
                     if (bodyTag != null && Tag.Platform == bodyTag) {
-                        StateFall.GetState().IgnoreBody = m_onGroundSensor.LastContactFixture.Body;
-                        m_body.IgnoreCollisionWith(m_onGroundSensor.LastContactFixture.Body);
+                        StateFall.GetState().IgnoreBody = m_jumpableSensor.LastContactFixture.Body;
+                        m_body.IgnoreCollisionWith(m_jumpableSensor.LastContactFixture.Body);
                         CurrentState = StateFall.GetState();
                     }
                 }
@@ -509,30 +559,31 @@ namespace Catsland.Plugin.BasicPlugin {
                     _controller.EnterStealth();
                 }
                 else{
-                    float hor_force = 0.0f;
+                    float hor_vel = 0.0f;
                     if (_controller.m_wantLeft) {
-                        hor_force -= 1.0f;
+                        hor_vel -= 1.0f;
                     }
                     if (_controller.m_wantRight) {
-                        hor_force += 1.0f;
+                        hor_vel += 1.0f;
                     }
 
                     if (_controller.m_wantRun) {
-                        hor_force *= _controller.RunAcc;
-                        _controller.m_body.ApplyForce(new Vector2(hor_force, 0.0f));
-                        if (_controller.m_body.LinearVelocity.X * _controller.m_body.LinearVelocity.X
-                            > _controller.WalkSpeed * _controller.WalkSpeed) {
-                            _controller.CurrentState = StateRun.GetState();
-                        }
+                        _controller.CurrentState = StateRun.GetState();
+
+
+// 
+//                         hor_vel *= _controller.RunAcc;
+//                         _controller.m_body.ApplyForce(new Vector2(hor_vel, 0.0f));
+//                         if (_controller.m_body.LinearVelocity.X * _controller.m_body.LinearVelocity.X
+//                             > _controller.WalkSpeed * _controller.WalkSpeed) {
+//                            
+/*                        }*/
                     }
                     else {
-                        hor_force *= _controller.WalkAcc;
-                        // if different direction or same but not full speed
-                        if (_controller.m_body.LinearVelocity.X * hor_force < 0 ||
-                            _controller.m_body.LinearVelocity.X * _controller.m_body.LinearVelocity.X
-                            < _controller.WalkSpeed * _controller.WalkSpeed) {
-                            _controller.m_body.ApplyForce(new Vector2(hor_force, 0.0f));
-                        }
+                        hor_vel *= _controller.WalkSpeed;
+                        float impluse = (hor_vel - _controller.m_body.LinearVelocity.X) *
+                                _controller.m_body.Mass;
+                            _controller.m_body.ApplyLinearImpulse(new Vector2(impluse, 0.0f));
                     }
                     
                 }
@@ -563,26 +614,31 @@ namespace Catsland.Plugin.BasicPlugin {
                     // want walk and same direction and slow enough,
                     // if not slow enough, just do nothing and let it slow down
                     float hor_v = _controller.m_body.LinearVelocity.X;
-                    float hor_force = 0.0f;
+                    float hor_desired_vel = 0.0f;
                     if(_controller.m_wantLeft){
-                        hor_force -= 1.0f;
+                        hor_desired_vel -= 1.0f;
                     }
                     if(_controller.m_wantRight){
-                        hor_force += 1.0f;
+                        hor_desired_vel += 1.0f;
                     }
-                    if (hor_v * hor_force > 0.0){
+                    if (hor_v * hor_desired_vel > 0.0 || hor_v * hor_v < 0.01f){
                         // same direction
-                        // want run
+                        // want run, acc or keep speed
                         if (_controller.m_wantRun && !_controller.m_wantDown) {
-                            if (hor_v * hor_v < _controller.RunSpeed * _controller.RunSpeed) {
-                                _controller.m_body.ApplyForce(new Vector2(hor_force * _controller.RunAcc, 0.0f));
+                            hor_desired_vel *= 
+                                MathHelper.Min(Math.Abs(hor_v) + _controller.RunAcc, _controller.RunSpeed);
+                            
+                        }
+                        // slowing down
+                        else{
+                            if (hor_v * hor_v < _controller.WalkSpeed * _controller.WalkSpeed) {
+                                _controller.CurrentState = StateStandWalk.GetState();
                             }
+                            hor_desired_vel *= MathHelper.Max(Math.Abs(hor_v) - _controller.RunAcc, _controller.WalkSpeed);
                         }
-                        // want walk
-                        if (hor_v * hor_v < _controller.WalkSpeed * _controller.WalkSpeed) {
-                            _controller.CurrentState = StateStandWalk.GetState();
-                        }
-                        // else do nothing and let it slow down
+                        float impluse = (hor_desired_vel - hor_v) * _controller.m_body.Mass;
+                        _controller.m_body.ApplyLinearImpulse(new Vector2(impluse, 0.0f));
+                        
                     }
                     // different direction or want stop
                     else {
@@ -609,6 +665,9 @@ namespace Catsland.Plugin.BasicPlugin {
         public void Do(CatController _controller) {
             if (_controller.IsOnGround()) {
                 float hor_v = _controller.m_body.LinearVelocity.X;
+                float impluse = MathHelper.Max(Math.Abs(hor_v) - _controller.BreakAcc, 0.0f) * hor_v 
+                    * _controller.m_body.Mass;
+
                 if (hor_v * hor_v < 0.01f) {
                     _controller.CurrentState = StateStandWalk.GetState();
                 }
@@ -766,10 +825,10 @@ namespace Catsland.Plugin.BasicPlugin {
                     if (_controller.m_wantRight) {
                         hor_force += 1.0f;
                     }
-                    if (_controller.m_body.LinearVelocity.X * _controller.m_body.LinearVelocity.X
-                            < _controller.StealthSpeed * _controller.StealthSpeed) {
-                        _controller.m_body.ApplyForce(new Vector2(hor_force * _controller.WalkAcc, 0.0f));
-                    }
+                    hor_force *= _controller.StealthSpeed;
+                    float impluse = (hor_force - _controller.m_body.LinearVelocity.X) *
+                        _controller.m_body.Mass;
+                    _controller.m_body.ApplyLinearImpulse(new Vector2(impluse, 0.0f));
             }
             else {
                 _controller.TryExitStealth();

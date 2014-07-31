@@ -180,9 +180,12 @@
               <CatVector2 name="m_outSize" value="0.3,0.6" />
               <CatVector2 name="m_inSize" value="0.2,0.5" />
               <CatFloat name="m_mass" value="5" />
-              <CatFloat name="m_walkAcc" value="4" />
+              <CatFloat name="m_restitution" value="0" />
+              <CatFloat name="m_friction" value="0.8" />
+              <CatFloat name="m_damping" value="0" />
               <CatFloat name="m_walkSpeed" value="0.8" />
-              <CatFloat name="m_runAcc" value="8" />
+              <CatFloat name="m_runAcc" value="0.2" />
+              <CatFloat name="m_breakAcc" value="0.4" />
               <CatFloat name="m_runSpeed" value="1.6" />
               <CatFloat name="m_jumpForce" value="60" />
               <CatFloat name="m_wallJumpForce" value="50" />

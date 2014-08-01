@@ -139,7 +139,7 @@
     </Catsland.Core.GameObject>
     <Catsland.Core.GameObject>
       <String name="m_name" value="player" />
-      <CatVector3 name="m_position" value="7.231272,-0.2128051,-5.960464E-08" />
+      <CatVector3 name="m_position" value="6.840675,-0.3491902,-5.960464E-08" />
       <CatQuaternion name="m_rotation" value="0,0,0,1" />
       <CatVector3 name="m_scale" value="1,1,1" />
       <IDictionary name="m_components" typeinfo="System.Collections.Generic.Dictionary`2[System.String,Catsland.Core.CatComponent]">
@@ -188,6 +188,7 @@
               <CatFloat name="m_breakAcc" value="0.4" />
               <CatFloat name="m_runSpeed" value="1.6" />
               <CatFloat name="m_jumpForce" value="64" />
+              <CatFloat name="m_horjumpBias" value="0.1" />
               <CatFloat name="m_wallJumpForce" value="40" />
               <CatFloat name="m_airBiasOffset" value="0.2" />
               <CatFloat name="m_jumpLiftForce" value="56" />
@@ -535,7 +536,7 @@
     </Catsland.Core.GameObject>
     <Catsland.Core.GameObject>
       <String name="m_name" value="ground" />
-      <CatVector3 name="m_position" value="6.743507,1.61566,-1.192093E-07" />
+      <CatVector3 name="m_position" value="6.743712,1.488316,-1.192093E-07" />
       <CatQuaternion name="m_rotation" value="0,0,0,1" />
       <CatVector3 name="m_scale" value="1,1,1" />
       <IDictionary name="m_components" typeinfo="System.Collections.Generic.Dictionary`2[System.String,Catsland.Core.CatComponent]">
@@ -641,7 +642,7 @@
     </Catsland.Core.GameObject>
     <Catsland.Core.GameObject>
       <String name="m_name" value="ground" />
-      <CatVector3 name="m_position" value="6.743507,0.8548926,-1.192093E-07" />
+      <CatVector3 name="m_position" value="6.75444,0.5873835,-1.192093E-07" />
       <CatQuaternion name="m_rotation" value="0,0,0,1" />
       <CatVector3 name="m_scale" value="1,1,1" />
       <IDictionary name="m_components" typeinfo="System.Collections.Generic.Dictionary`2[System.String,Catsland.Core.CatComponent]">

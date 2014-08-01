@@ -801,10 +801,18 @@ namespace Catsland.Plugin.BasicPlugin {
             if (_controller.m_wantRight) {
                 hor_force += 1.0f;
             }
-            float ver_force = 1.0f;
-            if (_controller.m_wantDown && !_controller.m_wantUp) {
+            float ver_force = 1.2f;
+            if (_controller.m_wantDown) {
                 ver_force = 0.0f;
             }
+            else if (!_controller.m_wantUp) {
+                ver_force = 1.0f;
+            }
+            // want up 
+            else {
+                ver_force = 1.2f;
+            }
+           
             if (_controller.m_wantJump) {
                 _controller.m_body.ApplyForce(new Vector2(hor_force, ver_force) * _controller.WallJumpForce);
                 _controller.CurrentState = StateJumpUp.GetState();

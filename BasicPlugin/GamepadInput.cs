@@ -10,6 +10,9 @@ namespace Catsland.Plugin.BasicPlugin {
     public class GamepadInput : CatComponent {
 
 #region Properties
+
+        private GamePadState m_preGamepadState;
+
 #endregion
 
         public GamepadInput(GameObject gameObject)
@@ -22,6 +25,7 @@ namespace Catsland.Plugin.BasicPlugin {
             base.Initialize(scene);
 
             // TODO
+            m_preGamepadState = GamePad.GetState(PlayerIndex.One);
         }
 
         public override void Update(int timeLastFrame) {
@@ -45,8 +49,12 @@ namespace Catsland.Plugin.BasicPlugin {
             catController.m_wantRight = gamePadState.IsButtonDown(Buttons.LeftThumbstickRight);
             catController.m_wantUp = gamePadState.IsButtonDown(Buttons.LeftThumbstickUp);
             catController.m_wantDown = gamePadState.IsButtonDown(Buttons.LeftThumbstickDown);
-            catController.m_wantJump = gamePadState.IsButtonDown(Buttons.A);
+            catController.m_wantJump = !m_preGamepadState.IsButtonDown(Buttons.A)
+                && gamePadState.IsButtonDown(Buttons.A);
+            catController.m_wantLift = gamePadState.IsButtonDown(Buttons.A);
             catController.m_wantRun = gamePadState.IsButtonDown(Buttons.LeftShoulder);
+            
+            m_preGamepadState = gamePadState;
         }
 
         public static string GetMenuNames() {

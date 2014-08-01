@@ -6,10 +6,10 @@
     <ZBound min="0" max="4" />
   </SceneBasic>
   <Catsland.Core.Camera>
-    <CatVector3 name="m_targetPosition" value="0.5599998,1.869999,0" />
+    <CatVector3 name="m_targetPosition" value="6.100045,0.7000001,0" />
     <CatFloat name="m_cameraDistance" value="2" />
     <CatVector3 name="m_cameraPRY" value="0,0,0" />
-    <CatVector2 name="m_viewSize" value="15.03321,8.457447" />
+    <CatVector2 name="m_viewSize" value="7.058884,3.971217" />
     <CatFloat name="m_fieldOfView" value="90" />
     <CatVector2 name="m_clipDistance" value="0.1,100" />
     <String name="m_guid" value="6f33ee66-4458-499d-a32c-c0cb506a83d5" />
@@ -34,7 +34,7 @@
         </Key>
         <Value>
           <Catsland.Core.PostProcessColorAdjustment name="">
-            <CatFloat name="m_saturability" value="0.8700001" />
+            <CatFloat name="m_saturability" value="0.7600002" />
             <CatFloat name="m_illuminate" value="0.96" />
             <CatBool name="m_enable" value="False" />
             <String name="m_guid" value="0d7c47ec-554d-4634-9e98-dd67435141e3" />
@@ -139,7 +139,7 @@
     </Catsland.Core.GameObject>
     <Catsland.Core.GameObject>
       <String name="m_name" value="player" />
-      <CatVector3 name="m_position" value="-5.944949,-0.07238115,-5.960464E-08" />
+      <CatVector3 name="m_position" value="7.231272,-0.2128051,-5.960464E-08" />
       <CatQuaternion name="m_rotation" value="0,0,0,1" />
       <CatVector3 name="m_scale" value="1,1,1" />
       <IDictionary name="m_components" typeinfo="System.Collections.Generic.Dictionary`2[System.String,Catsland.Core.CatComponent]">
@@ -187,10 +187,10 @@
               <CatFloat name="m_runAcc" value="0.2" />
               <CatFloat name="m_breakAcc" value="0.4" />
               <CatFloat name="m_runSpeed" value="1.6" />
-              <CatFloat name="m_jumpForce" value="60" />
-              <CatFloat name="m_wallJumpForce" value="50" />
-              <CatFloat name="m_airBiasForce" value="1" />
-              <CatFloat name="m_jumpLiftForce" value="1" />
+              <CatFloat name="m_jumpForce" value="64" />
+              <CatFloat name="m_wallJumpForce" value="40" />
+              <CatFloat name="m_airBiasOffset" value="0.2" />
+              <CatFloat name="m_jumpLiftForce" value="56" />
               <CatFloat name="m_stealthSpeed" value="0.4" />
               <String name="m_guid" value="0aacbd9a-9f10-4f39-bb32-56bc0755d2e2" />
             </Catsland.Plugin.BasicPlugin.CatController>
@@ -482,7 +482,7 @@
     </Catsland.Core.GameObject>
     <Catsland.Core.GameObject>
       <String name="m_name" value="ground" />
-      <CatVector3 name="m_position" value="7.831746,0.355639,-1.192093E-07" />
+      <CatVector3 name="m_position" value="7.837946,0.3565871,-1.192093E-07" />
       <CatQuaternion name="m_rotation" value="0,0,0,1" />
       <CatVector3 name="m_scale" value="1,1,1" />
       <IDictionary name="m_components" typeinfo="System.Collections.Generic.Dictionary`2[System.String,Catsland.Core.CatComponent]">
@@ -773,7 +773,7 @@
           </Key>
           <Value>
             <Catsland.Plugin.BasicPlugin.QuadRender name="">
-              <CatVector2 name="m_size" value="0.1,0.1" />
+              <CatVector2 name="m_size" value="0.05,0.1" />
               <CatVector2 name="m_offset" value="0,0" />
               <String name="m_guid" value="74d848c7-448c-41ed-bb70-d45dc7422926" />
             </Catsland.Plugin.BasicPlugin.QuadRender>
@@ -785,7 +785,7 @@
           </Key>
           <Value>
             <Catsland.Plugin.BasicPlugin.RectangleCollider name="">
-              <CatVector2 name="m_size" value="0.1,0.1" />
+              <CatVector2 name="m_size" value="0.06,0.1" />
               <CatInteger name="m_collideType" value="2" />
               <CatInteger name="m_bodyType" value="2" />
               <CatFloat name="m_mass" value="0.5" />

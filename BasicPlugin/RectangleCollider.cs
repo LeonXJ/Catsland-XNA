@@ -53,6 +53,7 @@ namespace Catsland.Plugin.BasicPlugin {
             }
         }
 
+
 #endregion
 
         public RectangleCollider() 
@@ -69,7 +70,7 @@ namespace Catsland.Plugin.BasicPlugin {
             return BodyFactory.CreateRectangle(_physicsSystem.GetWorld(),
                                                m_size.X,
                                                m_size.Y,
-                                               m_mass, Tag.Platform);
+                                               m_mass, new Tag(m_collideType));
         }
 
         public override void Initialize(Scene scene) {

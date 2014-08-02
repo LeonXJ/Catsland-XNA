@@ -6,10 +6,10 @@
     <ZBound min="0" max="4" />
   </SceneBasic>
   <Catsland.Core.Camera>
-    <CatVector3 name="m_targetPosition" value="6.100045,0.7000001,0" />
+    <CatVector3 name="m_targetPosition" value="6.30005,-0.03999949,0" />
     <CatFloat name="m_cameraDistance" value="2" />
     <CatVector3 name="m_cameraPRY" value="0,0,0" />
-    <CatVector2 name="m_viewSize" value="7.058884,3.971217" />
+    <CatVector2 name="m_viewSize" value="8.302382,3.970711" />
     <CatFloat name="m_fieldOfView" value="90" />
     <CatVector2 name="m_clipDistance" value="0.1,100" />
     <String name="m_guid" value="6f33ee66-4458-499d-a32c-c0cb506a83d5" />
@@ -150,11 +150,11 @@
           <Value>
             <Catsland.Plugin.BasicPlugin.ModelComponent name="">
               <String name="m_guid" value="8b50ff45-6472-4838-ac92-9966a3136df6" />
-              <Post_ModelName value="ground" />
+              <Post_ModelName value="juan" />
               <Material name="BasicEffect1">
                 <Parameter name="Alpha" type="Catsland.Core.CatFloat" value="1" />
-                <Parameter name="DiffuseMap" type="Catsland.Core.CatTexture" value="wonder_block" />
-                <Parameter name="BiasColor" type="Catsland.Core.CatColor" value="0.7529412,0.7529412,0.7529412,0" />
+                <Parameter name="DiffuseMap" type="Catsland.Core.CatTexture" value="juan" />
+                <Parameter name="BiasColor" type="Catsland.Core.CatColor" value="0,0,0,0" />
               </Material>
             </Catsland.Plugin.BasicPlugin.ModelComponent>
           </Value>
@@ -165,7 +165,7 @@
           </Key>
           <Value>
             <Catsland.Plugin.BasicPlugin.QuadRender name="">
-              <CatVector2 name="m_size" value="0.3,0.6" />
+              <CatVector2 name="m_size" value="0.7,0.7" />
               <CatVector2 name="m_offset" value="0,0" />
               <String name="m_guid" value="16f37683-faa1-492b-b49b-e86d3fe2e152" />
             </Catsland.Plugin.BasicPlugin.QuadRender>
@@ -193,6 +193,12 @@
               <CatFloat name="m_airBiasOffset" value="0.2" />
               <CatFloat name="m_jumpLiftForce" value="56" />
               <CatFloat name="m_stealthSpeed" value="0.4" />
+              <String name="m_aniStand" value="stand" />
+              <String name="m_aniWalk" value="run" />
+              <String name="m_aniRun" value="run" />
+              <String name="m_aniJumpUp" value="jumpup" />
+              <String name="m_aniFall" value="fall" />
+              <String name="m_aniAttach" value="attach" />
               <String name="m_guid" value="0aacbd9a-9f10-4f39-bb32-56bc0755d2e2" />
             </Catsland.Plugin.BasicPlugin.CatController>
           </Value>
@@ -242,6 +248,19 @@
             <Catsland.Plugin.BasicPlugin.GamepadInput name="">
               <String name="m_guid" value="089c2524-c48b-4326-959d-2cb695c0d39c" />
             </Catsland.Plugin.BasicPlugin.GamepadInput>
+          </Value>
+        </KeyValue>
+        <KeyValue>
+          <Key>
+            <String name="" value="Catsland.Plugin.BasicPlugin.Animator" />
+          </Key>
+          <Value>
+            <Catsland.Plugin.BasicPlugin.Animator name="">
+              <CatBool name="m_isPlaying" value="True" />
+              <CatInteger name="m_millionSecondPreFrame" value="100" />
+              <String name="m_currentAnimationName" value="stand" />
+              <String name="m_guid" value="9ac2b521-be1a-46ff-b84a-c69f65cf3001" />
+            </Catsland.Plugin.BasicPlugin.Animator>
           </Value>
         </KeyValue>
       </IDictionary>

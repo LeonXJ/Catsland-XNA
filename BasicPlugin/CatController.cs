@@ -223,6 +223,51 @@ namespace Catsland.Plugin.BasicPlugin {
             }
         }
 
+        public int m_toward = 1; // 1 for right, -1 for left
+
+        // animation
+        [SerialAttribute]
+        public string m_aniStand = "stand";
+        public string AniStand {
+            set { m_aniStand = value; }
+            get { return m_aniStand; }
+        }
+
+        [SerialAttribute]
+        public string m_aniWalk = "walk";
+        public string AniWalk {
+            set { m_aniWalk = value; }
+            get { return m_aniWalk; }
+        }
+
+        [SerialAttribute]
+        public string m_aniRun = "run";
+        public string AniRun {
+            set { m_aniRun = value; }
+            get { return m_aniRun; }
+        }
+
+        [SerialAttribute]
+        public string m_aniJumpUp = "jump";
+        public string AniJumpUp {
+            set { m_aniJumpUp = value; }
+            get { return m_aniJumpUp; }
+        }
+
+        [SerialAttribute]
+        public string m_aniFall = "fall";
+        public string AniFall {
+            set { m_aniFall = value; }
+            get { return m_aniFall; }
+        }
+
+        [SerialAttribute]
+        public string m_aniAttach = "attach";
+        public string AniAttach {
+            set { m_aniAttach = value; }
+            get { return m_aniAttach; }
+        }
+
         public bool m_wantLeft = false;
         public bool m_wantRight = false;
         public bool m_wantUp = false;
@@ -293,11 +338,19 @@ namespace Catsland.Plugin.BasicPlugin {
             MoveBodyToGameObject();
         }
 
-        protected void UpdateAnimation(){
-            // TODO
+        protected void UpdateAnimation(int _timeLastFrame){
+
+            if (m_toward > 0) {
+                m_gameObject.Rotation = new Vector3(0.0f, 0.0f, 0.0f);
+            }
+            else {
+                m_gameObject.Rotation = new Vector3(0.0f, 180.0f, 0.0f);
+            }
+
+            m_currentState.UpdateAnimation(this, 
+                m_gameObject.GetComponent(typeof(Animator).ToString()) as Animator,
+                _timeLastFrame);
         }
-
-
 
         protected void UpdateSensors(){
             // onGroundSensor
@@ -351,7 +404,7 @@ namespace Catsland.Plugin.BasicPlugin {
             MoveGameObjectToBody();
             /*UpdateSensors();*/
             DoControll(timeLastFrame);
-            UpdateAnimation();
+            UpdateAnimation(timeLastFrame);
         }
 
         protected void DoControll(int _timeLastFrame){
@@ -549,6 +602,7 @@ namespace Catsland.Plugin.BasicPlugin {
 
     public interface ControllState {
         void Do(CatController _controller, int _delta);
+        void UpdateAnimation(CatController _controller, Animator _animator, int _delta);
     }
 
     class StateStandWalk : ControllState {
@@ -579,6 +633,9 @@ namespace Catsland.Plugin.BasicPlugin {
                     if (_controller.m_wantRight) {
                         hor_vel += 1.0f;
                     }
+                    if (hor_vel * hor_vel > 0.0f) {
+                        _controller.m_toward = (int)hor_vel;
+                    }
 
                     float x_vel = _controller.m_body.LinearVelocity.X;
                     if (_controller.m_wantRun ||
@@ -596,6 +653,17 @@ namespace Catsland.Plugin.BasicPlugin {
             }
             else {
                 _controller.CurrentState = StateFall.GetState();
+            }
+        }
+
+        public void UpdateAnimation(CatController _controller, Animator _animator, int _timeLastFrame) {
+
+            float hor_vel = _controller.m_body.LinearVelocity.X;
+            if (hor_vel * hor_vel > 0.05f) {
+                _animator.PlayAnimation(_controller.m_aniWalk);
+            }
+            else {
+                _animator.PlayAnimation(_controller.m_aniStand);
             }
         }
     }
@@ -627,6 +695,9 @@ namespace Catsland.Plugin.BasicPlugin {
                     if(_controller.m_wantRight){
                         hor_desired_vel += 1.0f;
                     }
+                    if (hor_desired_vel * hor_desired_vel > 0.0f) {
+                        _controller.m_toward = (int)hor_desired_vel;
+                    }
                     if (hor_v * hor_desired_vel > 0.0 || hor_v * hor_v < 0.01f){
                         // same direction
                         // want run, acc or keep speed
@@ -656,6 +727,12 @@ namespace Catsland.Plugin.BasicPlugin {
                 _controller.CurrentState = StateFall.GetState();
             }
         }
+
+        public void UpdateAnimation(CatController _controller, Animator _animator, int _timeLastFrame) {
+
+            _animator.PlayAnimation(_controller.m_aniRun);
+        }
+
     }
 
     class StateBreak : ControllState {
@@ -682,6 +759,12 @@ namespace Catsland.Plugin.BasicPlugin {
                 _controller.CurrentState = StateFall.GetState();
             }
         }
+
+        public void UpdateAnimation(CatController _controller, Animator _animator, int _timeLastFrame) {
+
+            _animator.PlayAnimation(_controller.m_aniStand);
+            // TODO: should be breaking animation
+        }
     }
 
     class StateJumpUp : ControllState {
@@ -700,9 +783,11 @@ namespace Catsland.Plugin.BasicPlugin {
             }
             if (_controller.IsRightAttachable() && _controller.m_wantRight) {
                 _controller.CurrentState = StateAttach.GetState();
+                _controller.m_toward = 1;
             }
             else if (_controller.IsLeftAttachable() && _controller.m_wantLeft) {
                 _controller.CurrentState = StateAttach.GetState();
+                _controller.m_toward = -1;
             }
             float ver_force = 0.0f;
             if (_controller.m_wantLift) {
@@ -719,7 +804,13 @@ namespace Catsland.Plugin.BasicPlugin {
             if (hor_force * hor_force > 0.1f) {
                 _controller.m_body.Position += new Vector2(hor_force * _controller.AirBiasOffset, 0.0f) 
                     * _delta / 1000.0f;
+                _controller.m_toward = (int)hor_force;
             }
+        }
+
+        public void UpdateAnimation(CatController _controller, Animator _animator, int _timeLastFrame) {
+
+            _animator.CheckPlayAnimation(_controller.m_aniJumpUp);
         }
     }
 
@@ -751,10 +842,12 @@ namespace Catsland.Plugin.BasicPlugin {
             if (_controller.IsRightAttachable() && _controller.m_wantRight) {
                 RestoreIgnoreBody(_controller.m_body);
                 _controller.CurrentState = StateAttach.GetState();
+                _controller.m_toward = 1;
             }
             else if (_controller.IsLeftAttachable() && _controller.m_wantLeft) {
                 RestoreIgnoreBody(_controller.m_body);
                 _controller.CurrentState = StateAttach.GetState();
+                _controller.m_toward = -1;
             }
             // touch ground
             if (_controller.IsOnGround()) {
@@ -771,8 +864,14 @@ namespace Catsland.Plugin.BasicPlugin {
             }
             if (hor_force * hor_force > 0.1f) {
                 _controller.m_body.Position += new Vector2(hor_force * _controller.AirBiasOffset, 0.0f) 
-                    * _delta / 1000.0f; 
+                    * _delta / 1000.0f;
+                _controller.m_toward = (int)hor_force;
             }
+        }
+
+        public void UpdateAnimation(CatController _controller, Animator _animator, int _timeLastFrame) {
+
+            _animator.CheckPlayAnimation(_controller.m_aniFall);
         }
     }
 
@@ -819,6 +918,11 @@ namespace Catsland.Plugin.BasicPlugin {
                 _controller.m_body.IgnoreGravity = false;
             }
         }
+
+        public void UpdateAnimation(CatController _controller, Animator _animator, int _timeLastFrame) {
+
+            _animator.CheckPlayAnimation(_controller.m_aniAttach);
+        }
     }
 
     class StateStealth : ControllState {
@@ -846,6 +950,9 @@ namespace Catsland.Plugin.BasicPlugin {
                     if (_controller.m_wantRight) {
                         hor_force += 1.0f;
                     }
+                    if (hor_force * hor_force > 0.0f) {
+                        _controller.m_toward = (int)hor_force;
+                    }
                     hor_force *= _controller.StealthSpeed;
                     float impluse = (hor_force - _controller.m_body.LinearVelocity.X) *
                         _controller.m_body.Mass;
@@ -854,6 +961,12 @@ namespace Catsland.Plugin.BasicPlugin {
             else {
                 _controller.TryExitStealth();
             }
+        }
+
+        public void UpdateAnimation(CatController _controller, Animator _animator, int _timeLastFrame) {
+
+            _animator.CheckPlayAnimation(_controller.m_aniStand);
+            // TODO: should be stealth
         }
     }
 }

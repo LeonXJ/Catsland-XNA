@@ -106,6 +106,21 @@
       <Output>D:\workspace\catsland_git\Demo\CatControl\asset\resource\effect\PointLight.xnb</Output>
       <Time>2014-06-20T11:06:22.4404855+08:00</Time>
     </Item>
+    <Item>
+      <Source>image\juan.png</Source>
+      <Name>image\juan</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Parameters>
+        <Data Key="ColorKeyEnabled">False</Data>
+        <Data Key="PremultiplyAlpha">False</Data>
+        <Data Key="TextureFormat">Color</Data>
+        <Data Key="GenerateMipmaps">True</Data>
+      </Parameters>
+      <Options>None</Options>
+      <Output>D:\workspace\catsland_git\Demo\CatControl\asset\resource\image\juan.xnb</Output>
+      <Time>2014-08-02T15:36:44.6168451+08:00</Time>
+    </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
       <TargetPlatform>Windows</TargetPlatform>

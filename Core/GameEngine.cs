@@ -443,10 +443,11 @@ namespace Catsland.Core {
                 _graphics.PreferredBackBufferHeight = size.Y;
                 _graphics.ApplyChanges();
                 // size of view coordinates
-                float viewWidth = 2.0f;
-                float viewHeight = size.Y * viewWidth / size.X;
+                
                 // set camera matrix
                 if (Mgr<Camera>.Singleton != null) {
+                    float viewWidth = Mgr<Camera>.Singleton.ViewSize.X;
+                    float viewHeight = size.Y * viewWidth / size.X;
                     Mgr<Camera>.Singleton.ViewSize = new Vector2(viewWidth, viewHeight);  
                 }
                 Mgr<Scene>.Singleton.PostProcessManager.UpdateBuffers();

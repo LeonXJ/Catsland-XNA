@@ -80,6 +80,17 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="image\juan_detail.png">
+      <Name>juan_detail</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <ProcessorParameters_ColorKeyEnabled>False</ProcessorParameters_ColorKeyEnabled>
+      <ProcessorParameters_PremultiplyAlpha>False</ProcessorParameters_PremultiplyAlpha>
+      <ProcessorParameters_TextureFormat>Color</ProcessorParameters_TextureFormat>
+      <ProcessorParameters_GenerateMipmaps>True</ProcessorParameters_GenerateMipmaps>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
     <Compile Include="image\wonder_block.png">
       <Name>wonder_block</Name>
       <Importer>TextureImporter</Importer>

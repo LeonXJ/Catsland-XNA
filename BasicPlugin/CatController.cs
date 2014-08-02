@@ -660,10 +660,10 @@ namespace Catsland.Plugin.BasicPlugin {
 
             float hor_vel = _controller.m_body.LinearVelocity.X;
             if (hor_vel * hor_vel > 0.05f) {
-                _animator.PlayAnimation(_controller.m_aniWalk);
+                _animator.CheckPlayAnimation(_controller.m_aniWalk);
             }
             else {
-                _animator.PlayAnimation(_controller.m_aniStand);
+                _animator.CheckPlayAnimation(_controller.m_aniStand);
             }
         }
     }
@@ -730,7 +730,7 @@ namespace Catsland.Plugin.BasicPlugin {
 
         public void UpdateAnimation(CatController _controller, Animator _animator, int _timeLastFrame) {
 
-            _animator.PlayAnimation(_controller.m_aniRun);
+            _animator.CheckPlayAnimation(_controller.m_aniRun);
         }
 
     }
@@ -762,7 +762,7 @@ namespace Catsland.Plugin.BasicPlugin {
 
         public void UpdateAnimation(CatController _controller, Animator _animator, int _timeLastFrame) {
 
-            _animator.PlayAnimation(_controller.m_aniStand);
+            _animator.CheckPlayAnimation(_controller.m_aniStand);
             // TODO: should be breaking animation
         }
     }

@@ -351,7 +351,7 @@ namespace Catsland.Core {
             
             // draw debug info
             if (_gameEngineMode == GameEngineMode.MapEditor 
-                //&& _gameInEditorMode == InEditorMode.Editing 
+                && _gameInEditorMode == InEditorMode.Editing 
                 && debugDrawableList != null) {
 
                 DepthStencilState dss = new DepthStencilState();

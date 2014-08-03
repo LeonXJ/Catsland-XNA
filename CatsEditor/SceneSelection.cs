@@ -20,6 +20,7 @@ namespace CatsEditor {
         }
 
         public void InitializeData(CatProject _project) {
+            _project.SynchronizeScene();
             project = _project;
             // scene for scene files
             sceneList.Items.Clear();
@@ -48,7 +49,7 @@ namespace CatsEditor {
             // find valid file name
             string sceneName = "UntitleScene";
             int index = 1;
-            while (File.Exists(project.GetSceneFileAddress(sceneName + index))) {
+            while (File.Exists(project.GetResourceSceneFileAddress(sceneName + index))) {
                 ++index;
             }
             sceneName = sceneName + index;
@@ -56,7 +57,7 @@ namespace CatsEditor {
             Scene newScene = Scene.CreateEmptyScene();
             newScene._sceneName = sceneName;
             // save scene
-            newScene.SaveScene(project.GetSceneFileAddress(sceneName));
+            newScene.SaveScene(project.GetResourceSceneFileAddress(sceneName));
             // update list
             InitializeData(project);
         }
@@ -87,7 +88,7 @@ namespace CatsEditor {
                         }
                     }
                     // remove file
-                    File.Delete(project.GetSceneFileAddress(selectionSceneName));
+                    File.Delete(project.GetResourceSceneFileAddress(selectionSceneName));
                     // set current scene and startup scene if removed it
                     if (selectionSceneName == project.currentSceneName || selectionSceneName == project.startupSceneName) {
                         // find an existing scene file
@@ -167,8 +168,8 @@ namespace CatsEditor {
                         project.SaveProject(project.GetProjectXMLAddress());
                     }
                     // update file
-                    File.Move(project.GetSceneFileAddress(selectionSceneName),
-                        project.GetSceneFileAddress(newName));
+                    File.Move(project.GetResourceSceneFileAddress(selectionSceneName),
+                        project.GetResourceSceneFileAddress(newName));
                 }
                 // update list
                 InitializeData(project);

@@ -870,7 +870,6 @@ namespace Catsland.Plugin.BasicPlugin {
         }
 
         public void UpdateAnimation(CatController _controller, Animator _animator, int _timeLastFrame) {
-
             _animator.CheckPlayAnimation(_controller.m_aniFall);
         }
     }

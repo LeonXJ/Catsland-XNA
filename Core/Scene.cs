@@ -328,8 +328,20 @@ namespace Catsland.Core {
             // empty list
             newScene._gameObjectList = new GameObjectList();
             newScene.m_postProcessManager = new PostProcessManager();
-
+            //newScene.m_postProcessManager.AddPostProcess()
+            CreatePostProcess(newScene);
             return newScene;
+        }
+
+        static private void CreatePostProcess(Scene _newScene) {
+            _newScene.PostProcessManager.AddPostProcess(typeof(PostProcessColorAdjustment).ToString(),
+               new PostProcessColorAdjustment());
+            _newScene.PostProcessManager.AddPostProcess(typeof(PostProcessBloom).ToString(),
+                new PostProcessBloom());
+            _newScene.PostProcessManager.AddPostProcess(typeof(PostProcessMotionBlur).ToString(),
+                new PostProcessMotionBlur());
+            _newScene.PostProcessManager.AddPostProcess(typeof(PostProcessVignette).ToString(),
+                new PostProcessVignette());
         }
 
         /**

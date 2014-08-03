@@ -241,6 +241,10 @@ namespace Catsland.Core {
             return projectRoot + "asset/" + RESOURCE_DIR + "/scene/" + _filename_no_xml + ".scene";
         }
 
+        public string GetResourceSceneFileAddress(string _filename_no_xml) {
+            return projectRoot + RESOURCE_DIR + "/scene/" + _filename_no_xml + ".scene"; 
+        }
+
         public string GetProjectXMLAddress() {
             return projectRoot + "/project.xml";
         }
@@ -313,7 +317,7 @@ namespace Catsland.Core {
             outputPathNode.InnerText = projectRoot + "asset";
 
             AddTextureNodes(projectRoot + CatProject.RESOURCE_DIR + '/' + "image/", nodeProject, template, nsMgr);
-            
+
             // save to project root
             template.Save(projectRoot + '/' + CatProject.RESOURCE_DIR + '/' + CatProject.RESOURCE_DIR + ".proj");
 
@@ -322,7 +326,18 @@ namespace Catsland.Core {
             msbuild.StartInfo.FileName = Environment.ExpandEnvironmentVariables("%SystemRoot%") + @"\microsoft.NET\Framework\v4.0.30319\msbuild.exe";
             msbuild.StartInfo.Arguments = projectRoot + CatProject.RESOURCE_DIR + '/' + CatProject.RESOURCE_DIR + ".proj";
             msbuild.Start();
-            msbuild.WaitForExit();
+        }
+
+        public void SynchronizeScene() {
+            // delete files in scene in asset folder
+            String assetSceneDir = projectRoot + '/' + ASSET_DIR + '/' + RESOURCE_DIR + "/scene";
+            foreach(String file in Directory.GetFiles(assetSceneDir)){
+                File.Delete(file);
+            }
+            // copy from resource to files
+            foreach (String file in Directory.GetFiles(projectRoot + '/' + RESOURCE_DIR + "/scene")) {
+                File.Copy(file, assetSceneDir + '/' + Path.GetFileName(file));
+            }
         }
 
         public void PublishProject(string _path) {

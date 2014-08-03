@@ -37,7 +37,7 @@ namespace Catsland.Core {
         public GameEngineMode _gameEngineMode;
         public enum GameEngineMode {
             InGame,
-            MapEditor
+            MapEditor,
         };
         public InEditorMode _gameInEditorMode;
         public enum InEditorMode {
@@ -64,10 +64,13 @@ namespace Catsland.Core {
             }
         }
 
+        private UDPDebugger m_updDebugger;
+
         public GameEngine(IEditor editor = null) {
             _graphics = new GraphicsDeviceManager(this);
             //Content.RootDirectory = "Content";
-
+            m_updDebugger = new UDPDebugger();
+            m_updDebugger.Start();
             // set gameEngineMode
             _gameEngineMode = GameEngineMode.InGame;
             if (editor != null) {
@@ -224,6 +227,14 @@ namespace Catsland.Core {
             // this is the right point to release running scene
             int timeInMS = gameTime.ElapsedGameTime.Milliseconds;
             int skewedTimeInMS = (int)(m_timeScale * timeInMS);
+
+            // debugger
+            if (m_updDebugger != null) {
+                string message = m_updDebugger.GetMessage();
+                if (message.Length > 0) {
+                    Console.Out.WriteLine("Processing message: " + message);
+                }
+            }
             
             if (delayReleaseScene) {
                 Mgr<Scene>.Singleton.Unload();
@@ -406,6 +417,14 @@ namespace Catsland.Core {
          * */
         protected override void UnloadContent() {
             // TODO: Unload any non ContentManager content here
+            
+        }
+
+        protected override void EndRun() {
+            base.EndRun();
+            if (m_updDebugger != null) {
+                m_updDebugger.Stop();
+            }
         }
 
         /**

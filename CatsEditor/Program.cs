@@ -10,21 +10,21 @@ namespace Catsland.Editor
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
-		///
-		[STAThread]
+        ///
+        [STAThread]
         static void Main(string[] args)
         {
             Application.EnableVisualStyles();
            
             Application.SetCompatibleTextRenderingDefault(false);
 
-			MapEditor mapEditor = new MapEditor();
-			mapEditor.Show();
-			using (GameEngine game = new GameEngine(mapEditor))
-			{
-				mapEditor.SetGameEngine(game);	
-				game.Run();
-			}  
+            MapEditor mapEditor = new MapEditor();
+            mapEditor.Show();
+            using (GameEngine game = new GameEngine(mapEditor))
+            {
+                mapEditor.SetGameEngine(game);	
+                game.Run();
+            }  
         }
     }
 #endif

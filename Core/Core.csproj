@@ -127,6 +127,7 @@
     <Compile Include="BasicEffectMaterial.cs" />
     <Compile Include="BoundingBox.cs" />
     <Compile Include="Camera.cs" />
+    <Compile Include="Command\ExitCommend.cs" />
     <Compile Include="DataType\CatBool.cs" />
     <Compile Include="DataType\CatColor.cs" />
     <Compile Include="CatComponent.cs" />
@@ -134,6 +135,9 @@
     <Compile Include="DataType\CatPoint.cs" />
     <Compile Include="DataType\CatQuaternion.cs" />
     <Compile Include="Animation\IMoiveClip.cs" />
+    <Compile Include="Debugging\CatConsole.cs" />
+    <Compile Include="Debugging\ConsolePanel.cs" />
+    <Compile Include="Debugging\UDPConsolePanel.cs" />
     <Compile Include="DebugShape.cs" />
     <Compile Include="Math\CatMath.cs" />
     <Compile Include="Animation\MotionDelegatePack.cs" />
@@ -254,6 +258,7 @@
   <ItemGroup>
     <None Include="ClassDiagram1.cd" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\Microsoft.Xna.GameStudio.targets" />
   <!--

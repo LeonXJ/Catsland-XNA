@@ -223,6 +223,8 @@ namespace Catsland.Core {
             // load plugins
             newProject.typeManager = new TypeManager();
             newProject.typeManager.Load_Plugins(newProject.projectRoot + PLUGIN_DIR + '/');
+            newProject.typeManager.LoadConsoleCommands(newProject.projectRoot + PLUGIN_DIR + '/');
+            Mgr<GameEngine>.Singleton.CatConsole.SetTypeManager(newProject.typeManager);
             if (Mgr<GameEngine>.Singleton._gameEngineMode == GameEngine.GameEngineMode.MapEditor) {
                 newProject.typeManager.Load_EditorScripts(newProject.projectRoot + PLUGIN_DIR + '/');
             }

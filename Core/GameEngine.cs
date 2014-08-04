@@ -34,6 +34,14 @@ namespace Catsland.Core {
         bool delayReleaseScene = false;
         // just set for UI testing
         DialogBox _dialogBox;
+
+        private CatConsole m_console;
+        public CatConsole CatConsole {
+            get {
+                return m_console;
+            }
+        }
+
         // game mode
         public GameEngineMode _gameEngineMode;
         public enum GameEngineMode {
@@ -67,11 +75,19 @@ namespace Catsland.Core {
 
         private UDPDebugger m_updDebugger;
 
+        UDPConsolePanel m_updConsolePanel;
+
         public GameEngine(IEditor editor = null) {
             _graphics = new GraphicsDeviceManager(this);
             //Content.RootDirectory = "Content";
-            m_updDebugger = new UDPDebugger();
-            m_updDebugger.Start();
+            m_console = new CatConsole();
+
+//             m_updDebugger = new UDPDebugger();
+//             m_updDebugger.Start();
+
+            m_updConsolePanel = new UDPConsolePanel(m_console);
+            m_updConsolePanel.Start();
+            
             // set gameEngineMode
             _gameEngineMode = GameEngineMode.InGame;
             if (editor != null) {
@@ -241,6 +257,14 @@ namespace Catsland.Core {
             // this is the right point to release running scene
             int timeInMS = gameTime.ElapsedGameTime.Milliseconds;
             int skewedTimeInMS = (int)(m_timeScale * timeInMS);
+
+            // console
+            if (m_console != null) {
+                m_console.Update();
+            }
+            if (m_updConsolePanel != null) {
+                m_updConsolePanel.Update();
+            }
 
             // debugger
             if (m_updDebugger != null) {
@@ -445,6 +469,9 @@ namespace Catsland.Core {
             base.EndRun();
             if (m_updDebugger != null) {
                 m_updDebugger.Stop();
+            }
+            if (m_updConsolePanel != null) {
+                m_updConsolePanel.Stop();
             }
         }
 

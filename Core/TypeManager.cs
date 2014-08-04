@@ -27,6 +27,11 @@ namespace Catsland.Core {
             get { return editorScripts; }
         }
 
+        Dictionary<string, Type> consoleCommands = new Dictionary<string, Type>();
+        public Dictionary<string, Type> ConsoleCommends {
+            get { return consoleCommands; }  
+        }
+
         // TODO: add more dictionary here
         /**
          * @brief get the type of catComponent. object can be created from type.
@@ -111,5 +116,15 @@ namespace Catsland.Core {
                 }
             }
         }
+
+        public void LoadConsoleCommands(string libPath) {
+            string[] files = Directory.GetFiles(libPath, "*.dll");
+            foreach (string file in files) {
+                Assembly assembly = Assembly.LoadFrom(file);
+                CatConsole.SearchInAssembly(assembly, consoleCommands);
+            }
+        }
+
+
     }
 }

@@ -1476,6 +1476,7 @@ namespace Catsland.Editor {
 
         private void rescanPluginToolStripMenuItem_Click(object sender, EventArgs e) {
             Mgr<TypeManager>.Singleton.Load_Plugins(curProject.projectRoot + CatProject.PLUGIN_DIR + '/');
+            Mgr<TypeManager>.Singleton.LoadConsoleCommands(curProject.projectRoot + CatProject.PLUGIN_DIR + '/');
             Mgr<TypeManager>.Singleton.Load_EditorScripts(curProject.projectRoot + CatProject.PLUGIN_DIR + '/');
             updateEditorScriptMenu();
             updateInsertComponentMenu();

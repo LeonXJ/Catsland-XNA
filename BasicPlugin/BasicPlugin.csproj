@@ -135,6 +135,7 @@
     <Compile Include="Shadow\SpotLight.cs" />
     <Compile Include="SoundEmitter.cs" />
     <Compile Include="SubLocation.cs" />
+    <Compile Include="TestEchoCommand.cs" />
     <Compile Include="VelocityEstimator.cs" />
     <Compile Include="SoundEmitterTester.cs" />
   </ItemGroup>

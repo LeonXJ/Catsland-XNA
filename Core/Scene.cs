@@ -301,7 +301,7 @@ namespace Catsland.Core {
          * 
          * @result an empty scene
          * */
-        public static Scene CreateEmptyScene() {
+        public static Scene CreateEmptyScene(CatProject _project) {
             Scene newScene = new Scene();
             // basic
             newScene.setYAngle(45.0f);
@@ -313,7 +313,7 @@ namespace Catsland.Core {
             newScene._renderList = new RenderList();
             newScene._colliderList = new ColliderList();
             newScene.m_physicsSystem = new PhysicsSystem();
-            newScene.m_shadowSystem = new ShadowSystem();
+            newScene.m_shadowSystem = new ShadowSystem(_project);
             newScene._renderList.SetShadowRender(newScene.m_shadowSystem);
             newScene._uiRenderer = new UIRenderer();
             newScene.m_physicsSystem.Initialize();
@@ -364,7 +364,7 @@ namespace Catsland.Core {
             newScene._renderList = new RenderList();
             newScene._colliderList = new ColliderList();
             newScene.m_physicsSystem = new PhysicsSystem();
-            newScene.m_shadowSystem = new ShadowSystem();
+            newScene.m_shadowSystem = new ShadowSystem(Mgr<CatProject>.Singleton);
             newScene._renderList.SetShadowRender(newScene.m_shadowSystem);
             newScene._uiRenderer = new UIRenderer();
             newScene.m_physicsSystem.Initialize();

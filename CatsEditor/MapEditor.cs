@@ -25,7 +25,7 @@ namespace Catsland.Editor {
         public GameEngine m_gameEngine;
 
         bool m_observingModelReady;
-
+        bool m_inTest;
         AnimationClip.PlayMode[] PlayModeLUT;
 
         CatModel m_observingModel;
@@ -52,7 +52,8 @@ namespace Catsland.Editor {
         MovingMode curMovingMode = MovingMode.XY;
         float observingXYheight = 0.0f;
 
-        public MapEditor() {
+        public MapEditor(bool _inTest = false) {
+            m_inTest = _inTest;
             InitializeComponent();
             InitializeEditor();
         }
@@ -141,10 +142,14 @@ namespace Catsland.Editor {
 
             // compound gameObject menu
             //updateEditorScriptMenu();
-
-            WelcomeDialog welcomeDialog = new WelcomeDialog(this);
-            welcomeDialog.ShowDialog(this);
-
+            if (!m_inTest) {
+                WelcomeDialog welcomeDialog = new WelcomeDialog(this);
+                welcomeDialog.ShowDialog(this);
+            }
+            else {
+                CatProject newProject = CatProject.CreateEmptyProject("defaultProject", System.AppDomain.CurrentDomain.BaseDirectory, m_gameEngine);
+                ExecuteCommend(new OpenProjectCommand(newProject.GetProjectXMLAddress()));
+            }
         }
 
         public void updateInsertComponentMenu() {

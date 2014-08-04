@@ -14,15 +14,24 @@ namespace Catsland.Editor
         [STAThread]
         static void Main(string[] args)
         {
+            Entrance.Run(args);
+        }
+    }
+
+    public class Entrance{
+        static public void Run(string[] args) {
             Application.EnableVisualStyles();
-           
             Application.SetCompatibleTextRenderingDefault(false);
 
-            MapEditor mapEditor = new MapEditor();
+            bool inTest = false;
+            if (args.Length > 0 && args[0] == "test") {
+                inTest = true;
+            }
+
+            MapEditor mapEditor = new MapEditor(inTest);
             mapEditor.Show();
-            using (GameEngine game = new GameEngine(mapEditor))
-            {
-                mapEditor.SetGameEngine(game);	
+            using (GameEngine game = new GameEngine(mapEditor)) {
+                mapEditor.SetGameEngine(game);
                 game.Run();
             }  
         }

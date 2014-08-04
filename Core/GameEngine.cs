@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using System.Xml;
+using System.Reflection;
 
 /**
  * @file the core of CatsEngine
@@ -215,6 +216,19 @@ namespace Catsland.Core {
 
         }
 
+        private void LoadAndRunTestCommend(string _path) {
+            Assembly assembly = Assembly.LoadFrom(_path);
+            Type[] types = assembly.GetTypes();
+            foreach (Type type in types) {
+                Console.WriteLine("- Load test class: " + type.Name);
+                if (type.IsSubclassOf(typeof(TestBase))) {
+                    ConstructorInfo constructorInfo = type.GetConstructor(new Type[0] {});
+                    TestBase testclass = (TestBase)constructorInfo.Invoke(new Object[0] { });
+                    testclass.Run();
+                }
+            }
+        }
+
         /**
          * @brief logical loop
          *
@@ -233,6 +247,12 @@ namespace Catsland.Core {
                 string message = m_updDebugger.GetMessage();
                 if (message.Length > 0) {
                     Console.Out.WriteLine("Processing message: " + message);
+                    if (message == "exit") {
+                        Exit();
+                    }
+                    if(message.StartsWith("run ")){
+                        LoadAndRunTestCommend(message.Substring(4));
+                    } 
                 }
             }
             
@@ -304,7 +324,8 @@ namespace Catsland.Core {
                     gameObjectList.EditorUpdate(skewedTimeInMS);
                 }
                 // shadow system
-                if (Mgr<Scene>.Singleton.m_shadowSystem != null) {
+                if (Mgr<Scene>.Singleton != null &&
+                    Mgr<Scene>.Singleton.m_shadowSystem != null) {
                     Mgr<Scene>.Singleton.m_shadowSystem.Update(skewedTimeInMS);
                 }
             }

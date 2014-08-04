@@ -191,6 +191,7 @@
     <Compile Include="Shadow\ShadowSystem.cs" />
     <Compile Include="Sound\SoundEffectPack.cs" />
     <Compile Include="Sound\SoundManager.cs" />
+    <Compile Include="TestBase.cs" />
     <Compile Include="TypeManager.cs" />
     <Compile Include="RepeatableList.cs" />
     <Compile Include="GameObject.cs" />

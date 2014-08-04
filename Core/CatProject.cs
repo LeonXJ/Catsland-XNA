@@ -105,6 +105,11 @@ namespace Catsland.Core {
             TestCreateDirectory(resourceDirectory + "model");
             TestCreateDirectory(resourceDirectory + "prefab");
             TestCreateDirectory(resourceDirectory + "scene");
+            // copy basic resource
+            string[] fxs = Directory.GetFiles("resource/effect");
+            foreach (String fx in fxs) {
+                File.Copy(fx, resourceDirectory + "effect/" + Path.GetFileName(fx), true);
+            }
             // asset
             string assetDirectory = projectRoot + '/' + ASSET_DIR;
             TestCreateDirectory(assetDirectory);
@@ -122,9 +127,9 @@ namespace Catsland.Core {
 
             // save project files
             newProject.SaveProject(newProject.GetProjectXMLAddress());
-
+            Mgr<CatProject>.Singleton = newProject;
             // create a empty scene
-            Scene scene = Scene.CreateEmptyScene();
+            Scene scene = Scene.CreateEmptyScene(newProject);
             scene.SaveScene(newProject.projectRoot + RESOURCE_DIR + "/scene/" + newProject.currentSceneName + ".scene");
 
             return newProject;

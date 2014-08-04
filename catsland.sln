@@ -39,6 +39,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestConsole", "TestConsole\TestConsole.csproj", "{1361B752-4AD3-4458-9476-E4E88557D6D2}"
+	ProjectSection(ProjectDependencies) = postProject
+		{41C978A2-5207-4B4C-AE18-3020A45A0477} = {41C978A2-5207-4B4C-AE18-3020A45A0477}
+		{A6F66DEB-DDD7-46D1-A741-656859FCA44D} = {A6F66DEB-DDD7-46D1-A741-656859FCA44D}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution

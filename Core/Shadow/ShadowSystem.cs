@@ -48,14 +48,14 @@ namespace Catsland.Core {
 
 #endregion
 
-        public ShadowSystem() {
-            Initialize();
+        public ShadowSystem(CatProject _project) {
+            Initialize(_project);
         }
 
-        public void Initialize() {
+        public void Initialize(CatProject _project) {
             InitFreeList();
             UpdateBuffer();
-            UpdateShadingEffect();
+            UpdateShadingEffect(_project);
         }
 
         private void InitFreeList() {
@@ -75,10 +75,10 @@ namespace Catsland.Core {
             m_lightMap = TestAndCreateColorBuffer(m_lightMap);
         }
 
-        private void UpdateShadingEffect() {
-            m_shadowingEffect = Mgr<CatProject>.Singleton.contentManger.Load<Effect>
+        private void UpdateShadingEffect(CatProject _project) {
+            m_shadowingEffect = _project.contentManger.Load<Effect>
                 ("effect\\Shadowing");
-            m_accumulateEffect = Mgr<CatProject>.Singleton.contentManger.Load<Effect>
+            m_accumulateEffect = _project.contentManger.Load<Effect>
                 ("effect\\AccumulateLight");
         }
 

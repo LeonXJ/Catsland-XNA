@@ -54,7 +54,7 @@ namespace CatsEditor {
             }
             sceneName = sceneName + index;
             // create scene
-            Scene newScene = Scene.CreateEmptyScene();
+            Scene newScene = Scene.CreateEmptyScene(Mgr<CatProject>.Singleton);
             newScene._sceneName = sceneName;
             // save scene
             newScene.SaveScene(project.GetResourceSceneFileAddress(sceneName));

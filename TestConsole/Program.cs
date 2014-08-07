@@ -85,11 +85,6 @@ namespace Catsland.Test {
 
         }
 
-        
-
-
-        
-
         static void RunGameEditorThread() {
             Entrance.Run(null);
         }

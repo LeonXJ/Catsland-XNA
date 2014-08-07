@@ -6,8 +6,9 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Catsland.Core
 {
-	public class DebugTools
-	{
-		public BasicEffect DrawEffect;
-	}
+    // TODO: deprecated
+    public class DebugTools
+    {
+        public BasicEffect DrawEffect;
+    }
 }

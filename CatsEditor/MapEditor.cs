@@ -25,7 +25,7 @@ namespace Catsland.Editor {
         public GameEngine m_gameEngine;
 
         bool m_observingModelReady;
-        bool m_inTest;
+        bool m_boolWelcomeDialog;
         AnimationClip.PlayMode[] PlayModeLUT;
 
         CatModel m_observingModel;
@@ -52,8 +52,8 @@ namespace Catsland.Editor {
         MovingMode curMovingMode = MovingMode.XY;
         float observingXYheight = 0.0f;
 
-        public MapEditor(bool _inTest = false) {
-            m_inTest = _inTest;
+        public MapEditor(bool _showWelcomeDialog = true) {
+            m_boolWelcomeDialog = _showWelcomeDialog;
             InitializeComponent();
             InitializeEditor();
         }
@@ -142,14 +142,13 @@ namespace Catsland.Editor {
 
             // compound gameObject menu
             //updateEditorScriptMenu();
-            if (!m_inTest) {
-                WelcomeDialog welcomeDialog = new WelcomeDialog(this);
-                welcomeDialog.ShowDialog(this);
+            if (m_boolWelcomeDialog) {
+                new WelcomeDialog(this).ShowDialog(this);
             }
-            else {
-                CatProject newProject = CatProject.CreateEmptyProject("defaultProject", System.AppDomain.CurrentDomain.BaseDirectory, m_gameEngine);
-                ExecuteCommend(new OpenProjectCommand(newProject.GetProjectXMLAddress()));
-            }
+//             else {
+//                 CatProject newProject = CatProject.CreateEmptyProject("defaultProject", System.AppDomain.CurrentDomain.BaseDirectory, m_gameEngine);
+//                 ExecuteCommend(new OpenProjectCommand(newProject.GetProjectXMLAddress()));
+//             }
         }
 
         public void updateInsertComponentMenu() {
@@ -996,7 +995,7 @@ namespace Catsland.Editor {
             }
 
             // combine
-            //Material material = new BasicEffectMaterial(title + index, Mgr<BasicEffect>.Singleton, null);
+            
             //list.GetMaterialPrototype(material);
 
             // show material list and attribute panel
@@ -1188,15 +1187,17 @@ namespace Catsland.Editor {
         }
 
         private void renderArea_MouseClick(object sender, MouseEventArgs e) {
-            GameObject selected = Mgr<Scene>.Singleton.GetSelectedGameObject(
+            if (Mgr<Scene>.Singleton != null) {
+                GameObject selected = Mgr<Scene>.Singleton.GetSelectedGameObject(
                 2.0f * (float)(e.X) / renderArea.Width - 1.0f,
                 1.0f - 2.0f * (float)(e.Y) / renderArea.Height);
-            if (selected != null) {
-                ShowAttrTabPage("GameObject");
-                UpdateGameObjectAttribute(selected);
-            }
-            else {
-                UpdateGameObjectAttribute(null);
+                if (selected != null) {
+                    ShowAttrTabPage("GameObject");
+                    UpdateGameObjectAttribute(selected);
+                }
+                else {
+                    UpdateGameObjectAttribute(null);
+                }
             }
         }
 

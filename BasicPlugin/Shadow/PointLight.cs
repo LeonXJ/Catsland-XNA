@@ -151,7 +151,7 @@ namespace Catsland.Plugin.BasicPlugin {
             if (m_vertice == null) {
                 return;
             }
-            //Mgr<BasicEffect>.Singleton.GraphicsDevice.BlendState = BlendState.AlphaBlend;
+            
             Mgr<GraphicsDevice>.Singleton.SetVertexBuffer(m_vertexBuffer);
             m_pointLightEffect.CurrentTechnique = m_pointLightEffect.Techniques["Main"];
             Vector2 centroidInWorld = GetCentroidInWorld();

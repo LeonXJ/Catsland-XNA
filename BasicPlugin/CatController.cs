@@ -12,8 +12,8 @@ using FarseerPhysics.Dynamics.Contacts;
 
 namespace Catsland.Plugin.BasicPlugin {
     public class CatController : CatComponent, Drawable {
-    
-#region Properties
+
+        #region Properties
 
         [SerialAttribute]
         private readonly CatVector2 m_outSize = new CatVector2(0.3f, 0.6f);
@@ -47,12 +47,12 @@ namespace Catsland.Plugin.BasicPlugin {
 
         [SerialAttribute]
         private readonly CatFloat m_mass = new CatFloat(1.0f);
-        public float Mass{
-            set{
+        public float Mass {
+            set {
                 m_mass.SetValue(MathHelper.Max(0.0f, value));
                 m_body.Mass = m_mass;
             }
-            get{
+            get {
                 return m_mass.GetValue();
             }
         }
@@ -137,7 +137,6 @@ namespace Catsland.Plugin.BasicPlugin {
             }
         }
 
-
         [SerialAttribute]
         private readonly CatFloat m_jumpForce = new CatFloat(20.0f);
         public float JumpForce {
@@ -159,7 +158,6 @@ namespace Catsland.Plugin.BasicPlugin {
                 return m_horjumpBias.GetValue();
             }
         }
-
 
         [SerialAttribute]
         private readonly CatFloat m_wallJumpForce = new CatFloat(10.0f);
@@ -208,7 +206,6 @@ namespace Catsland.Plugin.BasicPlugin {
         public Body m_body;
         public Fixture m_taller;
         private SensorAttachment m_onGroundSensor;
-/*        private SensorAttachment m_jumpableSensor;*/
         private SensorAttachment m_leftAttachableSensor;
         private SensorAttachment m_rightAttachableSensor;
 
@@ -223,7 +220,27 @@ namespace Catsland.Plugin.BasicPlugin {
             }
         }
 
-        public int m_toward = 1; // 1 for right, -1 for left
+        public enum XOrientation {
+            Left,
+            Right,
+        }
+        private XOrientation m_orientation = XOrientation.Right; // 1 for right, -1 for left
+        public XOrientation Orientation {
+            set {
+                m_orientation = value;
+            }
+            get {
+                return m_orientation;
+            }
+        }
+        public void SetOrientationByFloat(float _value) {
+            if (_value < 0.0f) {
+                m_orientation = XOrientation.Left;
+            }
+            else {
+                m_orientation = XOrientation.Right;
+            }
+        }
 
         // animation
         [SerialAttribute]
@@ -276,7 +293,7 @@ namespace Catsland.Plugin.BasicPlugin {
         public bool m_wantJump = false;
         public bool m_wantLift = false;
 
-#endregion
+        #endregion
 
         public CatController()
             : base() {
@@ -284,7 +301,6 @@ namespace Catsland.Plugin.BasicPlugin {
 
         public CatController(GameObject _gameObject)
             : base(_gameObject) {
-
         }
 
         public override void Destroy() {
@@ -323,9 +339,9 @@ namespace Catsland.Plugin.BasicPlugin {
             // create body
             m_body = BodyFactory.CreateRectangle(physicsSystem.GetWorld(),
                                                  m_inSize.X,
-                                                 m_inSize.Y/2.0f,
-                                                 m_mass, new Tag(0, m_inSize.Y/4.0f));
-            
+                                                 m_inSize.Y / 2.0f,
+                                                 m_mass, new Tag(0, m_inSize.Y / 4.0f));
+
             m_body.BodyType = BodyType.Dynamic;
             m_body.SleepingAllowed = false;
             m_body.FixedRotation = true;
@@ -338,90 +354,88 @@ namespace Catsland.Plugin.BasicPlugin {
             MoveBodyToGameObject();
         }
 
-        protected void UpdateAnimation(int _timeLastFrame){
+        protected void UpdateAnimation(int _timeLastFrame) {
 
-            if (m_toward > 0) {
+            if (m_orientation == XOrientation.Right) {
                 m_gameObject.Rotation = new Vector3(0.0f, 0.0f, 0.0f);
             }
             else {
                 m_gameObject.Rotation = new Vector3(0.0f, 180.0f, 0.0f);
             }
 
-            m_currentState.UpdateAnimation(this, 
+            m_currentState.UpdateAnimation(this,
                 m_gameObject.GetComponent(typeof(Animator).ToString()) as Animator,
                 _timeLastFrame);
         }
 
-        protected void UpdateSensors(){
+        protected void UpdateSensors() {
             // onGroundSensor
-            if(m_onGroundSensor == null){
+            if (m_onGroundSensor == null) {
                 m_onGroundSensor = new SensorAttachment(m_body);
                 m_onGroundSensor.BindToScene(Mgr<Scene>.Singleton);
             }
             float sensorHalfSize = 0.03f;
             float sensorGap = 0.01f;
             m_onGroundSensor.Size = new Vector2(m_inSize.X - 0.1f, sensorHalfSize);
-            m_onGroundSensor.Offset = new Vector2(0.0f, 
-                - m_inSize.Y / 4.0f - sensorGap - sensorHalfSize);
+            m_onGroundSensor.Offset = new Vector2(0.0f,
+                -m_inSize.Y / 4.0f - sensorGap - sensorHalfSize);
             // leftAttachableSensor
-            if(m_leftAttachableSensor == null){
+            if (m_leftAttachableSensor == null) {
                 m_leftAttachableSensor = new SensorAttachment(m_body);
                 m_leftAttachableSensor.BindToScene(Mgr<Scene>.Singleton);
                 m_leftAttachableSensor.AcceptTag = Tag.AttachPoint;
             }
             m_leftAttachableSensor.Size = new Vector2(sensorHalfSize, sensorHalfSize);
-            m_leftAttachableSensor.Offset = new Vector2(-m_inSize.X /2.0f - sensorGap - sensorHalfSize,
+            m_leftAttachableSensor.Offset = new Vector2(-m_inSize.X / 2.0f - sensorGap - sensorHalfSize,
                 m_inSize.Y * 0.75f - sensorHalfSize);
             // rightAttachableSensor
-            if(m_rightAttachableSensor == null){
+            if (m_rightAttachableSensor == null) {
                 m_rightAttachableSensor = new SensorAttachment(m_body);
                 m_rightAttachableSensor.BindToScene(Mgr<Scene>.Singleton);
                 m_rightAttachableSensor.AcceptTag = Tag.AttachPoint;
             }
             m_rightAttachableSensor.Size = new Vector2(sensorHalfSize, sensorHalfSize);
-            m_rightAttachableSensor.Offset = new Vector2(m_inSize.X /2.0f + sensorGap + sensorHalfSize,
+            m_rightAttachableSensor.Offset = new Vector2(m_inSize.X / 2.0f + sensorGap + sensorHalfSize,
                 m_inSize.Y * 0.75f - sensorHalfSize);
         }
 
-        public override void EditorUpdate(int timeLastFrame){
- 	        base.EditorUpdate(timeLastFrame);
+        public override void EditorUpdate(int timeLastFrame) {
+            base.EditorUpdate(timeLastFrame);
             MoveBodyToGameObject();
         }
 
-        public override void BindToScene(Scene scene)
-        {
- 	        base.BindToScene(scene);
-            if(Mgr<GameEngine>.Singleton._gameEngineMode == GameEngine.GameEngineMode.MapEditor){
-                if(scene != null){
+        public override void BindToScene(Scene scene) {
+            base.BindToScene(scene);
+            if (Mgr<GameEngine>.Singleton._gameEngineMode == GameEngine.GameEngineMode.MapEditor) {
+                if (scene != null) {
                     scene._debugDrawableList.AddItem(this);
                 }
             }
         }
 
-        public override void Update(int timeLastFrame)
-        {
- 	        base.Update(timeLastFrame);
+        public override void Update(int timeLastFrame) {
+            base.Update(timeLastFrame);
             MoveGameObjectToBody();
             /*UpdateSensors();*/
             DoControll(timeLastFrame);
             UpdateAnimation(timeLastFrame);
         }
 
-        protected void DoControll(int _timeLastFrame){
+        protected void DoControll(int _timeLastFrame) {
             m_currentState.Do(this, _timeLastFrame);
         }
 
-        public void MoveGameObjectToBody(){
+        public void MoveGameObjectToBody() {
             // Warning: the gameObject should not have parent
             m_gameObject.Position = new Vector3(m_body.Position.X,
                                                 m_body.Position.Y + m_inSize.Y / 4.0f + (m_outSize.Y - m_inSize.Y) / 2.0f,
                                                 m_gameObject.Position.Z);
         }
 
-        private void MoveBodyToGameObject(){
+        private void MoveBodyToGameObject() {
             m_gameObject.ForceUpdateAbsTransformation();
-            m_body.SetTransform(new Vector2(m_gameObject.AbsPosition.X, 
-                                            m_gameObject.AbsPosition.Y - (m_outSize.Y - m_inSize.Y) / 2.0f - m_inSize.Y/4.0f),
+            m_body.SetTransform(new Vector2(m_gameObject.AbsPosition.X,
+                                            m_gameObject.AbsPosition.Y - (m_outSize.Y - m_inSize.Y) / 2.0f - m_inSize.Y / 4.0f),
                                             0.0f);
         }
 
@@ -445,22 +459,22 @@ namespace Catsland.Plugin.BasicPlugin {
             m_vertexBuffer.SetData<VertexPositionColor>(m_vertex);
         }
 
-        protected void UpdateRectangleVertex(VertexPositionColor []_vertex, 
+        protected void UpdateRectangleVertex(VertexPositionColor[] _vertex,
                                              int _offset,
                                              float _width, float _height) {
             float halfWidth = _width / 2.0f;
             float halfHeight = _height / 2.0f;
             _vertex[_offset].Position = new Vector3(-halfWidth, halfHeight, 1);
-            _vertex[_offset+1].Position = new Vector3(halfWidth, halfHeight, 1);
-            _vertex[_offset+2].Position = new Vector3(halfWidth, -halfHeight, 1);
-            _vertex[_offset+3].Position = new Vector3(-halfWidth, -halfHeight, 1);
-            _vertex[_offset+4].Position = new Vector3(-halfWidth, halfHeight, 1);
+            _vertex[_offset + 1].Position = new Vector3(halfWidth, halfHeight, 1);
+            _vertex[_offset + 2].Position = new Vector3(halfWidth, -halfHeight, 1);
+            _vertex[_offset + 3].Position = new Vector3(-halfWidth, -halfHeight, 1);
+            _vertex[_offset + 4].Position = new Vector3(-halfWidth, halfHeight, 1);
         }
 
         public void Draw(int timeLastFrame) {
             if (Mgr<GameEngine>.Singleton._gameEngineMode == GameEngine.GameEngineMode.MapEditor) {
                 UpdateDebugVertex();
-                
+
                 BasicEffect effect = Mgr<DebugTools>.Singleton.DrawEffect;
                 effect.View = Mgr<Camera>.Singleton.View;
                 effect.Projection = Mgr<Camera>.Singleton.m_projection;
@@ -476,7 +490,7 @@ namespace Catsland.Plugin.BasicPlugin {
 
                     Matrix matPosition = Matrix.CreateTranslation(new Vector3(
                                                                    position.X,
-                                                                   position.Y + m_inSize.Y /4.0f + (m_outSize.Y - m_inSize.Y) / 2.0f,
+                                                                   position.Y + m_inSize.Y / 4.0f + (m_outSize.Y - m_inSize.Y) / 2.0f,
                                                                    0));
                     Matrix matRotaion = Matrix.CreateRotationZ(transform.q.GetAngle());
                     effect.World = matPosition * matRotaion;
@@ -488,7 +502,7 @@ namespace Catsland.Plugin.BasicPlugin {
                         4);
 
                     effect.World = Matrix.CreateTranslation(new Vector3(position.X,
-                                                                        position.Y + m_inSize.Y/4.0f,
+                                                                        position.Y + m_inSize.Y / 4.0f,
                                                                         0));
                     pass.Apply();
                     Mgr<GraphicsDevice>.Singleton.DrawUserPrimitives<VertexPositionColor>(
@@ -500,9 +514,9 @@ namespace Catsland.Plugin.BasicPlugin {
             }
         }
 
-        private bool IsTallBlocker(Fixture _fixture){
-            if(_fixture.Body.UserData != null){
-                if(Tag.Platform != _fixture.Body.UserData as Tag){
+        private bool IsTallBlocker(Fixture _fixture) {
+            if (_fixture.Body.UserData != null) {
+                if (Tag.Platform != _fixture.Body.UserData as Tag) {
                     return true;
                 }
             }
@@ -510,10 +524,10 @@ namespace Catsland.Plugin.BasicPlugin {
         }
 
         protected bool OnCollision(Fixture _fixtureA, Fixture _fixtureB, Contact _contact) {
-            if(IsTallBlocker(_fixtureA)){
+            if (IsTallBlocker(_fixtureA)) {
                 m_tallerSensorTouched += 1;
             }
-            else if(IsTallBlocker(_fixtureB)){
+            else if (IsTallBlocker(_fixtureB)) {
                 m_tallerSensorTouched += 1;
             }
             return true;
@@ -544,11 +558,11 @@ namespace Catsland.Plugin.BasicPlugin {
             return _sensor.IsTriggered;
         }
 
-        public float GetDepth(){
+        public float GetDepth() {
             return 0;
         }
 
-        public int CompareTo(object obj){
+        public int CompareTo(object obj) {
             return 1;
         }
 
@@ -559,7 +573,7 @@ namespace Catsland.Plugin.BasicPlugin {
             if (m_wantDown) {
                 if (m_onGroundSensor.LastContactFixture != null
                     && m_onGroundSensor.LastContactFixture.Body != null) {
-                        Tag bodyTag = m_onGroundSensor.LastContactFixture.Body.UserData as Tag;
+                    Tag bodyTag = m_onGroundSensor.LastContactFixture.Body.UserData as Tag;
                     if (bodyTag != null && Tag.Platform == bodyTag) {
                         StateFall.GetState().IgnoreBody = m_onGroundSensor.LastContactFixture.Body;
                         m_body.IgnoreCollisionWith(m_onGroundSensor.LastContactFixture.Body);
@@ -579,7 +593,7 @@ namespace Catsland.Plugin.BasicPlugin {
                     Vector2 direction = new Vector2(hor_force, 1.0f);
                     m_body.ApplyForce(direction * m_jumpForce);
                     CurrentState = StateJumpUp.GetState();
-                } 
+                }
             }
         }
 
@@ -625,7 +639,7 @@ namespace Catsland.Plugin.BasicPlugin {
                 else if (_controller.m_wantDown) {
                     _controller.EnterStealth();
                 }
-                else{
+                else {
                     float hor_vel = 0.0f;
                     if (_controller.m_wantLeft) {
                         hor_vel -= 1.0f;
@@ -634,9 +648,8 @@ namespace Catsland.Plugin.BasicPlugin {
                         hor_vel += 1.0f;
                     }
                     if (hor_vel * hor_vel > 0.0f) {
-                        _controller.m_toward = (int)hor_vel;
+                        _controller.SetOrientationByFloat(hor_vel);
                     }
-
                     float x_vel = _controller.m_body.LinearVelocity.X;
                     if (_controller.m_wantRun ||
                         x_vel * x_vel > _controller.WalkSpeed * _controller.WalkSpeed) {
@@ -646,9 +659,8 @@ namespace Catsland.Plugin.BasicPlugin {
                         hor_vel *= _controller.WalkSpeed;
                         float impluse = (hor_vel - _controller.m_body.LinearVelocity.X) *
                                 _controller.m_body.Mass;
-                            _controller.m_body.ApplyLinearImpulse(new Vector2(impluse, 0.0f));
+                        _controller.m_body.ApplyLinearImpulse(new Vector2(impluse, 0.0f));
                     }
-                    
                 }
             }
             else {
@@ -689,25 +701,25 @@ namespace Catsland.Plugin.BasicPlugin {
                     // if not slow enough, just do nothing and let it slow down
                     float hor_v = _controller.m_body.LinearVelocity.X;
                     float hor_desired_vel = 0.0f;
-                    if(_controller.m_wantLeft){
+                    if (_controller.m_wantLeft) {
                         hor_desired_vel -= 1.0f;
                     }
-                    if(_controller.m_wantRight){
+                    if (_controller.m_wantRight) {
                         hor_desired_vel += 1.0f;
                     }
                     if (hor_desired_vel * hor_desired_vel > 0.0f) {
-                        _controller.m_toward = (int)hor_desired_vel;
+                        _controller.SetOrientationByFloat(hor_desired_vel);
                     }
-                    if (hor_v * hor_desired_vel > 0.0 || hor_v * hor_v < 0.01f){
+                    if (hor_v * hor_desired_vel > 0.0 || hor_v * hor_v < 0.01f) {
                         // same direction
                         // want run, acc or keep speed
                         if (_controller.m_wantRun && !_controller.m_wantDown) {
-                            hor_desired_vel *= 
+                            hor_desired_vel *=
                                 MathHelper.Min(Math.Abs(hor_v) + _controller.RunAcc, _controller.RunSpeed);
-                            
+
                         }
                         // slowing down
-                        else{
+                        else {
                             if (hor_v * hor_v < _controller.WalkSpeed * _controller.WalkSpeed) {
                                 _controller.CurrentState = StateStandWalk.GetState();
                             }
@@ -715,7 +727,7 @@ namespace Catsland.Plugin.BasicPlugin {
                         }
                         float impluse = (hor_desired_vel - hor_v) * _controller.m_body.Mass;
                         _controller.m_body.ApplyLinearImpulse(new Vector2(impluse, 0.0f));
-                        
+
                     }
                     // different direction or want stop
                     else {
@@ -748,7 +760,7 @@ namespace Catsland.Plugin.BasicPlugin {
         public void Do(CatController _controller, int _delta) {
             if (_controller.IsOnGround()) {
                 float hor_v = _controller.m_body.LinearVelocity.X;
-                float impluse = MathHelper.Max(Math.Abs(hor_v) - _controller.BreakAcc, 0.0f) * hor_v 
+                float impluse = MathHelper.Max(Math.Abs(hor_v) - _controller.BreakAcc, 0.0f) * hor_v
                     * _controller.m_body.Mass;
 
                 if (hor_v * hor_v < 0.01f) {
@@ -783,11 +795,11 @@ namespace Catsland.Plugin.BasicPlugin {
             }
             if (_controller.IsRightAttachable() && _controller.m_wantRight) {
                 _controller.CurrentState = StateAttach.GetState();
-                _controller.m_toward = 1;
+                _controller.Orientation = CatController.XOrientation.Right;
             }
             else if (_controller.IsLeftAttachable() && _controller.m_wantLeft) {
                 _controller.CurrentState = StateAttach.GetState();
-                _controller.m_toward = -1;
+                _controller.Orientation = CatController.XOrientation.Left;
             }
             float ver_force = 0.0f;
             if (_controller.m_wantLift) {
@@ -802,9 +814,9 @@ namespace Catsland.Plugin.BasicPlugin {
                 hor_force += 1.0f;
             }
             if (hor_force * hor_force > 0.1f) {
-                _controller.m_body.Position += new Vector2(hor_force * _controller.AirBiasOffset, 0.0f) 
+                _controller.m_body.Position += new Vector2(hor_force * _controller.AirBiasOffset, 0.0f)
                     * _delta / 1000.0f;
-                _controller.m_toward = (int)hor_force;
+                _controller.SetOrientationByFloat(hor_force);
             }
         }
 
@@ -842,12 +854,12 @@ namespace Catsland.Plugin.BasicPlugin {
             if (_controller.IsRightAttachable() && _controller.m_wantRight) {
                 RestoreIgnoreBody(_controller.m_body);
                 _controller.CurrentState = StateAttach.GetState();
-                _controller.m_toward = 1;
+                _controller.Orientation = CatController.XOrientation.Right;
             }
             else if (_controller.IsLeftAttachable() && _controller.m_wantLeft) {
                 RestoreIgnoreBody(_controller.m_body);
                 _controller.CurrentState = StateAttach.GetState();
-                _controller.m_toward = -1;
+                _controller.Orientation = CatController.XOrientation.Left;
             }
             // touch ground
             if (_controller.IsOnGround()) {
@@ -863,9 +875,9 @@ namespace Catsland.Plugin.BasicPlugin {
                 hor_force += 1.0f;
             }
             if (hor_force * hor_force > 0.1f) {
-                _controller.m_body.Position += new Vector2(hor_force * _controller.AirBiasOffset, 0.0f) 
+                _controller.m_body.Position += new Vector2(hor_force * _controller.AirBiasOffset, 0.0f)
                     * _delta / 1000.0f;
-                _controller.m_toward = (int)hor_force;
+                _controller.SetOrientationByFloat(hor_force);
             }
         }
 
@@ -888,7 +900,7 @@ namespace Catsland.Plugin.BasicPlugin {
 
             _controller.m_body.ApplyLinearImpulse(
                 -_controller.m_body.LinearVelocity * _controller.m_body.Mass);
-            
+
             //_controller.m_body.LinearVelocity = Vector2.Zero;
 
             _controller.m_body.IgnoreGravity = true;
@@ -910,7 +922,7 @@ namespace Catsland.Plugin.BasicPlugin {
             else {
                 ver_force = 1.2f;
             }
-           
+
             if (_controller.m_wantJump) {
                 _controller.m_body.ApplyForce(new Vector2(hor_force, ver_force) * _controller.WallJumpForce);
                 _controller.CurrentState = StateJumpUp.GetState();
@@ -942,20 +954,20 @@ namespace Catsland.Plugin.BasicPlugin {
                 if (_controller.m_wantJump) {
                     _controller.DoJump(true);
                 }
-                    float hor_force = 0.0f;
-                    if (_controller.m_wantLeft) {
-                        hor_force -= 1.0f;
-                    }
-                    if (_controller.m_wantRight) {
-                        hor_force += 1.0f;
-                    }
-                    if (hor_force * hor_force > 0.0f) {
-                        _controller.m_toward = (int)hor_force;
-                    }
-                    hor_force *= _controller.StealthSpeed;
-                    float impluse = (hor_force - _controller.m_body.LinearVelocity.X) *
-                        _controller.m_body.Mass;
-                    _controller.m_body.ApplyLinearImpulse(new Vector2(impluse, 0.0f));
+                float hor_force = 0.0f;
+                if (_controller.m_wantLeft) {
+                    hor_force -= 1.0f;
+                }
+                if (_controller.m_wantRight) {
+                    hor_force += 1.0f;
+                }
+                if (hor_force * hor_force > 0.0f) {
+                    _controller.SetOrientationByFloat(hor_force);
+                }
+                hor_force *= _controller.StealthSpeed;
+                float impluse = (hor_force - _controller.m_body.LinearVelocity.X) *
+                    _controller.m_body.Mass;
+                _controller.m_body.ApplyLinearImpulse(new Vector2(impluse, 0.0f));
             }
             else {
                 _controller.TryExitStealth();

@@ -151,7 +151,7 @@ namespace Catsland.Core {
             if(m_vertice == null || !m_isLightOn || !m_renderLight){
                 return;
             }
-            //Mgr<BasicEffect>.Singleton.GraphicsDevice.BlendState = BlendState.AlphaBlend;
+           
             Mgr<GraphicsDevice>.Singleton.SetVertexBuffer(m_vertexBuffer);
             Effect effect = Mgr<DebugTools>.Singleton.DrawEffect;
             ((BasicEffect)effect).Alpha = DiffuseColor.A / 255.0f;

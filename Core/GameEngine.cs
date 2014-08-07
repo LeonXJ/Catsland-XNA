@@ -24,14 +24,17 @@ namespace Catsland.Core {
      * @brief the CatsEngine Core
      */
     public class GameEngine : Microsoft.Xna.Framework.Game {
-        GraphicsDeviceManager _graphics;
+
+        #region Properties
+
+        private GraphicsDeviceManager m_graphics;
         SpriteBatch _spriteBatch;
         // interface to the editor, not null if in MapEditor mode
         IEditor _editor;
         public IEditor Editor {
             get { return _editor; }
         }
-        bool delayReleaseScene = false;
+        //bool delayReleaseScene = false;
         // just set for UI testing
         DialogBox _dialogBox;
 
@@ -55,7 +58,6 @@ namespace Catsland.Core {
         };
 
         private bool m_getFocus = false;
-
         private Scene m_sceneToBeLoad = null;
 
         private readonly CatFloat m_timeScale = new CatFloat(1.0f);
@@ -73,74 +75,94 @@ namespace Catsland.Core {
             }
         }
 
-        private UDPDebugger m_updDebugger;
+        private Camera m_mainCamera;
+        public Camera MainCamera {
+            get {
+                return m_mainCamera;
+            }
+        }
 
+
+        //private UDPDebugger m_updDebugger;
         UDPConsolePanel m_updConsolePanel;
 
-        public GameEngine(IEditor editor = null) {
-            _graphics = new GraphicsDeviceManager(this);
-            //Content.RootDirectory = "Content";
+        private bool showEditFrameInEditorGameMode = false;
+        public bool ShowEditFrameInEditorGameMode {
+            set {
+                showEditFrameInEditorGameMode = value;
+            }
+            get {
+                return showEditFrameInEditorGameMode;
+            }
+        }
+
+        private bool m_passiveMode = false;
+
+        #endregion
+
+        public GameEngine(IEditor editor = null, bool _enableUDPConsole = true,
+            bool _passiveMode = false) {
+
+            // Only create essential variables here 
+            // debug and console
+            m_passiveMode = _passiveMode;
             m_console = new CatConsole();
-
-//             m_updDebugger = new UDPDebugger();
-//             m_updDebugger.Start();
-
-            m_updConsolePanel = new UDPConsolePanel(m_console);
-            m_updConsolePanel.Start();
-            
-            // set gameEngineMode
-            _gameEngineMode = GameEngineMode.InGame;
+            if (_enableUDPConsole) {
+                m_updConsolePanel = new UDPConsolePanel(m_console);
+                m_updConsolePanel.Start();
+            }
+            // set game mode
+            _editor = editor;
             if (editor != null) {
-                // editor mode
-                _editor = editor;
                 _gameEngineMode = GameEngineMode.MapEditor;
                 _gameInEditorMode = InEditorMode.Editing;
+            }
+            else {
+                _gameEngineMode = GameEngineMode.InGame;
+            }
+            // graphics device
+            InitGraphicsDevice();
+        }
 
-                // set handlers for window size change events
-                _graphics.PreparingDeviceSettings +=
+        // this function has to be evoke in GameEngine constructor
+        private void InitGraphicsDevice() {
+            m_graphics = new GraphicsDeviceManager(this);
+            if (_gameEngineMode == GameEngineMode.MapEditor) {
+                m_graphics.PreparingDeviceSettings +=
                     new EventHandler<PreparingDeviceSettingsEventArgs>(graphics_PreparingDeviceSettings);
                 System.Windows.Forms.Control.FromHandle((this.Window.Handle)).VisibleChanged +=
                     new EventHandler(GameEngine_VisibleChanged);
             }
-            else {
-                _graphics.ToggleFullScreen();
+            else if (_gameEngineMode == GameEngineMode.InGame) {
+                m_graphics.ToggleFullScreen();
             }
-
-            // serial type
-            Serialable.InitializeSerializeTypeTable();
-
-            // Load CatComponent classes and TriggerInvoker classes
-            //TypeManager typeManager = new TypeManager();
-            // change the filepath when publish
-            //typeManager.Load_Plugins(@"./plugin");
-            // load editor scripts
-            //if (_gameEngineMode == GameEngineMode.MapEditor) {
-            //    typeManager.Load_EditorScripts(@"./plugin");
-            //}
-            //Mgr<TypeManager>.Singleton = typeManager;
-        }
-
-        /**
-         * @brief initialize the engine before starting game
-         *
-         * initialize() will be invoked automatically by XNA
-         */
-        protected override void Initialize() {
-            base.Initialize();
-
-            
-
-            // disable depth test. draw sprites from back to front
-            
-
-
-
-            // set window size change handler
-            // do not allow change window size in release mode
+            else {  // unknown mode
+                System.Windows.Forms.MessageBox.Show("Unknown game engine mode.", "Vital Error");
+                Exit();
+            }
 #if DEBUG
             this.Window.AllowUserResizing = true;
 #endif
             this.Window.ClientSizeChanged += new EventHandler<EventArgs>(Window_ClientSizeChanged);
+        }
+
+        /**
+         * @brief initialize the engine before starting game   
+         *
+         * initialize() will be invoked automatically by XNA
+         */
+        protected override void Initialize() {
+            base.Initialize();                                                  // it will evoke LoadContent()
+            Serialable.InitializeSerializeTypeTable();
+            InitSingleton();
+
+            if (_gameEngineMode == GameEngineMode.MapEditor) {
+                Editor.GameEngineStarted();
+            }
+            else if (_gameEngineMode == GameEngineMode.InGame
+                && !m_passiveMode) {
+                MountInGameProject();
+            }
         }
 
         /**
@@ -151,33 +173,8 @@ namespace Catsland.Core {
         protected override void LoadContent() {
             // Create a new SpriteBatch, which can be used to draw textures.
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-
-            // Init singleton
-            Mgr<GameEngine>.Singleton = this;
-            Mgr<GraphicsDevice>.Singleton = GraphicsDevice;
-            //TODO: should be removed
-            Mgr<BasicEffect>.Singleton = new BasicEffect(GraphicsDevice);
-            Mgr<BasicEffect>.Singleton.Name = "BasicEffect";
-            Mgr<BasicEffect>.Singleton.GraphicsDevice.BlendState = BlendState.AlphaBlend;
-            
-            Mgr<DebugTools>.Singleton = new DebugTools();
-            Mgr<DebugTools>.Singleton.DrawEffect = new BasicEffect(GraphicsDevice);
-
-            // Camera
-            // TODO: camera should be loaded from map file
-            #region
-            Camera camera = new Camera();
-
-            float viewWidth = 2.0f;
-            float viewHeight = Window.ClientBounds.Height * viewWidth / Window.ClientBounds.Width;
-            camera.SetProjectionMode(Camera.ProjectionMode.Orthographic);
-            camera.ViewSize = new Vector2(viewWidth, viewHeight);
-            camera.ClipDistance = new Vector2(0.1f, 100.0f);
-            camera.TargetPosition = new Vector3(0.0f, 0.0f, 0.0f);
-            Mgr<Camera>.Singleton = camera;
-            #endregion
-            // UI
-            // TODO: UI should be loaded from map file
+            CreatePrimeCamera();
+            // Snippet of creating dialogBox
             #region
             /*
             _dialogBox = new DialogBox();
@@ -192,57 +189,51 @@ namespace Catsland.Core {
             _dialogBox.m_rightBottom = new Point(400, 200);
              */
             #endregion
-
-
-            if (_gameEngineMode == GameEngineMode.InGame) {
-                CatProject project = CatProject.OpenProject(AppDomain.CurrentDomain.BaseDirectory + "project.xml", this);
-                if (project == null) {
-                    System.Windows.Forms.MessageBox.Show("Level file project.xml does not exist.", "Crash",
-                        System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
-                    Exit();
-                    return;
-                }
-                
-                //CatProject project = CatProject.OpenProject(@"E:\workspace\catsland_china\test\BirthdayParty\project.xml", this);
-                Mgr<CatProject>.Singleton = project;
-                Scene scene = Scene.LoadScene(project.GetSceneFileAddress(project.startupSceneName));
-                scene.InitializeScene();
-                scene.ActivateScene();
-            }
-            else {
-                // editor mode, create an empty scene
-                /*
-                CatProject project = CatProject.CreateEmptyProject("UntitleProject", System.Environment.CurrentDirectory + "\\", this);
-                Editor.SetCurrentProject(project, "UntitleProject");
-                Mgr<CatProject>.Singleton = project;
-                project.typeManager.Load_EditorScripts(project.projectRoot + "\\" + project.pluginDirectory);
-                project.typeManager.Load_Plugins(project.projectRoot + "\\" + project.pluginDirectory);
-                Mgr<TypeManager>.Singleton = project.typeManager;
-
-                Scene scene = Scene.LoadScene(project.projectRoot + "\\" + project.sceneDirectory + "\\" + project.currentSceneName + ".xml");
-                scene.InitializeScene();
-                scene.ActivateScene();
-                Editor.BindToScene(scene);
-                 */
-                Mgr<CatProject>.Singleton = null;
-                Editor.GameEngineStarted();
-            }
-
-         
-
         }
 
-        private void LoadAndRunTestCommend(string _path) {
-            Assembly assembly = Assembly.LoadFrom(_path);
-            Type[] types = assembly.GetTypes();
-            foreach (Type type in types) {
-                Console.WriteLine("- Load test class: " + type.Name);
-                if (type.IsSubclassOf(typeof(TestBase))) {
-                    ConstructorInfo constructorInfo = type.GetConstructor(new Type[0] {});
-                    TestBase testclass = (TestBase)constructorInfo.Invoke(new Object[0] { });
-                    testclass.Run();
-                }
+        private void CreatePrimeCamera() {
+            if (m_mainCamera == null) {
+                m_mainCamera = new Camera();
             }
+            float viewWidth = 2.0f;
+            float viewHeight = Window.ClientBounds.Height * viewWidth / Window.ClientBounds.Width;
+            m_mainCamera.SetProjectionMode(Camera.ProjectionMode.Orthographic);
+            m_mainCamera.ViewSize = new Vector2(viewWidth, viewHeight);
+            m_mainCamera.ClipDistance = new Vector2(0.1f, 100.0f);
+            m_mainCamera.TargetPosition = new Vector3(0.0f, 0.0f, 0.0f);
+        }
+
+        private void MountInGameProject() {
+            CatProject project = CatProject.OpenProject(AppDomain.CurrentDomain.BaseDirectory + "project.xml", this);
+            if (project == null) {
+                System.Windows.Forms.MessageBox.Show("Level file project.xml does not exist.", "Vital Error",
+                    System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
+                Exit();
+            }
+            Mgr<CatProject>.Singleton = project;
+            Scene scene = Scene.LoadScene(project.GetSceneFileAddress(project.startupSceneName));
+            if (scene == null) {
+                System.Windows.Forms.MessageBox.Show("Fail to load startup scene: " + project.startupSceneName, "Vital Error",
+                    System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
+                Exit();
+            }
+            scene.InitializeScene();
+            scene.ActivateScene();
+            Mgr<Scene>.Singleton = scene;
+        }
+
+        private void InitSingleton() {
+            Mgr<GameEngine>.Singleton = this;
+            Mgr<GraphicsDevice>.Singleton = GraphicsDevice;
+            // BasicEffect is for temporary use
+            Mgr<BasicEffect>.Singleton = new BasicEffect(GraphicsDevice);
+            Mgr<BasicEffect>.Singleton.Name = "BasicEffect";
+            Mgr<BasicEffect>.Singleton.GraphicsDevice.BlendState = BlendState.AlphaBlend;
+            // TODO: remove this singleton
+            Mgr<DebugTools>.Singleton = new DebugTools();
+            Mgr<DebugTools>.Singleton.DrawEffect = new BasicEffect(GraphicsDevice);
+            // Camera
+            Mgr<Camera>.Singleton = m_mainCamera;
         }
 
         /**
@@ -258,102 +249,159 @@ namespace Catsland.Core {
             int timeInMS = gameTime.ElapsedGameTime.Milliseconds;
             int skewedTimeInMS = (int)(m_timeScale * timeInMS);
 
-            // console
+            UpdateConsoleAndDebug();
+            UpdateSwitchScene();
+            if (Mgr<CatProject>.Singleton != null &&
+                Mgr<Scene>.Singleton != null) {
+                if (_gameEngineMode == GameEngineMode.InGame) {
+                    InGameUpdateProcess(skewedTimeInMS);
+                }
+                else if (_gameInEditorMode == InEditorMode.Editing) {
+                    EditorEditUpdateProcess(skewedTimeInMS);
+                }
+                else if (_gameInEditorMode == InEditorMode.Playing) {
+                    EditorGameUpdateProcess(skewedTimeInMS);
+                }
+                else {
+                    System.Windows.Forms.MessageBox.Show("Unknown game engine mode.", "Vital Error");
+                    Exit();
+                }
+            }
+            UpdateKeyControl();
+            #region deprecated
+
+            // 
+            //             GameObjectList gameObjectList = null;
+            //             ColliderList colliderList = null;
+            //             if (Mgr<Scene>.Singleton != null) {
+            //                 gameObjectList = Mgr<Scene>.Singleton._gameObjectList;
+            //                 colliderList = Mgr<Scene>.Singleton._colliderList;
+            //                 if (_gameEngineMode == GameEngineMode.InGame ||
+            //                     _gameInEditorMode == InEditorMode.Playing) {
+            //                     Mgr<Scene>.Singleton.GetPhysicsSystem()
+            //                         .Update(skewedTimeInMS);
+            //                 }
+            //             }
+            //             // add / remove update gameObject
+            //             if (gameObjectList != null) {
+            //                 gameObjectList.UpdateAdd();
+            //                 gameObjectList.UpdateRemove();
+            //             }
+            //             if (colliderList != null) {
+            //                 colliderList.UpdateRemove();
+            //             }
+            //             if (_gameEngineMode == GameEngineMode.InGame ||
+            //                 _gameInEditorMode == InEditorMode.Playing) {
+            //                 // Allows the game to exit
+            //                 if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
+            //                     this.Exit();
+            //                 KeyboardState keyboardState = Keyboard.GetState();
+            //                 if (keyboardState.IsKeyDown(Keys.Escape)) {
+            //                     this.Exit();
+            //                 }
+            //                 if (keyboardState.IsKeyDown(Keys.F11)) {
+            //                     m_graphics.ToggleFullScreen();
+            //                 }
+            // 
+            //                 // pose camera
+            //                 Mgr<Camera>.Singleton.Update(skewedTimeInMS);
+            //                 // motion delegator
+            //                 if (Mgr<CatProject>.Singleton != null &&
+            //                     Mgr<CatProject>.Singleton.MotionDelegator != null) {
+            //                     Mgr<CatProject>.Singleton.MotionDelegator.Update(timeInMS);
+            //                 }
+            //                 // update gameObjects
+            //                 if (gameObjectList != null) {
+            //                     gameObjectList.Update(skewedTimeInMS);
+            //                 }
+            //                 // shadow system
+            //                 if (Mgr<Scene>.Singleton.m_shadowSystem != null) {
+            //                     Mgr<Scene>.Singleton.m_shadowSystem.Update(skewedTimeInMS);
+            //                 }
+            //                 // sound manager
+            //                 if (Mgr<CatProject>.Singleton.m_soundManager != null) {
+            //                     Mgr<CatProject>.Singleton.m_soundManager.
+            //                         Update(skewedTimeInMS);
+            //                 }
+            //             }
+            //             else if (_gameInEditorMode == InEditorMode.Editing) {
+            //                 // pose camera
+            //                 Mgr<Camera>.Singleton.EditorUpdate();
+            //                 // update gameObjects
+            //                 if (gameObjectList != null) {
+            //                     gameObjectList.EditorUpdate(skewedTimeInMS);
+            //                 }
+            //                 // shadow system
+            //                 if (Mgr<Scene>.Singleton != null &&
+            //                     Mgr<Scene>.Singleton.m_shadowSystem != null) {
+            //                     Mgr<Scene>.Singleton.m_shadowSystem.Update(skewedTimeInMS);
+            //                 }
+            //             }
+            #endregion
+            base.Update(gameTime);
+        }
+
+        private void InGameUpdateProcess(int _skewedTimeInMS) {
+            if (Mgr<Scene>.Singleton.GetPhysicsSystem() != null) {
+                Mgr<Scene>.Singleton.GetPhysicsSystem().Update(_skewedTimeInMS);
+            }
+            if (Mgr<Scene>.Singleton._gameObjectList != null) {
+                GameObjectList gameObjectList = Mgr<Scene>.Singleton._gameObjectList;
+                gameObjectList.UpdateAdd();
+                gameObjectList.UpdateRemove();
+            }
+            if (Mgr<Scene>.Singleton._colliderList != null) {
+                Mgr<Scene>.Singleton._colliderList.UpdateRemove();
+            }
+
+            if (Mgr<Camera>.Singleton != null) {
+                Mgr<Camera>.Singleton.Update(_skewedTimeInMS);
+            }
+            if (Mgr<CatProject>.Singleton.MotionDelegator != null) {
+                Mgr<CatProject>.Singleton.MotionDelegator.Update(_skewedTimeInMS);
+            }
+            if (Mgr<Scene>.Singleton._gameObjectList != null) {
+                Mgr<Scene>.Singleton._gameObjectList.Update(_skewedTimeInMS);
+            }
+            if (Mgr<Scene>.Singleton.m_shadowSystem != null) {
+                Mgr<Scene>.Singleton.m_shadowSystem.Update(_skewedTimeInMS);
+            }
+            if (Mgr<CatProject>.Singleton.SoundManager != null) {
+                Mgr<CatProject>.Singleton.SoundManager.Update(_skewedTimeInMS);
+            }
+        }
+
+        private void EditorEditUpdateProcess(int _skewedTimeInMS) {
+            if (Mgr<Scene>.Singleton._gameObjectList != null) {
+                GameObjectList gameObjectList = Mgr<Scene>.Singleton._gameObjectList;
+                gameObjectList.UpdateAdd();
+                gameObjectList.UpdateRemove();
+            }
+            if (Mgr<Scene>.Singleton._colliderList != null) {
+                Mgr<Scene>.Singleton._colliderList.UpdateRemove();
+            }
+            if (Mgr<Camera>.Singleton != null) {
+                Mgr<Camera>.Singleton.EditorUpdate();
+            }
+            if (Mgr<Scene>.Singleton._gameObjectList != null) {
+                Mgr<Scene>.Singleton._gameObjectList.EditorUpdate(_skewedTimeInMS);
+            }
+            if (Mgr<Scene>.Singleton.m_shadowSystem != null) {
+                Mgr<Scene>.Singleton.m_shadowSystem.Update(_skewedTimeInMS);
+            }
+        }
+
+        private void EditorGameUpdateProcess(int _skewedTimeInMS) {
+            InGameUpdateProcess(_skewedTimeInMS);
+        }
+
+        private void UpdateConsoleAndDebug() {
             if (m_console != null) {
                 m_console.Update();
             }
             if (m_updConsolePanel != null) {
                 m_updConsolePanel.Update();
             }
-
-            // debugger
-            if (m_updDebugger != null) {
-                string message = m_updDebugger.GetMessage();
-                if (message.Length > 0) {
-                    Console.Out.WriteLine("Processing message: " + message);
-                    if (message == "exit") {
-                        Exit();
-                    }
-                    if(message.StartsWith("run ")){
-                        LoadAndRunTestCommend(message.Substring(4));
-                    } 
-                }
-            }
-            
-            if (delayReleaseScene) {
-                Mgr<Scene>.Singleton.Unload();
-                delayReleaseScene = false;
-            }
-
-            UpdateSwitchScene();
-
-            GameObjectList gameObjectList = null;
-            ColliderList colliderList = null;
-            if (Mgr<Scene>.Singleton != null) {
-                gameObjectList = Mgr<Scene>.Singleton._gameObjectList;
-                colliderList = Mgr<Scene>.Singleton._colliderList;
-                if (_gameEngineMode == GameEngineMode.InGame ||
-                    _gameInEditorMode == InEditorMode.Playing) {
-                    Mgr<Scene>.Singleton.GetPhysicsSystem()
-                        .Update(skewedTimeInMS);
-                }
-            }
-            // add / remove update gameObject
-            if (gameObjectList != null) {
-                gameObjectList.UpdateAdd();
-                gameObjectList.UpdateRemove();
-            }
-            if (colliderList != null) {
-                colliderList.UpdateRemove();
-            }
-            if (_gameEngineMode == GameEngineMode.InGame ||
-                _gameInEditorMode == InEditorMode.Playing) {
-                // Allows the game to exit
-                if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
-                    this.Exit();
-                KeyboardState keyboardState = Keyboard.GetState();
-                if (keyboardState.IsKeyDown(Keys.Escape)) {
-                    this.Exit();
-                }
-                if (keyboardState.IsKeyDown(Keys.F11)) {
-                    _graphics.ToggleFullScreen();
-                }
-
-                // pose camera
-                Mgr<Camera>.Singleton.Update(skewedTimeInMS);
-                // motion delegator
-                if (Mgr<CatProject>.Singleton != null &&
-                    Mgr<CatProject>.Singleton.MotionDelegator != null) {
-                    Mgr<CatProject>.Singleton.MotionDelegator.Update(timeInMS);
-                }
-                // update gameObjects
-                if (gameObjectList != null) {
-                    gameObjectList.Update(skewedTimeInMS);
-                }
-                // shadow system
-                if (Mgr<Scene>.Singleton.m_shadowSystem != null) {
-                    Mgr<Scene>.Singleton.m_shadowSystem.Update(skewedTimeInMS);
-                }
-                // sound manager
-                if (Mgr<CatProject>.Singleton.m_soundManager != null) {
-                    Mgr<CatProject>.Singleton.m_soundManager.
-                        Update(skewedTimeInMS);
-                }
-            }
-            else if (_gameInEditorMode == InEditorMode.Editing) {
-                // pose camera
-                Mgr<Camera>.Singleton.EditorUpdate();
-                // update gameObjects
-                if (gameObjectList != null) {
-                    gameObjectList.EditorUpdate(skewedTimeInMS);
-                }
-                // shadow system
-                if (Mgr<Scene>.Singleton != null &&
-                    Mgr<Scene>.Singleton.m_shadowSystem != null) {
-                    Mgr<Scene>.Singleton.m_shadowSystem.Update(skewedTimeInMS);
-                }
-            }
-            base.Update(gameTime);
         }
 
         private void UpdateSwitchScene() {
@@ -368,6 +416,19 @@ namespace Catsland.Core {
                 if (_editor != null) {
                     _editor.LoadSceneComplete();
                 }
+            }
+        }
+
+        private void UpdateKeyControl() {
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed) {
+                Exit();
+            }
+            KeyboardState keyboardState = Keyboard.GetState();
+            if (keyboardState.IsKeyDown(Keys.Escape)) {
+                Exit();
+            }
+            if (keyboardState.IsKeyDown(Keys.F11)) {
+                m_graphics.ToggleFullScreen();
             }
         }
 
@@ -386,61 +447,18 @@ namespace Catsland.Core {
         protected override void Draw(GameTime gameTime) {
             GraphicsDevice.Clear(Color.Black);
 
-            // draw render list
-            RenderList renderList = null;
-            DebugDrawableList debugDrawableList = null;
-            //PostProcessColorAdjustment postProcessColorAdjustment = null;
-            PostProcess endPostProcess = null;
-            if (Mgr<Scene>.Singleton != null) {
-                renderList = Mgr<Scene>.Singleton._renderList;
-                debugDrawableList = Mgr<Scene>.Singleton._debugDrawableList;
-                //postProcessColorAdjustment = Mgr<Scene>.Singleton.m_postProcessColorAdjustment;
-                endPostProcess = Mgr<Scene>.Singleton.PostProcessManager.GetEndProcess();
-            }
-
-            if (endPostProcess != null) {
-                endPostProcess.DoRender(gameTime.ElapsedGameTime.Milliseconds);
-            }
-            else if (renderList != null) {
-                renderList.DoRender(gameTime.ElapsedGameTime.Milliseconds);
-            }
-            
-            // draw debug info
-            if (_gameEngineMode == GameEngineMode.MapEditor 
-                && _gameInEditorMode == InEditorMode.Editing 
-                && debugDrawableList != null) {
-
-                DepthStencilState dss = new DepthStencilState();
-                dss.DepthBufferEnable = false;
-                GraphicsDevice.DepthStencilState = dss;
-
-                SamplerState sampleState = new SamplerState();
-                sampleState.Filter = TextureFilter.Anisotropic;
-                sampleState.AddressU = TextureAddressMode.Clamp;
-                sampleState.AddressV = TextureAddressMode.Clamp;
-                GraphicsDevice.SamplerStates[0] = sampleState;
-
-//                 RasterizerState rasterizerState = new RasterizerState();
-//                 rasterizerState.MultiSampleAntiAlias = true;
-//                 GraphicsDevice.RasterizerState = rasterizerState;
-
-//                 BlendState blendState = new BlendState();
-//                 blendState.AlphaSourceBlend = Blend.SourceAlpha;
-//                 blendState.AlphaDestinationBlend = Blend.InverseSourceAlpha;
-//                 blendState.ColorBlendFunction = BlendFunction.Add;
-                GraphicsDevice.BlendState = BlendState.AlphaBlend;
-
-                GameObject selected = _editor.GetSelectedGameObject();
-                if(selected != null){
-                    selected.DrawSelection();
-                    CatComponent quadRender = selected.
-                        GetComponent("Catsland.Plugin.BasicPlugin.QuadRender");
-                    if (quadRender != null) {
-                        ((ISelectable)quadRender).DrawSelection();
-                    }
+            int timeInMS = gameTime.ElapsedGameTime.Milliseconds;
+            if (Mgr<CatProject>.Singleton != null &&
+                Mgr<Scene>.Singleton != null) {
+                if (_gameEngineMode == GameEngineMode.InGame) {
+                    InGameDrawProcess(timeInMS);
                 }
-
-                debugDrawableList.Draw(gameTime.ElapsedGameTime.Milliseconds);
+                else if (_gameInEditorMode == InEditorMode.Editing) {
+                    EditEditDrawProcess(timeInMS);
+                }
+                else if (_gameInEditorMode == InEditorMode.Playing) {
+                    EditorGameDrawProcess(timeInMS);
+                }
             }
 
             // draw UI
@@ -457,22 +475,112 @@ namespace Catsland.Core {
             base.Draw(gameTime);
         }
 
+        private void InGameDrawProcess(int _timeInMS) {
+            DrawGameScene(_timeInMS);
+        }
+
+        private void EditEditDrawProcess(int _timeInMS) {
+            DrawGameScene(_timeInMS);
+            DrawEditor(_timeInMS);
+        }
+
+        private void EditorGameDrawProcess(int _timeInMS) {
+            DrawGameScene(_timeInMS);
+            if (showEditFrameInEditorGameMode) {
+                DrawEditor(_timeInMS);
+            }
+        }
+
+        private void DrawGameScene(int _timeInMS) {
+            PostProcess endProcess = null;
+            if (Mgr<Scene>.Singleton.PostProcessManager != null) {
+                endProcess = Mgr<Scene>.Singleton.PostProcessManager.GetEndProcess();
+            }
+            if (endProcess != null) {
+                endProcess.DoRender(_timeInMS);
+            }
+            else if (Mgr<Scene>.Singleton._renderList != null) {
+                Mgr<Scene>.Singleton._renderList.DoRender(_timeInMS);
+            }
+        }
+
+        private void DrawEditor(int _timeInMS) {
+
+            DepthStencilState dss = new DepthStencilState();
+            dss.DepthBufferEnable = false;
+            GraphicsDevice.DepthStencilState = dss;
+
+            SamplerState sampleState = new SamplerState();
+            sampleState.Filter = TextureFilter.Anisotropic;
+            sampleState.AddressU = TextureAddressMode.Clamp;
+            sampleState.AddressV = TextureAddressMode.Clamp;
+            GraphicsDevice.SamplerStates[0] = sampleState;
+            GraphicsDevice.BlendState = BlendState.AlphaBlend;
+
+            GameObject selected = _editor.GetSelectedGameObject();
+            if (selected != null) {
+                selected.DrawSelection();
+                CatComponent quadRender = selected.
+                    GetComponent("Catsland.Plugin.BasicPlugin.QuadRender");
+                if (quadRender != null) {
+                    ((ISelectable)quadRender).DrawSelection();
+                }
+            }
+            if (Mgr<Scene>.Singleton._debugDrawableList != null) {
+                Mgr<Scene>.Singleton._debugDrawableList.Draw(_timeInMS);
+            }
+        }
+
         /**
          * @brief release resource here
          * */
         protected override void UnloadContent() {
             // TODO: Unload any non ContentManager content here
-            
+
         }
 
         protected override void EndRun() {
             base.EndRun();
-            if (m_updDebugger != null) {
-                m_updDebugger.Stop();
-            }
+            //             if (m_updDebugger != null) {
+            //                 m_updDebugger.Stop();
+            //             }
             if (m_updConsolePanel != null) {
                 m_updConsolePanel.Stop();
             }
+        }
+
+        /**
+         * @brief window size change handler
+         * 
+         * for game mode
+         * */
+        void Window_ClientSizeChanged(object sender, EventArgs e) {
+            OnDisplaySizeChanged(Window.ClientBounds.Width, Window.ClientBounds.Height);
+        }
+
+        /**
+         * @brief window size change handler
+         * 
+         * for editor mode
+         * */
+        public void GameEngine_SizeChanged() {
+            if (_editor != null) {
+                Point size = _editor.GetRenderAreaSize();
+                OnDisplaySizeChanged(size.X, size.Y);
+            }
+            else {
+                Console.Out.WriteLine("No editor found.");
+            }
+        }
+
+        private void OnDisplaySizeChanged(int _width, int _height) {
+            m_graphics.PreferredBackBufferWidth = _width;
+            m_graphics.PreferredBackBufferHeight = _height;
+            m_graphics.ApplyChanges();
+            if (Mgr<Camera>.Singleton != null) {
+                Mgr<Camera>.Singleton.SetViewSizeByReservingWidth(_width, _height);
+            }
+            UpdateRenderBuffers();
         }
 
         /**
@@ -489,42 +597,7 @@ namespace Catsland.Core {
             // update render device
             e.GraphicsDeviceInformation.PresentationParameters.BackBufferWidth = size.X;
             e.GraphicsDeviceInformation.PresentationParameters.BackBufferHeight = size.Y;
-            if (Mgr<Scene>.Singleton != null) {
-                Mgr<Scene>.Singleton.PostProcessManager.UpdateBuffers();
-                Mgr<Scene>.Singleton._renderList.UpdateBuffer();
-                Mgr<Scene>.Singleton.m_shadowSystem.UpdateBuffer();
-            }
-           
-        }
-
-        /**
-         * @brief window size change handler
-         * 
-         * for editor mode
-         * */
-        public void GameEngine_SizeChanged() {
-            if (_editor != null) {
-                // get render size from editor
-                Point size = _editor.GetRenderAreaSize();
-                _graphics.PreferredBackBufferWidth = size.X;
-                _graphics.PreferredBackBufferHeight = size.Y;
-                _graphics.ApplyChanges();
-                // size of view coordinates
-                
-                // set camera matrix
-                if (Mgr<Camera>.Singleton != null) {
-                    float viewWidth = Mgr<Camera>.Singleton.ViewSize.X;
-                    float viewHeight = size.Y * viewWidth / size.X;
-                    Mgr<Camera>.Singleton.ViewSize = new Vector2(viewWidth, viewHeight);  
-                }
-                Mgr<Scene>.Singleton.PostProcessManager.UpdateBuffers();
-                Mgr<Scene>.Singleton._renderList.UpdateBuffer();
-                Mgr<Scene>.Singleton.m_shadowSystem.UpdateBuffer();
-            }
-            else {
-                // TODO: replace with error log system
-                Console.Out.WriteLine("No editor found.");
-            }
+            UpdateRenderBuffers();
         }
 
         /**
@@ -538,28 +611,26 @@ namespace Catsland.Core {
             }
         }
 
-        /**
-         * @brief window size change handler
-         * 
-         * for game mode
-         * */
-        void Window_ClientSizeChanged(object sender, EventArgs e) {
-            float viewWidth = 2.0f;
-            float viewHeight = Window.ClientBounds.Height * viewWidth / Window.ClientBounds.Width;
-            Mgr<Camera>.Singleton.ViewSize = new Vector2(viewWidth, viewHeight);
-            _graphics.PreferredBackBufferWidth = Window.ClientBounds.Width;
-            _graphics.PreferredBackBufferHeight = Window.ClientBounds.Height;
-            Mgr<Scene>.Singleton.PostProcessManager.UpdateBuffers();
-            Mgr<Scene>.Singleton._renderList.UpdateBuffer();
-            Mgr<Scene>.Singleton.m_shadowSystem.UpdateBuffer();
+        private void UpdateRenderBuffers() {
+            if(Mgr<Scene>.Singleton != null){
+                if (Mgr<Scene>.Singleton.PostProcessManager != null) {
+                    Mgr<Scene>.Singleton.PostProcessManager.UpdateBuffers();
+                }
+                if (Mgr<Scene>.Singleton._renderList != null) {
+                    Mgr<Scene>.Singleton._renderList.UpdateBuffer();
+                }
+                if (Mgr<Scene>.Singleton.m_shadowSystem != null) {
+                    Mgr<Scene>.Singleton.m_shadowSystem.UpdateBuffer();
+                }
+            }
         }
 
         /**
          * @brief release a scene async
          * */
-        public void DelayReleaseScene() {
-            delayReleaseScene = true;
-        }
+        //         public void DelayReleaseScene() {
+        //             delayReleaseScene = true;
+        //         }
 
         public void GetFocus() {
             m_getFocus = true;

@@ -233,6 +233,10 @@ namespace Catsland.Core {
             }
         }
 
+        public void SetViewSizeByReservingWidth(int _width, int _height) {
+            ViewSize = new Vector2(ViewSize.X, _height * ViewSize.X / _width);
+        }
+
          
 
         /**

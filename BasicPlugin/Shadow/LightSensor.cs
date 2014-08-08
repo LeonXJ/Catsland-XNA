@@ -10,7 +10,7 @@ namespace Catsland.Plugin.BasicPlugin {
 
 #region Properties
 
-        private DebugShape m_debugShape = new DebugShape();
+        private DebugShape m_debugShape;
 
 
 #endregion
@@ -23,14 +23,24 @@ namespace Catsland.Plugin.BasicPlugin {
 
         public override void Initialize(Scene scene) {
             base.Initialize(scene);
-            m_debugShape.SetAsCircle(0.2f, Vector2.Zero);
-            m_debugShape.RelateGameObject = m_gameObject;
+            if (Mgr<GameEngine>.Singleton._gameEngineMode == GameEngine.GameEngineMode.MapEditor) {            
+                m_debugShape.SetAsCircle(0.2f, Vector2.Zero);
+                m_debugShape.RelateGameObject = m_gameObject;
+            }
         }
 
         public override void BindToScene(Scene scene) {
             base.BindToScene(scene);
             if (Mgr<GameEngine>.Singleton._gameEngineMode == GameEngine.GameEngineMode.MapEditor) {
+                m_debugShape = new DebugShape();
                 m_debugShape.BindToScene(scene);
+            }
+        }
+
+        public override void Destroy() {
+            base.Destroy();
+            if (Mgr<GameEngine>.Singleton._gameEngineMode == GameEngine.GameEngineMode.MapEditor) {
+                m_debugShape.Destroy(Mgr<Scene>.Singleton);
             }
         }
 

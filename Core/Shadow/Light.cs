@@ -46,6 +46,14 @@ namespace Catsland.Core {
             }
         }
 
+        // ---- Configure of RenderLight and Enlight -------
+        //        Light Type        | RenderLight | Enlight
+        //       normal light       |    true     |   true
+        // visible field of vision  |    true     |  false
+        // invisible field of vision|    false    |  false
+        //          ?????           |    false    |   true
+
+        // switch of the light
         [SerialAttribute]
         protected readonly CatBool m_isLightOn = new CatBool(true);
         public bool IsLightOn {
@@ -57,6 +65,7 @@ namespace Catsland.Core {
             }
         }
         
+        // render the light?
         [SerialAttribute]
         protected readonly CatBool m_renderLight = new CatBool(true);
         public bool RenderLight {
@@ -68,6 +77,7 @@ namespace Catsland.Core {
             }
         }
 
+        // should the light enlights objects?
         [SerialAttribute]
         protected readonly CatBool m_enlight = new CatBool(true);
         public bool Enlight {
@@ -80,7 +90,6 @@ namespace Catsland.Core {
         }
 
         protected List<Vector2> m_verticeList;
-
         protected VertexPositionColor[] m_vertice;
         protected VertexBuffer m_vertexBuffer;
 
@@ -106,7 +115,6 @@ namespace Catsland.Core {
             if (Mgr<GameEngine>.Singleton._gameEngineMode == GameEngine.GameEngineMode.MapEditor) {
                 m_debugShape.BindToScene(scene);
             }
-            //scene._debugDrawableList.AddItem(this);
             scene.m_shadowSystem.AddLight(this);
         }
 
@@ -118,7 +126,6 @@ namespace Catsland.Core {
                         .White);
                 }
             }
-
             m_vertice[0].Position = new Vector3(m_verticeList[0].X, m_verticeList[0].Y, 0.0f);
             for(int i=1; i<m_verticeList.Count; ++i){
                 int index = (i + 1) / 2;
@@ -140,9 +147,7 @@ namespace Catsland.Core {
             if (Mgr<GameEngine>.Singleton._gameEngineMode == GameEngine.GameEngineMode.MapEditor) {
                 m_debugShape.Destroy(Mgr<Scene>.Singleton);
             }
-            // remove light from light list
-            Mgr<Scene>.Singleton._debugDrawableList.RemoveItem(this);
-            // TODO: remove from shadow system
+            Mgr<Scene>.Singleton.m_shadowSystem.RemoveLight(this);
         }
 
         virtual public void Draw(int timeLastFrame){
@@ -172,6 +177,9 @@ namespace Catsland.Core {
             }
         }
 
+        /**
+         * @brief regardless of obstacles, if the given point is in this light?
+         */ 
         public virtual bool IsPointInLightRange(Vector2 _point) {
             if (!m_isLightOn) {
                 return false;
@@ -183,10 +191,16 @@ namespace Catsland.Core {
             return "Shadow|LightBase";
         }
 
+        /**
+         * @brief get the direction of light at the given point
+         */ 
         virtual public Vector2 GetLightDirection(Vector2 _point){
             return -Vector2.UnitY;
         }
 
+        /**
+         * @brief regardless of obstacles, if the given convex is in this light
+         */ 
         virtual public bool IsBodyInLightRange(Vector2[] _vertices, Matrix _transform) {
             if (!m_isLightOn) {
                 return false;
@@ -194,6 +208,9 @@ namespace Catsland.Core {
             return false;
         }
 
+        /**
+         * @brief if the edge should cast shadow
+         */ 
         virtual public bool ShouldEdgeHasShadow(ShadingBody _shadingBody, int _edge) {
             Vector2 startPoint = _shadingBody.GetVertexInWorld(_edge);
             Vector2 edgeVector2 = _shadingBody.GetVertexInWorld((_edge + 1) % _shadingBody.GetVerticesNumber())
@@ -205,14 +222,22 @@ namespace Catsland.Core {
             return Vector2.Dot(normal2D, lightDirection) < 0.0f;
         }
 
+        /**
+         * @brief if the given point is enlighted by this light? return false if
+         *     light.Enlight = false or light.isLightOn = false
+         */     
         virtual public bool IsPointEnlighted(Vector2 _point) {
             if (!m_enlight) {
                 return false;
             }
-            return IsPointInLight(_point);
+            return IsPointInOnLight(_point);
         }
 
-        virtual public bool IsPointInLight(Vector2 _point) {
+        /**
+         * @brief if the given point is in the light range of this light? return false if
+         *      the light is off. This function can be used as a query of sensor.
+         */
+        virtual public bool IsPointInOnLight(Vector2 _point) {
             if (!m_isLightOn) {
                 return false;
             }

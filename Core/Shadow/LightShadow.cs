@@ -11,7 +11,7 @@ namespace Catsland.Core {
 
 #region Properties
         
-        private static float ShadowDistance = 10.0f;
+        private static float ShadowDistance = 100.0f;
 
         private bool m_enable = true;
         public bool Enable {
@@ -31,6 +31,10 @@ namespace Catsland.Core {
 
 #endregion
 
+        /**
+         * @brief update then given LightShadow (create it if the given on is null)
+         *      according to the given Light, ShadingBody and Edge
+         */
         static public LightShadow UpdateShadow(
             LightShadow _toBeUpdate, Light _light, 
             ShadingBody _body, int _edgeIndex) {
@@ -56,9 +60,6 @@ namespace Catsland.Core {
 
             // TODO: not here
             shadow.UpdateDrawVertex();
-            if (_toBeUpdate == null) {
-                shadow.BindToScene(Mgr<Scene>.Singleton);
-            }
             return shadow;
         }
 
@@ -82,10 +83,6 @@ namespace Catsland.Core {
                 return true;
             }
             return false;
-        }
-
-        public void BindToScene(Scene _scene) {
-            //_scene._debugDrawableList.AddItem(this);
         }
 
         private void UpdateDrawVertex() {
@@ -134,10 +131,6 @@ namespace Catsland.Core {
                     0,
                     2);
             }
-        }
-
-        public bool IsBodyInShadow(Vector2[] _vertices, Matrix _transform) {
-            return CatMath.IsConvexIntersect(_vertices, _transform, m_vertexList, Matrix.Identity);
         }
 
         public float GetDepth() {

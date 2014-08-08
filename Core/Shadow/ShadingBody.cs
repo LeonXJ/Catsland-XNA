@@ -51,7 +51,7 @@ namespace Catsland.Core {
 
         }
 
-        public override void Initialize(Catsland.Core.Scene scene) {
+        public override void Initialize(Scene scene) {
             base.Initialize(scene);
             m_debugShape.RelateGameObject = m_gameObject;
         }
@@ -69,7 +69,7 @@ namespace Catsland.Core {
             if (Mgr<GameEngine>.Singleton._gameEngineMode == GameEngine.GameEngineMode.MapEditor) {
                 m_debugShape.Destroy(Mgr<Scene>.Singleton);
             }
-            // TODO: remove from shadow system
+            Mgr<Scene>.Singleton.m_shadowSystem.RemoveShadingBody(this);
 
         }
 
@@ -81,16 +81,25 @@ namespace Catsland.Core {
             return m_vertices.Count;
         }
 
+        /**
+         * @brief get the vertex in local coordinate
+         */ 
         public Vector2 GetVertex(int _index) {
             return m_vertices[_index];
         }
 
+        /**
+         * @brief get the vertex in world coordinate
+         */ 
         public Vector2 GetVertexInWorld(int _index) {
             Vector4 pos = Vector4.Transform(new Vector4(m_vertices[_index].X, m_vertices[_index].Y, 0.0f, 1.0f),
                Matrix.CreateTranslation(m_offset.X, m_offset.Y, 0.0f) * m_gameObject.AbsTransform);
             return new Vector2(pos.X, pos.Y);
         }
 
+        /**
+         * @brief get the transform matrix from local to world
+         */ 
         public Matrix GetTransform2World() {
             return Matrix.CreateTranslation(m_offset.X, m_offset.Y, 0.0f) * m_gameObject.AbsTransform;
         }

@@ -40,7 +40,7 @@ namespace Catsland.Plugin.BasicPlugin {
             bool alarm = false;
             if (Mgr<Blacklist>.Singleton != null) {
                 foreach (Prey prey in Mgr<Blacklist>.Singleton.Preys) {
-                    if (IsPointInLight(prey.GetPointInWorld())) {
+                    if (IsPointInOnLight(prey.GetPointInWorld())) {
                         m_debugShape.DiffuseColor = Color.Red;
                         DiffuseColor = Color.Red;
                         alarm = true;

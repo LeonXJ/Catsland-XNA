@@ -9,10 +9,8 @@
     <String name="m_guid" value="16919d20-ae9c-48f8-a794-4a0eb8b7c579" />
   </Catsland.Core.Animation>
   <String name="m_guid" value="834593ba-2b2f-4251-9d9e-fd8a717c68a7" />
-  <Material name="BasicEffect1">
-    <Parameter name="World" type="Catsland.Core.CatMatrix" value="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" />
-    <Parameter name="View" type="Catsland.Core.CatMatrix" value="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" />
-    <Parameter name="Projection" type="Catsland.Core.CatMatrix" value="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" />
+  <Material name="BasicLightEffect">
+    <Parameter name="LightInstance" type="Catsland.Core.CatFloat" value="0" />
     <Parameter name="Alpha" type="Catsland.Core.CatFloat" value="1" />
     <Parameter name="DiffuseMap" type="Catsland.Core.CatTexture" value="wonder_block" />
     <Parameter name="BiasColor" type="Catsland.Core.CatColor" value="0.5019608,0,0,0" />

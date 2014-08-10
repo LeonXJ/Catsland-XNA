@@ -26,16 +26,15 @@ namespace Catsland.Plugin.BasicPlugin {
 
         public Blacklist(GameObject _gameObject)
             : base(_gameObject) {
-            AddToMgr();
         }
 
         public Blacklist()
             : base() {
-            AddToMgr();
         }
 
-        private void AddToMgr() {
-            Mgr<Scene>.Singleton.AddSharedObject(typeof(Blacklist).ToString(), this);
+        public override void BindToScene(Scene scene) {
+            base.BindToScene(scene);
+            scene.AddSharedObject(typeof(Blacklist).ToString(), this);
         }
 
         public override void Destroy() {

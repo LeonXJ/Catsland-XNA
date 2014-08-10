@@ -29,7 +29,6 @@ namespace Catsland.Core {
         private static int MaxShadowBodyNumber = 128;
         private static int MaxEdgeNumber = 128;
 
-        private Effect m_shadowingEffect;
         private Effect m_accumulateEffect;
 
         // TODO: save this to file
@@ -44,11 +43,13 @@ namespace Catsland.Core {
         }
 
         private RenderTarget2D m_accumulateLight;
+        public RenderTarget2D AccumulateLight {
+            get {
+                return m_accumulateLight;
+            }
+        }
         private RenderTarget2D m_preAccumulateLight;
         private RenderTarget2D m_lightMap;
-
-
-        //private int count = 0;
 
         #endregion
 
@@ -86,17 +87,14 @@ namespace Catsland.Core {
         }
 
         private void UpdateShadingEffect(CatProject _project) {
-            string shadowingEffectPath = "effect\\Shadowing";
             string accumulateLightEffectPath = "effect\\AccumulateLight";
             try {
-                m_shadowingEffect = _project.contentManger.Load<Effect>
-                (shadowingEffectPath);
                 m_accumulateEffect = _project.contentManger.Load<Effect>
                     (accumulateLightEffectPath);
             }
             catch (ContentLoadException) {
                 System.Windows.Forms.MessageBox.Show("Cannot load essential shaders (" +
-                    accumulateLightEffectPath + " and " + accumulateLightEffectPath + ") for " +
+                    accumulateLightEffectPath + ") for " +
                     "Shadow System", "Vital Error");
                 Mgr<GameEngine>.Singleton.Exit();
             }
@@ -393,22 +391,6 @@ namespace Catsland.Core {
                 m_accumulateLight = temp;
             }
         }
-
-        /**
-         * @brief render lightmap and use it to bake _toBeShadow (usually colormap)
-         */ 
-        public void ShadowObject(int _timeLastFrame, RenderTarget2D _toBeShadow) {
-            //Renderer.SetColorTarget(m_accumulateLight);
-            DoRender(_timeLastFrame);
-            //Renderer.CancelColorTarget();
-
-            m_shadowingEffect.CurrentTechnique = m_shadowingEffect.Techniques["Main"];
-            m_shadowingEffect.Parameters["ColorMap"].SetValue((Texture2D)_toBeShadow);
-            m_shadowingEffect.Parameters["LightMap"].SetValue((Texture2D)m_accumulateLight);
-            m_shadowingEffect.CurrentTechnique.Passes["P0"].Apply();
-            RenderQuad();
-        }
-
 
         /**
          * @brief can the point be sensed by the light?

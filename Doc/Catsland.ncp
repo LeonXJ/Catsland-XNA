@@ -1,0 +1,261 @@
+<Project>
+  <Name>Catsland</Name>
+  <ProjectItem type="NClass.DiagramEditor.ClassDiagram.Diagram" assembly="NClass.DiagramEditor, Version=2.4.1823.0, Culture=neutral, PublicKeyToken=null">
+    <Name>ShadowSystem</Name>
+    <Language>CSharp</Language>
+    <Entities>
+      <Entity type="Class">
+        <Name>ShadowSystem</Name>
+        <Access>Public</Access>
+        <Location left="747" top="399" />
+        <Size width="162" height="349" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">Stack&lt;int&gt; m_freeLightIDList</Member>
+        <Member type="Field">CatColor m_amibentColor</Member>
+        <Member type="Field">Effect m_shadowingEffect</Member>
+        <Member type="Field">Effect m_accumulateEffect</Member>
+        <Member type="Field">Stack&lt;int&gt; m_freeShadowBodyIDList</Member>
+        <Member type="Method">public void Initialize(CatProject _project)</Member>
+        <Member type="Method">public void AddLight(Light _light)</Member>
+        <Member type="Method">public void AddShadowBody(ShadingBody _shadowBody)</Member>
+        <Member type="Method">public void UpdateShadowBody(ShadingBody _shadowBody)</Member>
+        <Member type="Method">public void UpdateLight(Light _light)</Member>
+        <Member type="Method">public void Update(int _timeLastFrame)</Member>
+        <Member type="Method">public void DoRender(int _timeLastFrame)</Member>
+        <Member type="Method">public void ShadowObject(int _timeLastFrame, RenderTarget _toBeShadow)</Member>
+        <Member type="Method">public bool IsPointInLight(Vector2 _point, int _lightID)</Member>
+        <Member type="Method">public bool IsPointEnlightByLight(Vector2 _point, int _lightID)</Member>
+        <Member type="Method">public bool IsPointEnlighted(Vector2 _point)</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Light</Name>
+        <Access>Public</Access>
+        <Location left="1057" top="416" />
+        <Size width="162" height="264" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">public int ID { get; set; }</Member>
+        <Member type="Property">public Vector2 Offset { get; set; }</Member>
+        <Member type="Property">public Color DiffuseColor { get; set; }</Member>
+        <Member type="Property">public bool IsLightOn { get; set; }</Member>
+        <Member type="Property">public bool RenderLight { get; set; }</Member>
+        <Member type="Property">public bool Enlight { get; set; }</Member>
+        <Member type="Method">public virtual bool IsPointInLightRange(Vector _point)</Member>
+        <Member type="Method">public virtual Vector2 GetLightDirection(Vector2 _point)</Member>
+        <Member type="Method">public virtual bool ShouldEdgeHasShadow(ShadingBody _shadingBody, int _edge)</Member>
+        <Member type="Method">public virtual bool IsPointEnlighted(Vector2 _point)</Member>
+        <Member type="Method">public virtual bool IsPointInLight(Vector2 _point)</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>ShadingBody</Name>
+        <Access>Public</Access>
+        <Location left="1057" top="708" />
+        <Size width="162" height="162" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">public int ID { get; set; }</Member>
+        <Member type="Property">public Vector2 Offset { get; set; }</Member>
+        <Member type="Method">public Vector2 GetVertex(int _index)</Member>
+        <Member type="Method">public Vector2 GetVertexInWorld(int _index)</Member>
+        <Member type="Method">public Matrix GetTransform2World()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>LightShadow</Name>
+        <Access>Public</Access>
+        <Location left="747" top="846" />
+        <Size width="162" height="162" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">static float ShadowDistance</Member>
+        <Member type="Property">public bool Enable { get; set; }</Member>
+        <Member type="Method">public static LightShadow UpdateShadow(LightShadow _toBeUpdate, Light _light, ShadingBody _body, int _edgeIndex)</Member>
+        <Member type="Method">public bool IsPointInShadow(Vector2 _point)</Member>
+        <Member type="Method">public bool IsBodyInShadow(Vector2[] _vertices, Matrix _transform)</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>PointLight</Name>
+        <Access>Public</Access>
+        <Location left="1283" top="416" />
+        <Size width="162" height="118" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">public float OutRaidus { get; set; }</Member>
+        <Member type="Property">public float InRadius { get; set; }</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>SpotLight</Name>
+        <Access>Public</Access>
+        <Location left="1491" top="416" />
+        <Size width="162" height="118" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">public float FanInDegree { get; set; }</Member>
+        <Member type="Property">public float DirectionToDown { get; set; }</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>ShadingRectangle</Name>
+        <Access>Public</Access>
+        <Location left="1289" top="713" />
+        <Size width="162" height="157" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">public Vector2 Size { get; set; }</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+    </Entities>
+    <Relationships>
+      <Relationship type="Association" first="0" second="1">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="False">
+          <X>1134</X>
+          <Y>391</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Composition</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="0" second="2">
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Composition</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="0" second="3">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>826</X>
+          <Y>775</Y>
+        </BendPoint>
+        <BendPoint relativeToStartShape="False">
+          <X>826</X>
+          <Y>819</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Composition</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="3" second="2">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <BendPoint relativeToStartShape="False">
+          <X>1032</X>
+          <Y>821</Y>
+        </BendPoint>
+        <Direction>Bidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+        <StartMultiplicity>*</StartMultiplicity>
+        <EndMultiplicity>1</EndMultiplicity>
+      </Relationship>
+      <Relationship type="Association" first="1" second="3">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>966</X>
+          <Y>551</Y>
+        </BendPoint>
+        <Direction>Bidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+        <StartMultiplicity>1</StartMultiplicity>
+        <EndMultiplicity>*</EndMultiplicity>
+      </Relationship>
+      <Relationship type="Generalization" first="4" second="1">
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+      </Relationship>
+      <Relationship type="Generalization" first="5" second="4">
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>1466</X>
+          <Y>478</Y>
+        </BendPoint>
+      </Relationship>
+      <Relationship type="Generalization" first="6" second="2">
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+      </Relationship>
+    </Relationships>
+  </ProjectItem>
+  <ProjectItem type="NClass.DiagramEditor.ClassDiagram.Diagram" assembly="NClass.DiagramEditor, Version=2.4.1823.0, Culture=neutral, PublicKeyToken=null">
+    <Name>Blacklist</Name>
+    <Language>CSharp</Language>
+    <Entities>
+      <Entity type="Class">
+        <Name>Blacklist</Name>
+        <Access>Public</Access>
+        <Location left="67" top="104" />
+        <Size width="162" height="121" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">public HashSet&lt;Prey&gt; Preys { get; }</Member>
+        <Member type="Method">public void AddToBlacklist(Prey _prey)</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Prey</Name>
+        <Access>Public</Access>
+        <Location left="302" top="104" />
+        <Size width="162" height="121" />
+        <Collapsed>False</Collapsed>
+        <Member type="Method">public Vector2 GetPointInWorld()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Hunter</Name>
+        <Access>Public</Access>
+        <Location left="304" top="278" />
+        <Size width="162" height="80" />
+        <Collapsed>False</Collapsed>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>SpotLight</Name>
+        <Access>Public</Access>
+        <Location left="67" top="278" />
+        <Size width="162" height="80" />
+        <Collapsed>False</Collapsed>
+        <Modifier>None</Modifier>
+      </Entity>
+    </Entities>
+    <Relationships>
+      <Relationship type="Association" first="0" second="1">
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <Direction>Bidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+        <StartMultiplicity>1</StartMultiplicity>
+        <EndMultiplicity>*</EndMultiplicity>
+      </Relationship>
+      <Relationship type="Generalization" first="2" second="3">
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+      </Relationship>
+    </Relationships>
+  </ProjectItem>
+  <ProjectItem type="NClass.DiagramEditor.ClassDiagram.Diagram" assembly="NClass.DiagramEditor, Version=2.4.1823.0, Culture=neutral, PublicKeyToken=null">
+    <Name>Debugging</Name>
+    <Language>CSharp</Language>
+    <Entities>
+      <Entity type="Class">
+        <Name>DebugShape</Name>
+        <Access>Public</Access>
+        <Location left="100" top="138" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">public Vector3 Position { get; set; }</Member>
+        <Member type="Property">public Vector3 Rotation { get; set; }</Member>
+        <Member type="Property">public Vector3 Scale { get; set; }</Member>
+        <Member type="Property">public GameObject RelatedGameObject { get; set; }</Member>
+        <Member type="Property">public Color DiffuseColor { get; set; }</Member>
+        <Member type="Method">public void SetVertices(List&lt;Vector2&gt; _vertices)</Member>
+        <Member type="Method">public void SetAsRectangle(Vector2 _size, Vector2 _offset)</Member>
+        <Member type="Method">public void SetAsCircle(float _radius, Vector2 _offset)</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+    </Entities>
+    <Relationships />
+  </ProjectItem>
+</Project>

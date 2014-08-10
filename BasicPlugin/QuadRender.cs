@@ -161,6 +161,9 @@ namespace Catsland.Plugin.BasicPlugin
                 material.SetParameter("World", new CatMatrix(m_gameObject.AbsTransform));
                 material.SetParameter("View", new CatMatrix(Mgr<Camera>.Singleton.View));
                 material.SetParameter("Projection", new CatMatrix(Mgr<Camera>.Singleton.m_projection));
+                if (material.HasParameter("LightMap") && Mgr<Scene>.Singleton.m_shadowSystem != null) {
+                    material.SetParameter("LightMap", new CatTexture(Mgr<Scene>.Singleton.m_shadowSystem.AccumulateLight));
+                }
                 effect = material.ApplyMaterial();
             }
             else {

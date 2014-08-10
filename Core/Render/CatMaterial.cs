@@ -107,6 +107,10 @@ namespace Catsland.Core {
             return false;
         }
 
+        public bool HasParameter(string _name) {
+            return m_parameters.ContainsKey(_name);
+        }
+
         public CatMaterial Clone() {
             CatMaterial newMaterial = new CatMaterial(m_materialTemplate);
             // parameters
@@ -172,8 +176,8 @@ namespace Catsland.Core {
             node.AppendChild(material);
 
             foreach (KeyValuePair<string, IEffectParameter> keyValue in m_parameters) {
-                // if the parameter is masked and this is a tip material, do not store it
-                if (_isTip && m_materialTemplate.IsParameterMaskedInEditor(keyValue.Key)) {
+                // if the parameter is masked, do not store it
+                if (m_materialTemplate.IsParameterMaskedInEditor(keyValue.Key)) {
                     continue;
                 }
 

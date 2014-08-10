@@ -11,3 +11,4 @@ resource\effect\AccumulateLight.xnb
 resource\effect\PointLight.xnb
 resource\image\juan.xnb
 resource\image\juan_detail.xnb
+resource\effect\BasicLightEffect.xnb

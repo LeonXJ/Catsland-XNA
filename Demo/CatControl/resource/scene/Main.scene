@@ -6,10 +6,10 @@
     <ZBound min="0" max="4" />
   </SceneBasic>
   <Catsland.Core.Camera>
-    <CatVector3 name="m_targetPosition" value="4.770015,1.459999,0" />
+    <CatVector3 name="m_targetPosition" value="4.490008,1.459999,0" />
     <CatFloat name="m_cameraDistance" value="2" />
     <CatVector3 name="m_cameraPRY" value="0,0,0" />
-    <CatVector2 name="m_viewSize" value="7.802864,4.391898" />
+    <CatVector2 name="m_viewSize" value="8.426173,4.742736" />
     <CatFloat name="m_fieldOfView" value="90" />
     <CatVector2 name="m_clipDistance" value="0.1,100" />
     <String name="m_guid" value="6f33ee66-4458-499d-a32c-c0cb506a83d5" />
@@ -87,7 +87,8 @@
             <Catsland.Plugin.BasicPlugin.ModelComponent name="">
               <String name="m_guid" value="3f770a70-3454-4a82-90a1-2c89cc9e701b" />
               <Post_ModelName value="ground" />
-              <Material name="BasicEffect1">
+              <Material name="BasicLightEffect">
+                <Parameter name="LightInstance" type="Catsland.Core.CatFloat" value="0" />
                 <Parameter name="Alpha" type="Catsland.Core.CatFloat" value="1" />
                 <Parameter name="DiffuseMap" type="Catsland.Core.CatTexture" value="wonder_block" />
                 <Parameter name="BiasColor" type="Catsland.Core.CatColor" value="0.5019608,0,0,0" />
@@ -151,7 +152,8 @@
             <Catsland.Plugin.BasicPlugin.ModelComponent name="">
               <String name="m_guid" value="8b50ff45-6472-4838-ac92-9966a3136df6" />
               <Post_ModelName value="juandetail" />
-              <Material name="BasicEffect1">
+              <Material name="BasicLightEffect">
+                <Parameter name="LightInstance" type="Catsland.Core.CatFloat" value="1" />
                 <Parameter name="Alpha" type="Catsland.Core.CatFloat" value="1" />
                 <Parameter name="DiffuseMap" type="Catsland.Core.CatTexture" value="juan_detail" />
                 <Parameter name="BiasColor" type="Catsland.Core.CatColor" value="0,0,0,0" />
@@ -215,23 +217,6 @@
         </KeyValue>
         <KeyValue>
           <Key>
-            <String name="" value="Catsland.Plugin.BasicPlugin.PointLight" />
-          </Key>
-          <Value>
-            <Catsland.Plugin.BasicPlugin.PointLight name="">
-              <CatFloat name="m_outRadius" value="1" />
-              <CatFloat name="m_inRadius" value="0.5" />
-              <CatVector2 name="m_offset" value="0,0" />
-              <CatColor name="m_diffuseColor" value="0.4,0.4,0.4,0.7058824" />
-              <CatBool name="m_isLightOn" value="True" />
-              <CatBool name="m_renderLight" value="True" />
-              <CatBool name="m_enlight" value="True" />
-              <String name="m_guid" value="776dc679-e79c-46af-bcf4-955718e20a7c" />
-            </Catsland.Plugin.BasicPlugin.PointLight>
-          </Value>
-        </KeyValue>
-        <KeyValue>
-          <Key>
             <String name="" value="Catsland.Plugin.BasicPlugin.Prey" />
           </Key>
           <Value>
@@ -291,7 +276,8 @@
             <Catsland.Plugin.BasicPlugin.ModelComponent name="">
               <String name="m_guid" value="ac7920d1-078f-4ebb-bb14-53b0492ae8eb" />
               <Post_ModelName value="ground" />
-              <Material name="BasicEffect1">
+              <Material name="BasicLightEffect">
+                <Parameter name="LightInstance" type="Catsland.Core.CatFloat" value="0" />
                 <Parameter name="Alpha" type="Catsland.Core.CatFloat" value="1" />
                 <Parameter name="DiffuseMap" type="Catsland.Core.CatTexture" value="wonder_block" />
                 <Parameter name="BiasColor" type="Catsland.Core.CatColor" value="1,0.5019608,0,0" />
@@ -344,7 +330,8 @@
             <Catsland.Plugin.BasicPlugin.ModelComponent name="">
               <String name="m_guid" value="c4634a84-f7f4-4a73-b5a6-2771d45a696f" />
               <Post_ModelName value="ground" />
-              <Material name="BasicEffect1">
+              <Material name="BasicLightEffect">
+                <Parameter name="LightInstance" type="Catsland.Core.CatFloat" value="0" />
                 <Parameter name="Alpha" type="Catsland.Core.CatFloat" value="1" />
                 <Parameter name="DiffuseMap" type="Catsland.Core.CatTexture" value="wonder_block" />
                 <Parameter name="BiasColor" type="Catsland.Core.CatColor" value="0.5019608,0,0,0" />
@@ -408,7 +395,8 @@
             <Catsland.Plugin.BasicPlugin.ModelComponent name="">
               <String name="m_guid" value="985993d8-116f-4bd6-9d9a-e793dc9694c2" />
               <Post_ModelName value="ground" />
-              <Material name="BasicEffect1">
+              <Material name="BasicLightEffect">
+                <Parameter name="LightInstance" type="Catsland.Core.CatFloat" value="0" />
                 <Parameter name="Alpha" type="Catsland.Core.CatFloat" value="1" />
                 <Parameter name="DiffuseMap" type="Catsland.Core.CatTexture" value="wonder_block" />
                 <Parameter name="BiasColor" type="Catsland.Core.CatColor" value="0.5019608,0,0,0" />
@@ -472,7 +460,8 @@
             <Catsland.Plugin.BasicPlugin.ModelComponent name="">
               <String name="m_guid" value="53946caa-821a-4a90-9644-5b136ae33e68" />
               <Post_ModelName value="ground" />
-              <Material name="BasicEffect1">
+              <Material name="BasicLightEffect">
+                <Parameter name="LightInstance" type="Catsland.Core.CatFloat" value="0" />
                 <Parameter name="Alpha" type="Catsland.Core.CatFloat" value="1" />
                 <Parameter name="DiffuseMap" type="Catsland.Core.CatTexture" value="wonder_block" />
                 <Parameter name="BiasColor" type="Catsland.Core.CatColor" value="0.5019608,0,0,0" />
@@ -525,7 +514,8 @@
             <Catsland.Plugin.BasicPlugin.ModelComponent name="">
               <String name="m_guid" value="a0f71db3-4740-49c7-aff8-99a8e6484ecb" />
               <Post_ModelName value="ground" />
-              <Material name="BasicEffect1">
+              <Material name="BasicLightEffect">
+                <Parameter name="LightInstance" type="Catsland.Core.CatFloat" value="0" />
                 <Parameter name="Alpha" type="Catsland.Core.CatFloat" value="1" />
                 <Parameter name="DiffuseMap" type="Catsland.Core.CatTexture" value="wonder_block" />
                 <Parameter name="BiasColor" type="Catsland.Core.CatColor" value="0.5019608,0,0,0" />
@@ -578,7 +568,8 @@
             <Catsland.Plugin.BasicPlugin.ModelComponent name="">
               <String name="m_guid" value="b4abd9b4-e4bf-4d2a-93fe-fc3dfcd262e1" />
               <Post_ModelName value="ground" />
-              <Material name="BasicEffect1">
+              <Material name="BasicLightEffect">
+                <Parameter name="LightInstance" type="Catsland.Core.CatFloat" value="0" />
                 <Parameter name="Alpha" type="Catsland.Core.CatFloat" value="1" />
                 <Parameter name="DiffuseMap" type="Catsland.Core.CatTexture" value="wonder_block" />
                 <Parameter name="BiasColor" type="Catsland.Core.CatColor" value="0.5019608,0,0,0" />
@@ -631,7 +622,8 @@
             <Catsland.Plugin.BasicPlugin.ModelComponent name="">
               <String name="m_guid" value="849c5606-d5bc-4220-a268-a130368b7f12" />
               <Post_ModelName value="ground" />
-              <Material name="BasicEffect1">
+              <Material name="BasicLightEffect">
+                <Parameter name="LightInstance" type="Catsland.Core.CatFloat" value="0" />
                 <Parameter name="Alpha" type="Catsland.Core.CatFloat" value="1" />
                 <Parameter name="DiffuseMap" type="Catsland.Core.CatTexture" value="wonder_block" />
                 <Parameter name="BiasColor" type="Catsland.Core.CatColor" value="0,1,0,0" />
@@ -684,7 +676,8 @@
             <Catsland.Plugin.BasicPlugin.ModelComponent name="">
               <String name="m_guid" value="37b493f9-401e-4216-b54d-69e76ef038f1" />
               <Post_ModelName value="ground" />
-              <Material name="BasicEffect1">
+              <Material name="BasicLightEffect">
+                <Parameter name="LightInstance" type="Catsland.Core.CatFloat" value="0" />
                 <Parameter name="Alpha" type="Catsland.Core.CatFloat" value="1" />
                 <Parameter name="DiffuseMap" type="Catsland.Core.CatTexture" value="wonder_block" />
                 <Parameter name="BiasColor" type="Catsland.Core.CatColor" value="0,1,0,0" />
@@ -737,7 +730,8 @@
             <Catsland.Plugin.BasicPlugin.ModelComponent name="">
               <String name="m_guid" value="30a40223-1084-439b-8727-dc73e7ffc620" />
               <Post_ModelName value="ground" />
-              <Material name="BasicEffect1">
+              <Material name="BasicLightEffect">
+                <Parameter name="LightInstance" type="Catsland.Core.CatFloat" value="0" />
                 <Parameter name="Alpha" type="Catsland.Core.CatFloat" value="1" />
                 <Parameter name="DiffuseMap" type="Catsland.Core.CatTexture" value="wonder_block" />
                 <Parameter name="BiasColor" type="Catsland.Core.CatColor" value="0.5019608,0,0,0" />
@@ -790,7 +784,8 @@
             <Catsland.Plugin.BasicPlugin.ModelComponent name="">
               <String name="m_guid" value="2c45b597-e606-4a1d-a0fc-1f47fe248a9d" />
               <Post_ModelName value="ground" />
-              <Material name="BasicEffect1">
+              <Material name="BasicLightEffect">
+                <Parameter name="LightInstance" type="Catsland.Core.CatFloat" value="0" />
                 <Parameter name="Alpha" type="Catsland.Core.CatFloat" value="1" />
                 <Parameter name="DiffuseMap" type="Catsland.Core.CatTexture" value="wonder_block" />
                 <Parameter name="BiasColor" type="Catsland.Core.CatColor" value="0,1,0,0" />
@@ -843,7 +838,8 @@
             <Catsland.Plugin.BasicPlugin.ModelComponent name="">
               <String name="m_guid" value="70ae60d1-c3a6-4027-b5f6-67295e2c5a1f" />
               <Post_ModelName value="ground" />
-              <Material name="BasicEffect1">
+              <Material name="BasicLightEffect">
+                <Parameter name="LightInstance" type="Catsland.Core.CatFloat" value="0" />
                 <Parameter name="Alpha" type="Catsland.Core.CatFloat" value="1" />
                 <Parameter name="DiffuseMap" type="Catsland.Core.CatTexture" value="wonder_block" />
                 <Parameter name="BiasColor" type="Catsland.Core.CatColor" value="0,1,0,0" />
@@ -1067,7 +1063,8 @@
             <Catsland.Plugin.BasicPlugin.ModelComponent name="">
               <String name="m_guid" value="3825330d-68db-4092-8361-8cf56ebc00bf" />
               <Post_ModelName value="ground" />
-              <Material name="BasicEffect1">
+              <Material name="BasicLightEffect">
+                <Parameter name="LightInstance" type="Catsland.Core.CatFloat" value="0" />
                 <Parameter name="Alpha" type="Catsland.Core.CatFloat" value="1" />
                 <Parameter name="DiffuseMap" type="Catsland.Core.CatTexture" value="wonder_block" />
                 <Parameter name="BiasColor" type="Catsland.Core.CatColor" value="0.5019608,0,0,0" />
@@ -1131,7 +1128,8 @@
             <Catsland.Plugin.BasicPlugin.ModelComponent name="">
               <String name="m_guid" value="963fe595-e5b1-4a04-83ec-2ee098384359" />
               <Post_ModelName value="ground" />
-              <Material name="BasicEffect1">
+              <Material name="BasicLightEffect">
+                <Parameter name="LightInstance" type="Catsland.Core.CatFloat" value="0" />
                 <Parameter name="Alpha" type="Catsland.Core.CatFloat" value="1" />
                 <Parameter name="DiffuseMap" type="Catsland.Core.CatTexture" value="wonder_block" />
                 <Parameter name="BiasColor" type="Catsland.Core.CatColor" value="0.5019608,0,0,0" />
@@ -1195,7 +1193,8 @@
             <Catsland.Plugin.BasicPlugin.ModelComponent name="">
               <String name="m_guid" value="268ea261-3d3e-4a63-bc7e-ad2065d908d6" />
               <Post_ModelName value="ground" />
-              <Material name="BasicEffect1">
+              <Material name="BasicLightEffect">
+                <Parameter name="LightInstance" type="Catsland.Core.CatFloat" value="0" />
                 <Parameter name="Alpha" type="Catsland.Core.CatFloat" value="1" />
                 <Parameter name="DiffuseMap" type="Catsland.Core.CatTexture" value="wonder_block" />
                 <Parameter name="BiasColor" type="Catsland.Core.CatColor" value="0.5019608,0,0,0" />
@@ -1259,7 +1258,8 @@
             <Catsland.Plugin.BasicPlugin.ModelComponent name="">
               <String name="m_guid" value="b19f5d9a-3f52-4bec-8b32-3238bc75e4d9" />
               <Post_ModelName value="ground" />
-              <Material name="BasicEffect1">
+              <Material name="BasicLightEffect">
+                <Parameter name="LightInstance" type="Catsland.Core.CatFloat" value="0" />
                 <Parameter name="Alpha" type="Catsland.Core.CatFloat" value="1" />
                 <Parameter name="DiffuseMap" type="Catsland.Core.CatTexture" value="wonder_block" />
                 <Parameter name="BiasColor" type="Catsland.Core.CatColor" value="1,0.5019608,0,0" />
@@ -1312,7 +1312,8 @@
             <Catsland.Plugin.BasicPlugin.ModelComponent name="">
               <String name="m_guid" value="9676b77d-be6f-415e-bc29-43dd6d25e43e" />
               <Post_ModelName value="ground" />
-              <Material name="BasicEffect1">
+              <Material name="BasicLightEffect">
+                <Parameter name="LightInstance" type="Catsland.Core.CatFloat" value="0" />
                 <Parameter name="Alpha" type="Catsland.Core.CatFloat" value="1" />
                 <Parameter name="DiffuseMap" type="Catsland.Core.CatTexture" value="wonder_block" />
                 <Parameter name="BiasColor" type="Catsland.Core.CatColor" value="0,1,0,0" />
@@ -1365,7 +1366,8 @@
             <Catsland.Plugin.BasicPlugin.ModelComponent name="">
               <String name="m_guid" value="291d9bf2-34bf-4251-be0c-a4273c42dd15" />
               <Post_ModelName value="ground" />
-              <Material name="BasicEffect1">
+              <Material name="BasicLightEffect">
+                <Parameter name="LightInstance" type="Catsland.Core.CatFloat" value="0" />
                 <Parameter name="Alpha" type="Catsland.Core.CatFloat" value="1" />
                 <Parameter name="DiffuseMap" type="Catsland.Core.CatTexture" value="wonder_block" />
                 <Parameter name="BiasColor" type="Catsland.Core.CatColor" value="0,1,0,0" />
@@ -1418,7 +1420,8 @@
             <Catsland.Plugin.BasicPlugin.ModelComponent name="">
               <String name="m_guid" value="1f9013af-5ecf-4edb-bf22-0d4d7e21b488" />
               <Post_ModelName value="ground" />
-              <Material name="BasicEffect1">
+              <Material name="BasicLightEffect">
+                <Parameter name="LightInstance" type="Catsland.Core.CatFloat" value="0" />
                 <Parameter name="Alpha" type="Catsland.Core.CatFloat" value="1" />
                 <Parameter name="DiffuseMap" type="Catsland.Core.CatTexture" value="wonder_block" />
                 <Parameter name="BiasColor" type="Catsland.Core.CatColor" value="0,1,0,0" />
@@ -1471,7 +1474,8 @@
             <Catsland.Plugin.BasicPlugin.ModelComponent name="">
               <String name="m_guid" value="9a258316-2962-4cfb-9afb-01f5031fecc3" />
               <Post_ModelName value="ground" />
-              <Material name="BasicEffect1">
+              <Material name="BasicLightEffect">
+                <Parameter name="LightInstance" type="Catsland.Core.CatFloat" value="0" />
                 <Parameter name="Alpha" type="Catsland.Core.CatFloat" value="1" />
                 <Parameter name="DiffuseMap" type="Catsland.Core.CatTexture" value="wonder_block" />
                 <Parameter name="BiasColor" type="Catsland.Core.CatColor" value="0,1,0,0" />
@@ -1509,6 +1513,44 @@
         </KeyValue>
       </IDictionary>
       <String name="m_guid" value="a5d1cdeb-5fcb-4a73-a95a-ee8473c967e2" />
+    </Catsland.Core.GameObject>
+    <Catsland.Core.GameObject>
+      <String name="m_name" value="UntitledGameObject" />
+      <CatVector3 name="m_position" value="2.20751,1.917961,-1" />
+      <CatQuaternion name="m_rotation" value="0,0,0,1" />
+      <CatVector3 name="m_scale" value="1,1,1" />
+      <IDictionary name="m_components" typeinfo="System.Collections.Generic.Dictionary`2[System.String,Catsland.Core.CatComponent]">
+        <KeyValue>
+          <Key>
+            <String name="" value="Catsland.Plugin.BasicPlugin.ModelComponent" />
+          </Key>
+          <Value>
+            <Catsland.Plugin.BasicPlugin.ModelComponent name="">
+              <String name="m_guid" value="8b87acd1-5c50-4f9f-acbe-7bb83e59488f" />
+              <Post_ModelName value="ground" />
+              <Material name="BasicLightEffect">
+                <Parameter name="LightInstance" type="Catsland.Core.CatFloat" value="1" />
+                <Parameter name="Alpha" type="Catsland.Core.CatFloat" value="1" />
+                <Parameter name="DiffuseMap" type="Catsland.Core.CatTexture" value="wonder_block" />
+                <Parameter name="BiasColor" type="Catsland.Core.CatColor" value="1,1,1,0" />
+              </Material>
+            </Catsland.Plugin.BasicPlugin.ModelComponent>
+          </Value>
+        </KeyValue>
+        <KeyValue>
+          <Key>
+            <String name="" value="Catsland.Plugin.BasicPlugin.QuadRender" />
+          </Key>
+          <Value>
+            <Catsland.Plugin.BasicPlugin.QuadRender name="">
+              <CatVector2 name="m_size" value="20,10" />
+              <CatVector2 name="m_offset" value="0,0" />
+              <String name="m_guid" value="6328f4df-19c7-4c50-a5e8-92829e4909dd" />
+            </Catsland.Plugin.BasicPlugin.QuadRender>
+          </Value>
+        </KeyValue>
+      </IDictionary>
+      <String name="m_guid" value="568cc381-bdf1-4abc-b7ec-55babb1024ec" />
     </Catsland.Core.GameObject>
   </GameObjects>
 </Scene>

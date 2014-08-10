@@ -72,23 +72,27 @@ namespace Catsland.Core {
             drawableList.Sort();
             drawableList.Reverse();
             if (m_shadowRender != null) {
+                m_shadowRender.DoRender(_timeLastFrame);
+                foreach (Drawable drawable in drawableList) {
+                    drawable.Draw(_timeLastFrame);
+                }
                 // render object in shadow
-                Renderer.SetColorTarget(m_inShadowMap);
-                GraphicsDevice graphicsDevice = Mgr<GraphicsDevice>.Singleton;
-                graphicsDevice.Clear(Color.White);
-                int i = 0;
-//                 for (;
-//                     (drawableList[i].GetDepth() > 0.0f && i < drawableList.Count);
-                    for(; i < drawableList.Count; ++i) {
-                    drawableList[i].Draw(_timeLastFrame);
-                }
-                Renderer.CancelColorTarget();
-                // combine inShadowMap and accumulateLight
-                m_shadowRender.ShadowObject(_timeLastFrame, m_inShadowMap);
-                // render after
-                for (; i < drawableList.Count; ++i) {
-                    drawableList[i].Draw(_timeLastFrame);
-                }
+//                 Renderer.SetColorTarget(m_inShadowMap);
+//                 GraphicsDevice graphicsDevice = Mgr<GraphicsDevice>.Singleton;
+//                 graphicsDevice.Clear(Color.White);
+//                 int i = 0;
+// //                 for (;
+// //                     (drawableList[i].GetDepth() > 0.0f && i < drawableList.Count);
+//                     for(; i < drawableList.Count; ++i) {
+//                     drawableList[i].Draw(_timeLastFrame);
+//                 }
+//                 Renderer.CancelColorTarget();
+//                 // combine inShadowMap and accumulateLight
+//                 m_shadowRender.ShadowObject(_timeLastFrame, m_inShadowMap);
+//                 // render after
+//                 for (; i < drawableList.Count; ++i) {
+//                     drawableList[i].Draw(_timeLastFrame);
+//                 }
             }
             else {
                 foreach (Drawable drawable in drawableList) {

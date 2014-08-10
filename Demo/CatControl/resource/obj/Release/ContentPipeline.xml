@@ -136,6 +136,15 @@
       <Output>D:\workspace\catsland_git\Demo\CatControl\asset\resource\image\juan_detail.xnb</Output>
       <Time>2014-08-02T22:20:33.0026295+08:00</Time>
     </Item>
+    <Item>
+      <Source>effect\BasicLightEffect.fx</Source>
+      <Name>effect\BasicLightEffect</Name>
+      <Importer>EffectImporter</Importer>
+      <Processor>EffectProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\workspace\catsland_git\Demo\CatControl\asset\resource\effect\BasicLightEffect.xnb</Output>
+      <Time>2014-08-10T15:55:12.6933436+08:00</Time>
+    </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
       <TargetPlatform>Windows</TargetPlatform>

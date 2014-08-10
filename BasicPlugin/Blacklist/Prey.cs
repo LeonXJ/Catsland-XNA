@@ -23,11 +23,11 @@ namespace Catsland.Plugin.BasicPlugin {
 
         }
 
-        public override void BindToScene(Scene scene) {
-            base.BindToScene(scene);
+        public override void Initialize(Scene scene) {
+            base.Initialize(scene);
             Blacklist blacklist = scene.GetSharedObject(typeof(Blacklist).ToString())
                                     as Blacklist;
-            if(blacklist != null){
+            if (blacklist != null) {
                 blacklist.AddToBlacklist(this);
             }
         }

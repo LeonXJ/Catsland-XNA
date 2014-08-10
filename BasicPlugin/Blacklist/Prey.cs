@@ -8,6 +8,10 @@ using Microsoft.Xna.Framework;
 namespace Catsland.Plugin.BasicPlugin {
     public class Prey : CatComponent{
 
+        /**
+         * @brief prey is added to blacklist by itself. Hunters may search for
+         *      preys
+         */
 
         public Prey(GameObject _gameObject)
             : base(_gameObject) {
@@ -21,8 +25,10 @@ namespace Catsland.Plugin.BasicPlugin {
 
         public override void BindToScene(Scene scene) {
             base.BindToScene(scene);
-            if (Mgr<Blacklist>.Singleton != null) {
-                Mgr<Blacklist>.Singleton.AddToBlacklist(this);
+            Blacklist blacklist = scene.GetSharedObject(typeof(Blacklist).ToString())
+                                    as Blacklist;
+            if(blacklist != null){
+                blacklist.AddToBlacklist(this);
             }
         }
 

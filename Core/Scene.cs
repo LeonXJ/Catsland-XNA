@@ -81,6 +81,9 @@ namespace Catsland.Core {
         // the list of selectable rectangles
         public RepeatableList<ISelectable> _selectableList;
 
+
+        private Dictionary<string, object> m_sharedTable;
+
         // the vertex of scene debug box
         VertexPositionColor[] m_vertex;
         VertexBuffer m_vertexBuffer;
@@ -108,6 +111,7 @@ namespace Catsland.Core {
         private PostProcessMotionBlur m_motionBlur;
 
         public Scene() {
+            m_sharedTable = new Dictionary<string, object>();
         }
 
         /**
@@ -540,6 +544,37 @@ namespace Catsland.Core {
 
         public Vector3 TranslateToFlatCoord(Vector3 position) {
             return new Vector3(position.X, position.Y * _yCos + position.Z * _ySin, 0.0f);
+        }
+
+        /**
+         * @brief make a object scene-wide accessable
+         */ 
+        public void AddSharedObject(string _key, object _object) {
+            if (m_sharedTable != null && !m_sharedTable.ContainsKey(_key)) {
+                m_sharedTable.Add(_key, _object);
+            }
+            else {
+                System.Console.Out.WriteLine("Error! Cannot add " + _key + " to as shared object.");
+            }
+        }
+
+        public object GetSharedObject(string _key) {
+            if (m_sharedTable != null && m_sharedTable.ContainsKey(_key)) {
+                return m_sharedTable[_key];
+            }
+            else {
+                System.Console.Out.WriteLine(("Error! Cannot get " + _key + " from shared object table."));
+                return null;
+            }
+        }
+
+        public void RemoveSharedObject(string _key) {
+            if (m_sharedTable != null && m_sharedTable.ContainsKey(_key)) {
+                m_sharedTable.Remove(_key);
+            }
+            else {
+                System.Console.Out.WriteLine(("Error! Cannot find " + _key + " from shared object table."));
+            }
         }
     }
 }

@@ -8,6 +8,10 @@ using Microsoft.Xna.Framework;
 namespace Catsland.Plugin.BasicPlugin {
     public class Hunter : SpotLight {
 
+        /**
+         * @brief Hunter searches for preys in the blacklist.
+         */ 
+
 #region Properties
 
 #endregion
@@ -38,8 +42,10 @@ namespace Catsland.Plugin.BasicPlugin {
             base.Update(timeLastFrame);
 
             bool alarm = false;
-            if (Mgr<Blacklist>.Singleton != null) {
-                foreach (Prey prey in Mgr<Blacklist>.Singleton.Preys) {
+            Blacklist blacklist = Mgr<Scene>.Singleton.GetSharedObject(typeof(Blacklist).ToString()) 
+                as Blacklist;
+            if (blacklist != null) {
+                foreach (Prey prey in blacklist.Preys) {
                     if (IsPointInOnLight(prey.GetPointInWorld())) {
                         m_debugShape.DiffuseColor = Color.Red;
                         DiffuseColor = Color.Red;

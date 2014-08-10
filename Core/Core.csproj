@@ -138,7 +138,7 @@
     <Compile Include="Debugging\CatConsole.cs" />
     <Compile Include="Debugging\ConsolePanel.cs" />
     <Compile Include="Debugging\UDPConsolePanel.cs" />
-    <Compile Include="DebugShape.cs" />
+    <Compile Include="Debugging\DebugShape.cs" />
     <Compile Include="Math\CatMath.cs" />
     <Compile Include="Animation\MotionDelegatePack.cs" />
     <Compile Include="Animation\MotionDelegator.cs" />

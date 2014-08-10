@@ -85,7 +85,6 @@ namespace Catsland.Core {
 
         public void BindToScene(Scene _scene) {
             if (Mgr<GameEngine>.Singleton._gameEngineMode == GameEngine.GameEngineMode.MapEditor) {
-                // add to debug drawable
                 if (_scene != null) {
                     _scene._debugDrawableList.AddItem(this);
                 }

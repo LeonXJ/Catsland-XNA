@@ -8,6 +8,10 @@ using Microsoft.Xna.Framework;
 namespace Catsland.Plugin.BasicPlugin {
     public class LightSensor : CatComponent{
 
+        /**
+         * @brief a test component for testing lighting in editor
+         */
+
 #region Properties
 
         private DebugShape m_debugShape;

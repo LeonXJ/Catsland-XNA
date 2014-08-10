@@ -7,6 +7,11 @@ using Catsland.Core;
 namespace Catsland.Plugin.BasicPlugin {
     public class Blacklist : CatComponent{
 
+        /**
+         * @brief a scene-wide blacklist, hunters may search for preys in added to
+         *      this blacklist.
+         */
+
 #region Properties
 
         private HashSet<Prey> m_preys = new HashSet<Prey>();
@@ -30,12 +35,16 @@ namespace Catsland.Plugin.BasicPlugin {
         }
 
         private void AddToMgr() {
-            Mgr<Blacklist>.Singleton = this;
+            Mgr<Scene>.Singleton.AddSharedObject(typeof(Blacklist).ToString(), this);
+        }
+
+        public override void Destroy() {
+            base.Destroy();
+            Mgr<Scene>.Singleton.RemoveSharedObject(typeof(Blacklist).ToString());
         }
 
         public override void Initialize(Scene scene) {
-            base.Initialize(scene);
-            
+            base.Initialize(scene); 
         }
 
         public void AddToBlacklist(Prey _prey) {

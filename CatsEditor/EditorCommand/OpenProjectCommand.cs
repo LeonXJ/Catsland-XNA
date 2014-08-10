@@ -34,6 +34,7 @@ namespace Catsland.CatsEditor.EditorCommand {
                 CatProject newProject = CatProject.OpenProject(filename, _mapEditor.m_gameEngine);
                 _mapEditor.curProject = newProject;
                 Mgr<CatProject>.Singleton = _mapEditor.curProject;
+                _mapEditor.UpdateModelList(_mapEditor.curProject.modelList1.contentList);
 
                 // load current project
                 _mapEditor.OpenScene(_mapEditor.curProject.GetSceneFileAddress(_mapEditor.curProject.currentSceneName));

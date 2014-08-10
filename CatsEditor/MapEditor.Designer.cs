@@ -640,6 +640,7 @@
             this.modelList.Sorted = true;
             this.modelList.TabIndex = 0;
             this.modelList.MouseClick += new System.Windows.Forms.MouseEventHandler(this.modelList_MouseClick);
+            this.modelList.SelectedIndexChanged += new System.EventHandler(this.modelList_SelectedIndexChanged);
             // 
             // tabPage5
             // 

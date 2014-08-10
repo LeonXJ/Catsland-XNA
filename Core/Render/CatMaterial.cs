@@ -21,18 +21,16 @@ namespace Catsland.Core {
      * */
     public class CatMaterial {
 
-        private string m_name;
         private Dictionary<string, IEffectParameter> m_parameters = new Dictionary<string, IEffectParameter>();
         private CatMaterialTemplate m_materialTemplate;
 
         public CatMaterial(CatMaterialTemplate _materialTemplate) {
-            m_name = _materialTemplate.GetName();
             m_parameters = new Dictionary<string, IEffectParameter>();
             m_materialTemplate = _materialTemplate;
         }
 
         public string GetName() {
-            return m_name;
+            return m_materialTemplate.GetName();
         }
 
         /**
@@ -66,7 +64,6 @@ namespace Catsland.Core {
                 }
             }
 
-            m_name = _materialTemplate.GetName();
             m_parameters = newParameters;
             m_materialTemplate = _materialTemplate;   
         }
@@ -172,7 +169,7 @@ namespace Catsland.Core {
 
         public bool SaveToNode(XmlNode node, XmlDocument doc, bool _isTip = false) {
             XmlElement material = doc.CreateElement("Material");
-            material.SetAttribute("name", m_name);
+            material.SetAttribute("name", GetName());
             node.AppendChild(material);
 
             foreach (KeyValuePair<string, IEffectParameter> keyValue in m_parameters) {

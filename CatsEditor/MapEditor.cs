@@ -357,8 +357,10 @@ namespace Catsland.Editor {
         delegate void UpdateModelListDelegate(Dictionary<String, CatModel> models);
         private void UpdateModelList_u(Dictionary<String, CatModel> models) {
             modelList.Items.Clear();
-            foreach (KeyValuePair<String, Catsland.Core.CatModel> pair in models) {
-                modelList.Items.Add(pair.Key);
+            if (models != null) {
+                foreach (KeyValuePair<String, Catsland.Core.CatModel> pair in models) {
+                    modelList.Items.Add(pair.Key);
+                }
             }
             modelList.Refresh();
         }
@@ -1616,6 +1618,10 @@ namespace Catsland.Editor {
 
         private void renderArea_MouseLeave(object sender, EventArgs e) {
             renderAreaLostFocus(sender, e);
+        }
+
+        private void modelList_SelectedIndexChanged(object sender, EventArgs e) {
+
         }
 
     }

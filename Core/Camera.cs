@@ -105,6 +105,18 @@ namespace Catsland.Core {
             }
         }
 
+        [SerialAttribute]
+        private readonly CatColor m_backgroundColor = new CatColor(Color.LightBlue.ToVector4());
+        public Color BackgroundColor {
+            set {
+                m_backgroundColor.SetValue(value);
+            }
+            get {
+                return m_backgroundColor;
+            }
+        }
+
+
         private bool m_forceUpdateMatrixByCamera = false;
         public bool ForceUpdateMatrixByCameraUpdate {
             set {

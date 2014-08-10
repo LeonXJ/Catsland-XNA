@@ -64,9 +64,15 @@ namespace Catsland.Plugin.BasicPlugin
             // <Post_ModelName value="Cat" />
             XmlElement eleModelName = _doc.CreateElement("Post_ModelName");
             _node.AppendChild(eleModelName);
-            eleModelName.SetAttribute("value", m_model.GetName());
+            string modelNameValue = "";
+            if (m_model != null) {
+                modelNameValue = m_model.GetName();
+            }
+            eleModelName.SetAttribute("value", modelNameValue);
             // <Material>
-            m_catModelInstance.GetMaterial().SaveToNode(_node, _doc, true);
+            if (m_catModelInstance != null) {
+                m_catModelInstance.GetMaterial().SaveToNode(_node, _doc, true);
+            }
         }
 
         public override void ConfigureFromNode(XmlElement node, Scene scene, GameObject gameObject)

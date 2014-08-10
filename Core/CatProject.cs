@@ -110,6 +110,10 @@ namespace Catsland.Core {
             foreach (String fx in fxs) {
                 File.Copy(fx, resourceDirectory + "effect/" + Path.GetFileName(fx), true);
             }
+            string[] mtrls = Directory.GetFiles("resource/material");
+            foreach (String mtrl in mtrls) {
+                File.Copy(mtrl, resourceDirectory + "material/" + Path.GetFileName(mtrl), true);
+            }
             // asset
             string assetDirectory = projectRoot + '/' + ASSET_DIR;
             TestCreateDirectory(assetDirectory);
@@ -126,16 +130,17 @@ namespace Catsland.Core {
             newProject.contentManger.RootDirectory = projectRoot + ASSET_DIR + '/' + RESOURCE_DIR;
 
             // save project files
-            newProject.SaveProject(newProject.GetProjectXMLAddress());
+            newProject.SaveProject(newProject.GetProjectXMLAddress(), true);
             Mgr<CatProject>.Singleton = newProject;
             // create a empty scene
             Scene scene = Scene.CreateEmptyScene(newProject);
             scene.SaveScene(newProject.projectRoot + RESOURCE_DIR + "/scene/" + newProject.currentSceneName + ".scene");
+            newProject.SynchronizeScene();
 
             return newProject;
         }
 
-        public bool SaveProject(string _fileName) {
+        public bool SaveProject(string _fileName, bool _synchronized = false) {
             // save project file
             XmlDocument doc = new XmlDocument();
             XmlDeclaration dec = doc.CreateXmlDeclaration("1.0", "UTF-8", null);
@@ -160,7 +165,7 @@ namespace Catsland.Core {
             /*prefabList.SavePrefabs(projectRoot + RESOURCE_DIR + "/prefab/");*/
             prefabList.SavePrefabs(projectRoot + RESOURCE_DIR + "/prefab");
             // consider to recompile here
-            CompileResource();
+            CompileResource(_synchronized);
 
             return true;
         }
@@ -313,7 +318,7 @@ namespace Catsland.Core {
             }
         }
 
-        private void CompileResource() {
+        private void CompileResource(bool _synchronized = false) {
             // modify output project file
             XmlDocument template = new XmlDocument();
             template.Load("compileResource.proj");
@@ -333,13 +338,21 @@ namespace Catsland.Core {
             msbuild.StartInfo.FileName = Environment.ExpandEnvironmentVariables("%SystemRoot%") + @"\microsoft.NET\Framework\v4.0.30319\msbuild.exe";
             msbuild.StartInfo.Arguments = projectRoot + CatProject.RESOURCE_DIR + '/' + CatProject.RESOURCE_DIR + ".proj";
             msbuild.Start();
+            if (_synchronized) {
+                msbuild.WaitForExit();
+            }
         }
 
         public void SynchronizeScene() {
             // delete files in scene in asset folder
             String assetSceneDir = projectRoot + '/' + ASSET_DIR + '/' + RESOURCE_DIR + "/scene";
-            foreach(String file in Directory.GetFiles(assetSceneDir)){
-                File.Delete(file);
+            if (Directory.Exists(assetSceneDir)) {
+                foreach (String file in Directory.GetFiles(assetSceneDir)) {
+                    File.Delete(file);
+                }
+            }
+            else {
+                Directory.CreateDirectory(assetSceneDir);
             }
             // copy from resource to files
             foreach (String file in Directory.GetFiles(projectRoot + '/' + RESOURCE_DIR + "/scene")) {

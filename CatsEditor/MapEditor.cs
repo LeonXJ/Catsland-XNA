@@ -811,6 +811,7 @@ namespace Catsland.Editor {
             }
         }
 
+        // Create Model
         private void toolStripButton2_Click(object sender, EventArgs e) {
             // find title
             String title = "Untitled";
@@ -821,16 +822,16 @@ namespace Catsland.Editor {
             }
 
             // find material
-            CatMaterial mtrl = null;
-            if (Mgr<CatProject>.Singleton.materialList1.contentList != null) {
-                foreach (KeyValuePair<String, CatMaterial> pair in
-                    Mgr<CatProject>.Singleton.materialList1.contentList) {
+            CatMaterialTemplate mtrl = null;
+            if (Mgr<CatProject>.Singleton.materialList1.GetMaterialTemplateList() != null) {
+                foreach (KeyValuePair<String, CatMaterialTemplate> pair in
+                    Mgr<CatProject>.Singleton.materialList1.GetMaterialTemplateList()) {
                     mtrl = pair.Value;
                     break;
                 }
             }
-           
-            Catsland.Core.CatModel newModel = new Catsland.Core.CatModel(title + index, mtrl);
+
+            CatModel newModel = new CatModel(title + index, mtrl.GetMaterialPrototype());
             list.AddModel(newModel);
 
             tabControl1.SelectedTab = tabPage2;

@@ -34,12 +34,22 @@ namespace Catsland.Core {
 
         public void FromString(string _value) {
             // check the path
-            m_texture = Mgr<CatProject>.Singleton.contentManger.Load<Texture2D>("image\\" + _value);
-            m_texture.Name = _value;
+            if (_value == "") {
+                m_texture = null;
+            }
+            else {
+                m_texture = Mgr<CatProject>.Singleton.contentManger.Load<Texture2D>("image\\" + _value);
+                m_texture.Name = _value;
+            }
         }
 
         public string ToValueString() {
-            return m_texture.Name;
+            if (m_texture == null) {
+                return "";
+            }
+            else {
+                return m_texture.Name;
+            }
         }
     }
 }

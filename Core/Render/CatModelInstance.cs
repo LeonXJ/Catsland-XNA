@@ -23,8 +23,10 @@ namespace Catsland.Core {
          * @result the instance
          * */
         public static CatModelInstance CreateFromCatsModel(CatModel _catsModel) {
+            if (_catsModel == null) {
+                return null;
+            }
             CatModelInstance newCatModelInstance = new CatModelInstance();
-
             newCatModelInstance.m_catModel = _catsModel;
             newCatModelInstance.m_materialParameterTips = _catsModel.GetMaterial().Clone();
 

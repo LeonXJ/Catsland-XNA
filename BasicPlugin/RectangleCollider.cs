@@ -18,7 +18,9 @@ namespace Catsland.Plugin.BasicPlugin {
         protected readonly CatVector2 m_size;
         public Vector2 Size {
             set {
-                m_size.SetValue(value);
+                float width = MathHelper.Max(value.X, 0.0f);
+                float height = MathHelper.Max(value.Y, 0.0f);
+                m_size.SetValue(new Vector2(width, height));
                 if (m_body != null) {
                     CreateAndConfigBody();
                 }

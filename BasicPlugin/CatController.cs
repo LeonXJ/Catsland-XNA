@@ -524,10 +524,10 @@ namespace Catsland.Plugin.BasicPlugin {
         }
 
         protected bool OnCollision(Fixture _fixtureA, Fixture _fixtureB, Contact _contact) {
-            if (IsTallBlocker(_fixtureA)) {
+            if (_fixtureA.Body != m_body && IsTallBlocker(_fixtureA)) {
                 m_tallerSensorTouched += 1;
             }
-            else if (IsTallBlocker(_fixtureB)) {
+            else if (_fixtureB.Body != m_body && IsTallBlocker(_fixtureB)) {
                 m_tallerSensorTouched += 1;
             }
             return true;
@@ -947,7 +947,7 @@ namespace Catsland.Plugin.BasicPlugin {
         }
 
         public void Do(CatController _controller, int _delta) {
-            if (_controller.IsOnGround()) {
+            if (_controller.IsOnGround() || _controller.TryExitStealth() == false) {
                 if (!_controller.m_wantDown) {
                     _controller.TryExitStealth();
                 }

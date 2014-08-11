@@ -26,7 +26,7 @@ namespace Catsland.Core {
         private Stack<int> m_freeShadowBodyIDList;
 
         private static int MaxLightNumber = 64;
-        private static int MaxShadowBodyNumber = 128;
+        private static int MaxShadowBodyNumber = 512;
         private static int MaxEdgeNumber = 128;
 
         private Effect m_accumulateEffect;

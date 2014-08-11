@@ -1227,6 +1227,7 @@ namespace Catsland.Editor {
                             as GameObject;//selected.CloneGameObject();
                         Serialable.EndSupportingDelayBinding();
                         Mgr<Scene>.Singleton._gameObjectList.AddItem(newGameObject.GUID, newGameObject);
+                        newGameObject.AttachToGameObject(selected.Parent);
                         selected = newGameObject;
                         m_observingGameObject = newGameObject;
                     }

@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Catsland.Core.CatModel>
+  <String name="m_name" value="juandetail" />
+  <Catsland.Core.Animation name="m_animation">
+    <IDictionary name="m_animationClips" typeinfo="System.Collections.Generic.Dictionary`2[System.String,Catsland.Core.AnimationClip]">
+      <KeyValue>
+        <Key>
+          <String name="" value="stand" />
+        </Key>
+        <Value>
+          <Catsland.Core.AnimationClip name="">
+            <String name="m_name" value="stand" />
+            <CatInteger name="m_beginIndex" value="0" />
+            <CatInteger name="m_endIndex" value="7" />
+            <String name="m_guid" value="41fa23d7-f9c2-4620-aa7d-778c0ac23b5c" />
+            <Post_PlayMode value="LOOP" />
+          </Catsland.Core.AnimationClip>
+        </Value>
+      </KeyValue>
+      <KeyValue>
+        <Key>
+          <String name="" value="run" />
+        </Key>
+        <Value>
+          <Catsland.Core.AnimationClip name="">
+            <String name="m_name" value="run" />
+            <CatInteger name="m_beginIndex" value="8" />
+            <CatInteger name="m_endIndex" value="17" />
+            <String name="m_guid" value="5085a569-6c65-411d-a252-f0b83e0c300f" />
+            <Post_PlayMode value="LOOP" />
+          </Catsland.Core.AnimationClip>
+        </Value>
+      </KeyValue>
+      <KeyValue>
+        <Key>
+          <String name="" value="jumpup" />
+        </Key>
+        <Value>
+          <Catsland.Core.AnimationClip name="">
+            <String name="m_name" value="jumpup" />
+            <CatInteger name="m_beginIndex" value="18" />
+            <CatInteger name="m_endIndex" value="20" />
+            <String name="m_guid" value="6931c728-eeda-4665-a446-775ff853d2d0" />
+            <Post_PlayMode value="CLAMP" />
+          </Catsland.Core.AnimationClip>
+        </Value>
+      </KeyValue>
+      <KeyValue>
+        <Key>
+          <String name="" value="fall" />
+        </Key>
+        <Value>
+          <Catsland.Core.AnimationClip name="">
+            <String name="m_name" value="fall" />
+            <CatInteger name="m_beginIndex" value="21" />
+            <CatInteger name="m_endIndex" value="21" />
+            <String name="m_guid" value="fd50f2e4-2b7e-4b61-8518-c588ec46368a" />
+            <Post_PlayMode value="CLAMP" />
+          </Catsland.Core.AnimationClip>
+        </Value>
+      </KeyValue>
+      <KeyValue>
+        <Key>
+          <String name="" value="attach" />
+        </Key>
+        <Value>
+          <Catsland.Core.AnimationClip name="">
+            <String name="m_name" value="attach" />
+            <CatInteger name="m_beginIndex" value="22" />
+            <CatInteger name="m_endIndex" value="27" />
+            <String name="m_guid" value="a89fbea4-d398-45a7-8f54-c665c6af67b5" />
+            <Post_PlayMode value="LOOP" />
+          </Catsland.Core.AnimationClip>
+        </Value>
+      </KeyValue>
+    </IDictionary>
+    <CatPoint name="m_tiltUV" value="8,4" />
+    <String name="m_defaultAnimationClipName" value="stand" />
+    <CatInteger name="m_millionSecondPerFrame" value="50" />
+    <String name="m_guid" value="baeea63f-3043-4504-aa24-8b06554e0dd9" />
+  </Catsland.Core.Animation>
+  <String name="m_guid" value="d17f3b19-0677-41ef-8dbb-e26467f5d896" />
+  <Material name="BasicLightEffect">
+    <Parameter name="LightInstance" type="Catsland.Core.CatFloat" value="0" />
+    <Parameter name="Alpha" type="Catsland.Core.CatFloat" value="1" />
+    <Parameter name="DiffuseMap" type="Catsland.Core.CatTexture" value="juan_detail" />
+    <Parameter name="BiasColor" type="Catsland.Core.CatColor" value="0,0,0,0" />
+  </Material>
+</Catsland.Core.CatModel>

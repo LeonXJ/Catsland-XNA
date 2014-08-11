@@ -197,7 +197,7 @@ namespace Catsland.Core {
             }
         }
 
-        public float m_editorCameraMovingSpeed = 0.01f;
+        public float m_editorCameraMovingSpeed = 0.1f;
         public float EditorCameraMovingSpeed {
             set {
                 m_editorCameraMovingSpeed = value;
@@ -305,7 +305,7 @@ namespace Catsland.Core {
             }
         }
 
-        public void EditorUpdate() {
+        public void EditorUpdate(int _skewedTimeInMS) {
             KeyboardState keyboardState = Keyboard.GetState();
             Vector3 offsetDirection = Vector3.Zero;
 
@@ -313,25 +313,34 @@ namespace Catsland.Core {
                 return;
             }
 
+            bool pressed = false;
             if (keyboardState.IsKeyDown(Keys.W)) {
                 offsetDirection = Vector3.UnitY;
-                Translate(offsetDirection * EditorCameraMovingSpeed);
+                pressed = true;
+                //Translate(offsetDirection * EditorCameraMovingSpeed);
                 //MoveBiasIn2D(Vector2.UnitY * m_editorCameraMoveSpeed);
             }
             if (keyboardState.IsKeyDown(Keys.S)) {
                 offsetDirection = -Vector3.UnitY;
-                Translate(offsetDirection * EditorCameraMovingSpeed);
+                pressed = true;
+                //Translate(offsetDirection * EditorCameraMovingSpeed);
                 //MoveBiasIn2D(Vector2.UnitY * -m_editorCameraMoveSpeed);
             }
             if (keyboardState.IsKeyDown(Keys.A)) {
                 offsetDirection = -Vector3.UnitX;
-                Translate(offsetDirection * EditorCameraMovingSpeed);
+                pressed = true;
+                //Translate(offsetDirection * EditorCameraMovingSpeed);
                 //MoveBiasIn2D(Vector2.UnitX * -m_editorCameraMoveSpeed);
             }
             if (keyboardState.IsKeyDown(Keys.D)) {
                 offsetDirection = Vector3.UnitX;
-                Translate(offsetDirection * EditorCameraMovingSpeed);
+                pressed = true;
+                //Translate(offsetDirection * EditorCameraMovingSpeed);
                 //MoveBiasIn2D(Vector2.UnitX * m_editorCameraMoveSpeed);
+            }
+            if (pressed) {
+                float ratio = ViewSize.X / 1000.0f;
+                Translate(offsetDirection * EditorCameraMovingSpeed * _skewedTimeInMS * ratio);
             }
             if (keyboardState.IsKeyDown(Keys.Q)) {
                 ZoomViewSize(new Vector2(0.99f, 0.99f));
@@ -341,39 +350,7 @@ namespace Catsland.Core {
                 ZoomViewSize(new Vector2(1.01f, 1.01f));
                 //ScaleWidthBias(0.01f);
             }
-//             if (keyboardState.IsKeyDown(Keys.Z)) {
-//                 Rotate(new Vector3(0.0f, 0.0f, -0.1f));
-//             }
-//             if (keyboardState.IsKeyDown(Keys.X)) {
-//                 Rotate(new Vector3(0.0f, 0.0f, 0.1f));
-//             }
-//             if (keyboardState.IsKeyDown(Keys.R)) {
-//                 Rotate(new Vector3(-0.1f, 0.0f, 0.0f));
-//             }
-//             if (keyboardState.IsKeyDown(Keys.F)) {
-//                 Rotate(new Vector3(0.1f, 0.0f, 0.0f));
-//             }
-//             // projection mode
-//             if (keyboardState.IsKeyDown(Keys.P)) {
-//                 SetProjectionMode(ProjectionMode.Perspective);
-//             }
-//             if (keyboardState.IsKeyDown(Keys.O)) {
-//                 SetProjectionMode(ProjectionMode.Orthographic);
-//             }
-//             // camera distance
-//             if (keyboardState.IsKeyDown(Keys.I)) {
-//                 ZoomCameraDistance(-0.01f);
-//             }
-//             if (keyboardState.IsKeyDown(Keys.K)) {
-//                 ZoomCameraDistance(0.01f);
-//             }
-//             // field of view
-//             if (keyboardState.IsKeyDown(Keys.J)) {
-//                 ZoomFieldOfView(-0.1f);
-//             }
-//             if (keyboardState.IsKeyDown(Keys.L)) {
-//                 ZoomFieldOfView(0.1f);
-//             }
+
         }
 
         public void Reset() {

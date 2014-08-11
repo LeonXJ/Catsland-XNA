@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Catsland.Core.CatModel>
+  <String name="m_name" value="branch03" />
+  <Catsland.Core.Animation name="m_animation">
+    <IDictionary name="m_animationClips" typeinfo="System.Collections.Generic.Dictionary`2[System.String,Catsland.Core.AnimationClip]" />
+    <CatPoint name="m_tiltUV" value="1,1" />
+    <String name="m_defaultAnimationClipName" value="" />
+    <CatInteger name="m_millionSecondPerFrame" value="50" />
+    <String name="m_guid" value="21c19ea2-84ac-4f8e-8ae7-4eec8ae84228" />
+  </Catsland.Core.Animation>
+  <String name="m_guid" value="9d3c50c5-0d42-4285-9654-27209113286a" />
+  <Material name="BasicLightEffect">
+    <Parameter name="LightInstance" type="Catsland.Core.CatFloat" value="0" />
+    <Parameter name="Alpha" type="Catsland.Core.CatFloat" value="1" />
+    <Parameter name="DiffuseMap" type="Catsland.Core.CatTexture" value="branch04" />
+    <Parameter name="BiasColor" type="Catsland.Core.CatColor" value="0,0,0,0" />
+  </Material>
+</Catsland.Core.CatModel>

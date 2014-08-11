@@ -55,7 +55,6 @@ namespace Catsland.Core {
                     contact.Enabled = false;
                 }
             }
-            
         }
 
         public void Update(int timeLastFrame) {

@@ -1624,6 +1624,16 @@ namespace Catsland.Editor {
 
         }
 
+        public void AdjustSelectedGameObjectPoistion(Vector2 _amount) {
+            if (m_observingGameObject != null && Mgr<Camera>.Singleton != null) {
+                float ratio = Mgr<Camera>.Singleton.ViewSize.X / 10000.0f;
+                m_observingGameObject.Position = 
+                    new Vector3(m_observingGameObject.Position.X + _amount.X * ratio,
+                                m_observingGameObject.Position.Y + _amount.Y * ratio, 
+                                0.0f);
+            }
+        }
+
     }
 
 }

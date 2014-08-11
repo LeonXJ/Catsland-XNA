@@ -30,5 +30,6 @@ namespace Catsland.Core
         void BindToScene(Scene scene);
         void GameEngineStarted();
         void LoadSceneComplete();
+        void AdjustSelectedGameObjectPoistion(Vector2 _amount);
     }
 }

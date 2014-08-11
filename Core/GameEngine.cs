@@ -381,7 +381,7 @@ namespace Catsland.Core {
                 Mgr<Scene>.Singleton._colliderList.UpdateRemove();
             }
             if (Mgr<Camera>.Singleton != null) {
-                Mgr<Camera>.Singleton.EditorUpdate();
+                Mgr<Camera>.Singleton.EditorUpdate(_skewedTimeInMS);
             }
             if (Mgr<Scene>.Singleton._gameObjectList != null) {
                 Mgr<Scene>.Singleton._gameObjectList.EditorUpdate(_skewedTimeInMS);
@@ -389,6 +389,7 @@ namespace Catsland.Core {
             if (Mgr<Scene>.Singleton.m_shadowSystem != null) {
                 Mgr<Scene>.Singleton.m_shadowSystem.Update(_skewedTimeInMS);
             }
+            UpdateEditorEditCommend(_skewedTimeInMS);
         }
 
         private void EditorGameUpdateProcess(int _skewedTimeInMS) {
@@ -416,6 +417,32 @@ namespace Catsland.Core {
                 if (_editor != null) {
                     _editor.LoadSceneComplete();
                 }
+            }
+        }
+
+        private void UpdateEditorEditCommend(int _skewedTimeInMS) {
+            KeyboardState keyboardState = Keyboard.GetState();
+            float hor = 0.0f;
+            float ver = 0.0f;
+            bool pressed = false;
+            if (keyboardState.IsKeyDown(Keys.J)) {
+                hor -= 1.0f;
+                pressed = true;
+            }
+            if (keyboardState.IsKeyDown(Keys.L)) {
+                hor += 1.0f;
+                pressed = true;
+            }
+            if(keyboardState.IsKeyDown(Keys.I)){
+                ver += 1.0f;
+                pressed = true;
+            }
+            if (keyboardState.IsKeyDown(Keys.K)) {
+                ver -= 1.0f;
+                pressed = true;
+            }
+            if (_editor != null && pressed) {
+                _editor.AdjustSelectedGameObjectPoistion(new Vector2(hor, ver) * _skewedTimeInMS);
             }
         }
 

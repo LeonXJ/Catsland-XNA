@@ -12,6 +12,7 @@
     <CatVector2 name="m_viewSize" value="8.426173,4.742736" />
     <CatFloat name="m_fieldOfView" value="90" />
     <CatVector2 name="m_clipDistance" value="0.1,100" />
+    <CatColor name="m_backgroundColor" value="0.6784314,0.8470588,0.9019608,1" />
     <String name="m_guid" value="6f33ee66-4458-499d-a32c-c0cb506a83d5" />
   </Catsland.Core.Camera>
   <Catsland.Core.PostProcessManager>

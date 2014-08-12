@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using System.Xml;
 using Catsland.Core;
 using System.ComponentModel;
+using Catsland.CatsEditor;
 
 namespace Catsland.Plugin.BasicPlugin
 {
@@ -368,31 +369,75 @@ namespace Catsland.Plugin.BasicPlugin
     public class QuadRenderGameObject : IEditorScript {
 
         public void RunScript() {
-
             GameObject newGameObject = new GameObject();
-            newGameObject.PositionOld = Vector2.Zero;
-            newGameObject.HeightOld = 0.0f;
-            // new position
             newGameObject.Position = (new CatVector3(Vector3.Zero));
-            // end of new position
-
             ModelComponent modelComponent = new ModelComponent(newGameObject);
-            modelComponent.BindToScene(Mgr<Scene>.Singleton);
-            modelComponent.Initialize(Mgr<Scene>.Singleton);
-            newGameObject.AddComponent(typeof(ModelComponent).Name, modelComponent);
-
+            newGameObject.AddComponent(modelComponent);
             QuadRender quadRender = new QuadRender(newGameObject);
-            quadRender.BindToScene(Mgr<Scene>.Singleton);
-            quadRender.Initialize(Mgr<Scene>.Singleton);
-            newGameObject.AddComponent(typeof(QuadRender).Name, quadRender);
-
-
+            newGameObject.AddComponent( quadRender);
             Mgr<Scene>.Singleton._gameObjectList.AddItem(newGameObject.GUID, newGameObject);
-            Mgr<Scene>.Singleton._debugDrawableList.AddItem(newGameObject);
         }
 
         public static string GetMenuNames() {
             return "Create GameObject|With Model and QuadRender";
+        }
+    }
+
+    public class GameObjectFromTexture : IEditorScript {
+        public void RunScript() {
+            if(Mgr<CatProject>.Singleton == null){
+                return;
+            }
+            // ask for model
+            string modelName = ResourceSelectorWindow.SelectResource(ResourceSelectorWindow.ObserveType.Model,
+                "");
+            if (modelName == "") {
+                return;
+            }
+            CatModel model = Mgr<CatProject>.Singleton.modelList1.GetModel(modelName);
+            if (model != null) {
+                CatMaterial material = model.GetMaterial();
+                if (material == null || !material.HasParameter("DiffuseMap")) {
+                    // TODO: give warning
+                    return;
+                }
+            }
+            else {
+                return;
+            }
+            // ask for texture
+            string textureName = ResourceSelectorWindow.SelectResource(ResourceSelectorWindow.ObserveType.Texture,
+                "");
+            if (textureName == "") {
+                return;
+            }
+            Texture2D texture = Mgr<CatProject>.Singleton.contentManger.Load<Texture2D>("image\\" + textureName);
+            if(texture == null){
+                return;
+            }
+            
+            GameObject newGameObject = new GameObject();
+            if(Mgr<Camera>.Singleton != null){
+                newGameObject.Position = new Vector3(Mgr<Camera>.Singleton.TargetPosition.X,
+                                                     Mgr<Camera>.Singleton.TargetPosition.Y,
+                                                     0.0f);
+            }
+            else{
+                newGameObject.Position = Vector3.Zero;
+            }
+            ModelComponent modelComponent = new ModelComponent(newGameObject);
+            newGameObject.AddComponent(modelComponent);
+            modelComponent.Model = model;
+            modelComponent.GetCatModelInstance().GetMaterial().SetParameter("DiffuseMap",
+                new CatTexture(texture));
+            QuadRender quadRender = new QuadRender(newGameObject);
+            newGameObject.AddComponent(quadRender);
+            quadRender.OptimalSize = true;
+            Mgr<Scene>.Singleton._gameObjectList.AddItem(newGameObject.GUID, newGameObject);
+        }
+
+        public static string GetMenuNames() {
+            return "Create GameObject|GameObject from Model and Texture";
         }
     }
 }

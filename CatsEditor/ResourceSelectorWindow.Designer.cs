@@ -133,6 +133,7 @@
             this.Controls.Add(this.contentList);
             this.Name = "ResourceSelectorWindow";
             this.Text = "Resource Browser";
+            this.Load += new System.EventHandler(this.ResourceSelectorWindow_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.ResumeLayout(false);

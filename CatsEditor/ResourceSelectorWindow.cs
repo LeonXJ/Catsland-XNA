@@ -13,6 +13,7 @@ namespace Catsland.CatsEditor {
     public partial class ResourceSelectorWindow : Form {
         public enum ObserveType {
             Texture = 0,
+            Model,
             All,
         };
         string m_selectedString;
@@ -27,6 +28,24 @@ namespace Catsland.CatsEditor {
         }
 
 
+        public static string SelectResource(ObserveType _resourceType, 
+            string _defaultResourceName = "", 
+            IWin32Window _owner = null) {
+            ResourceSelectorWindow resourceSelector = new ResourceSelectorWindow();
+            resourceSelector.SetType(_resourceType);
+            resourceSelector.CanTypeModify(false);
+            resourceSelector.UpdateList();
+            resourceSelector.Select(_defaultResourceName);
+            resourceSelector.ShowDialog(_owner);
+
+            if (resourceSelector.DialogResult == DialogResult.OK) {
+                return resourceSelector.GetSelectedString();
+            }
+            else {
+                return "";
+            }
+        }
+
         // called by user function
         public void SetType(ObserveType _type) {
             typeSelector.SelectedIndex = (int)_type;
@@ -39,7 +58,10 @@ namespace Catsland.CatsEditor {
         public void UpdateList() {
             string strType = (string)(typeSelector.SelectedItem);
             if (strType == ObserveType.Texture.ToString()) {
-                UpdateTextureList(Mgr<CatProject>.Singleton.projectRoot + "\\asset\\resource\\image");
+                UpdateListBySuffix(Mgr<CatProject>.Singleton.projectRoot + "\\asset\\resource\\image", "xnb");
+            }
+            else if (strType == ObserveType.Model.ToString()) {
+                UpdateListBySuffix(Mgr<CatProject>.Singleton.projectRoot + "\\asset\\resource\\model", "model");
             }
         }
 
@@ -61,9 +83,9 @@ namespace Catsland.CatsEditor {
             return m_selectedString;
         }
 
-        private void UpdateTextureList(string _directory) {
+        private void UpdateListBySuffix(string _directory, string _surfix) {
             contentList.Items.Clear();
-            string[] files = Directory.GetFiles(_directory, "*.xnb");
+            string[] files = Directory.GetFiles(_directory, "*." + _surfix);
             foreach (string file in files) {
                 // get file name without extension
                 int iBegin = file.LastIndexOf('\\');
@@ -100,6 +122,10 @@ namespace Catsland.CatsEditor {
                 m_selectedString = selected;
                 this.DialogResult = DialogResult.OK;
             }
+        }
+
+        private void ResourceSelectorWindow_Load(object sender, EventArgs e) {
+
         }
     }
 }

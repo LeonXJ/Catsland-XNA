@@ -757,19 +757,32 @@ namespace Catsland.Core {
          * the following functions are about components.
          * consider to replace them with uniqueList
          * */
-        #region
-        /**
-         * @brief add components
-         * 
-         * @param component_name name of the component
-         * @param component the component
-         * */
+
+        
+
+        [Obsolete("Use AddComponent(CatComponent) instead")]
         public void AddComponent(string component_name, CatComponent component) {
             if (m_components == null) {
                 m_components = new Dictionary<string, CatComponent>();
             }
             m_components.Add(component_name, component);
             component.m_gameObject = this;
+        }
+
+        /**
+         * @brief add components
+         * 
+         * @param component the component
+         * */
+        public void AddComponent(CatComponent _component) {
+            if (_component != null) {
+                string key = _component.GetType().ToString();
+                if (m_components == null) {
+                    m_components = new Dictionary<string, CatComponent>();
+                }
+                m_components.Add(key, _component);
+                _component.m_gameObject = this;
+            }
         }
 
         public Dictionary<string, CatComponent> GetComponentList() {
@@ -800,6 +813,6 @@ namespace Catsland.Core {
             }
             return false;
         }
-        #endregion
+
     }
 }

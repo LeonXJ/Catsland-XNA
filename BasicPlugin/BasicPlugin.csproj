@@ -124,13 +124,13 @@
     <Compile Include="ParticleEmitter.cs" />
     <Compile Include="IParticleUpdater.cs" />
     <Compile Include="Shadow\LightSensor.cs" />
-    <Compile Include="Shadow\LineLight.cs" />
     <Compile Include="Shadow\PointLight.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QuadRender.cs" />
     <Compile Include="RectangleCollider.cs" />
     <Compile Include="SelfDestroyer.cs" />
     <Compile Include="SensorAttachment.cs" />
+    <Compile Include="Shadow\RegionalDirectionLight.cs" />
     <Compile Include="Shadow\ShadingRectangle.cs" />
     <Compile Include="Shadow.cs" />
     <Compile Include="Shadow\SpotLight.cs" />

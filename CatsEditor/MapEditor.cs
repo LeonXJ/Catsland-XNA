@@ -365,6 +365,7 @@ namespace Catsland.Editor {
             modelList.Refresh();
         }
 
+        [Obsolete("Don't use material anymore")]
         public void UpdateMaterialList(Dictionary<String, CatMaterial> materials) {
             modelList.BeginInvoke(
                 new UpdateMaterialListDelegate(UpdateMaterialList_u), new object[] { materials });
@@ -833,7 +834,7 @@ namespace Catsland.Editor {
                 }
             }
 
-            CatModel newModel = new CatModel(title + index, mtrl.GetMaterialPrototype());
+            CatModel newModel = new CatModel(title + index, mtrl.GetMaterialPrototype().Clone());
             list.AddModel(newModel);
 
             tabControl1.SelectedTab = tabPage2;

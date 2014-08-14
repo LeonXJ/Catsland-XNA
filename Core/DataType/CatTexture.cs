@@ -29,7 +29,9 @@ namespace Catsland.Core {
         }
 
         public void SetParameter(Effect _effect, string _name) {
-            _effect.Parameters[_name].SetValue(m_texture);
+            if (m_texture != null) {
+                _effect.Parameters[_name].SetValue(m_texture);
+            }
         }
 
         public void FromString(string _value) {

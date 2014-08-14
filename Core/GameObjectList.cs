@@ -50,8 +50,7 @@ namespace Catsland.Core {
          * 
          * the gameObject will be added to list in next adding phase
          * */
-        public void AddItem(string guid, GameObject item,
-                                                  GameObject _parent = null) {
+        public void AddItem(string guid, GameObject item, GameObject _parent = null) {
             if (m_addList == null) {
                 m_addList = new List<GameObject>();
             }
@@ -100,23 +99,19 @@ namespace Catsland.Core {
 //                     }
 //                 }
                 foreach (KeyValuePair<string, AddPack> keyValue in m_addList2) {
-                    if (keyValue.Value.Parent == null) {
+                    if (keyValue.Value.AddGameObject.Parent == null) {
                         // no parent, all depend on yourself
                         keyValue.Value.AddGameObject.BindToScene(Mgr<Scene>.Singleton);
                         keyValue.Value.AddGameObject.Initialize(Mgr<Scene>.Singleton);
                         doSomething = true;
                     }
                     else {
-                        if (contentList.ContainsKey(keyValue.Value.Parent.GUID)) {
+                        if (contentList.ContainsKey(keyValue.Value.AddGameObject.Parent.GUID) &&
+                            !contentList.ContainsKey(keyValue.Value.AddGameObject.GUID)) {
                             // parent has enter, all depend on yourself
                             keyValue.Value.AddGameObject.BindToScene(Mgr<Scene>.Singleton);
                             keyValue.Value.AddGameObject.Initialize(Mgr<Scene>.Singleton);
                             doSomething = true;
-                        }
-                        else if (m_addList2.ContainsKey(keyValue.Value.Parent.GUID)) {
-                            // wait for your parent
-                            keyValue.Value.AddGameObject.AttachToGameObject(
-                                keyValue.Value.Parent);
                         }
                         else {
                             // do nothing

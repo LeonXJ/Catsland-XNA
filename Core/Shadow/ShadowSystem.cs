@@ -42,6 +42,21 @@ namespace Catsland.Core {
             }
         }
 
+        private Texture2D m_ambientColorMap;
+        public void SetAmbientColorMap(Texture2D _colorMap) {
+            m_ambientColorMap = _colorMap;
+        }
+
+        private readonly CatFloat m_time = new CatFloat(0.0f);
+        public float Time {
+            set {
+                m_time.SetValue(value - (int)value);
+            }
+            get {
+                return m_time;
+            }
+        }
+
         private RenderTarget2D m_accumulateLight;
         public RenderTarget2D AccumulateLight {
             get {
@@ -61,6 +76,8 @@ namespace Catsland.Core {
             InitFreeList();
             UpdateBuffer();
             UpdateShadingEffect(_project);
+
+            
         }
         /**
          * @brief initialize freeLightIDList and freeShadowBodyList  
@@ -353,9 +370,10 @@ namespace Catsland.Core {
             // Prepare accumulate
             GraphicsDevice graphicsDevice = Mgr<GraphicsDevice>.Singleton;
             Renderer.SetColorTarget(m_accumulateLight);
-            graphicsDevice.Clear(m_ambientColor);
+            RenderAmbientColor(graphicsDevice);       
             Renderer.CancelColorTarget();
 
+           
             // for each light
             foreach (KeyValuePair<int, Light> keyValue in m_lightDict) {
                 // TODO: test if the light affects current scene
@@ -389,6 +407,19 @@ namespace Catsland.Core {
                 RenderTarget2D temp = m_preAccumulateLight;
                 m_preAccumulateLight = m_accumulateLight;
                 m_accumulateLight = temp;
+            }
+        }
+
+        private void RenderAmbientColor(GraphicsDevice _graphicsDevice) {
+            if (m_ambientColorMap == null) {
+                _graphicsDevice.Clear(m_ambientColor);
+            }
+            else {
+                m_accumulateEffect.CurrentTechnique = m_accumulateEffect.Techniques["Main"];
+                m_accumulateEffect.Parameters["AmbientLightMap"].SetValue(m_ambientColorMap);
+                m_accumulateEffect.Parameters["Time"].SetValue(Time);
+                m_accumulateEffect.CurrentTechnique.Passes["AmbientMapPass"].Apply();
+                RenderQuad();
             }
         }
 

@@ -4,8 +4,10 @@ float4x4 Projection;
 float Alpha;
 float LightInstance;
 float4 BiasColor;
+float Time;
 texture DiffuseMap;
 texture LightMap;
+texture SkyMap;
 sampler ColorMapSampler = sampler_state
 {
    Texture = <DiffuseMap>;
@@ -23,6 +25,15 @@ sampler LightMapSampler = sampler_state
     MipFilter = Linear;
     AddressU  = Clamp;
     AddressV  = Clamp;
+};
+sampler SkyMapSampler = sampler_state
+{
+    Texture = <SkyMap>;
+    MinFilter = Linear;
+    MagFilter = Linear;
+    MipFilter = Linear;
+    AddressU  = Clamp;
+    AddressV  = Clamp; 
 };
 
 // TODO: add effect parameters here.
@@ -62,13 +73,13 @@ VertexShaderOutput VertexShaderFunction(VertexShaderInput input)
 
 float4 PixelShaderFunction(VertexShaderOutput input) : COLOR0
 {
-    // TODO: add your pixel shader code here.
     float2 screenUV = float2(input.PositionInView.x * 0.5 + 0.5, -input.PositionInView.y*0.5 + 0.5);
+    float4 originalColor = clamp(tex2D(ColorMapSampler, input.UV) * float4(1.0, 1.0, 1.0, Alpha) + BiasColor, 0.0, 1.0);
+    float4 skyColor = tex2D(SkyMapSampler, float2(Time, input.UV.y));
+    
+    float4 skyApp = float4(originalColor.rgb * skyColor.rgb, originalColor.a);
     float4 light = tex2D(LightMapSampler, screenUV);
-    light.rgb = light.rgb*light.a;
-    float4 originalColor = tex2D(ColorMapSampler, input.UV) * float4(1.0, 1.0, 1.0, Alpha) + BiasColor;
-    originalColor = clamp(originalColor, 0.0, 1.0);
-    return float4(originalColor.rgb * light.rgb * LightInstance + (1.0 - LightInstance) * originalColor.rgb, originalColor.a);
+    return float4(clamp(skyApp + LightInstance * light.rgb, 0.0, 1.0), skyApp.a);
 }
 
 technique Technique1

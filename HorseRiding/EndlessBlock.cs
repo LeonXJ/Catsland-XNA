@@ -294,9 +294,9 @@ namespace HorseRiding {
                 wildgoose.Position = new Vector3(randx + 0.05f * i, 
                            m_wildgooseHeight + (float)ran.NextDouble() * 0.02f, 
                            0.0f);
-                //wildgoose.AttachToGameObject(_blockGameObject);
+                wildgoose.AttachToGameObject(_blockGameObject);
                 Mgr<Scene>.Singleton._gameObjectList.AddItem(
-                                                    wildgoose.GUID, wildgoose, _blockGameObject);
+                                                    wildgoose.GUID, wildgoose);
             }
             Serialable.EndSupportingDelayBinding();
         }

@@ -501,6 +501,7 @@ namespace Catsland.Editor {
                     PropertyEditor propertyEditor = new PropertyEditor();
                     propertyEditor.SetObserve(modelInstance.GetMaterial());
                     propertyEditor.Dock = DockStyle.Top;
+                    propertyEditor.AutoSize = true;
                     attr_tab_newgo.Controls.Add(propertyEditor);
                 }
             }

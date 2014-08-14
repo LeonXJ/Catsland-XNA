@@ -534,10 +534,10 @@ namespace Catsland.Plugin.BasicPlugin {
         }
 
         protected void OnSeparation(Fixture _fixtureA, Fixture _fixtureB) {
-            if (IsTallBlocker(_fixtureA)) {
+            if (_fixtureA.Body != m_body && IsTallBlocker(_fixtureA)) {
                 m_tallerSensorTouched -= 1;
             }
-            else if (IsTallBlocker(_fixtureB)) {
+            else if (_fixtureB.Body != m_body && IsTallBlocker(_fixtureB)) {
                 m_tallerSensorTouched -= 1;
             }
         }

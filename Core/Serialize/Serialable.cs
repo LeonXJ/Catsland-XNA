@@ -28,7 +28,6 @@ namespace Catsland.Core {
             }
         }
         private Dictionary<Pointer, string> m_delayBindingTable;  // for delay binding pointer -> wanted guid
-
         static private List<ISerializeType> iserializeType;       // the serialize/unserialize solver
         static private Dictionary<string, Serialable> guidTable;  // for delay binding guid -> serialable
 #endregion

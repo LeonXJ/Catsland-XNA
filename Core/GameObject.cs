@@ -52,7 +52,7 @@ namespace Catsland.Core {
 
         // can only be modify by set function, which only change the value, not reference
         [SerialAttribute]
-        private readonly CatVector3 m_position;
+        private readonly CatVector3 m_position = new CatVector3(Vector3.Zero);
         [CategoryAttribute("Location")]
         public Vector3 Position {
             set { m_position.SetValue(value); }
@@ -70,7 +70,7 @@ namespace Catsland.Core {
         }               // for convenience, calculate from transform
 
         [SerialAttribute]
-        private readonly CatQuaternion m_rotation;
+        private readonly CatQuaternion m_rotation = new CatQuaternion(Quaternion.Identity);
         [CategoryAttribute("Location")]
         public Vector3 Rotation {
             set {
@@ -94,7 +94,7 @@ namespace Catsland.Core {
         }
 
         [SerialAttribute]
-        private readonly CatVector3 m_scale;
+        private readonly CatVector3 m_scale = new CatVector3(Vector3.One);
         [CategoryAttribute("Location")]
         public Vector3 Scale {
             set {
@@ -108,7 +108,7 @@ namespace Catsland.Core {
             get { return m_scale; }
         }
         
-        private CatMatrix m_absTransform;
+        private CatMatrix m_absTransform = new CatMatrix(Matrix.Identity);
         public Matrix AbsTransform {
             get { return m_absTransform.value; }
         }
@@ -116,7 +116,7 @@ namespace Catsland.Core {
 
 
         #region Old Transform
-        
+        [Obsolete]
         public Vector2 PositionOld {
             set {
                 m_position.X = value.X;
@@ -126,6 +126,7 @@ namespace Catsland.Core {
                 return new Vector2(m_position.GetValue().X, m_position.GetValue().Z);
             }
         }
+        [Obsolete]
         public float HeightOld {
             set {
                 m_position.Y = value;
@@ -134,13 +135,13 @@ namespace Catsland.Core {
                 return m_position.Y;
             }
         }
-
+        [Obsolete]
         public Vector2 AbsPositionOld {
             get{
                 return new Vector2(AbsPosition.X, AbsPosition.Z);
             }
         }
-
+        [Obsolete]
         public float AbsHeight {
             get {
                 Vector4 positionV4 = Vector4.Transform(Vector4.UnitW, m_absTransform);
@@ -197,6 +198,7 @@ namespace Catsland.Core {
 
         // parent of the gameObject
         // TODO: deprecate
+        [Obsolete]
         string delayBindingParent;
 
         // editor use
@@ -205,14 +207,12 @@ namespace Catsland.Core {
         #endregion
 
         public GameObject() {
-            // assign a random id
             GUID = Guid.NewGuid().ToString();
+            CheckAndUpdateEditorMembers();
+        }
 
-            m_position = new CatVector3();
-            m_rotation = new CatQuaternion();
-            m_scale = new CatVector3(Vector3.One);
-            m_absTransform = new CatMatrix(Matrix.Identity);
-
+        private void CheckAndUpdateEditorMembers() {
+            // #TODO: replace this with debug box
             if (Mgr<GameEngine>.Singleton._gameEngineMode == GameEngine.GameEngineMode.MapEditor) {
                 // debug vertex
                 if (m_vertex == null) {
@@ -225,7 +225,7 @@ namespace Catsland.Core {
                 m_vertex[2] = new VertexPositionColor(new Vector3(0.0f, markHalfRadis, 0.0f), Color.White);
                 m_vertex[3] = new VertexPositionColor(new Vector3(0.0f, -markHalfRadis, 0.0f), Color.White);
                 m_vertexBuffer.SetData<VertexPositionColor>(m_vertex);
-                
+
                 // selection vertex
                 if (m_selectionVertex == null) {
                     m_selectionVertex = new VertexPositionColor[4];
@@ -248,6 +248,7 @@ namespace Catsland.Core {
          * */
         public void BindToScene(Scene scene) {
             // bind to gameObject list
+            // TODO: remove this
             scene._gameObjectList.SimplyAddReference(this);
             if (Mgr<GameEngine>.Singleton._gameEngineMode == GameEngine.GameEngineMode.MapEditor) {
                 // add to debug drawable
@@ -314,6 +315,7 @@ namespace Catsland.Core {
                 }
             }
 
+            // TODO: is it correct to put it here?
             // calculate absolute position         
             if (m_parent != null) {
                 m_absTransform.SetValue(Matrix.CreateFromQuaternion(m_rotation) * Matrix.CreateTranslation(Position)
@@ -369,6 +371,7 @@ namespace Catsland.Core {
          * @param timeLastFrame
          * */
         void Drawable.Draw(int timeLastFrame) {
+            // TODO: replace this with debug
             // debug information
             if (Mgr<GameEngine>.Singleton._gameEngineMode == GameEngine.GameEngineMode.MapEditor) {
                 BasicEffect effect = Mgr<DebugTools>.Singleton.DrawEffect;
@@ -419,9 +422,9 @@ namespace Catsland.Core {
             gameObject.Name = new String(m_name.ToCharArray());
             // guid should not be cloned
 
-            // new position
-            gameObject.Position = ((CatVector3)(m_position.ParameterClone()));
-            // end of new position
+            gameObject.m_position.SetValue(m_position.GetValue());
+            gameObject.m_rotation.SetValue(m_rotation.GetValue());
+            gameObject.m_scale.SetValue(m_scale.GetValue());
 
             // children
             if (m_children != null) {
@@ -452,7 +455,7 @@ namespace Catsland.Core {
 //             TestSave(node, doc);
 //             return true;
 //         }
-
+      
         public static GameObject LoadFromNode(XmlNode node, Scene scene=null) {
             XmlElement gameObject = (XmlElement)node;
 
@@ -527,6 +530,7 @@ namespace Catsland.Core {
         /**
          * @brief bind children after loading from file
          * */
+        [Obsolete]
         public void ApplyDelayBindingParent(GameObjectList gameObjectList, 
             Dictionary<string, GameObject> tempList) {
             if (delayBindingParent != null) {

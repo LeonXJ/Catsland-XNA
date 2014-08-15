@@ -258,4 +258,201 @@
     </Entities>
     <Relationships />
   </ProjectItem>
+  <ProjectItem type="NClass.DiagramEditor.ClassDiagram.Diagram" assembly="NClass.DiagramEditor, Version=2.4.1823.0, Culture=neutral, PublicKeyToken=null">
+    <Name>Core</Name>
+    <Language>CSharp</Language>
+    <Entities>
+      <Entity type="Class">
+        <Name>GameObjectList</Name>
+        <Access>Public</Access>
+        <Location left="105" top="124" />
+        <Size width="243" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">Dictionary&lt;string, AddPack&gt; m_addList2</Member>
+        <Member type="Field">List&lt;GameObject&gt; m_removeList</Member>
+        <Member type="Field">Dictionary&lt;string, List&lt;string&gt;&gt; nameDictionary</Member>
+        <Member type="Method">public void AddItem(string _guid, GameObject _item, GameObject _parent)</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>GameObject</Name>
+        <Access>Public</Access>
+        <Location left="390" top="124" />
+        <Size width="162" height="298" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">Dictionary&lt;string, CatComponent&gt; m_components</Member>
+        <Member type="Property">public string Name { get; set; }</Member>
+        <Member type="Property">public Vector3 Position { get; set; }</Member>
+        <Member type="Property">public CatVector3 PositionRef { get; }</Member>
+        <Member type="Property">public Vector3 AbsPosition { get; }</Member>
+        <Member type="Property">public Vector3 Rotation { get; set; }</Member>
+        <Member type="Property">public CatQuaternion RotationRef { get; }</Member>
+        <Member type="Property">public Vector3 AbsRotation { get; }</Member>
+        <Member type="Property">public Vector3 Scale { get; set; }</Member>
+        <Member type="Property">public GameObject Parent { get; set; }</Member>
+        <Member type="Property">public CatVector3 ScaleRef { get; }</Member>
+        <Member type="Property">public Matrix AbsTransform { get; }</Member>
+        <Member type="Property">public List&lt;GameObject&gt; Children { get; }</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+    </Entities>
+    <Relationships />
+  </ProjectItem>
+  <ProjectItem type="NClass.DiagramEditor.ClassDiagram.Diagram" assembly="NClass.DiagramEditor, Version=2.4.1823.0, Culture=neutral, PublicKeyToken=null">
+    <Name>Serialize</Name>
+    <Language>CSharp</Language>
+    <Entities>
+      <Entity type="Class">
+        <Name>Serialable</Name>
+        <Access>Public</Access>
+        <Location left="146" top="126" />
+        <Size width="283" height="383" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">Dictionary&lt;Pointer, string&gt; m_delayBindingTable</Member>
+        <Member type="Field">static List&lt;ISerializeType&gt; iserializeType</Member>
+        <Member type="Field">static Dictionary&lt;string, Serialable&gt; guidTable</Member>
+        <Member type="Method">public static void InitializeSerializeTypeTable()</Member>
+        <Member type="Method">public static ISerializeType FindSuitableSerialType(Type _type)</Member>
+        <Member type="Method">public static void BeginSupportingDelayBinding()</Member>
+        <Member type="Method">public static void EndSupportingDelayBinding(bool _isClearGuidTable)</Member>
+        <Member type="Method">public XmlNode DoSerial(XmlDocument _doc)</Member>
+        <Member type="Method">public static Serialable DoUnserial(XmlNode _node)</Member>
+        <Member type="Method">public Serialable DoClone()</Member>
+        <Member type="Method">protected void PreSerial()</Member>
+        <Member type="Property">public string GUID { get; set; }</Member>
+        <Member type="Method">protected void PostSerial(ref XmlNode _node, XmlDocument _doc)</Member>
+        <Member type="Method">protected void PreUnserial(ref XmlNode _node)</Member>
+        <Member type="Method">protected void PreClone(Serialable _object)</Member>
+        <Member type="Method">protected void PostClone(Serialable _object)</Member>
+        <Member type="Method">protected void PostUnserial(XmlNode _node)</Member>
+        <Member type="Method">public virtual void PostDelayBinding()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Pointer</Name>
+        <Access>Public</Access>
+        <Location left="577" top="126" />
+        <Size width="267" height="264" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">FieldInfo m_fieldInfo</Member>
+        <Member type="Field">Object m_fieldObject</Member>
+        <Member type="Field">IDictionary m_dictionary</Member>
+        <Member type="Field">Object m_dictionaryKey</Member>
+        <Member type="Field">IEffectParameter m_ieffectParameter</Member>
+        <Member type="Field">ContentType m_contentType</Member>
+        <Member type="Method">public void SetValue(object _value)</Member>
+        <Member type="Method">public Object GetValue()</Member>
+        <Member type="Constructor">public Pointer(Object _object, FieldInfo _fieldInfo)</Member>
+        <Member type="Constructor">public Pointer(IDictionary _dictionary, Object _key)</Member>
+        <Member type="Constructor">public Pointer(IEffectParameter _ieffectParameter)</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Enum">
+        <Name>ContentType</Name>
+        <Access>Public</Access>
+        <Location left="577" top="443" />
+        <Size width="162" height="112" />
+        <Collapsed>False</Collapsed>
+        <Value>ContentField</Value>
+        <Value>ContentIDictionaryEnumerator</Value>
+        <Value>ContentIEffectParameter</Value>
+      </Entity>
+      <Entity type="Interface">
+        <Name>ISerializeType</Name>
+        <Access>Public</Access>
+        <Location left="262" top="593" />
+        <Size width="162" height="133" />
+        <Collapsed>False</Collapsed>
+        <Member type="Method">bool IsThisType(Type _type)</Member>
+        <Member type="Method">XmlNode Serial(Object _object, SerialAttribute _attribute, XmlDocument _doc, string _nameField)</Member>
+        <Member type="Method">object Unserial(Pointer _pointer, SerialAttribute _attribute, XmlNode _fieldNode, Dictionary&lt;Pointer, string&gt; _delayBindingTable)</Member>
+        <Member type="Method">object Clone(Pointer _pointer, SerialAttribute _attribute, object _object, Dictionary&lt;Pointer, string&gt; _delayBindingTable)</Member>
+      </Entity>
+      <Entity type="Class">
+        <Name>SerializeDictionary</Name>
+        <Access>Public</Access>
+        <Location left="146" top="803" />
+        <Size width="162" height="81" />
+        <Collapsed>False</Collapsed>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>SerializeIEffectParameter</Name>
+        <Access>Public</Access>
+        <Location left="334" top="801" />
+        <Size width="162" height="77" />
+        <Collapsed>False</Collapsed>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>SerializeSerialable</Name>
+        <Access>Public</Access>
+        <Location left="519" top="801" />
+        <Size width="162" height="77" />
+        <Collapsed>False</Collapsed>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>SerializeString</Name>
+        <Access>Public</Access>
+        <Location left="714" top="801" />
+        <Size width="162" height="77" />
+        <Collapsed>False</Collapsed>
+        <Modifier>None</Modifier>
+      </Entity>
+    </Entities>
+    <Relationships>
+      <Relationship type="Association" first="1" second="2">
+        <Label>
+        </Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Composition</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="0" second="3">
+        <Label>iserializeType</Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Composition</AssociationType>
+        <StartMultiplicity>1</StartMultiplicity>
+        <EndMultiplicity>*</EndMultiplicity>
+      </Relationship>
+      <Relationship type="Association" first="0" second="1">
+        <Label>m_delayBindingTable</Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Composition</AssociationType>
+        <StartMultiplicity>1</StartMultiplicity>
+        <EndMultiplicity>*</EndMultiplicity>
+      </Relationship>
+      <Relationship type="Association" first="0" second="0">
+        <Label>guidTable</Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Composition</AssociationType>
+        <StartMultiplicity>1</StartMultiplicity>
+        <EndMultiplicity>*</EndMultiplicity>
+      </Relationship>
+      <Relationship type="Realization" first="4" second="3">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Realization" first="5" second="3">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Realization" first="6" second="3">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Realization" first="7" second="3">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+    </Relationships>
+  </ProjectItem>
 </Project>

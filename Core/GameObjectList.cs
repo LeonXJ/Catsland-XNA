@@ -234,6 +234,7 @@ namespace Catsland.Core {
          * 
          * @param gameObject the gameObject to be added
          * */
+        [Obsolete]
         public void SimplyAddReference(GameObject gameObject) {
             base.AddItem(gameObject.GUID, gameObject);
             // nameList

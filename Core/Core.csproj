@@ -150,8 +150,6 @@
     <Compile Include="DataType\CatVector3.cs" />
     <Compile Include="DataType\CatVector4.cs" />
     <Compile Include="DataType\CatFloat.cs" />
-    <Compile Include="Collider.cs" />
-    <Compile Include="ColliderList.cs" />
     <Compile Include="DebugDrawableList.cs" />
     <Compile Include="DebugTools.cs" />
     <Compile Include="DialogBox.cs" />

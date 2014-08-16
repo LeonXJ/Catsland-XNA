@@ -37,7 +37,7 @@ namespace Catsland.Plugin.BasicPlugin {
             return new Vector2(absPosition.X, absPosition.Y);
         }
 
-        public static new string GetMenuNames() {
+        public static string GetMenuNames() {
             return "Shadow|Prey";
         }
     }

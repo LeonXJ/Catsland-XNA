@@ -44,9 +44,6 @@ namespace HorseRiding {
             }
         }
 
-        [SerialAttribute]
-        protected bool m_enable = true;
-
         protected int m_touchCount = 0;
         public bool IsTriggered {
             get {
@@ -85,8 +82,8 @@ namespace HorseRiding {
             }
         }
 
-        public override void Destroy() {
-            base.Destroy();
+        public override void UnbindFromScene(Scene _scene) {
+            base.UnbindFromScene(_scene);
             DeleteBody();
         }
 

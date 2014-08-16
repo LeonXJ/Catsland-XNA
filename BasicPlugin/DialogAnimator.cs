@@ -156,36 +156,36 @@ namespace Catsland.Plugin.BasicPlugin
 			// TODO: set texture;
 		}
 
-		public override bool SaveToNode(XmlNode node, XmlDocument doc)
-		{
-			XmlElement dialogAnimation = doc.CreateElement("DialogAnimator");
-			node.AppendChild(dialogAnimation);
-
-			XmlElement dialogs = doc.CreateElement("Dialogs");
-			dialogAnimation.AppendChild(dialogs);
-
-			foreach (Dialog dia in m_dialogs)
-			{
-				XmlElement dialog = doc.CreateElement("Dialog");
-				dialogs.AppendChild(dialog);
-				dialog.SetAttribute("text", dia.m_text);
-			}
-
-			return true;
-		}
-
-        public override void ConfigureFromNode(XmlElement node, Scene scene, GameObject gameObject)
-        {
-            base.ConfigureFromNode(node, scene, gameObject);
-
-            XmlElement dialogs = (XmlElement)node.SelectSingleNode("Dialogs");
-            foreach (XmlNode dialog in dialogs.ChildNodes)
-            {
-                XmlElement dis = (XmlElement)dialog;
-                String text = dis.GetAttribute("text");
-                AddDialog(text);
-            }
-        }
+// 		public override bool SaveToNode(XmlNode node, XmlDocument doc)
+// 		{
+// 			XmlElement dialogAnimation = doc.CreateElement("DialogAnimator");
+// 			node.AppendChild(dialogAnimation);
+// 
+// 			XmlElement dialogs = doc.CreateElement("Dialogs");
+// 			dialogAnimation.AppendChild(dialogs);
+// 
+// 			foreach (Dialog dia in m_dialogs)
+// 			{
+// 				XmlElement dialog = doc.CreateElement("Dialog");
+// 				dialogs.AppendChild(dialog);
+// 				dialog.SetAttribute("text", dia.m_text);
+// 			}
+// 
+// 			return true;
+// 		}
+// 
+//         public override void ConfigureFromNode(XmlElement node, Scene scene, GameObject gameObject)
+//         {
+//             base.ConfigureFromNode(node, scene, gameObject);
+// 
+//             XmlElement dialogs = (XmlElement)node.SelectSingleNode("Dialogs");
+//             foreach (XmlNode dialog in dialogs.ChildNodes)
+//             {
+//                 XmlElement dis = (XmlElement)dialog;
+//                 String text = dis.GetAttribute("text");
+//                 AddDialog(text);
+//             }
+//         }
 	}
 
 	public class Dialog

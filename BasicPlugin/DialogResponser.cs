@@ -26,18 +26,18 @@ namespace Catsland.Plugin.BasicPlugin
 			}
 		}
 
-		public override bool SaveToNode(XmlNode node, XmlDocument doc)
-		{
-			XmlElement dialogResponser = doc.CreateElement("DialogResponser");
-			node.AppendChild(dialogResponser);
-
-			return true;
-		}
-
-        public override void ConfigureFromNode(XmlElement node, Scene scene, GameObject gameObject)
-        {
-            base.ConfigureFromNode(node, scene, gameObject);
-            return;
-        }
+// 		public override bool SaveToNode(XmlNode node, XmlDocument doc)
+// 		{
+// 			XmlElement dialogResponser = doc.CreateElement("DialogResponser");
+// 			node.AppendChild(dialogResponser);
+// 
+// 			return true;
+// 		}
+// 
+//         public override void ConfigureFromNode(XmlElement node, Scene scene, GameObject gameObject)
+//         {
+//             base.ConfigureFromNode(node, scene, gameObject);
+//             return;
+//         }
 	}
 }

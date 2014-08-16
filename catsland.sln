@@ -25,8 +25,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CatsEditor", "CatsEditor\Ca
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameEntrance", "GameEntrance\GameEntrance.csproj", "{2D7A6592-C3FD-4C3B-BF88-4B5EC1230F10}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BirthdayPartyPlugin", "BirthdayPartyPlugin\BirthdayPartyPlugin.csproj", "{F1541B88-ADBE-48E8-B46A-775D086EBEB5}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestPlugin", "TestPlugin\TestPlugin.csproj", "{94CAA1EB-EC57-4B6A-A2D3-FCF391D6157A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HorseRiding", "HorseRiding\HorseRiding.csproj", "{5B4BAE7D-A3E9-42ED-997E-6F103E17C78F}"
@@ -117,16 +115,6 @@ Global
 		{2D7A6592-C3FD-4C3B-BF88-4B5EC1230F10}.Release|Mixed Platforms.Build.0 = Release|x86
 		{2D7A6592-C3FD-4C3B-BF88-4B5EC1230F10}.Release|x86.ActiveCfg = Release|x86
 		{2D7A6592-C3FD-4C3B-BF88-4B5EC1230F10}.Release|x86.Build.0 = Release|x86
-		{F1541B88-ADBE-48E8-B46A-775D086EBEB5}.Debug|Any CPU.ActiveCfg = Debug|x86
-		{F1541B88-ADBE-48E8-B46A-775D086EBEB5}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
-		{F1541B88-ADBE-48E8-B46A-775D086EBEB5}.Debug|Mixed Platforms.Build.0 = Debug|x86
-		{F1541B88-ADBE-48E8-B46A-775D086EBEB5}.Debug|x86.ActiveCfg = Debug|x86
-		{F1541B88-ADBE-48E8-B46A-775D086EBEB5}.Debug|x86.Build.0 = Debug|x86
-		{F1541B88-ADBE-48E8-B46A-775D086EBEB5}.Release|Any CPU.ActiveCfg = Release|x86
-		{F1541B88-ADBE-48E8-B46A-775D086EBEB5}.Release|Mixed Platforms.ActiveCfg = Release|x86
-		{F1541B88-ADBE-48E8-B46A-775D086EBEB5}.Release|Mixed Platforms.Build.0 = Release|x86
-		{F1541B88-ADBE-48E8-B46A-775D086EBEB5}.Release|x86.ActiveCfg = Release|x86
-		{F1541B88-ADBE-48E8-B46A-775D086EBEB5}.Release|x86.Build.0 = Release|x86
 		{94CAA1EB-EC57-4B6A-A2D3-FCF391D6157A}.Debug|Any CPU.ActiveCfg = Debug|x86
 		{94CAA1EB-EC57-4B6A-A2D3-FCF391D6157A}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
 		{94CAA1EB-EC57-4B6A-A2D3-FCF391D6157A}.Debug|Mixed Platforms.Build.0 = Debug|x86

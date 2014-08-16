@@ -36,23 +36,23 @@ namespace Catsland.Plugin.BasicPlugin
 			}
 		}
 
-        public override void ConfigureFromNode(XmlElement node, Scene scene, GameObject gameObject)
-        {
-            m_time = int.Parse(node.GetAttribute("time"));
-        }
-
-        public override CatComponent CloneComponent(GameObject gameObject) {
-            SelfDestroyer newSelfDestroyer = new SelfDestroyer(gameObject);
-            newSelfDestroyer.m_time = m_time;
-            return newSelfDestroyer;
-        }
-
-        public override bool SaveToNode(XmlNode node, XmlDocument doc) {
-            XmlElement selfDestroyer = doc.CreateElement(typeof(SelfDestroyer).Name);
-            selfDestroyer.SetAttribute("time", "" + m_time);
-            node.AppendChild(selfDestroyer);
-            return true;
-        }
+//         public override void ConfigureFromNode(XmlElement node, Scene scene, GameObject gameObject)
+//         {
+//             m_time = int.Parse(node.GetAttribute("time"));
+//         }
+// 
+//         public override CatComponent CloneComponent(GameObject gameObject) {
+//             SelfDestroyer newSelfDestroyer = new SelfDestroyer(gameObject);
+//             newSelfDestroyer.m_time = m_time;
+//             return newSelfDestroyer;
+//         }
+// 
+//         public override bool SaveToNode(XmlNode node, XmlDocument doc) {
+//             XmlElement selfDestroyer = doc.CreateElement(typeof(SelfDestroyer).Name);
+//             selfDestroyer.SetAttribute("time", "" + m_time);
+//             node.AppendChild(selfDestroyer);
+//             return true;
+//         }
 
 	}
 }

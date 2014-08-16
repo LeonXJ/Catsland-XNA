@@ -87,8 +87,8 @@ namespace HorseRiding {
             UpdateVertex();
         }
 
-        public override void Destroy() {
-            base.Destroy();
+        public override void UnbindFromScene(Scene _scene) {
+            base.UnbindFromScene(_scene);
             Mgr<Scene>.Singleton._renderList.RemoveItem(this);
         }
 

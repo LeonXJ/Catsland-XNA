@@ -34,7 +34,7 @@ namespace HorseRiding {
             Camera camera = Mgr<Camera>.Singleton;
             Vector3 delta = m_gameObject.AbsPosition - camera.CameraPosition;
             if (delta.LengthSquared() > m_suicideDistance * m_suicideDistance) {
-                Mgr<Scene>.Singleton._gameObjectList.RemoveItem(m_gameObject.GUID);
+                Mgr<Scene>.Singleton._gameObjectList.RemoveGameObject(m_gameObject.GUID);
             }
         }
     }

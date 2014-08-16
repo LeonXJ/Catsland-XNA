@@ -92,13 +92,9 @@ namespace Catsland.Core {
             m_halfHeight = _halfHeight;
         }
 
-//         public override bool Equals(object obj) {
-//             if (obj is Tag) {
-//                 Tag b = obj as Tag;
-//                 return b.m_kind == m_kind;
-//             }
-//             return false;
-//         }
+        public override bool Equals(object obj) {
+            return this == (obj as Tag);
+        }
 
         public static bool operator ==(Tag _a, Tag _b) {
             if (_a as object == null && _b as object == null) {
@@ -118,6 +114,10 @@ namespace Catsland.Core {
                 return true;
             }
             return _a.m_kind != _b.m_kind;
+        }
+
+        public override int GetHashCode() {
+            return base.GetHashCode();
         }
 
         public float getHalfHeight() {

@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using System.ComponentModel;
 using Catsland.Editor;
 using System.Xml;
+using System.Diagnostics;
 
 namespace Catsland.Plugin.BasicPlugin
 {
@@ -32,20 +33,13 @@ namespace Catsland.Plugin.BasicPlugin
         string parent_guid;
 
 
-        private Vector2 m_relatedPosition = new Vector2();
+        private Vector3 m_relatedPosition = new Vector3();
         [CategoryAttribute("Location")]
-        public Vector2 RelatedPosition
+        public Vector3 RelatedPosition
         {
             get { return m_relatedPosition; }
             set { m_relatedPosition = value; }
-        }
-        private float m_relatedHeight = 0.0f;
-        [CategoryAttribute("Location")]
-        public float RelatedHeight
-        {
-            get { return m_relatedHeight; }
-            set { m_relatedHeight = value; }
-        }
+        } 
 
 
         public SubLocation(GameObject gameObject)
@@ -82,66 +76,69 @@ namespace Catsland.Plugin.BasicPlugin
 
             if (m_parent != null)
             {
-                m_gameObject.PositionOld = m_parent.PositionOld + m_relatedPosition;
-                m_gameObject.HeightOld = m_parent.HeightOld + m_relatedHeight;
+                m_gameObject.Position = m_parent.Position + m_relatedPosition;
+
             }
         }
 
-        public override bool SaveToNode(XmlNode node, XmlDocument doc)
-        {
-            XmlElement subLocation = doc.CreateElement(typeof(SubLocation).Name);
-            node.AppendChild(subLocation);
-
-            if (m_parent != null)
-            {
-                subLocation.SetAttribute("parentGameObject", parent_guid);
-            }
-            else
-            {
-                subLocation.SetAttribute("parentGameObject", "");
-            }
-
-            // location
-            XmlElement location = doc.CreateElement("Location");
-            subLocation.AppendChild(location);
-            location.SetAttribute("X", "" + m_relatedPosition.X);
-            location.SetAttribute("Y", "" + m_relatedPosition.Y);
-            location.SetAttribute("height", "" + m_relatedHeight);
-
-            return true;
-        }
-
-        public override void ConfigureFromNode(XmlElement node, Scene scene, GameObject gameObject)
-        {
-            base.ConfigureFromNode(node, scene, gameObject);
-
-            string guid = node.GetAttribute("parentGameObject");
-            if (guid != "")
-            {
-                parent_guid = guid;
-            }
-            else
-            {
-                parent_guid = null;
-            }
-
-            // Location
-            XmlElement location = (XmlElement)node.SelectSingleNode("Location");
-            m_relatedPosition = new Vector2(float.Parse(location.GetAttribute("X")),
-                                            float.Parse(location.GetAttribute("Y")));
-            m_relatedHeight = float.Parse(location.GetAttribute("height"));
-        }
-
-        public override CatComponent CloneComponent(GameObject gameObject)
-        {
-            SubLocation subLocation = new SubLocation(gameObject);
-            subLocation.m_relatedPosition.X = m_relatedPosition.X;
-            subLocation.m_relatedPosition.Y = m_relatedPosition.Y;
-            subLocation.m_relatedHeight = m_relatedHeight;
-            subLocation.parent_guid = parent_guid;
-
-            return subLocation;
-        }
+//         public override bool SaveToNode(XmlNode node, XmlDocument doc)
+//         {
+// 
+//             Debug.Assert(false, "Rewrite this");
+//             XmlElement subLocation = doc.CreateElement(typeof(SubLocation).Name);
+//             node.AppendChild(subLocation);
+// 
+//             if (m_parent != null)
+//             {
+//                 subLocation.SetAttribute("parentGameObject", parent_guid);
+//             }
+//             else
+//             {
+//                 subLocation.SetAttribute("parentGameObject", "");
+//             }
+// 
+//             // location
+//             XmlElement location = doc.CreateElement("Location");
+//             subLocation.AppendChild(location);
+//             location.SetAttribute("X", "" + m_relatedPosition.X);
+//             location.SetAttribute("Y", "" + m_relatedPosition.Y);
+// 
+//             return true;
+//         }
+// 
+//         public override void ConfigureFromNode(XmlElement node, Scene scene, GameObject gameObject)
+//         {
+//             Debug.Assert(false, "Rewrite this");
+// //             base.ConfigureFromNode(node, scene, gameObject);
+// // 
+// //             string guid = node.GetAttribute("parentGameObject");
+// //             if (guid != "")
+// //             {
+// //                 parent_guid = guid;
+// //             }
+// //             else
+// //             {
+// //                 parent_guid = null;
+// //             }
+// // 
+// //             // Location
+// //             XmlElement location = (XmlElement)node.SelectSingleNode("Location");
+// //             m_relatedPosition = new Vector2(float.Parse(location.GetAttribute("X")),
+// //                                             float.Parse(location.GetAttribute("Y")));
+//         }
+// 
+//         public override CatComponent CloneComponent(GameObject gameObject)
+//         {
+//             Debug.Assert(false, "Rewrite this");
+//             return null;
+// //             SubLocation subLocation = new SubLocation(gameObject);
+// //             subLocation.m_relatedPosition.X = m_relatedPosition.X;
+// //             subLocation.m_relatedPosition.Y = m_relatedPosition.Y;
+// //             subLocation.m_relatedHeight = m_relatedHeight;
+// //             subLocation.parent_guid = parent_guid;
+// // 
+// //             return subLocation;
+//         }
 
         public static string GetMenuNames() {
             return "Controller|Follow";

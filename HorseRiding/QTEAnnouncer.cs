@@ -49,9 +49,9 @@ namespace HorseRiding {
             }
         }
 
-        public override void Destroy() {
+        public override void UnbindFromScene(Scene _scene) {
             Mgr<Scene>.Singleton._uiRenderer.RemoveUI(this);
-            base.Destroy();   
+            base.UnbindFromScene(_scene);   
         }
 
         public void OnSuccess() {

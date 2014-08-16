@@ -204,7 +204,7 @@ namespace HorseRiding {
         }
 
         private void DeleteBlock(GameObject _gameObject) {
-            Mgr<Scene>.Singleton._gameObjectList.RemoveItem(
+            Mgr<Scene>.Singleton._gameObjectList.RemoveGameObject(
                 _gameObject.GUID);
         }
 

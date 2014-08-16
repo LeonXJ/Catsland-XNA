@@ -80,7 +80,7 @@ namespace Catsland.Core {
                 ("effect\\Bloom");
         }
 
-        public void UpdateBuffer() {
+        public override void UpdateBuffer() {
             m_color = TestAndCreateColorBuffer(m_color);
             m_downsampled = TestAndCreateColorBuffer(m_downsampled, 0.25f, 0.25f);
             m_vBlurred = TestAndCreateColorBuffer(m_vBlurred, 0.25f, 0.25f);

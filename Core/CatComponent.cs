@@ -48,29 +48,38 @@ namespace Catsland.Core {
             return GetType();
         }
 
-        /**
-         * @brief create a CatComponent from an XML node
-         *
-         * @param node the XML node
-         * @param scene the scene the component bind to
-         * @param gameObject the gameObject the component bind to
-         * @return a new CatComponent
-         */
-        public static CatComponent LoadFromNode(XmlElement node, Scene scene, GameObject gameObject) {
-            string component_type = node.Name;
-            Type type = Mgr<TypeManager>.Singleton.GetCatComponentType(component_type);
-            if (type != null) {
-                ConstructorInfo constructorInfo = type.GetConstructor(new Type[1] { typeof(GameObject) });
-                CatComponent component = (CatComponent)constructorInfo.Invoke(new Object[1] { gameObject });
-                // configure the component, the function will be inherited
-                component.ConfigureFromNode(node, scene, gameObject);
-                return component;
-            }
-            return null;
-        }
+//         /**
+//          * @brief create a CatComponent from an XML node
+//          *
+//          * @param node the XML node
+//          * @param scene the scene the component bind to
+//          * @param gameObject the gameObject the component bind to
+//          * @return a new CatComponent
+//          */
+//         public static CatComponent LoadFromNode(XmlElement node, Scene scene, GameObject gameObject) {
+//             string component_type = node.Name;
+//             Type type = Mgr<TypeManager>.Singleton.GetCatComponentType(component_type);
+//             if (type != null) {
+//                 ConstructorInfo constructorInfo = type.GetConstructor(new Type[1] { typeof(GameObject) });
+//                 CatComponent component = (CatComponent)constructorInfo.Invoke(new Object[1] { gameObject });
+//                 // configure the component, the function will be inherited
+//                 component.ConfigureFromNode(node, scene, gameObject);
+//                 return component;
+//             }
+//             return null;
+//         }
 
         /**
-         * @brief initialize the component
+         * @brief bind the component to scene
+         * 
+         * it supports convert a component from on scene to another
+         * 
+         * @param scene the target scene
+         * */
+        public virtual void BindToScene(Scene scene) {}
+
+        /**
+         * @brief [Called by GameObject only] initialize the component
          * 
          * invoked by catsEngine after created before update
          * 
@@ -81,7 +90,7 @@ namespace Catsland.Core {
         }
 
         /**
-         * @brief logic update function
+         * @brief [Called by GameObject only] logic update function
          * 
          * invoked by catsEngine
          * 
@@ -90,18 +99,10 @@ namespace Catsland.Core {
         public virtual void Update(int timeLastFrame) {
         }
 
-        public virtual void EditorUpdate(int timeLastFrame) {
-
-        }
-
         /**
-         * @brief bind the component to scene
-         * 
-         * it supports convert a component from on scene to another
-         * 
-         * @param scene the target scene
-         * */
-        public virtual void BindToScene(Scene scene) {
+         * @brief [Called by GameObject only] 
+         **/ 
+        public virtual void EditorUpdate(int timeLastFrame) {
 
         }
 
@@ -112,9 +113,9 @@ namespace Catsland.Core {
          * 
          * @result
          * */
-        public virtual CatComponent CloneComponent(GameObject gameObject) {
-            return new CatComponent(gameObject);
-        }
+//         public virtual CatComponent CloneComponent(GameObject gameObject) {
+//             return new CatComponent(gameObject);
+//         }
 
         /**
          * @brief save the component to XML node
@@ -124,9 +125,9 @@ namespace Catsland.Core {
          * 
          * @result
          * */
-        public virtual bool SaveToNode(XmlNode node, XmlDocument doc) {
-            return true;
-        }
+//         public virtual bool SaveToNode(XmlNode node, XmlDocument doc) {
+//             return true;
+//         }
 
         /**
          * @brief configure the node according to XML node
@@ -135,14 +136,14 @@ namespace Catsland.Core {
          * @param scene
          * @param gameObject
          * */
-        public virtual void ConfigureFromNode(XmlElement node, Scene scene, GameObject gameObject) {
-
-        }
+//         public virtual void ConfigureFromNode(XmlElement node, Scene scene, GameObject gameObject) {
+// 
+//         }
 
         /**
          * @brief destroy and release the component
          * */
-        public virtual void Destroy() {
+        public virtual void UnbindFromScene(Scene _scene) {
 
         }
 
@@ -153,20 +154,10 @@ namespace Catsland.Core {
             return null;
         }
 
-
         /**
          * @brief called after first pass of loading
          * */
-        public virtual void PostConfiguration(Scene scene, Dictionary<string, GameObject> tempList) {
-        }
-
-        public virtual void EnterTrigger(Collider trigger, Collider invoker){
-        }
-
-        public virtual void InTrigger(Collider trigger, Collider invoker) {
-        }
-
-        public virtual void ExitTrigger(Collider trigger, Collider invoker) {
-        }
+//         public virtual void PostConfiguration(Scene scene, Dictionary<string, GameObject> tempList) {
+//         }
     }
 }

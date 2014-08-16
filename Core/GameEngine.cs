@@ -351,9 +351,9 @@ namespace Catsland.Core {
                 gameObjectList.UpdateAdd(curScene);
                 gameObjectList.UpdateRemove(curScene);
             }
-            if (Mgr<Scene>.Singleton._colliderList != null) {
-                Mgr<Scene>.Singleton._colliderList.UpdateRemove();
-            }
+//             if (Mgr<Scene>.Singleton._colliderList != null) {
+//                 Mgr<Scene>.Singleton._colliderList.UpdateRemove();
+//             }
 
             if (Mgr<Camera>.Singleton != null) {
                 Mgr<Camera>.Singleton.Update(_skewedTimeInMS);
@@ -379,9 +379,9 @@ namespace Catsland.Core {
                 gameObjectList.UpdateAdd(curScene);
                 gameObjectList.UpdateRemove(curScene);
             }
-            if (Mgr<Scene>.Singleton._colliderList != null) {
-                Mgr<Scene>.Singleton._colliderList.UpdateRemove();
-            }
+//             if (Mgr<Scene>.Singleton._colliderList != null) {
+//                 Mgr<Scene>.Singleton._colliderList.UpdateRemove();
+//             }
             if (Mgr<Camera>.Singleton != null) {
                 Mgr<Camera>.Singleton.EditorUpdate(_skewedTimeInMS);
             }

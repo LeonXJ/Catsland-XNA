@@ -98,29 +98,20 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AdvancedTriggerEnabler.cs" />
     <Compile Include="Animator.cs" />
-    <Compile Include="AttackInvoke.cs" />
     <Compile Include="BackgroundController.cs" />
     <Compile Include="Blacklist\Blacklist.cs" />
     <Compile Include="Blacklist\Hunter.cs" />
     <Compile Include="Blacklist\Prey.cs" />
-    <Compile Include="Breakable.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="CameraLookAt.cs" />
     <Compile Include="CatController.cs" />
-    <Compile Include="CatsCollider.cs" />
-    <Compile Include="CharacterController.cs" />
     <Compile Include="CircleCollider.cs" />
     <Compile Include="DialogAnimator.cs" />
     <Compile Include="DialogResponser.cs" />
-    <Compile Include="DialogTrigger.cs" />
     <Compile Include="GamepadInput.cs" />
     <Compile Include="KeyboardInput.cs" />
     <Compile Include="ModelComponent.cs" />
     <Compile Include="ColliderBase.cs" />
-    <Compile Include="ParticleController.cs" />
     <Compile Include="ParticleEmitter.cs" />
     <Compile Include="IParticleUpdater.cs" />
     <Compile Include="Shadow\LightSensor.cs" />
@@ -132,7 +123,6 @@
     <Compile Include="SensorAttachment.cs" />
     <Compile Include="Shadow\RegionalDirectionLight.cs" />
     <Compile Include="Shadow\ShadingRectangle.cs" />
-    <Compile Include="Shadow.cs" />
     <Compile Include="Shadow\SpotLight.cs" />
     <Compile Include="SoundEmitter.cs" />
     <Compile Include="SubLocation.cs" />

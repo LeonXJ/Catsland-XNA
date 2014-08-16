@@ -87,16 +87,16 @@ namespace Catsland.Plugin.BasicPlugin
             m_offset = new CatVector2();
         }
 
-        public override CatComponent CloneComponent(GameObject gameObject)
-        {
-            QuadRender quadRender = new QuadRender(gameObject);
-            quadRender.Enable = Enable;
-            quadRender.Alpha = Alpha;
-            quadRender.m_size = new CatVector2(m_size.X, m_size.Y);
-            quadRender.m_offset = new CatVector2(m_offset.X, m_offset.Y);
-
-            return quadRender;
-        }
+//         public override CatComponent CloneComponent(GameObject gameObject)
+//         {
+//             QuadRender quadRender = new QuadRender(gameObject);
+//             quadRender.Enable = Enable;
+//             quadRender.Alpha = Alpha;
+//             quadRender.m_size = new CatVector2(m_size.X, m_size.Y);
+//             quadRender.m_offset = new CatVector2(m_offset.X, m_offset.Y);
+// 
+//             return quadRender;
+//         }
 
         public override void BindToScene(Scene scene)
         {
@@ -185,51 +185,51 @@ namespace Catsland.Plugin.BasicPlugin
             }
         }
 
-        public override bool SaveToNode(XmlNode node, XmlDocument doc)
-        {
-            XmlElement quadRender = doc.CreateElement(typeof(QuadRender).Name);
-            node.AppendChild(quadRender);
+//         public override bool SaveToNode(XmlNode node, XmlDocument doc)
+//         {
+//             XmlElement quadRender = doc.CreateElement(typeof(QuadRender).Name);
+//             node.AppendChild(quadRender);
+// 
+//             quadRender.SetAttribute("enable", "" + Enable);
+//             quadRender.SetAttribute("alpha", "" + Alpha);
+// 
+//             XmlElement size = doc.CreateElement("Size");
+//             quadRender.AppendChild(size);
+//             size.SetAttribute("Width", "" + m_size.X);
+//             size.SetAttribute("Height", "" + m_size.Y);
+// 
+//             XmlElement offset = doc.CreateElement("Offset");
+//             quadRender.AppendChild(offset);
+//             offset.SetAttribute("X", "" + m_offset.X);
+//             offset.SetAttribute("Y", "" + m_offset.Y);
+// 
+//             return true;
+//         }
+// 
+//         public override void ConfigureFromNode(XmlElement node, Scene scene, GameObject gameObject)
+//         {
+//             base.ConfigureFromNode(node, scene, gameObject);
+// 
+//             Enable = bool.Parse(node.GetAttribute("enable"));
+//             alpha.SetValue(float.Parse(node.GetAttribute("alpha")));
+// 
+//             // size
+//             XmlElement size = (XmlElement)node.SelectSingleNode("Size");
+//             m_size = new CatVector2(float.Parse(size.GetAttribute("Width")),
+//                                     float.Parse(size.GetAttribute("Height")));
+// 
+//             // offset
+//             XmlElement offset = (XmlElement)node.SelectSingleNode("Offset");
+//             m_offset = new CatVector2(float.Parse(offset.GetAttribute("X")),
+//                                     float.Parse(offset.GetAttribute("Y")));
+//         }
 
-            quadRender.SetAttribute("enable", "" + Enable);
-            quadRender.SetAttribute("alpha", "" + Alpha);
-
-            XmlElement size = doc.CreateElement("Size");
-            quadRender.AppendChild(size);
-            size.SetAttribute("Width", "" + m_size.X);
-            size.SetAttribute("Height", "" + m_size.Y);
-
-            XmlElement offset = doc.CreateElement("Offset");
-            quadRender.AppendChild(offset);
-            offset.SetAttribute("X", "" + m_offset.X);
-            offset.SetAttribute("Y", "" + m_offset.Y);
-
-            return true;
-        }
-
-        public override void ConfigureFromNode(XmlElement node, Scene scene, GameObject gameObject)
-        {
-            base.ConfigureFromNode(node, scene, gameObject);
-
-            Enable = bool.Parse(node.GetAttribute("enable"));
-            alpha.SetValue(float.Parse(node.GetAttribute("alpha")));
-
-            // size
-            XmlElement size = (XmlElement)node.SelectSingleNode("Size");
-            m_size = new CatVector2(float.Parse(size.GetAttribute("Width")),
-                                    float.Parse(size.GetAttribute("Height")));
-
-            // offset
-            XmlElement offset = (XmlElement)node.SelectSingleNode("Offset");
-            m_offset = new CatVector2(float.Parse(offset.GetAttribute("X")),
-                                    float.Parse(offset.GetAttribute("Y")));
-        }
-
-        public override void Destroy() {
-            Mgr<Scene>.Singleton._renderList.RemoveItem(this);
+        public override void UnbindFromScene(Scene _scene) {
+            _scene._renderList.RemoveItem(this);
             if (Mgr<GameEngine>.Singleton._gameEngineMode == GameEngine.GameEngineMode.MapEditor) {
-                Mgr<Scene>.Singleton._selectableList.RemoveItem(this);
+                _scene._selectableList.RemoveItem(this);
             }
-            base.Destroy();
+            base.UnbindFromScene(_scene);
         }
 
         private ModelComponent getModel() {

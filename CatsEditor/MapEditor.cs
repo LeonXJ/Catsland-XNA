@@ -443,7 +443,7 @@ namespace Catsland.Editor {
         public void ComponentRemove(object sender, EventArgs e) {
             CatComponent catComponent = (CatComponent)((PackableBox)sender).ExtraData;
             GameObject gameObject = catComponent.m_gameObject;
-            gameObject.RemoveComponent(catComponent.GetType().ToString());
+            gameObject.RemoveComponent(catComponent.GetType());
             UpdateGameObjectAttribute(m_observingGameObject);
         }
 
@@ -468,9 +468,9 @@ namespace Catsland.Editor {
 
                 CatModelInstance modelInstance = null;
 
-                if (m_observingGameObject.GetComponents() != null) {
+                if (m_observingGameObject.Components != null) {
                     foreach (KeyValuePair<string, CatComponent> key_value in
-                    m_observingGameObject.GetComponents()) {
+                    m_observingGameObject.Components) {
 
                         // pick out modelInstance
                         if (key_value.Value.GetType().ToString() == "Catsland.Plugin.BasicPlugin.ModelComponent") {
@@ -529,8 +529,7 @@ namespace Catsland.Editor {
         private void toolStripButton1_Click(object sender, EventArgs e) {
             // create a gameObject in the center of screen
             GameObject newGameObject = new GameObject();
-            newGameObject.PositionOld = Vector2.Zero;
-            newGameObject.HeightOld = 0.0f;
+            newGameObject.Position = Vector3.Zero;
             Mgr<Scene>.Singleton._gameObjectList.AddGameObject(newGameObject);
             Mgr<Scene>.Singleton._debugDrawableList.AddItem(newGameObject);
         }

@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using System.Xml;
 using Catsland.Core;
 using System.ComponentModel;
+using System.Diagnostics;
 
 namespace Catsland.Plugin.BasicPlugin
 {
@@ -55,7 +56,7 @@ namespace Catsland.Plugin.BasicPlugin
 		{
 			base.Update(timeLastFrame);
 
-            QuadRender quadRender = (QuadRender)m_gameObject.GetComponent(typeof(QuadRender).Name);
+            QuadRender quadRender = (QuadRender)m_gameObject.GetComponent(typeof(QuadRender));
 
             if (quadRender == null)
 			{
@@ -82,63 +83,63 @@ namespace Catsland.Plugin.BasicPlugin
             float cameraPositionPercent = (cameraX - sceneXBound.X) / (sceneXBound.Y - sceneXBound.X);
 
             if (!UseThisWidth) {
-                m_gameObject.PositionOld = new Vector2(cameraX + activeWidth / 2.0f - cameraPositionPercent * activeWidth,
-                    m_gameObject.PositionOld.Y);
+                m_gameObject.Position = new Vector3(cameraX + activeWidth / 2.0f - cameraPositionPercent * activeWidth,
+                    m_gameObject.Position.Y, m_gameObject.Position.Z);
             }
             else {
-                m_gameObject.PositionOld = new Vector2(pictureOffsetX + cameraX + activeWidth / 2.0f - cameraPositionPercent * activeWidth,
-                m_gameObject.PositionOld.Y);
+                m_gameObject.Position = new Vector3(pictureOffsetX + cameraX + activeWidth / 2.0f - cameraPositionPercent * activeWidth,
+                m_gameObject.Position.Y, m_gameObject.Position.Z);
             }
             
 			
             if (m_yAdjust)
 			{
-				m_gameObject.HeightOld = (Mgr<Camera>.Singleton.CameraPosition.Y + m_zOffset - m_gameObject.AbsPositionOld.Y) / Mgr<Scene>.Singleton._ySin;
+                Debug.Assert(false, "Rewrite this");
 			}
              
 		}
 
-		public override bool SaveToNode(XmlNode node, XmlDocument doc)
-		{
-			XmlElement backgroundController = doc.CreateElement("BackgroundController");
-			node.AppendChild(backgroundController);
-
-			backgroundController.SetAttribute("zOffset", "" + m_zOffset);
-			backgroundController.SetAttribute("adjustY", "" + m_yAdjust);
-            backgroundController.SetAttribute("useThisWidth", "" + UseThisWidth);
-            backgroundController.SetAttribute("pictureWidth", "" + PictureWidth);
-            backgroundController.SetAttribute("pictureOffsetX", "" + PictureOffsetX);
-
-			return true;
-		}
-
-        public override void ConfigureFromNode(XmlElement node, Scene scene, GameObject gameObject)
-        {
-            base.ConfigureFromNode(node, scene, gameObject);
-
-            m_zOffset = float.Parse(node.GetAttribute("zOffset"));
-            m_yAdjust = bool.Parse(node.GetAttribute("adjustY"));
-            
-            UseThisWidth = bool.Parse(node.GetAttribute("useThisWidth"));
-            PictureWidth = float.Parse(node.GetAttribute("pictureWidth"));
-        
-            
-        }
+// 		public override bool SaveToNode(XmlNode node, XmlDocument doc)
+// 		{
+// 			XmlElement backgroundController = doc.CreateElement("BackgroundController");
+// 			node.AppendChild(backgroundController);
+// 
+// 			backgroundController.SetAttribute("zOffset", "" + m_zOffset);
+// 			backgroundController.SetAttribute("adjustY", "" + m_yAdjust);
+//             backgroundController.SetAttribute("useThisWidth", "" + UseThisWidth);
+//             backgroundController.SetAttribute("pictureWidth", "" + PictureWidth);
+//             backgroundController.SetAttribute("pictureOffsetX", "" + PictureOffsetX);
+// 
+// 			return true;
+// 		}
+// 
+//         public override void ConfigureFromNode(XmlElement node, Scene scene, GameObject gameObject)
+//         {
+//             base.ConfigureFromNode(node, scene, gameObject);
+// 
+//             m_zOffset = float.Parse(node.GetAttribute("zOffset"));
+//             m_yAdjust = bool.Parse(node.GetAttribute("adjustY"));
+//             
+//             UseThisWidth = bool.Parse(node.GetAttribute("useThisWidth"));
+//             PictureWidth = float.Parse(node.GetAttribute("pictureWidth"));
+//         
+//             
+//         }
 
         public static string GetMenuNames() {
             return "Controller|Background Controller";
         }
 
-        public override CatComponent CloneComponent(GameObject gameObject) {
-            BackgroundController bkController = new BackgroundController(gameObject);
-
-            bkController.m_zOffset = m_zOffset;
-            bkController.m_yAdjust = m_yAdjust;
-            bkController.UseThisWidth = UseThisWidth;
-            bkController.PictureWidth = PictureWidth;
-            bkController.PictureOffsetX = PictureOffsetX;
-
-            return bkController;
-        }
+//         public override CatComponent CloneComponent(GameObject gameObject) {
+//             BackgroundController bkController = new BackgroundController(gameObject);
+// 
+//             bkController.m_zOffset = m_zOffset;
+//             bkController.m_yAdjust = m_yAdjust;
+//             bkController.UseThisWidth = UseThisWidth;
+//             bkController.PictureWidth = PictureWidth;
+//             bkController.PictureOffsetX = PictureOffsetX;
+// 
+//             return bkController;
+//         }
 	}
 }

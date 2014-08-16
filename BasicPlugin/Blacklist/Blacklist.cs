@@ -37,8 +37,8 @@ namespace Catsland.Plugin.BasicPlugin {
             scene.AddSharedObject(typeof(Blacklist).ToString(), this);
         }
 
-        public override void Destroy() {
-            base.Destroy();
+        public override void UnbindFromScene(Scene _scene) {
+            base.UnbindFromScene(_scene);
             Mgr<Scene>.Singleton.RemoveSharedObject(typeof(Blacklist).ToString());
         }
 
@@ -50,7 +50,7 @@ namespace Catsland.Plugin.BasicPlugin {
             m_preys.Add(_prey);
         }
 
-        public static new string GetMenuNames() {
+        public static string GetMenuNames() {
             return "Shadow|Blacklist";
         }
     }

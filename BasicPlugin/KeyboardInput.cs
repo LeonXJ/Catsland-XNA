@@ -42,10 +42,10 @@ namespace Catsland.Plugin.BasicPlugin {
 
         }
 
-        public override CatComponent CloneComponent(GameObject gameObject) {
-            KeyboardInput keyboardInput = new KeyboardInput(gameObject);
-            return keyboardInput;
-        }
+//         public override CatComponent CloneComponent(GameObject gameObject) {
+//             KeyboardInput keyboardInput = new KeyboardInput(gameObject);
+//             return keyboardInput;
+//         }
 
         public override void Initialize(Scene scene) {
             base.Initialize(scene);
@@ -203,17 +203,17 @@ namespace Catsland.Plugin.BasicPlugin {
             oldKeyboardState = keyboardState;  
         }
 
-        public override bool SaveToNode(XmlNode node, XmlDocument doc) {
-            XmlElement keyboardInput = doc.CreateElement(typeof(KeyboardInput).Name);
-            node.AppendChild(keyboardInput);
+//         public override bool SaveToNode(XmlNode node, XmlDocument doc) {
+//             XmlElement keyboardInput = doc.CreateElement(typeof(KeyboardInput).Name);
+//             node.AppendChild(keyboardInput);
+// 
+//             return true;
+//         }
 
-            return true;
-        }
-
-        public override void ConfigureFromNode(XmlElement node, Scene scene, GameObject gameObject) {
-            base.ConfigureFromNode(node, scene, gameObject);
-            return;
-        }
+//         public override void ConfigureFromNode(XmlElement node, Scene scene, GameObject gameObject) {
+//             base.ConfigureFromNode(node, scene, gameObject);
+//             return;
+//         }
 
         public static string GetMenuNames() {
             return "Controller|Keyboard Input";

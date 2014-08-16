@@ -303,8 +303,8 @@ namespace Catsland.Plugin.BasicPlugin {
             : base(_gameObject) {
         }
 
-        public override void Destroy() {
-            base.Destroy();
+        public override void UnbindFromScene(Scene _scene) {
+            base.UnbindFromScene(_scene);
             PhysicsSystem physicsSystem = Mgr<Scene>.Singleton.GetPhysicsSystem();
             if (physicsSystem == null) {
                 return;

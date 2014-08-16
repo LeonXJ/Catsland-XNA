@@ -17,10 +17,14 @@ namespace Catsland.Core {
      * @brief GameObject
      * 
      * the CatComponents can be added to GameObject
+     * 
+     * Note:
+     * GameObject() <-> ~GameObject()
+     * BindToScene(Scene) <-> UnbindFromScene()
      * */
     public class GameObject : Serialable, Drawable, ISelectable {
         
-        #region Properties
+#region Properties
 
         [SerialAttribute]
         private string m_name = "UntitledGameObject";    // name of gameObject, not need to be unique
@@ -113,47 +117,15 @@ namespace Catsland.Core {
             get { return m_absTransform.value; }
         }
 
-        #region Old Transform
-        [Obsolete]
-        public Vector2 PositionOld {
-            set {
-                m_position.X = value.X;
-                m_position.Z = value.Y;
-            }
-            get {
-                return new Vector2(m_position.GetValue().X, m_position.GetValue().Z);
-            }
-        }
-        [Obsolete]
-        public float HeightOld {
-            set {
-                m_position.Y = value;
-            }
-            get {
-                return m_position.Y;
-            }
-        }
-        [Obsolete]
-        public Vector2 AbsPositionOld {
-            get{
-                return new Vector2(AbsPosition.X, AbsPosition.Z);
-            }
-        }
-        [Obsolete]
-        public float AbsHeight {
-            get {
-                Vector4 positionV4 = Vector4.Transform(Vector4.UnitW, m_absTransform);
-                return positionV4.Y / positionV4.W;
-            }
-        }
-
-        #endregion
-
         #endregion
 
         [SerialAttribute]
         private Dictionary<string, CatComponent> m_components;
-        
+        public Dictionary<string, CatComponent> Components {
+            get {
+                return m_components;
+            }
+        }
 
         [SerialAttribute(SerialAttribute.AttributePolicy.PolicyReference,
                          SerialAttribute.AttributePolicy.PolicyNone)]
@@ -175,12 +147,13 @@ namespace Catsland.Core {
             get { return m_children; }
         }
 
+        private Scene m_scene;
+
+        #region EditorProperties
         // debug box
-        // TODO: replace with debug box
         float markHalfRadis = 0.05f;
         static private VertexPositionColor[] m_vertex;
         static private VertexBuffer m_vertexBuffer;
-
         // selection box
         private float selectBoxHalfWidth = 0.05f;
         static private VertexPositionColor[] m_selectionVertex;
@@ -197,54 +170,17 @@ namespace Catsland.Core {
         }
         // editor use
         public bool isExpend = false;
-
         #endregion
+
+#endregion
 
         public GameObject() {
             GUID = Guid.NewGuid().ToString();
             CheckAndUpdateEditorMembers();
         }
 
-        private void CheckAndUpdateEditorMembers() {
-            // #TODO: replace this with debug box
-            if (Mgr<GameEngine>.Singleton._gameEngineMode == GameEngine.GameEngineMode.MapEditor) {
-                // debug vertex
-                if (m_vertex == null) {
-                    m_vertex = new VertexPositionColor[4];
-                    m_vertexBuffer = new VertexBuffer(Mgr<GraphicsDevice>.Singleton, typeof(VertexPositionColor),
-                        4, BufferUsage.None);
-                }
-                m_vertex[0] = new VertexPositionColor(new Vector3(-markHalfRadis, 0.0f, 0.0f), Color.White);
-                m_vertex[1] = new VertexPositionColor(new Vector3(markHalfRadis, 0.0f, 0.0f), Color.White);
-                m_vertex[2] = new VertexPositionColor(new Vector3(0.0f, markHalfRadis, 0.0f), Color.White);
-                m_vertex[3] = new VertexPositionColor(new Vector3(0.0f, -markHalfRadis, 0.0f), Color.White);
-                m_vertexBuffer.SetData<VertexPositionColor>(m_vertex);
-
-                // selection vertex
-                if (m_selectionVertex == null) {
-                    m_selectionVertex = new VertexPositionColor[4];
-                    m_selectionVertex[0] = new VertexPositionColor(new Vector3(-selectBoxHalfWidth, -selectBoxHalfWidth, 0.0f), Color.Blue);
-                    m_selectionVertex[1] = new VertexPositionColor(new Vector3(-selectBoxHalfWidth, selectBoxHalfWidth, 0.0f), Color.Blue);
-                    m_selectionVertex[2] = new VertexPositionColor(new Vector3(selectBoxHalfWidth, -selectBoxHalfWidth, 0.0f), Color.Blue);
-                    m_selectionVertex[3] = new VertexPositionColor(new Vector3(selectBoxHalfWidth, selectBoxHalfWidth, 0.0f), Color.Blue);
-
-                    _selectionVertexBuffer = new VertexBuffer(Mgr<GraphicsDevice>.Singleton, typeof(VertexPositionColor),
-                        4, BufferUsage.None);
-                    _selectionVertexBuffer.SetData<VertexPositionColor>(m_selectionVertex);
-                }
-            }
-        }
-
-
-        /**
-         * @brief detach from parent
-         * */
-        public void DetachFromParent() {
-            if (m_parent == null) {
-                return;
-            }
-            m_parent.DetachChild(this);
-            m_parent = null;
+        ~GameObject() {
+            // TODO: release 
         }
 
         /**
@@ -271,7 +207,70 @@ namespace Catsland.Core {
                 Mgr<GameEngine>.Singleton.Editor.UpdateGameObjectList(Mgr<Scene>.Singleton._gameObjectList);
             }
         }
+        
+        /**
+         * @brief detach from parent
+         * */
+        public void DetachFromParent() {
+            if (m_parent == null) {
+                return;
+            }
+            m_parent.DetachChild(this);
+            m_parent = null;
+        }
 
+        /**
+         * @brief add components
+         * 
+         * @param component the component
+         * */
+        public void AddComponent(CatComponent _component) {
+            if (_component != null) {
+                string key = _component.GetType().ToString();
+                if (m_components == null) {
+                    m_components = new Dictionary<string, CatComponent>();
+                }
+                m_components.Add(key, _component);
+                _component.m_gameObject = this;
+                // if the gameObject has been added to the scene, the component 
+                //  should initialize itself
+                if (m_scene != null) {
+                    _component.BindToScene(m_scene);
+                    _component.Initialize(m_scene);
+                }
+            }
+        }
+
+        public CatComponent GetComponent(Type _componentType) {
+            return GetComponent(_componentType.ToString());
+        }
+
+        public CatComponent GetComponent(string _componentName) {
+            if (m_components == null) {
+                return null;
+            }
+            else {
+                if (m_components.ContainsKey(_componentName)) {
+                    return m_components[_componentName];
+                }
+                return null;
+            }
+        }
+
+        public bool RemoveComponent(Type _componentType) {
+            if (m_components == null) {
+                return false;
+            }
+            string component_name = _componentType.ToString();
+            if (m_components.ContainsKey(component_name)) {
+                CatComponent catComponent = m_components[component_name];
+                m_components.Remove(component_name);
+                catComponent.UnbindFromScene(m_scene);
+                return true;
+            }
+            return false;
+        }
+ 
         /**
          * @brief [Called by GameObjectList only] Add the gameObject and its children
          *  to GameObjectList
@@ -286,16 +285,34 @@ namespace Catsland.Core {
         }
 
         /**
+         * @brief get GameObject GUIDs with the given name
+         **/
+        public List<GameObject> GetGameObjectsByNameFromChildren(string name) {
+            if (m_children != null) {
+                List<GameObject> result = new List<GameObject>();
+                foreach (GameObject gameObject in m_children) {
+                    if (gameObject.Name == name) {
+                        result.Add(gameObject);
+                    }
+                }
+                return result;
+            }
+            return null;
+        }
+
+        /**
          * @brief [Called by GameObjectList only] Bind the gameObject to the scene
          * 
          * @param scene the scene
          * */
         public void BindToScene(Scene scene) {
+            m_scene = scene;
             if (Mgr<GameEngine>.Singleton._gameEngineMode == GameEngine.GameEngineMode.MapEditor) {
                 // add to debug drawable
                 if (scene != null) {
                     scene._debugDrawableList.AddItem(this);
                 }
+                
                 // add to selectable list
                 if (scene != null) {
                     scene._selectableList.AddItem(this);
@@ -324,17 +341,20 @@ namespace Catsland.Core {
          * 
          * @return success?
          * */
-        public bool Initialize(Scene scene) {
+        public bool Initialize() {
+            if (m_scene == null) {
+                return false;
+            }
             // initialize all components
             if (m_components != null) {
                 foreach (KeyValuePair<string, CatComponent> key_value in m_components) {
-                    key_value.Value.Initialize(scene);
+                    key_value.Value.Initialize(m_scene);
                 }
             }
             // initialize children
             if (m_children != null) {
                 foreach (GameObject child in m_children) {
-                    child.Initialize(scene);
+                    child.Initialize();
                 }
             }
             return true;
@@ -355,7 +375,7 @@ namespace Catsland.Core {
         }
 
         /**
-         * @brief update every component in game mode
+         * @brief [Called by GameObjectList only] update every component in game mode
          * 
          * @param lastTimeFrame the time interval since last frame
          * */
@@ -404,7 +424,7 @@ namespace Catsland.Core {
         }
 
         /**
-         * @brief update every component in editor mode
+         * @brief [Called by GameObjectList only] update every component in editor mode
          * 
          * @param lastTimeFrame the time interval since last frame
          * */
@@ -481,25 +501,29 @@ namespace Catsland.Core {
         }
              
         /**
-         * @brief [Called by GameObjectList] recursively destroy this gameObject and its children
+         * @brief [Called by GameObjectList] recursively unbind this gameObject and its children
          * */
-        public void Destroy(Scene scene) {
+        public void UnbindFromScene() {
+            if (m_scene == null) {
+                return;
+            }
             // destroy children
             if (m_children != null) {
                 GameObject[] tempChildren = m_children.ToArray();
                 foreach (GameObject child in tempChildren) {
-                    child.Destroy(scene);
+                    child.UnbindFromScene();
                 }
             }
             if (m_components != null) {
                 foreach (KeyValuePair<string, CatComponent> keyValue in m_components) {
-                    keyValue.Value.Destroy();
+                    keyValue.Value.UnbindFromScene(m_scene);
                 }
             }
             if (Mgr<GameEngine>.Singleton._gameEngineMode == GameEngine.GameEngineMode.MapEditor) {
                 Mgr<Scene>.Singleton._debugDrawableList.RemoveItem(this);
                 Mgr<Scene>.Singleton._selectableList.RemoveItem(this);
             }
+            m_scene = null;
         }
 
         public float GetDepth() {
@@ -524,8 +548,7 @@ namespace Catsland.Core {
             }
             return 0;
         }
-
-        
+ 
         /**
          * @brief Detach child from list
          * 
@@ -550,22 +573,6 @@ namespace Catsland.Core {
                 m_children = new List<GameObject>();
             }
             m_children.Add(child);
-        }
-
-        /**
-         * @brief get GameObject GUIDs with the given name
-         **/ 
-        public List<GameObject> GetGameObjectsByNameFromChildren(string name) {
-            if (m_children != null) {
-                List<GameObject> result = new List<GameObject>();
-                foreach (GameObject gameObject in m_children) {
-                    if (gameObject.Name == name) {
-                        result.Add(gameObject);
-                    }
-                }
-                return result;
-            }
-            return null;
         }
 
         public void DrawSelection() {
@@ -681,60 +688,33 @@ namespace Catsland.Core {
             return Locked;
         }
 
-        /**
-         * @brief add components
-         * 
-         * @param component the component
-         * */
-        public void AddComponent(CatComponent _component) {
-            if (_component != null) {
-                string key = _component.GetType().ToString();
-                if (m_components == null) {
-                    m_components = new Dictionary<string, CatComponent>();
+        private void CheckAndUpdateEditorMembers() {
+            if (Mgr<GameEngine>.Singleton._gameEngineMode == GameEngine.GameEngineMode.MapEditor) {
+                // debug vertex
+                if (m_vertex == null) {
+                    m_vertex = new VertexPositionColor[4];
+                    m_vertexBuffer = new VertexBuffer(Mgr<GraphicsDevice>.Singleton, typeof(VertexPositionColor),
+                        4, BufferUsage.None);
                 }
-                m_components.Add(key, _component);
-                _component.m_gameObject = this;
-            }
-        }
+                m_vertex[0] = new VertexPositionColor(new Vector3(-markHalfRadis, 0.0f, 0.0f), Color.White);
+                m_vertex[1] = new VertexPositionColor(new Vector3(markHalfRadis, 0.0f, 0.0f), Color.White);
+                m_vertex[2] = new VertexPositionColor(new Vector3(0.0f, markHalfRadis, 0.0f), Color.White);
+                m_vertex[3] = new VertexPositionColor(new Vector3(0.0f, -markHalfRadis, 0.0f), Color.White);
+                m_vertexBuffer.SetData<VertexPositionColor>(m_vertex);
 
-        public Dictionary<string, CatComponent> GetComponents() {
-            return m_components;
-        }
+                // selection vertex
+                if (m_selectionVertex == null) {
+                    m_selectionVertex = new VertexPositionColor[4];
+                    m_selectionVertex[0] = new VertexPositionColor(new Vector3(-selectBoxHalfWidth, -selectBoxHalfWidth, 0.0f), Color.Blue);
+                    m_selectionVertex[1] = new VertexPositionColor(new Vector3(-selectBoxHalfWidth, selectBoxHalfWidth, 0.0f), Color.Blue);
+                    m_selectionVertex[2] = new VertexPositionColor(new Vector3(selectBoxHalfWidth, -selectBoxHalfWidth, 0.0f), Color.Blue);
+                    m_selectionVertex[3] = new VertexPositionColor(new Vector3(selectBoxHalfWidth, selectBoxHalfWidth, 0.0f), Color.Blue);
 
-        public CatComponent GetComponent(Type _componentType) {
-            return GetComponent(_componentType.ToString());
-        }
-
-        [Obsolete("Use GetComponent(Type _componentType) instead")]
-        public CatComponent GetComponent(string component_name) {
-            if (m_components == null) {
-                return null;
-            }
-            else {
-                if (m_components.ContainsKey(component_name)) {
-                    return m_components[component_name];
+                    _selectionVertexBuffer = new VertexBuffer(Mgr<GraphicsDevice>.Singleton, typeof(VertexPositionColor),
+                        4, BufferUsage.None);
+                    _selectionVertexBuffer.SetData<VertexPositionColor>(m_selectionVertex);
                 }
-                return null;
             }
         }
-
-        public bool RemoveComponent(Type _componentType) {
-            return RemoveComponent(_componentType.ToString());
-        }
-
-        [Obsolete("User RemoveComponent(Type _componentName) instead")]
-        public bool RemoveComponent(string component_name) {
-            if (m_components == null) {
-                return false;
-            }
-            if (m_components.ContainsKey(component_name)) {
-                CatComponent catComponent = m_components[component_name];
-                m_components.Remove(component_name);
-                catComponent.Destroy();
-                return true;
-            }
-            return false;
-        }
-
     }
 }

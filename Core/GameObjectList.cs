@@ -61,9 +61,8 @@ namespace Catsland.Core {
          * 
          * the gameObject will be removed in next removing phase
          * */
-        [Obsolete]
         public override void RemoveItem(string guid) {
-            RemoveGameObject(guid);
+            Debug.Assert(false, "Don't use this function. Use RemoveGameObject instead.");
             return;
         }
 
@@ -139,7 +138,7 @@ namespace Catsland.Core {
                 }
                 // Initialize
                 foreach (GameObject gameObject in addedRootGameObject) {
-                    gameObject.Initialize(_scene);
+                    gameObject.Initialize();
                 }
                 // TODO: Start
                 if (addedRootGameObject.Count > 0 && Mgr<GameEngine>.Singleton._gameEngineMode
@@ -163,7 +162,7 @@ namespace Catsland.Core {
                 //  put child and parent in removelist at the same time is not allowed
                 foreach (string guid in m_removeList) {
                     if (ContainKey(guid)) {
-                        contentList[guid].Destroy(_scene);
+                        contentList[guid].UnbindFromScene();
                         contentList[guid].RemoveGameObjectTreeFromGameObjectList(this);
                         doSomething = true;
                     }
@@ -185,7 +184,7 @@ namespace Catsland.Core {
             if (contentList.Count > 0) {
                 foreach (KeyValuePair<string, GameObject> keyValue in contentList) {
                     if (keyValue.Value.Parent == null) {
-                        keyValue.Value.Destroy(Mgr<Scene>.Singleton);
+                        keyValue.Value.UnbindFromScene();
                     }
                 }
             }

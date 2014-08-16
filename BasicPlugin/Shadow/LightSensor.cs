@@ -41,8 +41,8 @@ namespace Catsland.Plugin.BasicPlugin {
             }
         }
 
-        public override void Destroy() {
-            base.Destroy();
+        public override void UnbindFromScene(Scene _scene) {
+            base.UnbindFromScene(_scene);
             if (Mgr<GameEngine>.Singleton._gameEngineMode == GameEngine.GameEngineMode.MapEditor) {
                 m_debugShape.Destroy(Mgr<Scene>.Singleton);
             }

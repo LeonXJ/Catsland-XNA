@@ -49,7 +49,7 @@ namespace Catsland.Core {
                 ("effect\\ColorAdjustment");
         }
 
-        public void UpdateBuffer(){
+        public override void UpdateBuffer(){
             m_color = TestAndCreateColorBuffer(m_color);
         }
 

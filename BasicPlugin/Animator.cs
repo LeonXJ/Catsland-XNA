@@ -88,12 +88,12 @@ namespace Catsland.Plugin.BasicPlugin
              m_isPong = false;  
         }
 
-        public override CatComponent CloneComponent(GameObject gameObject)
-        {
-            Animator animator = new Animator(gameObject);
-            animator.AnimationName = m_currentAnimationName;
-            return animator;
-        }
+//         public override CatComponent CloneComponent(GameObject gameObject)
+//         {
+//             Animator animator = new Animator(gameObject);
+//             animator.AnimationName = m_currentAnimationName;
+//             return animator;
+//         }
 
         // needs: quadRender, quadRender.Animation, Model,
 
@@ -283,17 +283,17 @@ namespace Catsland.Plugin.BasicPlugin
             m_isPlaying.SetValue(false);
         }
 
-        public override bool SaveToNode(XmlNode node, XmlDocument doc)
-        {
-            XmlElement animator = doc.CreateElement(typeof(Animator).Name);
-            node.AppendChild(animator);
-
-            animator.SetAttribute("currentClip", m_currentAnimationName);
-            //animator.SetAttribute("isXMirror", "" + m_isMirror);
-            animator.SetAttribute("animationName", m_currentAnimationName);
-
-            return true;
-        }
+//         public override bool SaveToNode(XmlNode node, XmlDocument doc)
+//         {
+//             XmlElement animator = doc.CreateElement(typeof(Animator).Name);
+//             node.AppendChild(animator);
+// 
+//             animator.SetAttribute("currentClip", m_currentAnimationName);
+//             //animator.SetAttribute("isXMirror", "" + m_isMirror);
+//             animator.SetAttribute("animationName", m_currentAnimationName);
+// 
+//             return true;
+//         }
 
 //         public override void ConfigureFromNode(XmlElement node, Scene scene, GameObject gameObject)
 //         {

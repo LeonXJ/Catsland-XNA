@@ -64,7 +64,7 @@ namespace Catsland.Core {
         private Camera m_camera;
 
         // the list of colliders
-        public ColliderList _colliderList;
+        //public ColliderList _colliderList;
         private PhysicsSystem m_physicsSystem;
         public PhysicsSystem GetPhysicsSystem() {
             return m_physicsSystem;
@@ -213,7 +213,7 @@ namespace Catsland.Core {
          * */
         public void Unload() {
             // release all dynamic list
-            _colliderList.ReleaseAll();
+            //_colliderList.ReleaseAll();
             _renderList.ReleaseAll();
             // TODO: release shadow system
             _gameObjectList.ReleaseAll();
@@ -315,7 +315,7 @@ namespace Catsland.Core {
 
             // working list
             newScene._renderList = new RenderList();
-            newScene._colliderList = new ColliderList();
+            //newScene._colliderList = new ColliderList();
             newScene.m_physicsSystem = new PhysicsSystem();
             newScene.m_shadowSystem = new ShadowSystem(_project);
             newScene._renderList.SetShadowRender(newScene.m_shadowSystem);
@@ -366,7 +366,7 @@ namespace Catsland.Core {
 
             // working list
             newScene._renderList = new RenderList();
-            newScene._colliderList = new ColliderList();
+            //newScene._colliderList = new ColliderList();
             newScene.m_physicsSystem = new PhysicsSystem();
             newScene.m_shadowSystem = new ShadowSystem(Mgr<CatProject>.Singleton);
             newScene._renderList.SetShadowRender(newScene.m_shadowSystem);

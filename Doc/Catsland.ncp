@@ -105,6 +105,8 @@
     </Entities>
     <Relationships>
       <Relationship type="Association" first="0" second="1">
+        <Label>
+        </Label>
         <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Vertical</EndOrientation>
         <BendPoint relativeToStartShape="False">
@@ -115,12 +117,16 @@
         <AssociationType>Composition</AssociationType>
       </Relationship>
       <Relationship type="Association" first="0" second="2">
+        <Label>
+        </Label>
         <StartOrientation>Horizontal</StartOrientation>
         <EndOrientation>Horizontal</EndOrientation>
         <Direction>Unidirectional</Direction>
         <AssociationType>Composition</AssociationType>
       </Relationship>
       <Relationship type="Association" first="0" second="3">
+        <Label>
+        </Label>
         <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Vertical</EndOrientation>
         <BendPoint relativeToStartShape="True">
@@ -135,8 +141,6 @@
         <AssociationType>Composition</AssociationType>
       </Relationship>
       <Relationship type="Association" first="3" second="2">
-        <Label>
-        </Label>
         <StartOrientation>Horizontal</StartOrientation>
         <EndOrientation>Horizontal</EndOrientation>
         <BendPoint relativeToStartShape="False">
@@ -149,8 +153,6 @@
         <EndMultiplicity>1</EndMultiplicity>
       </Relationship>
       <Relationship type="Association" first="1" second="3">
-        <Label>
-        </Label>
         <StartOrientation>Horizontal</StartOrientation>
         <EndOrientation>Horizontal</EndOrientation>
         <BendPoint relativeToStartShape="True">
@@ -222,6 +224,8 @@
     </Entities>
     <Relationships>
       <Relationship type="Association" first="0" second="1">
+        <Label>
+        </Label>
         <StartOrientation>Horizontal</StartOrientation>
         <EndOrientation>Horizontal</EndOrientation>
         <Direction>Bidirectional</Direction>
@@ -290,10 +294,9 @@
       <Entity type="Class">
         <Name>GameObject</Name>
         <Access>Public</Access>
-        <Location left="390" top="124" />
-        <Size width="162" height="298" />
+        <Location left="408" top="124" />
+        <Size width="162" height="417" />
         <Collapsed>False</Collapsed>
-        <Member type="Field">Dictionary&lt;string, CatComponent&gt; m_components</Member>
         <Member type="Property">public string Name { get; set; }</Member>
         <Member type="Property">public Vector3 Position { get; set; }</Member>
         <Member type="Property">public CatVector3 PositionRef { get; }</Member>
@@ -302,15 +305,25 @@
         <Member type="Property">public CatQuaternion RotationRef { get; }</Member>
         <Member type="Property">public Vector3 AbsRotation { get; }</Member>
         <Member type="Property">public Vector3 Scale { get; set; }</Member>
-        <Member type="Property">public GameObject Parent { get; set; }</Member>
         <Member type="Property">public CatVector3 ScaleRef { get; }</Member>
+        <Member type="Method">public void AttachToGameObject(GameObject _parent)</Member>
+        <Member type="Method">public void DetachFromParent()</Member>
+        <Member type="Property">public Vector3 AbsScale { get; set; }</Member>
         <Member type="Property">public Matrix AbsTransform { get; }</Member>
+        <Member type="Property">public GameObject Parent { get; set; }</Member>
         <Member type="Property">public List&lt;GameObject&gt; Children { get; }</Member>
+        <Member type="Method">public void AddComponent(CatComponent _component)</Member>
+        <Member type="Method">public CatComponent GetComponent(Type _componentType)</Member>
+        <Member type="Method">public CatComponent GetComponent(string _componentName)</Member>
+        <Member type="Property">public Dictionary&lt;string, CatComponent&gt; Components { get; set; }</Member>
+        <Member type="Method">public bool RemoveComponent(Type _componentType)</Member>
         <Modifier>None</Modifier>
       </Entity>
     </Entities>
     <Relationships>
       <Relationship type="Association" first="0" second="1">
+        <Label>
+        </Label>
         <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Horizontal</EndOrientation>
         <Direction>Unidirectional</Direction>
@@ -425,8 +438,6 @@
     </Entities>
     <Relationships>
       <Relationship type="Association" first="1" second="2">
-        <Label>
-        </Label>
         <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Horizontal</EndOrientation>
         <Direction>Unidirectional</Direction>

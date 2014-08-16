@@ -386,13 +386,13 @@ namespace Catsland.Plugin.BasicPlugin {
             }
         }
 
-        public override void Destroy() {
+        public override void UnbindFromScene(Scene _scene) {
             ReleaseParticle();
-            base.Destroy();
+            base.UnbindFromScene(_scene);
         }
 
         public float GetDepth() {
-            return m_gameObject.PositionOld.Y + m_emitterOffset.Y;
+            return m_gameObject.Position.Z + m_emitterOffset.Z;
         }
 
         public int CompareTo(object obj) {
@@ -435,7 +435,7 @@ namespace Catsland.Plugin.BasicPlugin {
             GameObject gameObject =
                 Mgr<Scene>.Singleton._gameObjectList.GetOneGameObjectByName(_name);
             if (gameObject != null) {
-                return gameObject.GetComponent(typeof(ParticleEmitter).ToString())
+                return gameObject.GetComponent(typeof(ParticleEmitter))
                     as ParticleEmitter;
             }
             return null;
@@ -475,7 +475,7 @@ namespace Catsland.Plugin.BasicPlugin {
             // now just take it as basic effect
             Mgr<GraphicsDevice>.Singleton.SetVertexBuffer(m_emitter.m_vertexBuffer);
             ModelComponent modelComponent = (ModelComponent)m_emitter.m_gameObject.
-                GetComponent(typeof(ModelComponent).ToString());
+                GetComponent(typeof(ModelComponent));
             Effect effect = null;
             Matrix matPosition = Matrix.CreateTranslation(position);
             Matrix matRotation = Matrix.CreateRotationZ(m_rotationZ);

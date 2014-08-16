@@ -22,10 +22,9 @@ namespace CatsEditor {
 
         public void InitializeData(GameObject gameObject, string selected) {
             component_list.Items.Clear();
-            Dictionary<string, CatComponent> componentList = gameObject.GetComponents();
             int selectedIndex = -1;
-            if (componentList != null) {
-                foreach (KeyValuePair<string, CatComponent> key_value in componentList) {
+            if (gameObject.Components != null) {
+                foreach (KeyValuePair<string, CatComponent> key_value in gameObject.Components) {
                     component_list.Items.Add(key_value.Key);
                     if (key_value.Key == selected) {
                         selectedIndex = component_list.Items.Count - 1;

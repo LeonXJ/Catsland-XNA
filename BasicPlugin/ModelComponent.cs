@@ -38,27 +38,27 @@ namespace Catsland.Plugin.BasicPlugin
         {
         }
 
-        public override CatComponent CloneComponent(GameObject gameObject)
-        {
-            ModelComponent modelComponent = new ModelComponent(gameObject);
-            modelComponent.Model = Model;
-
-            // new material model
-            modelComponent.m_catModelInstance = m_catModelInstance.Clone();
-            return modelComponent;
-        }
-
-        public override bool SaveToNode(XmlNode node, XmlDocument doc)
-        {
-            XmlElement modelComponent = doc.CreateElement(typeof(ModelComponent).Name);
-            node.AppendChild(modelComponent);
-
-            modelComponent.SetAttribute("name", Model.GetName());
-            // save parameter tips
-            m_catModelInstance.GetMaterial().SaveToNode(modelComponent, doc, true);
-
-            return true;
-        }
+//         public override CatComponent CloneComponent(GameObject gameObject)
+//         {
+//             ModelComponent modelComponent = new ModelComponent(gameObject);
+//             modelComponent.Model = Model;
+// 
+//             // new material model
+//             modelComponent.m_catModelInstance = m_catModelInstance.Clone();
+//             return modelComponent;
+//         }
+// 
+//         public override bool SaveToNode(XmlNode node, XmlDocument doc)
+//         {
+//             XmlElement modelComponent = doc.CreateElement(typeof(ModelComponent).Name);
+//             node.AppendChild(modelComponent);
+// 
+//             modelComponent.SetAttribute("name", Model.GetName());
+//             // save parameter tips
+//             m_catModelInstance.GetMaterial().SaveToNode(modelComponent, doc, true);
+// 
+//             return true;
+//         }
 
         protected override void PostSerial(ref XmlNode _node, XmlDocument _doc) {
             // <Post_ModelName value="Cat" />
@@ -75,18 +75,18 @@ namespace Catsland.Plugin.BasicPlugin
             }
         }
 
-        public override void ConfigureFromNode(XmlElement node, Scene scene, GameObject gameObject)
-        {
-            base.ConfigureFromNode(node, scene, gameObject);
-            Model = Mgr<CatProject>.Singleton.modelList1.GetModel(node.GetAttribute("name"));
-            // new material and model
-            m_catModelInstance = CatModelInstance.CreateFromCatsModel(Model);
-            // apply material tip
-            XmlNode nodeMaterial = node.SelectSingleNode("Material");
-            if (nodeMaterial != null) {
-                m_catModelInstance.GetMaterial().ApplyParameterTipsFromXml(nodeMaterial);
-            }
-        }
+//         public override void ConfigureFromNode(XmlElement node, Scene scene, GameObject gameObject)
+//         {
+//             base.ConfigureFromNode(node, scene, gameObject);
+//             Model = Mgr<CatProject>.Singleton.modelList1.GetModel(node.GetAttribute("name"));
+//             // new material and model
+//             m_catModelInstance = CatModelInstance.CreateFromCatsModel(Model);
+//             // apply material tip
+//             XmlNode nodeMaterial = node.SelectSingleNode("Material");
+//             if (nodeMaterial != null) {
+//                 m_catModelInstance.GetMaterial().ApplyParameterTipsFromXml(nodeMaterial);
+//             }
+//         }
 
         protected override void PostUnserial(XmlNode _node) {
             XmlElement eleModelName = 
@@ -132,7 +132,7 @@ namespace Catsland.Plugin.BasicPlugin
             GameObject gameObject = 
                 Mgr<Scene>.Singleton._gameObjectList.GetOneGameObjectByName(_name);
             if (gameObject != null) {
-                return gameObject.GetComponent(typeof(ModelComponent).ToString())
+                return gameObject.GetComponent(typeof(ModelComponent))
                     as ModelComponent;
             }
             return null;

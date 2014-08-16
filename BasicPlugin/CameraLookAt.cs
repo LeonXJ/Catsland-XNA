@@ -47,15 +47,15 @@ namespace Catsland.Plugin.BasicPlugin {
         public override void EditorUpdate(int timeLastFrame) {
         }
 
-        public override void ConfigureFromNode(XmlElement node, Scene scene, GameObject gameObject) {
-            base.ConfigureFromNode(node, scene, gameObject);
-        }
+//         public override void ConfigureFromNode(XmlElement node, Scene scene, GameObject gameObject) {
+//             base.ConfigureFromNode(node, scene, gameObject);
+//         }
 
-        public override bool SaveToNode(XmlNode node, XmlDocument doc) {
-            XmlElement cameraLookAt = doc.CreateElement(typeof(CameraLookAt).Name);
-            node.AppendChild(cameraLookAt);
-            return true;
-        }
+//         public override bool SaveToNode(XmlNode node, XmlDocument doc) {
+//             XmlElement cameraLookAt = doc.CreateElement(typeof(CameraLookAt).Name);
+//             node.AppendChild(cameraLookAt);
+//             return true;
+//         }
 
         public static string GetMenuNames() {
             return "Controller|Camera Look At";

@@ -142,12 +142,12 @@ namespace Catsland.Core {
             m_vertexBuffer.SetData<VertexPositionColor>(m_vertice);
         }
 
-        public override void Destroy() {
-            base.Destroy();
+        public override void UnbindFromScene(Scene _scene) {
+            base.UnbindFromScene(_scene);
             if (Mgr<GameEngine>.Singleton._gameEngineMode == GameEngine.GameEngineMode.MapEditor) {
-                m_debugShape.Destroy(Mgr<Scene>.Singleton);
+                m_debugShape.Destroy(_scene);
             }
-            Mgr<Scene>.Singleton.m_shadowSystem.RemoveLight(this);
+            _scene.m_shadowSystem.RemoveLight(this);
         }
 
         virtual public void Draw(int timeLastFrame){

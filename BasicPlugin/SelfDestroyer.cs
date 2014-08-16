@@ -32,7 +32,7 @@ namespace Catsland.Plugin.BasicPlugin
 			m_timeElipse += timeLastFrame;
 			if (m_timeElipse > m_time)
 			{
-				Mgr<Scene>.Singleton._gameObjectList.RemoveItem(m_gameObject.GUID);
+                Mgr<Scene>.Singleton._gameObjectList.RemoveGameObject(m_gameObject.GUID);
 			}
 		}
 

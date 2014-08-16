@@ -31,7 +31,10 @@ namespace Catsland.Core {
             get { return m_enable; }
         }
 
-        // the GameObject it belongs to
+        // Delay binding is not used here because the component's xml node is
+        //  always within its gameObject's node. So we never store m_gameObject
+        //  in the node. To set m_gameObject, we do that in PostUnserial of
+        //  gameObject.
         public GameObject m_gameObject;
 
         public CatComponent() {

@@ -44,7 +44,7 @@ namespace Catsland.Plugin.BirthdayParty {
         public override void Update(int timeLastFrame) {
             m_gameObject.HeightOld += actualSpeed * timeLastFrame / 1000;
             if (m_gameObject.HeightOld > ExpireHight) {
-                Mgr<Scene>.Singleton._gameObjectList.RemoveItem(m_gameObject.GUID);
+                Mgr<Scene>.Singleton._gameObjectList.RemoveGameObject(m_gameObject.GUID);
             }
         }
 

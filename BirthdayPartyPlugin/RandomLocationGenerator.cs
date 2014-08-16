@@ -85,7 +85,7 @@ namespace Catsland.Plugin.BirthdayParty {
             // generate gameObject
             GameObject prefab = Mgr<CatProject>.Singleton.prefabList.GetItem(prefabName);
             if (prefab != null) {
-                GameObject newGameObject = prefab.CloneGameObject();
+                GameObject newGameObject = prefab.DoClone() as GameObject;
                 // set position
                 newGameObject.PositionOld = new Vector2(X, Y);
                 newGameObject.HeightOld = Z;
@@ -97,7 +97,7 @@ namespace Catsland.Plugin.BirthdayParty {
                 }
 
                 // add to scene
-                Mgr<Scene>.Singleton._gameObjectList.AddItem(newGameObject.GUID, newGameObject);
+                Mgr<Scene>.Singleton._gameObjectList.AddGameObject(newGameObject);
             }
         }
 

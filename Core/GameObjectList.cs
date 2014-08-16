@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml;
+using System.Diagnostics;
 
 /**
  * @file GameObjectList
@@ -14,132 +15,45 @@ namespace Catsland.Core {
     /**
      * @brief every scene holds a GameObjectList, storing the list of gameObject
      * 
-     * adding or removing item should be performed ascyn while gaming is running
+     * adding or removing item should be performed asynchronously while gaming is running
      * */
-    public class AddPack {
-        public GameObject AddGameObject;
-        public GameObject Parent;
-        public AddPack(GameObject _addGameObject,
-                       GameObject _parent) {
-            AddGameObject = _addGameObject;
-            Parent = _parent;
-        }
-    }
-
     public class GameObjectList : UniqueList<GameObject> {
 
-        
+        #region Properties
 
-        // store the gameObjects waiting to be removed
-        List<GameObject> m_removeList;
-        // store the gameObjects waiting to be added
-        List<GameObject> m_addList;
-        Dictionary<string, AddPack> m_addList2;
-        // store the gameObjects waiting to be called start
-        // List<GameObject> m_startList;
+        private List<string> m_removeList;
+        private List<GameObject> m_addList;
+        private Dictionary<string, List<string>> nameDictionary = new Dictionary<string, List<string>>();
 
-        public List<GameObject> AddList {
-            set;
-            get;
-        }
-        // gameObject name list for get gameObject by name
-        Dictionary<string, List<string>> nameDictionary = new Dictionary<string, List<string>>();
+        #endregion
 
         /**
-         * @brief add gameObject to list
-         * 
-         * the gameObject will be added to list in next adding phase
+         * @brief add GameObject to list. The GameObject will be added in
+         *      UpdateAdd phase
          * */
-        public void AddItem(string guid, GameObject item, GameObject _parent = null) {
+        public void AddGameObject(GameObject _gameObject) {
             if (m_addList == null) {
                 m_addList = new List<GameObject>();
             }
-            if (contentList != null && contentList.ContainsKey(item.GUID)) {
-                Console.Out.WriteLine("Has contain guid: " + item.GUID);
-                return;
-            }
-            m_addList.Add(item);
-
-            if (m_addList2 == null) {
-                m_addList2 = new Dictionary<string, AddPack>();
-            }
-            // no duplicate allowed
-            if (contentList != null && contentList.ContainsKey(item.GUID)) {
-                Console.Out.WriteLine("Has contain guid: " + item.GUID);
-                return;
-            }
-            else if (m_addList2.ContainsKey(item.GUID)) {
-                Console.Out.WriteLine("Has contain guid: " + item.GUID);
-                return;
-            }
-            m_addList2.Add(item.GUID, new AddPack(item, _parent));
+            m_addList.Add(_gameObject);
         }
 
-        public List<GameObject> GetAddList() {
-            return m_addList;
+        public override void AddItem(string guid, GameObject item) {
+            Debug.Assert(false, "Don't use this function. Use AddGameObject instead.");
+            return;
         }
 
         /**
-         * @brief add gameObjects in addList to UniqueList
-         * 
-         * invoked by gameEngine in adding phase
+         * @brief remove GameObject from list. the GameObject will be removed
+         *      at UpdateRemove phase. Removing a GameObject may result in the
+         *      removal of the whole GameObject sub-tree.
+         *      Don't call this function to parent and child at the same time.
          * */
-        public void UpdateAdd() {
-            if (m_addList != null && m_addList2 != null) {
-                bool doSomething = false;
-//                 foreach (GameObject gameObject in m_addList) {
-//                     // if gameObject has parent, do not add here, add to scene by its parent
-//                     // or if its parent has been added (the child is created after its parent)
-//                     if ((contentList == null || !contentList.ContainsKey(gameObject.GUID))  // essential
-//                         &&
-//                         (gameObject.Parent == null || contentList.ContainsKey(gameObject.Parent.GUID))) {
-//                         gameObject.BindToScene(Mgr<Scene>.Singleton);
-//                         gameObject.Initialize(Mgr<Scene>.Singleton);
-//                         doSomething = true;
-//                     }
-//                 }
-                foreach (KeyValuePair<string, AddPack> keyValue in m_addList2) {
-                    if (keyValue.Value.AddGameObject.Parent == null) {
-                        // no parent, all depend on yourself
-                        keyValue.Value.AddGameObject.BindToScene(Mgr<Scene>.Singleton);
-                        keyValue.Value.AddGameObject.Initialize(Mgr<Scene>.Singleton);
-                        doSomething = true;
-                    }
-                    else {
-                        if (contentList.ContainsKey(keyValue.Value.AddGameObject.Parent.GUID) &&
-                            !contentList.ContainsKey(keyValue.Value.AddGameObject.GUID)) {
-                            // parent has enter, all depend on yourself
-                            keyValue.Value.AddGameObject.BindToScene(Mgr<Scene>.Singleton);
-                            keyValue.Value.AddGameObject.Initialize(Mgr<Scene>.Singleton);
-                            doSomething = true;
-                        }
-                        else {
-                            // do nothing
-                        }
-                    }
-                }
-
-                if (doSomething && Mgr<GameEngine>.Singleton._gameEngineMode
-                            == GameEngine.GameEngineMode.MapEditor) {
-                    Mgr<GameEngine>.Singleton.Editor.UpdateGameObjectList(this);
-                }
-
-                m_addList.Clear();
-                m_addList2.Clear();
+        public void RemoveGameObject(string _guid) {
+            if (m_removeList == null) {
+                m_removeList = new List<string>();
             }
-        }
-
-        /**
-         * @brief release all gameObjects in the list
-         * 
-         * this should not be invoked while the scene is running
-         * */
-        public override void ReleaseAll() {
-            base.ReleaseAll();
-            if (Mgr<GameEngine>.Singleton._gameEngineMode
-                == GameEngine.GameEngineMode.MapEditor) {
-                Mgr<GameEngine>.Singleton.Editor.UpdateGameObjectList(this);
-            }
+            m_removeList.Add(_guid);
         }
 
         /**
@@ -147,76 +61,19 @@ namespace Catsland.Core {
          * 
          * the gameObject will be removed in next removing phase
          * */
+        [Obsolete]
         public override void RemoveItem(string guid) {
-            if (m_removeList == null) {
-                m_removeList = new List<GameObject>();
-            }
-            if (contentList.ContainsKey(guid)) {
-                m_removeList.Add(contentList[guid]);
-            }
-            else if(m_addList != null){
-                // scan add list
-                m_addList.RemoveAll(item => item.GUID == guid);
-            }
+            RemoveGameObject(guid);
+            return;
         }
 
         /**
-         * @brief remove the gameObjects in removeList
-         * 
-         * invoked by gameEngine in removing phase
+         * @brief declare the renaming of gameObject
          * */
-        public void UpdateRemove() {
-            if (m_removeList != null) {
-                bool doSomething = false;
-                foreach (GameObject gameObject in m_removeList) {
-                    // gameObject will destory its children by itself
-                    gameObject.Destroy(Mgr<Scene>.Singleton);
-                    doSomething = true;
-                }
-
-                if (doSomething && Mgr<GameEngine>.Singleton._gameEngineMode
-                            == GameEngine.GameEngineMode.MapEditor) {
-                    Mgr<GameEngine>.Singleton.Editor.UpdateGameObjectList(this);
-                }
-
-                m_removeList.Clear();
-            }
-        }
-
-
-        /**
-         * @brief Remove gameObject reference
-         * 
-         * @param gameObject the gameObject to be removed
-         * */
-        public void SimplyRemoveReference(GameObject gameObject) {
-            base.RemoveItem(gameObject.GUID);
-            // remove from name list
-            RemoveFromNameList(gameObject);
-            // update editor
-            if (Mgr<GameEngine>.Singleton._gameEngineMode
-                            == GameEngine.GameEngineMode.MapEditor) {
-                Mgr<GameEngine>.Singleton.Editor.UpdateGameObjectList(this);
-            }
-        }
-
-
-        /**
-         * @brief remove gameObject guid from namelist
-         * 
-         * @param gameObject 
-         * */
-        private void RemoveFromNameList(GameObject gameObject) {
-            if (nameDictionary.ContainsKey(gameObject.Name)) {
-                List<string> nameList = nameDictionary[gameObject.Name];
-                nameList.Remove(gameObject.GUID);
-                if (nameList.Count == 0) {
-                    nameDictionary.Remove(gameObject.Name);
-                }
-            }
-        }
-
         public void Rename(string oldName, GameObject gameObject) {
+            if (oldName == gameObject.Name) {
+                return;
+            }
             // remove
             if (nameDictionary.ContainsKey(oldName)) {
                 List<string> nameList = nameDictionary[oldName];
@@ -227,101 +84,10 @@ namespace Catsland.Core {
             }
             // add
             AddToNameList(gameObject);
-        }
-
-        /**
-         * @brief Add gameObject reference
-         * 
-         * @param gameObject the gameObject to be added
-         * */
-        [Obsolete]
-        public void SimplyAddReference(GameObject gameObject) {
-            base.AddItem(gameObject.GUID, gameObject);
-            // nameList
-            AddToNameList(gameObject);
-
-            List<string> nameList = nameDictionary[gameObject.Name];
-            nameList.Add(gameObject.GUID);
             // update editor
-            if (Mgr<GameEngine>.Singleton._gameEngineMode
-                            == GameEngine.GameEngineMode.MapEditor) {
-                Mgr<GameEngine>.Singleton.Editor.UpdateGameObjectList(this);
+            if (Mgr<GameEngine>.Singleton._gameEngineMode == GameEngine.GameEngineMode.MapEditor) {
+                Mgr<GameEngine>.Singleton.Editor.GameObjectNameChanged();
             }
-        }
-
-
-        /**
-         * @brief add gameObject guid to namelist
-         * 
-         * @param gameObject the gameObject
-         * */
-        private void AddToNameList(GameObject gameObject) {
-            if (!nameDictionary.ContainsKey(gameObject.Name)) {
-                nameDictionary.Add(gameObject.Name, new List<string>());
-            }
-            nameDictionary[gameObject.Name].Add(gameObject.GUID);
-        }
-
-        /**
-         * @brief update all gameObjects in game mode
-         * 
-         * invoked by gameEngine
-         * */
-        public void Update(int timeLastFrame) {
-            if (contentList == null) {
-                return;
-            }
-
-            foreach (KeyValuePair<string, GameObject> keyValue in contentList) {
-                if (keyValue.Value.Parent == null) {
-                    keyValue.Value.Update(timeLastFrame);
-                }
-            }
-        }
-
-        /**
-         * @brief update all gameObjects in editor mode
-         * 
-         * invoked by gameEngine
-         * */
-        public void EditorUpdate(int timeLastFrame) {
-            if (contentList == null) {
-                return;
-            }
-
-            foreach (KeyValuePair<string, GameObject> keyValue in contentList) {
-                keyValue.Value.EditorUpdate(timeLastFrame);
-            }
-        }
-
-        public bool SaveToNode(XmlNode node, XmlDocument doc) {
-            XmlElement gameobjects = doc.CreateElement("GameObjects");
-            node.AppendChild(gameobjects);
-
-            if (contentList != null) {
-                foreach (KeyValuePair<string, GameObject> keyValue in contentList) {
-                    XmlNode nodeGameObject = keyValue.Value.DoSerial(doc);
-                    gameobjects.AppendChild(nodeGameObject);
-                }
-            }
-            return true;
-        }
-
-        public static GameObjectList LoadFromNode(XmlNode node, Scene scene) {
-            GameObjectList gameObjectList = new GameObjectList();
-            //Dictionary<string, GameObject> tempList = new Dictionary<string, GameObject>();
-            // enable delay binding
-            Serialable.BeginSupportingDelayBinding();
-            
-            foreach (XmlNode gameObject in node.ChildNodes) {
-                GameObject newGameObject = (GameObject)(Serialable.DoUnserial(gameObject));
-                    //GameObject.LoadFromNode(gameObject, scene);
-                gameObjectList.AddItem(newGameObject.GUID, newGameObject);
-                //tempList.Add(newGameObject.GUID, newGameObject);
-            }
-
-            Serialable.EndSupportingDelayBinding();
-            return gameObjectList;
         }
 
         /**
@@ -345,5 +111,194 @@ namespace Catsland.Core {
             }
             return null;
         }
+
+        /**
+         * @brief [Called by GameEngine only] add gameObjects in addList to list
+         * 
+         * invoked by gameEngine in adding phase
+         * */
+        public void UpdateAdd(Scene _scene) {
+            if (m_addList != null) {
+                List<GameObject> addedRootGameObject = new List<GameObject>();
+                // Add to contentlist
+                foreach (GameObject gameObject in m_addList) {
+                    string guid = gameObject.GUID;
+                    // do not add to list in two cases:
+                    // 1. it has been in list
+                    // 2. it has parent && parent isn't in the list by far (it will be added by its parent later on)
+                    if ((ContainKey(guid)) ||
+                        (gameObject.Parent != null && !ContainKey(gameObject.Parent.GUID))) {
+                        continue;
+                    }
+                    gameObject.AddGameObjectTreeToGameObjectList(this); ;
+                    addedRootGameObject.Add(gameObject);
+                }
+                // Bind to scene
+                foreach (GameObject gameObject in addedRootGameObject) {
+                    gameObject.BindToScene(_scene);
+                }
+                // Initialize
+                foreach (GameObject gameObject in addedRootGameObject) {
+                    gameObject.Initialize(_scene);
+                }
+                // TODO: Start
+                if (addedRootGameObject.Count > 0 && Mgr<GameEngine>.Singleton._gameEngineMode
+            == GameEngine.GameEngineMode.MapEditor) {
+                    Mgr<GameEngine>.Singleton.Editor.UpdateGameObjectList(this);
+                }
+                m_addList.Clear();
+            }
+        }
+
+        /**
+         * @brief [Called by GameEngine only] remove the gameObjects in removeList
+         * 
+         * invoked by gameEngine in removing phase
+         * */
+        public void UpdateRemove(Scene _scene) {
+            if (m_removeList != null) {
+                bool doSomething = false;
+                // UpdateAdd is called before UpdateRemove, so all the gameObjects
+                //  are in contentlist
+                //  put child and parent in removelist at the same time is not allowed
+                foreach (string guid in m_removeList) {
+                    if (ContainKey(guid)) {
+                        contentList[guid].Destroy(_scene);
+                        contentList[guid].RemoveGameObjectTreeFromGameObjectList(this);
+                        doSomething = true;
+                    }
+                }
+                if (doSomething && Mgr<GameEngine>.Singleton._gameEngineMode
+                            == GameEngine.GameEngineMode.MapEditor) {
+                    Mgr<GameEngine>.Singleton.Editor.UpdateGameObjectList(this);
+                }
+                m_removeList.Clear();
+            }
+        }
+        
+        /**
+         * @brief [Called by Scene only] release all gameObjects in the list
+         * 
+         * this should not be invoked while the scene is running
+         * */
+        public override void ReleaseAll() {
+            if (contentList.Count > 0) {
+                foreach (KeyValuePair<string, GameObject> keyValue in contentList) {
+                    if (keyValue.Value.Parent == null) {
+                        keyValue.Value.Destroy(Mgr<Scene>.Singleton);
+                    }
+                }
+            }
+            base.ReleaseAll();
+            if (Mgr<GameEngine>.Singleton._gameEngineMode
+                == GameEngine.GameEngineMode.MapEditor) {
+                Mgr<GameEngine>.Singleton.Editor.UpdateGameObjectList(this);
+            }
+        }
+
+        /**
+         * @brief [Called by GameObject only] Add a single gameObject (its 
+         *      children are excluded) to list
+         * 
+         * @param gameObject the gameObject to be added
+         * */
+        public void AddSingleGameObject(GameObject _gameObject) {
+            string guid = _gameObject.GUID;
+            if (!ContainKey(guid)) {
+                base.AddItem(guid, _gameObject);
+            }
+            AddToNameList(_gameObject);
+        }
+
+        /**
+         * @brief [Called by GameObject only] Remove gameObject (its children are excluded)
+         * 
+         * @param gameObject the gameObject to be removed
+         * */
+        public void RemoveSingleGameObject(GameObject gameObject) {
+            base.RemoveItem(gameObject.GUID);
+            RemoveFromNameList(gameObject);
+        }
+
+        /**
+         * @brief update all gameObjects in game mode
+         * 
+         * invoked by gameEngine
+         * */
+        public void Update(int timeLastFrame) {
+            if (contentList == null) {
+                return;
+            }
+            foreach (KeyValuePair<string, GameObject> keyValue in contentList) {
+                if (keyValue.Value.Parent == null) {
+                    keyValue.Value.Update(timeLastFrame, this);
+                }
+            }
+        }
+
+        /**
+         * @brief update all gameObjects in editor mode
+         * 
+         * invoked by gameEngine
+         * */
+        public void EditorUpdate(int timeLastFrame) {
+            if (contentList == null) {
+                return;
+            }
+            foreach (KeyValuePair<string, GameObject> keyValue in contentList) {
+                keyValue.Value.EditorUpdate(timeLastFrame, this);
+            }
+        }
+
+        public bool SaveToNode(XmlNode node, XmlDocument doc) {
+            XmlElement gameobjects = doc.CreateElement("GameObjects");
+            node.AppendChild(gameobjects);
+
+            if (contentList != null) {
+                foreach (KeyValuePair<string, GameObject> keyValue in contentList) {
+                    XmlNode nodeGameObject = keyValue.Value.DoSerial(doc);
+                    gameobjects.AppendChild(nodeGameObject);
+                }
+            }
+            return true;
+        }
+
+        public static GameObjectList LoadFromNode(XmlNode node, Scene scene) {
+            GameObjectList gameObjectList = new GameObjectList();
+            Serialable.BeginSupportingDelayBinding();
+            foreach (XmlNode gameObject in node.ChildNodes) {
+                GameObject newGameObject = (GameObject)(Serialable.DoUnserial(gameObject));
+                gameObjectList.AddGameObject(newGameObject);
+            }
+            Serialable.EndSupportingDelayBinding();
+            return gameObjectList;
+        }
+
+        /**
+         * @brief add gameObject guid to namelist
+         * 
+         * @param gameObject the gameObject
+         * */
+        private void AddToNameList(GameObject gameObject) {
+            if (!nameDictionary.ContainsKey(gameObject.Name)) {
+                nameDictionary.Add(gameObject.Name, new List<string>());
+            }
+            nameDictionary[gameObject.Name].Add(gameObject.GUID);
+        }
+
+        /**
+         * @brief remove gameObject guid from namelist
+         * 
+         * @param gameObject 
+         * */
+        private void RemoveFromNameList(GameObject gameObject) {
+            if (nameDictionary.ContainsKey(gameObject.Name)) {
+                List<string> nameList = nameDictionary[gameObject.Name];
+                nameList.Remove(gameObject.GUID);
+                if (nameList.Count == 0) {
+                    nameDictionary.Remove(gameObject.Name);
+                }
+            }
+        }    
     }
 }

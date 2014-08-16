@@ -1,7 +1,0 @@
-<Material fxname="BasicEffect2">
-  <Parameter name="World" type="Catsland.Core.CatMatrix"/>
-  <Parameter name="View" type="Catsland.Core.CatMatrix" />
-  <Parameter name="Projection" type="Catsland.Core.CatMatrix" />
-  <Parameter name="Alpha" type="Catsland.Core.CatFloat" />
-  <Parameter name="DiffuseMap" type="Catsland.Core.CatTexture" /> 
-</Material>

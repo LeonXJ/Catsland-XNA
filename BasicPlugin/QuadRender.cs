@@ -375,7 +375,7 @@ namespace Catsland.Plugin.BasicPlugin
             newGameObject.AddComponent(modelComponent);
             QuadRender quadRender = new QuadRender(newGameObject);
             newGameObject.AddComponent( quadRender);
-            Mgr<Scene>.Singleton._gameObjectList.AddItem(newGameObject.GUID, newGameObject);
+            Mgr<Scene>.Singleton._gameObjectList.AddGameObject(newGameObject);
         }
 
         public static string GetMenuNames() {
@@ -433,7 +433,7 @@ namespace Catsland.Plugin.BasicPlugin
             QuadRender quadRender = new QuadRender(newGameObject);
             newGameObject.AddComponent(quadRender);
             quadRender.OptimalSize = true;
-            Mgr<Scene>.Singleton._gameObjectList.AddItem(newGameObject.GUID, newGameObject);
+            Mgr<Scene>.Singleton._gameObjectList.AddGameObject(newGameObject);
         }
 
         public static string GetMenuNames() {

@@ -199,8 +199,7 @@ namespace HorseRiding {
             newGameObject.AttachToGameObject(m_gameObject);
             // do post create block
             PostCreatGameObject(newGameObject, _index);
-            Mgr<Scene>.Singleton._gameObjectList.AddItem(
-                newGameObject.GUID, newGameObject);
+            Mgr<Scene>.Singleton._gameObjectList.AddGameObject(newGameObject);
             return newGameObject;
         }
 
@@ -255,8 +254,8 @@ namespace HorseRiding {
                 GameObject barrier = prefab.DoClone() as GameObject;
                 barrier.Position = _blockGameObject.AbsPosition +
                                     new Vector3(randx, 0.4f + 0.1f * i, 0.0f);
-                Mgr<Scene>.Singleton._gameObjectList.AddItem(
-                                                    barrier.GUID, barrier);
+                
+                Mgr<Scene>.Singleton._gameObjectList.AddGameObject( barrier);
             }
             Serialable.EndSupportingDelayBinding();
         }
@@ -270,8 +269,8 @@ namespace HorseRiding {
             GameObject fly = prefab.DoClone() as GameObject;
             fly.Position = _blockGameObject.AbsPosition +
                                     new Vector3(0.0f, m_flyHeight, 0.0f);
-            Mgr<Scene>.Singleton._gameObjectList.AddItem(
-                                                fly.GUID, fly);
+
+            Mgr<Scene>.Singleton._gameObjectList.AddGameObject(fly);
             ButterflyController bfc =
                 fly.GetComponent(typeof(ButterflyController).ToString())
                 as ButterflyController;
@@ -295,8 +294,7 @@ namespace HorseRiding {
                            m_wildgooseHeight + (float)ran.NextDouble() * 0.02f, 
                            0.0f);
                 wildgoose.AttachToGameObject(_blockGameObject);
-                Mgr<Scene>.Singleton._gameObjectList.AddItem(
-                                                    wildgoose.GUID, wildgoose);
+                Mgr<Scene>.Singleton._gameObjectList.AddGameObject(wildgoose);
             }
             Serialable.EndSupportingDelayBinding();
         }
@@ -310,7 +308,8 @@ namespace HorseRiding {
             relic.Position = new Vector3((float)m_rand.NextDouble() * m_blockWidth,
                                             relic.Position.Y,
                                             relic.Position.Z);
-            Mgr<Scene>.Singleton._gameObjectList.AddItem(relic.GUID, relic, _blockGameObject);
+            relic.AttachToGameObject(_blockGameObject);
+            Mgr<Scene>.Singleton._gameObjectList.AddGameObject(_blockGameObject);
             Serialable.EndSupportingDelayBinding();
         }
         

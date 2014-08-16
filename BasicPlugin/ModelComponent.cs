@@ -107,7 +107,9 @@ namespace Catsland.Plugin.BasicPlugin
         protected override void PostClone(Serialable _object) {
             ModelComponent target = _object as ModelComponent;
             m_model = target.Model;
-            m_catModelInstance = target.m_catModelInstance.Clone();
+            if (target.m_catModelInstance != null) {
+                m_catModelInstance = target.m_catModelInstance.Clone();
+            }
         }
 
         public static string GetMenuNames() {

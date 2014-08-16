@@ -79,8 +79,7 @@ namespace HorseRiding {
                 player.AbsPosition.X + 3.0f,
                 destinationGameObject.Position.Y,
                 destinationGameObject.Position.Z);
-            Mgr<Scene>.Singleton._gameObjectList.AddItem(
-                            destinationGameObject.GUID,
+            Mgr<Scene>.Singleton._gameObjectList.AddGameObject(
                             destinationGameObject);
         }
     }

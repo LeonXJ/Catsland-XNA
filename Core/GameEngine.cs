@@ -346,9 +346,10 @@ namespace Catsland.Core {
                 Mgr<Scene>.Singleton.GetPhysicsSystem().Update(_skewedTimeInMS);
             }
             if (Mgr<Scene>.Singleton._gameObjectList != null) {
+                Scene curScene = Mgr<Scene>.Singleton;
                 GameObjectList gameObjectList = Mgr<Scene>.Singleton._gameObjectList;
-                gameObjectList.UpdateAdd();
-                gameObjectList.UpdateRemove();
+                gameObjectList.UpdateAdd(curScene);
+                gameObjectList.UpdateRemove(curScene);
             }
             if (Mgr<Scene>.Singleton._colliderList != null) {
                 Mgr<Scene>.Singleton._colliderList.UpdateRemove();
@@ -373,9 +374,10 @@ namespace Catsland.Core {
 
         private void EditorEditUpdateProcess(int _skewedTimeInMS) {
             if (Mgr<Scene>.Singleton._gameObjectList != null) {
+                Scene curScene = Mgr<Scene>.Singleton;
                 GameObjectList gameObjectList = Mgr<Scene>.Singleton._gameObjectList;
-                gameObjectList.UpdateAdd();
-                gameObjectList.UpdateRemove();
+                gameObjectList.UpdateAdd(curScene);
+                gameObjectList.UpdateRemove(curScene);
             }
             if (Mgr<Scene>.Singleton._colliderList != null) {
                 Mgr<Scene>.Singleton._colliderList.UpdateRemove();

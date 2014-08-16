@@ -76,7 +76,7 @@ namespace Catsland.Plugin.BasicPlugin
                     characterController.Die();
                 }
                 if (removeAfterDie) {
-                    Mgr<Scene>.Singleton._gameObjectList.RemoveItem(m_gameObject.GUID);
+                    Mgr<Scene>.Singleton._gameObjectList.RemoveGameObject(m_gameObject.GUID);
                 }
 			}
              

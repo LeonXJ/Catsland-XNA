@@ -114,7 +114,7 @@ namespace Catsland.Editor {
                 ConstructorInfo constructorInfo = componentType.GetConstructor(new Type[1] { typeof(GameObject) });
                 CatComponent component = (CatComponent)constructorInfo.Invoke(new Object[1] { m_observingGameObject });
 
-                m_observingGameObject.AddComponent(componentName, component);
+                m_observingGameObject.AddComponent(component);
                 component.BindToScene(Mgr<Scene>.Singleton);
                 component.Initialize(Mgr<Scene>.Singleton);
                 UpdateGameObjectAttribute(m_observingGameObject);
@@ -468,9 +468,9 @@ namespace Catsland.Editor {
 
                 CatModelInstance modelInstance = null;
 
-                if (m_observingGameObject.GetComponentList() != null) {
+                if (m_observingGameObject.GetComponents() != null) {
                     foreach (KeyValuePair<string, CatComponent> key_value in
-                    m_observingGameObject.GetComponentList()) {
+                    m_observingGameObject.GetComponents()) {
 
                         // pick out modelInstance
                         if (key_value.Value.GetType().ToString() == "Catsland.Plugin.BasicPlugin.ModelComponent") {
@@ -531,7 +531,7 @@ namespace Catsland.Editor {
             GameObject newGameObject = new GameObject();
             newGameObject.PositionOld = Vector2.Zero;
             newGameObject.HeightOld = 0.0f;
-            Mgr<Scene>.Singleton._gameObjectList.AddItem(newGameObject.GUID, newGameObject);
+            Mgr<Scene>.Singleton._gameObjectList.AddGameObject(newGameObject);
             Mgr<Scene>.Singleton._debugDrawableList.AddItem(newGameObject);
         }
 
@@ -1050,7 +1050,7 @@ namespace Catsland.Editor {
 
         private void deleteGameObjectToolStripMenuItem_Click(object sender, EventArgs e) {
             if (m_observingGameObject != null) {
-                Mgr<Scene>.Singleton._gameObjectList.RemoveItem(m_observingGameObject.GUID);
+                Mgr<Scene>.Singleton._gameObjectList.RemoveGameObject(m_observingGameObject.GUID);
                 m_observingGameObject = null;
                 UpdateGameObjectAttribute(null);
             }
@@ -1072,7 +1072,7 @@ namespace Catsland.Editor {
                 Serialable.EndSupportingDelayBinding();
                     //prefab.CloneGameObject();
                 //gameObject.Initialize(Mgr<Scene>.Singleton);
-                Mgr<Scene>.Singleton._gameObjectList.AddItem(gameObject.GUID, gameObject);
+                Mgr<Scene>.Singleton._gameObjectList.AddGameObject(gameObject);
             }
             else {
                 Console.Out.WriteLine("Could not find prefab named: " + prefabName);
@@ -1228,7 +1228,7 @@ namespace Catsland.Editor {
                         GameObject newGameObject = selected.DoClone() 
                             as GameObject;//selected.CloneGameObject();
                         Serialable.EndSupportingDelayBinding();
-                        Mgr<Scene>.Singleton._gameObjectList.AddItem(newGameObject.GUID, newGameObject);
+                        Mgr<Scene>.Singleton._gameObjectList.AddGameObject(newGameObject);
                         newGameObject.AttachToGameObject(selected.Parent);
                         selected = newGameObject;
                         m_observingGameObject = newGameObject;

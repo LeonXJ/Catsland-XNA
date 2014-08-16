@@ -859,14 +859,14 @@ namespace Catsland.Plugin.BasicPlugin {
                 prefab = Mgr<CatProject>.Singleton.prefabList.GetItem(BlockPrefabName);
             }
             if (animator != null && prefab != null) {
-                GameObject blockObject = prefab.CloneGameObject();
+                GameObject blockObject = prefab.DoClone() as GameObject;
                 blockObject.PositionOld = attackObject.PositionOld;
                 blockObject.HeightOld = attackObject.HeightOld;
                 QuadRender quadRender = (QuadRender)blockObject.GetComponent(typeof(QuadRender).Name);
                 if (quadRender != null) {
                     quadRender.XMirror = animator.Mirror;
                 }
-                Mgr<Scene>.Singleton._gameObjectList.AddItem(blockObject.GUID, blockObject);
+                Mgr<Scene>.Singleton._gameObjectList.AddGameObject(blockObject);
             }
         }
 

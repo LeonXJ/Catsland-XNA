@@ -34,7 +34,7 @@ namespace Catsland.Plugin.BasicPlugin
 				{
                     dialogResponser.Response(m_owner);
 					// destroy itself
-					Mgr<Scene>.Singleton._gameObjectList.RemoveItem(trigger.m_gameObject.GUID);
+                    Mgr<Scene>.Singleton._gameObjectList.RemoveGameObject(trigger.m_gameObject.GUID);
 				}
 			}
 		}

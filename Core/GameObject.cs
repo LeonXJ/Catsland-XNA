@@ -29,12 +29,7 @@ namespace Catsland.Core {
             set {
                 string oldName = m_name;
                 m_name = value;
-                // update name dictionary
                 Mgr<Scene>.Singleton._gameObjectList.Rename(oldName, this);
-                // update editor
-                if (Mgr<GameEngine>.Singleton._gameEngineMode == GameEngine.GameEngineMode.MapEditor) {
-                    Mgr<GameEngine>.Singleton.Editor.GameObjectNameChanged();
-                }
             }
             get { return m_name; }
         }
@@ -67,7 +62,7 @@ namespace Catsland.Core {
                 positionV4 /= positionV4.W;
                 return new Vector3(positionV4.X, positionV4.Y, positionV4.Z);
             }
-        }               // for convenience, calculate from transform
+        }              
 
         [SerialAttribute]
         private readonly CatQuaternion m_rotation = new CatQuaternion(Quaternion.Identity);
@@ -107,13 +102,16 @@ namespace Catsland.Core {
         public CatVector3 ScaleRef {
             get { return m_scale; }
         }
+        public Vector3 AbsScale {
+            get {
+                return CatMath.GetScale(m_absTransform);
+            }
+        }
         
         private CatMatrix m_absTransform = new CatMatrix(Matrix.Identity);
         public Matrix AbsTransform {
             get { return m_absTransform.value; }
         }
-
-
 
         #region Old Transform
         [Obsolete]
@@ -155,18 +153,8 @@ namespace Catsland.Core {
 
         [SerialAttribute]
         private Dictionary<string, CatComponent> m_components;
-
-        // debug box
-        float markHalfRadis = 0.05f;
-        static private VertexPositionColor[] m_vertex;
-        static private VertexBuffer m_vertexBuffer;
-
-        // selection box
-        private float selectBoxHalfWidth = 0.05f;
-        static private VertexPositionColor[] m_selectionVertex;
-        static private VertexBuffer _selectionVertexBuffer;
         
-        // parent and children
+
         [SerialAttribute(SerialAttribute.AttributePolicy.PolicyReference,
                          SerialAttribute.AttributePolicy.PolicyNone)]
         private GameObject m_parent;
@@ -181,11 +169,23 @@ namespace Catsland.Core {
             }
         }
 
+        // child bind to parent in serializing
         private List<GameObject> m_children;
         public List<GameObject> Children {
             get { return m_children; }
         }
 
+        // debug box
+        // TODO: replace with debug box
+        float markHalfRadis = 0.05f;
+        static private VertexPositionColor[] m_vertex;
+        static private VertexBuffer m_vertexBuffer;
+
+        // selection box
+        private float selectBoxHalfWidth = 0.05f;
+        static private VertexPositionColor[] m_selectionVertex;
+        static private VertexBuffer _selectionVertexBuffer;
+        
         private bool m_isLocked = false;
         public bool Locked {
             set {
@@ -195,12 +195,6 @@ namespace Catsland.Core {
                 return m_isLocked;
             }
         }
-
-        // parent of the gameObject
-        // TODO: deprecate
-        [Obsolete]
-        string delayBindingParent;
-
         // editor use
         public bool isExpend = false;
 
@@ -241,15 +235,62 @@ namespace Catsland.Core {
             }
         }
 
+
         /**
-         * @brief Bind the gameObject to the scene
+         * @brief detach from parent
+         * */
+        public void DetachFromParent() {
+            if (m_parent == null) {
+                return;
+            }
+            m_parent.DetachChild(this);
+            m_parent = null;
+        }
+
+        /**
+         * @brief attach/detach to/from parent
+         * 
+         * @param _parent the new parent. use null for detach
+         * 
+         * @result
+         * */
+        public void AttachToGameObject(GameObject _parent) {
+            // avoid to attach to itself
+            if (_parent == this) {
+                return;
+            }
+            if (m_parent != null) {
+                DetachFromParent();
+            }
+            m_parent = _parent;
+            if (m_parent != null) {
+                m_parent.AddChild(this);
+            }
+            if (Mgr<GameEngine>.Singleton._gameEngineMode == GameEngine.GameEngineMode.MapEditor
+                && Mgr<Scene>.Singleton != null) {
+                Mgr<GameEngine>.Singleton.Editor.UpdateGameObjectList(Mgr<Scene>.Singleton._gameObjectList);
+            }
+        }
+
+        /**
+         * @brief [Called by GameObjectList only] Add the gameObject and its children
+         *  to GameObjectList
+         */
+        public void AddGameObjectTreeToGameObjectList(GameObjectList _gameObjectList) {
+            _gameObjectList.AddSingleGameObject(this);
+            if (m_children != null) {
+                foreach (GameObject child in m_children) {
+                    child.AddGameObjectTreeToGameObjectList(_gameObjectList);
+                }
+            }
+        }
+
+        /**
+         * @brief [Called by GameObjectList only] Bind the gameObject to the scene
          * 
          * @param scene the scene
          * */
         public void BindToScene(Scene scene) {
-            // bind to gameObject list
-            // TODO: remove this
-            scene._gameObjectList.SimplyAddReference(this);
             if (Mgr<GameEngine>.Singleton._gameEngineMode == GameEngine.GameEngineMode.MapEditor) {
                 // add to debug drawable
                 if (scene != null) {
@@ -260,13 +301,12 @@ namespace Catsland.Core {
                     scene._selectableList.AddItem(this);
                 }
             }
-            // initialize all components
+            // bind all components
             if (m_components != null) {
                 foreach (KeyValuePair<string, CatComponent> key_value in m_components) {
                     key_value.Value.BindToScene(scene);
                 }
             }
-
             // children
             if (m_children != null) {
                 foreach (GameObject child in m_children) {
@@ -276,7 +316,7 @@ namespace Catsland.Core {
         }
 
         /**
-         * @brief initialize gameObject and its components
+         * @brief [Called by GameObjectList only] initialize gameObject and its components
          * 
          * should be called after binding to scene
          * 
@@ -291,7 +331,6 @@ namespace Catsland.Core {
                     key_value.Value.Initialize(scene);
                 }
             }
-
             // initialize children
             if (m_children != null) {
                 foreach (GameObject child in m_children) {
@@ -302,21 +341,45 @@ namespace Catsland.Core {
         }
 
         /**
+         * @brief [Called by GameObjectList only] recursively remove self from gameObjectList
+         */ 
+        public void RemoveGameObjectTreeFromGameObjectList(GameObjectList _gameObjectList) {
+            if (m_children != null) {
+                GameObject[] tempChildren = m_children.ToArray();
+                foreach (GameObject child in tempChildren){
+                    child.RemoveGameObjectTreeFromGameObjectList(_gameObjectList);
+                }
+            }
+            DetachFromParent(); 
+            _gameObjectList.RemoveSingleGameObject(this);
+        }
+
+        /**
          * @brief update every component in game mode
          * 
          * @param lastTimeFrame the time interval since last frame
          * */
-        public void Update(int lastTimeFrame) {
-            // update itself
-            // update components
+        public void Update(int lastTimeFrame, GameObjectList _gameObjectList) {
+            if (!ShouldBeUpdated(_gameObjectList)) {
+                return;
+            }
             if (m_components != null) {
                 foreach (KeyValuePair<string, CatComponent> key_value in m_components) {
                     key_value.Value.Update(lastTimeFrame);
                 }
             }
+            UpdateAbsTranformation(lastTimeFrame);
+            if (m_children != null) {
+                foreach (GameObject child in m_children) {
+                    child.Update(lastTimeFrame, _gameObjectList);
+                }
+            }
+        }
 
-            // TODO: is it correct to put it here?
-            // calculate absolute position         
+        /**
+         * @brief update abs transformation
+         **/
+        private void UpdateAbsTranformation(int _timeLastFrameInMS) {
             if (m_parent != null) {
                 m_absTransform.SetValue(Matrix.CreateFromQuaternion(m_rotation) * Matrix.CreateTranslation(Position)
                     * m_parent.AbsTransform);
@@ -324,12 +387,20 @@ namespace Catsland.Core {
             else {
                 m_absTransform.SetValue(Matrix.CreateFromQuaternion(m_rotation) * Matrix.CreateTranslation(Position));
             }
-            // update children
-            if (m_children != null) {
-                foreach (GameObject child in m_children) {
-                    child.Update(lastTimeFrame);
-                }
+        }
+
+        /**
+         * @brief decide whether this object should be updated
+         **/ 
+        private bool ShouldBeUpdated(GameObjectList _gameObjectList) {
+            // Don't update the gameObject if it is not in GameObjectList
+            // Case: 1. GameObject a.Update() -> AddGameObject(b), b.AttachToGameObject(c)
+            //       2. c.Update() -> b.Update()
+            // Here, b has not been added to contentList (not been BindToScene and Initialize yet) 
+            if (!_gameObjectList.ContainKey(GUID)) {
+                return false;
             }
+            return true;
         }
 
         /**
@@ -337,30 +408,21 @@ namespace Catsland.Core {
          * 
          * @param lastTimeFrame the time interval since last frame
          * */
-        public void EditorUpdate(int lastTimeFrame) {
+        public void EditorUpdate(int lastTimeFrame, GameObjectList _gameObjectList) {
             // update itself 
+            if (!ShouldBeUpdated(_gameObjectList)) {
+                return;
+            }
             // update components
             if (m_components != null) {
                 foreach (KeyValuePair<string, CatComponent> key_value in m_components) {
                     key_value.Value.EditorUpdate(lastTimeFrame);
                 }
             }
-            if (m_parent != null) {
-                m_absTransform.SetValue(Matrix.CreateScale(m_scale) * 
-                    Matrix.CreateFromQuaternion(m_rotation) 
-                    * Matrix.CreateTranslation(Position) 
-                    * m_parent.AbsTransform);
-            }
-            else {
-                m_absTransform.SetValue(Matrix.CreateScale(m_scale) 
-                    * Matrix.CreateFromQuaternion(m_rotation) 
-                    * Matrix.CreateTranslation(Position));
-            }
-
-            // update children
+            UpdateAbsTranformation(lastTimeFrame);
             if (m_children != null) {
                 foreach (GameObject child in m_children) {
-                    child.EditorUpdate(lastTimeFrame);
+                    child.EditorUpdate(lastTimeFrame, _gameObjectList);
                 }
             }
         }
@@ -414,106 +476,26 @@ namespace Catsland.Core {
             return Name;
         }
 
-        /**
-         * @brief hard copy this gameObject and its components
-         * */
-        public GameObject CloneGameObject() {
-            GameObject gameObject = new GameObject();
-            gameObject.Name = new String(m_name.ToCharArray());
-            // guid should not be cloned
-
-            gameObject.m_position.SetValue(m_position.GetValue());
-            gameObject.m_rotation.SetValue(m_rotation.GetValue());
-            gameObject.m_scale.SetValue(m_scale.GetValue());
-
-            // children
-            if (m_children != null) {
-                gameObject.m_children = new List<GameObject>();
-                foreach (GameObject child in m_children) {
-                    GameObject newGameObject = child.CloneGameObject();
-                    newGameObject.AttachToGameObject(gameObject);
-                }
-            }
-
-            // Components
-//             if (m_components != null) {
-//                 foreach (KeyValuePair<string, CatComponent> keyValue in m_components) {
-//                     gameObject.AddComponent(keyValue.Key, keyValue.Value.CloneComponent(gameObject));
-//                 }
-//             }
-            
-            return gameObject;
-        }
-
-
         public override Type GetThisType() {
             return GetType();
         }
-        
-
-//         public bool SaveToNode(XmlNode node, XmlDocument doc, Queue<GameObject> toBeSave = null) {
-//             TestSave(node, doc);
-//             return true;
-//         }
-      
-        public static GameObject LoadFromNode(XmlNode node, Scene scene=null) {
-            XmlElement gameObject = (XmlElement)node;
-
-            // name and guid
-            GameObject newGameObject = new GameObject();
-            String name = gameObject.GetAttribute("name");
-            String guid = gameObject.GetAttribute("guid");
-            string parent_guid = gameObject.GetAttribute("parent");
-
-            newGameObject.m_name = name;
-            newGameObject.GUID = guid;
-            if (parent_guid != "") {
-                newGameObject.delayBindingParent = parent_guid;
-            }
-            // location
-            XmlElement position = (XmlElement)gameObject.SelectSingleNode("Position");
-            Vector2 postionXY = new Vector2(float.Parse(position.GetAttribute("X")),
-                                        float.Parse(position.GetAttribute("Y")));
-            float positionHeight = float.Parse(position.GetAttribute("Z"));
-            //newGameObject.Position = postionXY;
-            //newGameObject.Height = positionHeight;
-
-            // just test, new position
-            newGameObject.Position = (new Vector3(postionXY.X, positionHeight, postionXY.Y));
-            // end of new position
-
-            // components
-            XmlNode components = gameObject.SelectSingleNode("Components");
-            foreach (XmlNode component_node in components.ChildNodes) {
-                string component_name = component_node.Name;
-                CatComponent component = CatComponent.LoadFromNode((XmlElement)component_node, scene, newGameObject);
-                newGameObject.AddComponent(component.GetType().Name, component);
-            }
-            return newGameObject;
-        }
-
+             
         /**
-         * @brief destroy this gameObject and its components
+         * @brief [Called by GameObjectList] recursively destroy this gameObject and its children
          * */
         public void Destroy(Scene scene) {
-            // remove children
+            // destroy children
             if (m_children != null) {
-                // make a copy of children for iteration
                 GameObject[] tempChildren = m_children.ToArray();
                 foreach (GameObject child in tempChildren) {
                     child.Destroy(scene);
                 }
             }
-            // detach from parent
-            DetachFromParent();
-            // destroy itself
-            scene._gameObjectList.SimplyRemoveReference(this);
             if (m_components != null) {
                 foreach (KeyValuePair<string, CatComponent> keyValue in m_components) {
                     keyValue.Value.Destroy();
                 }
             }
-
             if (Mgr<GameEngine>.Singleton._gameEngineMode == GameEngine.GameEngineMode.MapEditor) {
                 Mgr<Scene>.Singleton._debugDrawableList.RemoveItem(this);
                 Mgr<Scene>.Singleton._selectableList.RemoveItem(this);
@@ -521,22 +503,7 @@ namespace Catsland.Core {
         }
 
         public float GetDepth() {
-            // TODO: maybe set Height as a factor is more suitable?
             return AbsPosition.Z;
-            //return absPosition.Y;
-        }
-
-
-        /**
-         * @brief bind children after loading from file
-         * */
-        [Obsolete]
-        public void ApplyDelayBindingParent(GameObjectList gameObjectList, 
-            Dictionary<string, GameObject> tempList) {
-            if (delayBindingParent != null) {
-                AttachToGameObject(tempList[delayBindingParent]);
-                delayBindingParent = null;
-            }
         }
 
         /**
@@ -564,50 +531,10 @@ namespace Catsland.Core {
          * 
          * @param child the child it want to detach
          * */
-        void DetachChild(GameObject child) {
+        private void DetachChild(GameObject child) {
             if (m_children != null) {
                 m_children.Remove(child);
             }
-        }
-
-        /**
-         * @brief detach from parent
-         * */
-        void DetachFromParent() {
-            if (m_parent == null) {
-                return;
-            }
-            // detach from parent
-            m_parent.DetachChild(this);
-            // change itself
-            m_parent = null;
-        }
-
-        /**
-         * @brief attach to gameObject to be its child
-         * 
-         * @param _parent the new parent
-         * 
-         * @result
-         * */
-        public void AttachToGameObject(GameObject _parent) {
-            // avoid to attach to itself
-            if (_parent == this) {
-                return;
-            }
-            if (m_parent != null) {
-                // detach firstly
-                DetachFromParent();
-            }
-            m_parent = _parent;
-            if (m_parent != null) {
-                m_parent.AttachChild(this);  
-            }
-            if (Mgr<GameEngine>.Singleton._gameEngineMode == GameEngine.GameEngineMode.MapEditor
-                && Mgr<Scene>.Singleton != null) {
-                Mgr<GameEngine>.Singleton.Editor.UpdateGameObjectList(Mgr<Scene>.Singleton._gameObjectList);
-            }
-            
         }
 
         /**
@@ -615,21 +542,19 @@ namespace Catsland.Core {
          * 
          * @param child the child gameObject
          * */
-        void AttachChild(GameObject child) {
+        private void AddChild(GameObject child) {
+            if (child == null) {
+                return;
+            }
             if (m_children == null) {
                 m_children = new List<GameObject>();
             }
             m_children.Add(child);
         }
 
-        public void PostConfigure(Scene scene, Dictionary<string, GameObject> tempList) {
-            if (m_components != null) {
-                foreach (KeyValuePair<string, CatComponent> keyValue in m_components) {
-                    keyValue.Value.PostConfiguration(scene, tempList);
-                }
-            }
-        }
-
+        /**
+         * @brief get GameObject GUIDs with the given name
+         **/ 
         public List<GameObject> GetGameObjectsByNameFromChildren(string name) {
             if (m_children != null) {
                 List<GameObject> result = new List<GameObject>();
@@ -710,17 +635,12 @@ namespace Catsland.Core {
 
         public override void PostDelayBinding() {
             if (m_parent != null) {
-                m_parent.AttachChild(this);
+                m_parent.AddChild(this);
             }
         }
 
         protected override void PostUnserial(XmlNode _node) {
-            // add reference to this for components
-            if (m_components != null) {
-                foreach (KeyValuePair<string, CatComponent> keyValue in m_components) {
-                    keyValue.Value.m_gameObject = this;
-                }
-            }
+            SetComponentsReference();
         }
 
         protected override void PostClone(Serialable _object) {
@@ -732,7 +652,11 @@ namespace Catsland.Core {
                     cloneChild.m_parent = this;
                 }
             }
-            // set component's reference
+            SetComponentsReference();
+        }
+
+        private void SetComponentsReference() {
+            // We don't use delay binding for this field. See the comment in CatComponent
             if (m_components != null) {
                 foreach (KeyValuePair<string, CatComponent> keyValue in m_components) {
                     keyValue.Value.m_gameObject = this;
@@ -758,22 +682,6 @@ namespace Catsland.Core {
         }
 
         /**
-         * the following functions are about components.
-         * consider to replace them with uniqueList
-         * */
-
-        
-
-        [Obsolete("Use AddComponent(CatComponent) instead")]
-        public void AddComponent(string component_name, CatComponent component) {
-            if (m_components == null) {
-                m_components = new Dictionary<string, CatComponent>();
-            }
-            m_components.Add(component_name, component);
-            component.m_gameObject = this;
-        }
-
-        /**
          * @brief add components
          * 
          * @param component the component
@@ -789,10 +697,15 @@ namespace Catsland.Core {
             }
         }
 
-        public Dictionary<string, CatComponent> GetComponentList() {
+        public Dictionary<string, CatComponent> GetComponents() {
             return m_components;
         }
 
+        public CatComponent GetComponent(Type _componentType) {
+            return GetComponent(_componentType.ToString());
+        }
+
+        [Obsolete("Use GetComponent(Type _componentType) instead")]
         public CatComponent GetComponent(string component_name) {
             if (m_components == null) {
                 return null;
@@ -805,6 +718,11 @@ namespace Catsland.Core {
             }
         }
 
+        public bool RemoveComponent(Type _componentType) {
+            return RemoveComponent(_componentType.ToString());
+        }
+
+        [Obsolete("User RemoveComponent(Type _componentName) instead")]
         public bool RemoveComponent(string component_name) {
             if (m_components == null) {
                 return false;

@@ -152,6 +152,13 @@ namespace Catsland.Core {
             return true;
         }
 
+        /**
+         * @brief extract scale factor from matrix
+         */ 
+        public static Vector3 GetScale(Matrix _transform) {
+            return new Vector3(_transform.M11, _transform.M22, _transform.M33);
+        }
+
         private static bool AxisSeparatePolygons(Vector2 _axis, 
             Vector2[] _convexA, Matrix _transformA,
             Vector2[] _convexB, Matrix _transformB) {
@@ -169,6 +176,8 @@ namespace Catsland.Core {
             }
             return false;
         }
+
+
 
         private static Vector2 CalculateInterval(Vector2 _axis,
             Vector2[] _convex, Matrix _transform) {

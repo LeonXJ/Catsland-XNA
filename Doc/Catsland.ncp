@@ -266,12 +266,25 @@
         <Name>GameObjectList</Name>
         <Access>Public</Access>
         <Location left="105" top="124" />
-        <Size width="243" height="216" />
+        <Size width="243" height="366" />
         <Collapsed>False</Collapsed>
-        <Member type="Field">Dictionary&lt;string, AddPack&gt; m_addList2</Member>
+        <Member type="Field">Dictionary&lt;string, AddPack&gt; m_addList</Member>
         <Member type="Field">List&lt;GameObject&gt; m_removeList</Member>
         <Member type="Field">Dictionary&lt;string, List&lt;string&gt;&gt; nameDictionary</Member>
-        <Member type="Method">public void AddItem(string _guid, GameObject _item, GameObject _parent)</Member>
+        <Member type="Method">public void AddGameObject(GameObject _gameObject)</Member>
+        <Member type="Method">public void RemoveGameObject(string _guid)</Member>
+        <Member type="Method">public void Rename(string _oldName, GameObject _gameObject)</Member>
+        <Member type="Method">public List&lt;string&gt; GetGameObjectsGuidByName(string _name)</Member>
+        <Member type="Method">public GameObject GetOneGameObjectByName(string _name)</Member>
+        <Member type="Method">public void UpdateAdd(Scene _scene)</Member>
+        <Member type="Method">public void UpdateRemove(Scene _scene)</Member>
+        <Member type="Method">public override void ReleaseAll()</Member>
+        <Member type="Method">public void AddSingleGameObject(GameObject _gameObject)</Member>
+        <Member type="Method">public void RemoveSingleGameObject(string _guid)</Member>
+        <Member type="Method">public void Update(int _timeInMS)</Member>
+        <Member type="Method">public void EditorUpdate(int _timeInMS)</Member>
+        <Member type="Method">public bool SaveToNode(XmlNode _node, XmlDocument _doc)</Member>
+        <Member type="Method">public static GameObjectList LoadFromNode(XmlNode _node, Scene _scene)</Member>
         <Modifier>None</Modifier>
       </Entity>
       <Entity type="Class">
@@ -296,7 +309,16 @@
         <Modifier>None</Modifier>
       </Entity>
     </Entities>
-    <Relationships />
+    <Relationships>
+      <Relationship type="Association" first="0" second="1">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Composition</AssociationType>
+        <StartMultiplicity>1</StartMultiplicity>
+        <EndMultiplicity>*</EndMultiplicity>
+      </Relationship>
+    </Relationships>
   </ProjectItem>
   <ProjectItem type="NClass.DiagramEditor.ClassDiagram.Diagram" assembly="NClass.DiagramEditor, Version=2.4.1823.0, Culture=neutral, PublicKeyToken=null">
     <Name>Serialize</Name>
@@ -305,7 +327,7 @@
       <Entity type="Class">
         <Name>Serialable</Name>
         <Access>Public</Access>
-        <Location left="146" top="126" />
+        <Location left="948" top="357" />
         <Size width="283" height="383" />
         <Collapsed>False</Collapsed>
         <Member type="Field">Dictionary&lt;Pointer, string&gt; m_delayBindingTable</Member>
@@ -331,7 +353,7 @@
       <Entity type="Class">
         <Name>Pointer</Name>
         <Access>Public</Access>
-        <Location left="577" top="126" />
+        <Location left="1436" top="333" />
         <Size width="267" height="264" />
         <Collapsed>False</Collapsed>
         <Member type="Field">FieldInfo m_fieldInfo</Member>
@@ -350,7 +372,7 @@
       <Entity type="Enum">
         <Name>ContentType</Name>
         <Access>Public</Access>
-        <Location left="577" top="443" />
+        <Location left="1436" top="650" />
         <Size width="162" height="112" />
         <Collapsed>False</Collapsed>
         <Value>ContentField</Value>
@@ -360,7 +382,7 @@
       <Entity type="Interface">
         <Name>ISerializeType</Name>
         <Access>Public</Access>
-        <Location left="262" top="593" />
+        <Location left="876" top="142" />
         <Size width="162" height="133" />
         <Collapsed>False</Collapsed>
         <Member type="Method">bool IsThisType(Type _type)</Member>
@@ -371,7 +393,7 @@
       <Entity type="Class">
         <Name>SerializeDictionary</Name>
         <Access>Public</Access>
-        <Location left="146" top="803" />
+        <Location left="677" top="357" />
         <Size width="162" height="81" />
         <Collapsed>False</Collapsed>
         <Modifier>None</Modifier>
@@ -379,7 +401,7 @@
       <Entity type="Class">
         <Name>SerializeIEffectParameter</Name>
         <Access>Public</Access>
-        <Location left="334" top="801" />
+        <Location left="491" top="357" />
         <Size width="162" height="77" />
         <Collapsed>False</Collapsed>
         <Modifier>None</Modifier>
@@ -387,7 +409,7 @@
       <Entity type="Class">
         <Name>SerializeSerialable</Name>
         <Access>Public</Access>
-        <Location left="519" top="801" />
+        <Location left="300" top="357" />
         <Size width="162" height="77" />
         <Collapsed>False</Collapsed>
         <Modifier>None</Modifier>
@@ -395,7 +417,7 @@
       <Entity type="Class">
         <Name>SerializeString</Name>
         <Access>Public</Access>
-        <Location left="714" top="801" />
+        <Location left="107" top="357" />
         <Size width="162" height="77" />
         <Collapsed>False</Collapsed>
         <Modifier>None</Modifier>
@@ -450,6 +472,10 @@
         <EndOrientation>Vertical</EndOrientation>
       </Relationship>
       <Relationship type="Realization" first="7" second="3">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Realization" first="0" second="3">
         <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Vertical</EndOrientation>
       </Relationship>

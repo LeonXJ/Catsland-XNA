@@ -70,7 +70,7 @@ namespace CatsEditor {
                     }
 
                     ComponentSelector componentSelector = new ComponentSelector();
-                    componentSelector.InitializeData(((CatComponent)context.Instance).m_gameObject, (string)selected);
+                    componentSelector.InitializeData(((CatComponent)context.Instance).GameObject, (string)selected);
                     edSvc.ShowDialog(componentSelector);
 
                     // get model

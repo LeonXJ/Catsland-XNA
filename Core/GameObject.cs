@@ -231,7 +231,7 @@ namespace Catsland.Core {
                     m_components = new Dictionary<string, CatComponent>();
                 }
                 m_components.Add(key, _component);
-                _component.m_gameObject = this;
+                _component.GameObject = this;
                 // if the gameObject has been added to the scene, the component 
                 //  should initialize itself
                 if (m_scene != null) {
@@ -666,7 +666,7 @@ namespace Catsland.Core {
             // We don't use delay binding for this field. See the comment in CatComponent
             if (m_components != null) {
                 foreach (KeyValuePair<string, CatComponent> keyValue in m_components) {
-                    keyValue.Value.m_gameObject = this;
+                    keyValue.Value.GameObject = this;
                 }
             }
         }

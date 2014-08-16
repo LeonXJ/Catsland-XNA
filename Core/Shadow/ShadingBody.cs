@@ -53,7 +53,7 @@ namespace Catsland.Core {
 
         public override void Initialize(Scene scene) {
             base.Initialize(scene);
-            m_debugShape.RelateGameObject = m_gameObject;
+            m_debugShape.RelateGameObject = GameObject;
         }
 
         public override void BindToScene(Scene scene) {
@@ -93,7 +93,7 @@ namespace Catsland.Core {
          */ 
         public Vector2 GetVertexInWorld(int _index) {
             Vector4 pos = Vector4.Transform(new Vector4(m_vertices[_index].X, m_vertices[_index].Y, 0.0f, 1.0f),
-               Matrix.CreateTranslation(m_offset.X, m_offset.Y, 0.0f) * m_gameObject.AbsTransform);
+               Matrix.CreateTranslation(m_offset.X, m_offset.Y, 0.0f) * GameObject.AbsTransform);
             return new Vector2(pos.X, pos.Y);
         }
 
@@ -101,7 +101,7 @@ namespace Catsland.Core {
          * @brief get the transform matrix from local to world
          */ 
         public Matrix GetTransform2World() {
-            return Matrix.CreateTranslation(m_offset.X, m_offset.Y, 0.0f) * m_gameObject.AbsTransform;
+            return Matrix.CreateTranslation(m_offset.X, m_offset.Y, 0.0f) * GameObject.AbsTransform;
         }
     }
 }

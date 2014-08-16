@@ -105,8 +105,6 @@
     </Entities>
     <Relationships>
       <Relationship type="Association" first="0" second="1">
-        <Label>
-        </Label>
         <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Vertical</EndOrientation>
         <BendPoint relativeToStartShape="False">
@@ -117,16 +115,12 @@
         <AssociationType>Composition</AssociationType>
       </Relationship>
       <Relationship type="Association" first="0" second="2">
-        <Label>
-        </Label>
         <StartOrientation>Horizontal</StartOrientation>
         <EndOrientation>Horizontal</EndOrientation>
         <Direction>Unidirectional</Direction>
         <AssociationType>Composition</AssociationType>
       </Relationship>
       <Relationship type="Association" first="0" second="3">
-        <Label>
-        </Label>
         <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Vertical</EndOrientation>
         <BendPoint relativeToStartShape="True">
@@ -141,6 +135,8 @@
         <AssociationType>Composition</AssociationType>
       </Relationship>
       <Relationship type="Association" first="3" second="2">
+        <Label>
+        </Label>
         <StartOrientation>Horizontal</StartOrientation>
         <EndOrientation>Horizontal</EndOrientation>
         <BendPoint relativeToStartShape="False">
@@ -153,6 +149,8 @@
         <EndMultiplicity>1</EndMultiplicity>
       </Relationship>
       <Relationship type="Association" first="1" second="3">
+        <Label>
+        </Label>
         <StartOrientation>Horizontal</StartOrientation>
         <EndOrientation>Horizontal</EndOrientation>
         <BendPoint relativeToStartShape="True">
@@ -224,8 +222,6 @@
     </Entities>
     <Relationships>
       <Relationship type="Association" first="0" second="1">
-        <Label>
-        </Label>
         <StartOrientation>Horizontal</StartOrientation>
         <EndOrientation>Horizontal</EndOrientation>
         <Direction>Bidirectional</Direction>
@@ -269,7 +265,7 @@
       <Entity type="Class">
         <Name>GameObjectList</Name>
         <Access>Public</Access>
-        <Location left="105" top="124" />
+        <Location left="122" top="184" />
         <Size width="243" height="366" />
         <Collapsed>False</Collapsed>
         <Member type="Field">Dictionary&lt;string, AddPack&gt; m_addList</Member>
@@ -294,7 +290,7 @@
       <Entity type="Class">
         <Name>GameObject</Name>
         <Access>Public</Access>
-        <Location left="408" top="124" />
+        <Location left="425" top="184" />
         <Size width="162" height="417" />
         <Collapsed>False</Collapsed>
         <Member type="Property">public string Name { get; set; }</Member>
@@ -319,17 +315,81 @@
         <Member type="Method">public bool RemoveComponent(Type _componentType)</Member>
         <Modifier>None</Modifier>
       </Entity>
+      <Entity type="Class">
+        <Name>CatComponent</Name>
+        <Access>Public</Access>
+        <Location left="665" top="184" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">public bool Enable { get; set; }</Member>
+        <Member type="Constructor">public CatComponent()</Member>
+        <Member type="Constructor">public CatComponent(GameObject _gameObject)</Member>
+        <Member type="Method">public virtual void BindToScene(Scene _scene)</Member>
+        <Member type="Method">public virtual bool Initialize(Scene _scene)</Member>
+        <Member type="Method">public virtual void Update(int _timeLastFrame)</Member>
+        <Member type="Method">public virtual void EditorUpdate(int _timeLastFrame)</Member>
+        <Member type="Method">public virtual void UnbindFromScene(Scene _scene)</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Serialable</Name>
+        <Access>Public</Access>
+        <Location left="477" top="65" />
+        <Size width="283" height="383" />
+        <Collapsed>True</Collapsed>
+        <Member type="Field">Dictionary&lt;Pointer, string&gt; m_delayBindingTable</Member>
+        <Member type="Field">static List&lt;ISerializeType&gt; iserializeType</Member>
+        <Member type="Field">static Dictionary&lt;string, Serialable&gt; guidTable</Member>
+        <Member type="Method">public static void InitializeSerializeTypeTable()</Member>
+        <Member type="Method">public static ISerializeType FindSuitableSerialType(Type _type)</Member>
+        <Member type="Method">public static void BeginSupportingDelayBinding()</Member>
+        <Member type="Method">public static void EndSupportingDelayBinding(bool _isClearGuidTable)</Member>
+        <Member type="Method">public XmlNode DoSerial(XmlDocument _doc)</Member>
+        <Member type="Method">public static Serialable DoUnserial(XmlNode _node)</Member>
+        <Member type="Method">public Serialable DoClone()</Member>
+        <Member type="Method">protected void PreSerial()</Member>
+        <Member type="Property">public string GUID { get; set; }</Member>
+        <Member type="Method">protected void PostSerial(ref XmlNode _node, XmlDocument _doc)</Member>
+        <Member type="Method">protected void PreUnserial(ref XmlNode _node)</Member>
+        <Member type="Method">protected void PreClone(Serialable _object)</Member>
+        <Member type="Method">protected void PostClone(Serialable _object)</Member>
+        <Member type="Method">protected void PostUnserial(XmlNode _node)</Member>
+        <Member type="Method">public virtual void PostDelayBinding()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
     </Entities>
     <Relationships>
       <Relationship type="Association" first="0" second="1">
-        <Label>
-        </Label>
         <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Horizontal</EndOrientation>
         <Direction>Unidirectional</Direction>
         <AssociationType>Composition</AssociationType>
         <StartMultiplicity>1</StartMultiplicity>
         <EndMultiplicity>*</EndMultiplicity>
+      </Relationship>
+      <Relationship type="Association" first="1" second="2">
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Composition</AssociationType>
+        <StartMultiplicity>1</StartMultiplicity>
+        <EndMultiplicity>*</EndMultiplicity>
+      </Relationship>
+      <Relationship type="Generalization" first="1" second="3">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>512</X>
+          <Y>152</Y>
+        </BendPoint>
+        <BendPoint relativeToStartShape="False">
+          <X>618</X>
+          <Y>143</Y>
+        </BendPoint>
+      </Relationship>
+      <Relationship type="Generalization" first="2" second="3">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
       </Relationship>
     </Relationships>
   </ProjectItem>
@@ -438,6 +498,8 @@
     </Entities>
     <Relationships>
       <Relationship type="Association" first="1" second="2">
+        <Label>
+        </Label>
         <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Horizontal</EndOrientation>
         <Direction>Unidirectional</Direction>

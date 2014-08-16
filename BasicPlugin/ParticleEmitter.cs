@@ -474,7 +474,7 @@ namespace Catsland.Plugin.BasicPlugin {
 
             // now just take it as basic effect
             Mgr<GraphicsDevice>.Singleton.SetVertexBuffer(m_emitter.m_vertexBuffer);
-            ModelComponent modelComponent = (ModelComponent)m_emitter.m_gameObject.
+            ModelComponent modelComponent = (ModelComponent)m_emitter.GameObject.
                 GetComponent(typeof(ModelComponent));
             Effect effect = null;
             Matrix matPosition = Matrix.CreateTranslation(position);

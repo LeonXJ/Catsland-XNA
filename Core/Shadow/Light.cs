@@ -107,7 +107,7 @@ namespace Catsland.Core {
 
         public override void Initialize(Scene scene) {
             base.Initialize(scene);
-            m_debugShape.RelateGameObject = m_gameObject;
+            m_debugShape.RelateGameObject = GameObject;
         }
 
         public override void BindToScene(Scene scene) {
@@ -165,7 +165,7 @@ namespace Catsland.Core {
             ((BasicEffect)effect).Projection = Mgr<Camera>.Singleton.m_projection;
             ((BasicEffect)effect).VertexColorEnabled = false;
             ((BasicEffect)effect).World = Matrix.CreateTranslation(new Vector3(m_offset.X, m_offset.Y, 0.0f)) * 
-                    m_gameObject.AbsTransform;
+                    GameObject.AbsTransform;
 
             foreach (EffectPass pass in effect.CurrentTechnique.Passes) {
                 pass.Apply();

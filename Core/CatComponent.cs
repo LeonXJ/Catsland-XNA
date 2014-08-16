@@ -35,8 +35,17 @@ namespace Catsland.Core {
         //  always within its gameObject's node. So we never store m_gameObject
         //  in the node. To set m_gameObject, we do that in PostUnserial of
         //  gameObject.
-        public GameObject m_gameObject;
+        protected GameObject m_gameObject;
+        public GameObject GameObject {
+            set {
+                m_gameObject = value;
+            }
+            get {
+                return m_gameObject;
+            }
+        }
 
+        // [Called by unserial mechanism]
         public CatComponent() {
         }
 
@@ -47,27 +56,6 @@ namespace Catsland.Core {
         public override Type GetThisType() {
             return GetType();
         }
-
-//         /**
-//          * @brief create a CatComponent from an XML node
-//          *
-//          * @param node the XML node
-//          * @param scene the scene the component bind to
-//          * @param gameObject the gameObject the component bind to
-//          * @return a new CatComponent
-//          */
-//         public static CatComponent LoadFromNode(XmlElement node, Scene scene, GameObject gameObject) {
-//             string component_type = node.Name;
-//             Type type = Mgr<TypeManager>.Singleton.GetCatComponentType(component_type);
-//             if (type != null) {
-//                 ConstructorInfo constructorInfo = type.GetConstructor(new Type[1] { typeof(GameObject) });
-//                 CatComponent component = (CatComponent)constructorInfo.Invoke(new Object[1] { gameObject });
-//                 // configure the component, the function will be inherited
-//                 component.ConfigureFromNode(node, scene, gameObject);
-//                 return component;
-//             }
-//             return null;
-//         }
 
         /**
          * @brief bind the component to scene
@@ -107,40 +95,6 @@ namespace Catsland.Core {
         }
 
         /**
-         * @brief deep clone the component
-         * 
-         * @param gameObject the new gameObject the new component attaches to
-         * 
-         * @result
-         * */
-//         public virtual CatComponent CloneComponent(GameObject gameObject) {
-//             return new CatComponent(gameObject);
-//         }
-
-        /**
-         * @brief save the component to XML node
-         * 
-         * @param node
-         * @param doc
-         * 
-         * @result
-         * */
-//         public virtual bool SaveToNode(XmlNode node, XmlDocument doc) {
-//             return true;
-//         }
-
-        /**
-         * @brief configure the node according to XML node
-         * 
-         * @param node
-         * @param scene
-         * @param gameObject
-         * */
-//         public virtual void ConfigureFromNode(XmlElement node, Scene scene, GameObject gameObject) {
-// 
-//         }
-
-        /**
          * @brief destroy and release the component
          * */
         public virtual void UnbindFromScene(Scene _scene) {
@@ -153,11 +107,5 @@ namespace Catsland.Core {
         public virtual CatModelInstance GetModel() {
             return null;
         }
-
-        /**
-         * @brief called after first pass of loading
-         * */
-//         public virtual void PostConfiguration(Scene scene, Dictionary<string, GameObject> tempList) {
-//         }
     }
 }

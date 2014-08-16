@@ -442,7 +442,7 @@ namespace Catsland.Editor {
 
         public void ComponentRemove(object sender, EventArgs e) {
             CatComponent catComponent = (CatComponent)((PackableBox)sender).ExtraData;
-            GameObject gameObject = catComponent.m_gameObject;
+            GameObject gameObject = catComponent.GameObject;
             gameObject.RemoveComponent(catComponent.GetType());
             UpdateGameObjectAttribute(m_observingGameObject);
         }

@@ -148,6 +148,11 @@ namespace Catsland.Core {
         }
 
         private Scene m_scene;
+        public Scene Scene {
+            get {
+                return m_scene;
+            }
+        }
 
         #region EditorProperties
         // debug box

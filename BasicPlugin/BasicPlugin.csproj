@@ -106,6 +106,9 @@
     <Compile Include="CameraLookAt.cs" />
     <Compile Include="CatController.cs" />
     <Compile Include="CircleCollider.cs" />
+    <Compile Include="Controller\AmbientLightController.cs" />
+    <Compile Include="Controller\DiffuseLightController.cs" />
+    <Compile Include="Controller\SkyTimeController.cs" />
     <Compile Include="DialogAnimator.cs" />
     <Compile Include="DialogResponser.cs" />
     <Compile Include="GamepadInput.cs" />
@@ -114,6 +117,7 @@
     <Compile Include="ColliderBase.cs" />
     <Compile Include="ParticleEmitter.cs" />
     <Compile Include="IParticleUpdater.cs" />
+    <Compile Include="Shadow\Environment.cs" />
     <Compile Include="Shadow\LightSensor.cs" />
     <Compile Include="Shadow\PointLight.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

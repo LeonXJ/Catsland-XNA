@@ -6,10 +6,10 @@
     <ZBound min="0" max="4" />
   </SceneBasic>
   <Catsland.Core.Camera>
-    <CatVector3 name="m_targetPosition" value="17.98238,0.3765133,-0.1000001" />
+    <CatVector3 name="m_targetPosition" value="0.3661658,1.475799,-0.1000001" />
     <CatFloat name="m_cameraDistance" value="2" />
     <CatVector3 name="m_cameraPRY" value="0,0,0" />
-    <CatVector2 name="m_viewSize" value="17.81802,10.02414" />
+    <CatVector2 name="m_viewSize" value="9.067407,4.336592" />
     <CatFloat name="m_fieldOfView" value="90" />
     <CatVector2 name="m_clipDistance" value="0.1,100" />
     <CatColor name="m_backgroundColor" value="0.6784314,0.8470588,0.9019608,1" />
@@ -341,6 +341,13 @@
       <String name="m_guid" value="5ab9130f-5837-4984-b995-8537d52ce891" />
     </Catsland.Core.GameObject>
     <Catsland.Core.GameObject>
+      <String name="m_name" value="ground" />
+      <CatVector3 name="m_position" value="-0.0847932,-0.1104697,-0.2" />
+      <CatQuaternion name="m_rotation" value="0,0,0,1" />
+      <CatVector3 name="m_scale" value="1,1,1" />
+      <String name="m_guid" value="a55ac4d1-b014-4ad0-9b01-162ac56c19a6" />
+    </Catsland.Core.GameObject>
+    <Catsland.Core.GameObject>
       <String name="m_name" value="ground_surface" />
       <CatVector3 name="m_position" value="-0.001594989,-0.1272976,0" />
       <CatQuaternion name="m_rotation" value="0,0,0,1" />
@@ -433,13 +440,6 @@
       </IDictionary>
       <GameObject value="a55ac4d1-b014-4ad0-9b01-162ac56c19a6" name="m_parent" />
       <String name="m_guid" value="4f0e222f-fe20-4206-afde-05091da63d70" />
-    </Catsland.Core.GameObject>
-    <Catsland.Core.GameObject>
-      <String name="m_name" value="ground" />
-      <CatVector3 name="m_position" value="-0.0847932,-0.1104697,-0.2" />
-      <CatQuaternion name="m_rotation" value="0,0,0,1" />
-      <CatVector3 name="m_scale" value="1,1,1" />
-      <String name="m_guid" value="a55ac4d1-b014-4ad0-9b01-162ac56c19a6" />
     </Catsland.Core.GameObject>
     <Catsland.Core.GameObject>
       <String name="m_name" value="ground_surface" />
@@ -929,7 +929,7 @@
     </Catsland.Core.GameObject>
     <Catsland.Core.GameObject>
       <String name="m_name" value="background" />
-      <CatVector3 name="m_position" value="2.972416,2.665987,-0.5" />
+      <CatVector3 name="m_position" value="3.023187,2.665987,-0.5" />
       <CatQuaternion name="m_rotation" value="0,0,0,1" />
       <CatVector3 name="m_scale" value="1,1,1" />
       <IDictionary name="m_components" typeinfo="System.Collections.Generic.Dictionary`2[System.String,Catsland.Core.CatComponent]">
@@ -940,12 +940,14 @@
           <Value>
             <Catsland.Plugin.BasicPlugin.ModelComponent name="">
               <String name="m_guid" value="776075e3-0b59-4225-a2ff-d6be76b83e53" />
-              <Post_ModelName value="generalLight" />
-              <Material name="BasicLightEffect">
-                <Parameter name="LightInstance" type="Catsland.Core.CatFloat" value="1" />
+              <Post_ModelName value="sky" />
+              <Material name="Skyboard">
                 <Parameter name="Alpha" type="Catsland.Core.CatFloat" value="1" />
                 <Parameter name="DiffuseMap" type="Catsland.Core.CatTexture" value="forest_back" />
-                <Parameter name="BiasColor" type="Catsland.Core.CatColor" value="0,0,0,1" />
+                <Parameter name="BiasColor" type="Catsland.Core.CatColor" value="0,0,0,0" />
+                <Parameter name="LightInstance" type="Catsland.Core.CatFloat" value="0.4" />
+                <Parameter name="SkyMap" type="Catsland.Core.CatTexture" value="sky" />
+                <Parameter name="Time" type="Catsland.Core.CatFloat" value="0" />
               </Material>
             </Catsland.Plugin.BasicPlugin.ModelComponent>
           </Value>
@@ -960,6 +962,39 @@
               <CatVector2 name="m_offset" value="0,0" />
               <String name="m_guid" value="0253d520-9742-4521-b231-ccf0ce862a57" />
             </Catsland.Plugin.BasicPlugin.QuadRender>
+          </Value>
+        </KeyValue>
+        <KeyValue>
+          <Key>
+            <String name="" value="Catsland.Plugin.BasicPlugin.Environment" />
+          </Key>
+          <Value>
+            <Catsland.Plugin.BasicPlugin.Environment name="">
+              <CatInteger name="m_dayDurationInS" value="10" />
+              <String name="m_ambientLightMap" value="sky" />
+              <String name="m_diffuseLightMap" value="light" />
+              <String name="m_guid" value="a78a8433-0f1e-4b14-a7f7-3715e9518a7f" />
+            </Catsland.Plugin.BasicPlugin.Environment>
+          </Value>
+        </KeyValue>
+        <KeyValue>
+          <Key>
+            <String name="" value="Catsland.Plugin.BasicPlugin.SkyTimeController" />
+          </Key>
+          <Value>
+            <Catsland.Plugin.BasicPlugin.SkyTimeController name="">
+              <String name="m_guid" value="64b97804-3819-4adb-b974-cd840c7ad7f4" />
+            </Catsland.Plugin.BasicPlugin.SkyTimeController>
+          </Value>
+        </KeyValue>
+        <KeyValue>
+          <Key>
+            <String name="" value="Catsland.Plugin.BasicPlugin.AmbientLightController" />
+          </Key>
+          <Value>
+            <Catsland.Plugin.BasicPlugin.AmbientLightController name="">
+              <String name="m_guid" value="d13d9a94-5dcf-4398-8ae5-74e01f69af46" />
+            </Catsland.Plugin.BasicPlugin.AmbientLightController>
           </Value>
         </KeyValue>
       </IDictionary>
@@ -1101,25 +1136,35 @@
     </Catsland.Core.GameObject>
     <Catsland.Core.GameObject>
       <String name="m_name" value="skylight" />
-      <CatVector3 name="m_position" value="9.586609,7.008698,-5.960464E-08" />
+      <CatVector3 name="m_position" value="10.01487,1.298574,0" />
       <CatQuaternion name="m_rotation" value="0,0,0,1" />
       <CatVector3 name="m_scale" value="1,1,1" />
       <IDictionary name="m_components" typeinfo="System.Collections.Generic.Dictionary`2[System.String,Catsland.Core.CatComponent]">
         <KeyValue>
           <Key>
-            <String name="" value="Catsland.Plugin.BasicPlugin.PointLight" />
+            <String name="" value="Catsland.Plugin.BasicPlugin.RegionalDirectionLight" />
           </Key>
           <Value>
-            <Catsland.Plugin.BasicPlugin.PointLight name="">
-              <CatFloat name="m_outRadius" value="25" />
-              <CatFloat name="m_inRadius" value="0" />
+            <Catsland.Plugin.BasicPlugin.RegionalDirectionLight name="">
+              <CatVector2 name="m_direction" value="-0.5,-0.8660254" />
+              <CatVector2 name="m_size" value="40,20" />
               <CatVector2 name="m_offset" value="0,0" />
-              <CatColor name="m_diffuseColor" value="0.07843138,0.07843138,0.4705882,0.7843137" />
+              <CatColor name="m_diffuseColor" value="1,1,1,0.3137255" />
               <CatBool name="m_isLightOn" value="True" />
               <CatBool name="m_renderLight" value="True" />
               <CatBool name="m_enlight" value="True" />
-              <String name="m_guid" value="e182adca-25cc-4c51-8a78-d917947e8804" />
-            </Catsland.Plugin.BasicPlugin.PointLight>
+              <String name="m_guid" value="be81d4f6-02c2-4e15-abcd-68db30403d8a" />
+            </Catsland.Plugin.BasicPlugin.RegionalDirectionLight>
+          </Value>
+        </KeyValue>
+        <KeyValue>
+          <Key>
+            <String name="" value="Catsland.Plugin.BasicPlugin.DiffuseLightController" />
+          </Key>
+          <Value>
+            <Catsland.Plugin.BasicPlugin.DiffuseLightController name="">
+              <String name="m_guid" value="3064ef8c-1c41-4a01-baaf-ec5f927a3899" />
+            </Catsland.Plugin.BasicPlugin.DiffuseLightController>
           </Value>
         </KeyValue>
       </IDictionary>

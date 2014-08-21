@@ -2,7 +2,7 @@
 <Catsland.Core.CatModel>
   <String name="m_name" value="ground" />
   <Catsland.Core.Animation name="m_animation">
-    <IDictionary name="m_animationClips" typeinfo="System.Collections.Generic.Dictionary`2[System.String,Catsland.Core.AnimationClip]" />
+    <System.Collections.IDictionary name="m_animationClips" typeinfo="System.Collections.Generic.Dictionary`2[System.String,Catsland.Core.AnimationClip]" />
     <CatPoint name="m_tiltUV" value="1,1" />
     <String name="m_defaultAnimationClipName" value="" />
     <CatInteger name="m_millionSecondPerFrame" value="50" />

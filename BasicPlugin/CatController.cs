@@ -419,6 +419,7 @@ namespace Catsland.Plugin.BasicPlugin {
             /*UpdateSensors();*/
             DoControll(timeLastFrame);
             UpdateAnimation(timeLastFrame);
+            ResetAllWant();
         }
 
         protected void DoControll(int _timeLastFrame) {
@@ -437,6 +438,16 @@ namespace Catsland.Plugin.BasicPlugin {
             m_body.SetTransform(new Vector2(m_gameObject.AbsPosition.X,
                                             m_gameObject.AbsPosition.Y - (m_outSize.Y - m_inSize.Y) / 2.0f - m_inSize.Y / 4.0f),
                                             0.0f);
+        }
+
+        private void ResetAllWant() {
+            m_wantLeft = false;
+            m_wantRight = false;
+            m_wantUp = false;
+            m_wantDown = false;
+            m_wantJump = false;
+            m_wantRun = false;
+            m_wantLift = false;           
         }
 
         public void UpdateDebugVertex() {

@@ -6,17 +6,17 @@
     <ZBound min="0" max="4" />
   </SceneBasic>
   <Catsland.Core.Camera>
-    <CatVector3 name="m_targetPosition" value="4.490008,1.459999,0" />
+    <CatVector3 name="m_targetPosition" value="4.490008,1.136434,0" />
     <CatFloat name="m_cameraDistance" value="2" />
     <CatVector3 name="m_cameraPRY" value="0,0,0" />
-    <CatVector2 name="m_viewSize" value="8.426173,4.742736" />
+    <CatVector2 name="m_viewSize" value="8.426173,4.251504" />
     <CatFloat name="m_fieldOfView" value="90" />
     <CatVector2 name="m_clipDistance" value="0.1,100" />
     <CatColor name="m_backgroundColor" value="0.6784314,0.8470588,0.9019608,1" />
     <String name="m_guid" value="6f33ee66-4458-499d-a32c-c0cb506a83d5" />
   </Catsland.Core.Camera>
   <Catsland.Core.PostProcessManager>
-    <IDictionary name="m_postProcesses" typeinfo="System.Collections.Generic.Dictionary`2[System.String,Catsland.Core.PostProcess]">
+    <System.Collections.IDictionary name="m_postProcesses" typeinfo="System.Collections.Generic.Dictionary`2[System.String,Catsland.Core.PostProcess]">
       <KeyValue>
         <Key>
           <String name="" value="Catsland.Core.PostProcessMotionBlur" />
@@ -70,7 +70,7 @@
           </Catsland.Core.PostProcessBloom>
         </Value>
       </KeyValue>
-    </IDictionary>
+    </System.Collections.IDictionary>
     <String name="m_guid" value="c7ad8925-1199-47bc-b03a-2e0d1287ceb5" />
   </Catsland.Core.PostProcessManager>
   <GameObjects>
@@ -79,7 +79,7 @@
       <CatVector3 name="m_position" value="1.201083,-0.7141901,-1.192093E-07" />
       <CatQuaternion name="m_rotation" value="0,0,0,1" />
       <CatVector3 name="m_scale" value="1,1,1" />
-      <IDictionary name="m_components" typeinfo="System.Collections.Generic.Dictionary`2[System.String,Catsland.Core.CatComponent]">
+      <System.Collections.IDictionary name="m_components" typeinfo="System.Collections.Generic.Dictionary`2[System.String,Catsland.Core.CatComponent]">
         <KeyValue>
           <Key>
             <String name="" value="Catsland.Plugin.BasicPlugin.ModelComponent" />
@@ -136,7 +136,7 @@
             </Catsland.Plugin.BasicPlugin.ShadingRectangle>
           </Value>
         </KeyValue>
-      </IDictionary>
+      </System.Collections.IDictionary>
       <String name="m_guid" value="a2f5a65c-7669-4ea0-8bb7-fb30d89327e2" />
     </Catsland.Core.GameObject>
     <Catsland.Core.GameObject>
@@ -144,7 +144,7 @@
       <CatVector3 name="m_position" value="6.840675,-0.3491902,-5.960464E-08" />
       <CatQuaternion name="m_rotation" value="0,0,0,1" />
       <CatVector3 name="m_scale" value="1,1,1" />
-      <IDictionary name="m_components" typeinfo="System.Collections.Generic.Dictionary`2[System.String,Catsland.Core.CatComponent]">
+      <System.Collections.IDictionary name="m_components" typeinfo="System.Collections.Generic.Dictionary`2[System.String,Catsland.Core.CatComponent]">
         <KeyValue>
           <Key>
             <String name="" value="Catsland.Plugin.BasicPlugin.ModelComponent" />
@@ -208,32 +208,21 @@
         </KeyValue>
         <KeyValue>
           <Key>
-            <String name="" value="Catsland.Plugin.BasicPlugin.KeyboardInput" />
+            <String name="" value="Catsland.Plugin.BasicPlugin.Hunter" />
           </Key>
           <Value>
-            <Catsland.Plugin.BasicPlugin.KeyboardInput name="">
-              <String name="m_guid" value="95f4ba11-28df-4275-ba92-72683413928f" />
-            </Catsland.Plugin.BasicPlugin.KeyboardInput>
-          </Value>
-        </KeyValue>
-        <KeyValue>
-          <Key>
-            <String name="" value="Catsland.Plugin.BasicPlugin.Prey" />
-          </Key>
-          <Value>
-            <Catsland.Plugin.BasicPlugin.Prey name="">
-              <String name="m_guid" value="c3c5b023-0671-4622-a5ed-3c821fbd5281" />
-            </Catsland.Plugin.BasicPlugin.Prey>
-          </Value>
-        </KeyValue>
-        <KeyValue>
-          <Key>
-            <String name="" value="Catsland.Plugin.BasicPlugin.GamepadInput" />
-          </Key>
-          <Value>
-            <Catsland.Plugin.BasicPlugin.GamepadInput name="">
-              <String name="m_guid" value="089c2524-c48b-4326-959d-2cb695c0d39c" />
-            </Catsland.Plugin.BasicPlugin.GamepadInput>
+            <Catsland.Plugin.BasicPlugin.Hunter name="">
+              <CatFloat name="m_fanInDegree" value="30" />
+              <CatFloat name="m_directionToDown" value="90" />
+              <CatFloat name="m_outRadius" value="2" />
+              <CatFloat name="m_inRadius" value="0.9" />
+              <CatVector2 name="m_offset" value="0,0" />
+              <CatColor name="m_diffuseColor" value="0,0.5019608,0,1" />
+              <CatBool name="m_isLightOn" value="True" />
+              <CatBool name="m_renderLight" value="True" />
+              <CatBool name="m_enlight" value="False" />
+              <String name="m_guid" value="80aee867-12d8-4de5-858f-c8185b324fbf" />
+            </Catsland.Plugin.BasicPlugin.Hunter>
           </Value>
         </KeyValue>
         <KeyValue>
@@ -260,7 +249,7 @@
             </Catsland.Plugin.BasicPlugin.CameraLookAt>
           </Value>
         </KeyValue>
-      </IDictionary>
+      </System.Collections.IDictionary>
       <String name="m_guid" value="2c4561f6-8281-495a-82a6-471ab202a45f" />
     </Catsland.Core.GameObject>
     <Catsland.Core.GameObject>
@@ -268,7 +257,7 @@
       <CatVector3 name="m_position" value="-0.2371551,0.426961,-1.192093E-07" />
       <CatQuaternion name="m_rotation" value="0,0,0,1" />
       <CatVector3 name="m_scale" value="1,1,1" />
-      <IDictionary name="m_components" typeinfo="System.Collections.Generic.Dictionary`2[System.String,Catsland.Core.CatComponent]">
+      <System.Collections.IDictionary name="m_components" typeinfo="System.Collections.Generic.Dictionary`2[System.String,Catsland.Core.CatComponent]">
         <KeyValue>
           <Key>
             <String name="" value="Catsland.Plugin.BasicPlugin.ModelComponent" />
@@ -314,7 +303,7 @@
             </Catsland.Plugin.BasicPlugin.RectangleCollider>
           </Value>
         </KeyValue>
-      </IDictionary>
+      </System.Collections.IDictionary>
       <String name="m_guid" value="60520df3-98af-4e13-9069-1053dc0dc0ad" />
     </Catsland.Core.GameObject>
     <Catsland.Core.GameObject>
@@ -322,7 +311,7 @@
       <CatVector3 name="m_position" value="3.757179,0.5220569,0" />
       <CatQuaternion name="m_rotation" value="0,0,0,1" />
       <CatVector3 name="m_scale" value="1,1,1" />
-      <IDictionary name="m_components" typeinfo="System.Collections.Generic.Dictionary`2[System.String,Catsland.Core.CatComponent]">
+      <System.Collections.IDictionary name="m_components" typeinfo="System.Collections.Generic.Dictionary`2[System.String,Catsland.Core.CatComponent]">
         <KeyValue>
           <Key>
             <String name="" value="Catsland.Plugin.BasicPlugin.ModelComponent" />
@@ -379,7 +368,7 @@
             </Catsland.Plugin.BasicPlugin.ShadingRectangle>
           </Value>
         </KeyValue>
-      </IDictionary>
+      </System.Collections.IDictionary>
       <String name="m_guid" value="9b458fda-27f1-4cf9-b061-992630d56712" />
     </Catsland.Core.GameObject>
     <Catsland.Core.GameObject>
@@ -387,7 +376,7 @@
       <CatVector3 name="m_position" value="-6.741278,0.2605431,-1.192093E-07" />
       <CatQuaternion name="m_rotation" value="0,0,0,1" />
       <CatVector3 name="m_scale" value="1,1,1" />
-      <IDictionary name="m_components" typeinfo="System.Collections.Generic.Dictionary`2[System.String,Catsland.Core.CatComponent]">
+      <System.Collections.IDictionary name="m_components" typeinfo="System.Collections.Generic.Dictionary`2[System.String,Catsland.Core.CatComponent]">
         <KeyValue>
           <Key>
             <String name="" value="Catsland.Plugin.BasicPlugin.ModelComponent" />
@@ -444,7 +433,7 @@
             </Catsland.Plugin.BasicPlugin.ShadingRectangle>
           </Value>
         </KeyValue>
-      </IDictionary>
+      </System.Collections.IDictionary>
       <String name="m_guid" value="27b5e9d4-34d1-4536-927a-2eea074820dc" />
     </Catsland.Core.GameObject>
     <Catsland.Core.GameObject>
@@ -452,7 +441,7 @@
       <CatVector3 name="m_position" value="5.781808,2.305105,-0.09999996" />
       <CatQuaternion name="m_rotation" value="0,0,0,1" />
       <CatVector3 name="m_scale" value="1,1,1" />
-      <IDictionary name="m_components" typeinfo="System.Collections.Generic.Dictionary`2[System.String,Catsland.Core.CatComponent]">
+      <System.Collections.IDictionary name="m_components" typeinfo="System.Collections.Generic.Dictionary`2[System.String,Catsland.Core.CatComponent]">
         <KeyValue>
           <Key>
             <String name="" value="Catsland.Plugin.BasicPlugin.ModelComponent" />
@@ -498,7 +487,7 @@
             </Catsland.Plugin.BasicPlugin.RectangleCollider>
           </Value>
         </KeyValue>
-      </IDictionary>
+      </System.Collections.IDictionary>
       <String name="m_guid" value="42cb50f5-fb41-47cf-a26d-f4392f326f28" />
     </Catsland.Core.GameObject>
     <Catsland.Core.GameObject>
@@ -506,7 +495,7 @@
       <CatVector3 name="m_position" value="7.837946,0.3565871,-1.192093E-07" />
       <CatQuaternion name="m_rotation" value="0,0,0,1" />
       <CatVector3 name="m_scale" value="1,1,1" />
-      <IDictionary name="m_components" typeinfo="System.Collections.Generic.Dictionary`2[System.String,Catsland.Core.CatComponent]">
+      <System.Collections.IDictionary name="m_components" typeinfo="System.Collections.Generic.Dictionary`2[System.String,Catsland.Core.CatComponent]">
         <KeyValue>
           <Key>
             <String name="" value="Catsland.Plugin.BasicPlugin.ModelComponent" />
@@ -552,7 +541,7 @@
             </Catsland.Plugin.BasicPlugin.RectangleCollider>
           </Value>
         </KeyValue>
-      </IDictionary>
+      </System.Collections.IDictionary>
       <String name="m_guid" value="252c3b56-ca05-4ab9-9e57-8f38c0959d52" />
     </Catsland.Core.GameObject>
     <Catsland.Core.GameObject>
@@ -560,7 +549,7 @@
       <CatVector3 name="m_position" value="6.754172,1.486009,-0.01" />
       <CatQuaternion name="m_rotation" value="0,0,0,1" />
       <CatVector3 name="m_scale" value="1,1,1" />
-      <IDictionary name="m_components" typeinfo="System.Collections.Generic.Dictionary`2[System.String,Catsland.Core.CatComponent]">
+      <System.Collections.IDictionary name="m_components" typeinfo="System.Collections.Generic.Dictionary`2[System.String,Catsland.Core.CatComponent]">
         <KeyValue>
           <Key>
             <String name="" value="Catsland.Plugin.BasicPlugin.ModelComponent" />
@@ -606,7 +595,7 @@
             </Catsland.Plugin.BasicPlugin.RectangleCollider>
           </Value>
         </KeyValue>
-      </IDictionary>
+      </System.Collections.IDictionary>
       <String name="m_guid" value="172c9272-cc4a-463d-9eee-9374ac45efb6" />
     </Catsland.Core.GameObject>
     <Catsland.Core.GameObject>
@@ -614,7 +603,7 @@
       <CatVector3 name="m_position" value="6.761603,1.72381,-1.192093E-07" />
       <CatQuaternion name="m_rotation" value="0,0,0,1" />
       <CatVector3 name="m_scale" value="1,1,1" />
-      <IDictionary name="m_components" typeinfo="System.Collections.Generic.Dictionary`2[System.String,Catsland.Core.CatComponent]">
+      <System.Collections.IDictionary name="m_components" typeinfo="System.Collections.Generic.Dictionary`2[System.String,Catsland.Core.CatComponent]">
         <KeyValue>
           <Key>
             <String name="" value="Catsland.Plugin.BasicPlugin.ModelComponent" />
@@ -660,7 +649,7 @@
             </Catsland.Plugin.BasicPlugin.RectangleCollider>
           </Value>
         </KeyValue>
-      </IDictionary>
+      </System.Collections.IDictionary>
       <String name="m_guid" value="1df9f091-cdb2-49ff-a133-1ba3a2c72185" />
     </Catsland.Core.GameObject>
     <Catsland.Core.GameObject>
@@ -668,7 +657,7 @@
       <CatVector3 name="m_position" value="6.75444,0.5873835,-1.192093E-07" />
       <CatQuaternion name="m_rotation" value="0,0,0,1" />
       <CatVector3 name="m_scale" value="1,1,1" />
-      <IDictionary name="m_components" typeinfo="System.Collections.Generic.Dictionary`2[System.String,Catsland.Core.CatComponent]">
+      <System.Collections.IDictionary name="m_components" typeinfo="System.Collections.Generic.Dictionary`2[System.String,Catsland.Core.CatComponent]">
         <KeyValue>
           <Key>
             <String name="" value="Catsland.Plugin.BasicPlugin.ModelComponent" />
@@ -714,7 +703,7 @@
             </Catsland.Plugin.BasicPlugin.RectangleCollider>
           </Value>
         </KeyValue>
-      </IDictionary>
+      </System.Collections.IDictionary>
       <String name="m_guid" value="922c7a11-47b6-4d02-9a7c-9c5b8c9b6420" />
     </Catsland.Core.GameObject>
     <Catsland.Core.GameObject>
@@ -722,7 +711,7 @@
       <CatVector3 name="m_position" value="7.831746,2.352653,-0.09999996" />
       <CatQuaternion name="m_rotation" value="0,0,0,1" />
       <CatVector3 name="m_scale" value="1,1,1" />
-      <IDictionary name="m_components" typeinfo="System.Collections.Generic.Dictionary`2[System.String,Catsland.Core.CatComponent]">
+      <System.Collections.IDictionary name="m_components" typeinfo="System.Collections.Generic.Dictionary`2[System.String,Catsland.Core.CatComponent]">
         <KeyValue>
           <Key>
             <String name="" value="Catsland.Plugin.BasicPlugin.ModelComponent" />
@@ -768,7 +757,7 @@
             </Catsland.Plugin.BasicPlugin.RectangleCollider>
           </Value>
         </KeyValue>
-      </IDictionary>
+      </System.Collections.IDictionary>
       <String name="m_guid" value="1415487e-360d-42e7-a345-a6a33584f71d" />
     </Catsland.Core.GameObject>
     <Catsland.Core.GameObject>
@@ -776,7 +765,7 @@
       <CatVector3 name="m_position" value="7.831746,0.1892211,-1.192093E-07" />
       <CatQuaternion name="m_rotation" value="0,0,0,1" />
       <CatVector3 name="m_scale" value="1,1,1" />
-      <IDictionary name="m_components" typeinfo="System.Collections.Generic.Dictionary`2[System.String,Catsland.Core.CatComponent]">
+      <System.Collections.IDictionary name="m_components" typeinfo="System.Collections.Generic.Dictionary`2[System.String,Catsland.Core.CatComponent]">
         <KeyValue>
           <Key>
             <String name="" value="Catsland.Plugin.BasicPlugin.ModelComponent" />
@@ -822,7 +811,7 @@
             </Catsland.Plugin.BasicPlugin.RectangleCollider>
           </Value>
         </KeyValue>
-      </IDictionary>
+      </System.Collections.IDictionary>
       <String name="m_guid" value="0b922a14-6f33-4ac3-8226-3f01c0938633" />
     </Catsland.Core.GameObject>
     <Catsland.Core.GameObject>
@@ -830,7 +819,7 @@
       <CatVector3 name="m_position" value="7.839142,1.062424,-1.192093E-07" />
       <CatQuaternion name="m_rotation" value="0,0,0,1" />
       <CatVector3 name="m_scale" value="1,1,1" />
-      <IDictionary name="m_components" typeinfo="System.Collections.Generic.Dictionary`2[System.String,Catsland.Core.CatComponent]">
+      <System.Collections.IDictionary name="m_components" typeinfo="System.Collections.Generic.Dictionary`2[System.String,Catsland.Core.CatComponent]">
         <KeyValue>
           <Key>
             <String name="" value="Catsland.Plugin.BasicPlugin.ModelComponent" />
@@ -876,7 +865,7 @@
             </Catsland.Plugin.BasicPlugin.RectangleCollider>
           </Value>
         </KeyValue>
-      </IDictionary>
+      </System.Collections.IDictionary>
       <String name="m_guid" value="6c591f20-be8e-47a9-b90f-6a4f491018d4" />
     </Catsland.Core.GameObject>
     <Catsland.Core.GameObject>
@@ -884,7 +873,7 @@
       <CatVector3 name="m_position" value="-4.083952,0.9975365,0" />
       <CatQuaternion name="m_rotation" value="0,0,0,1" />
       <CatVector3 name="m_scale" value="1,1,1" />
-      <IDictionary name="m_components" typeinfo="System.Collections.Generic.Dictionary`2[System.String,Catsland.Core.CatComponent]">
+      <System.Collections.IDictionary name="m_components" typeinfo="System.Collections.Generic.Dictionary`2[System.String,Catsland.Core.CatComponent]">
         <KeyValue>
           <Key>
             <String name="" value="Catsland.Plugin.BasicPlugin.PointLight" />
@@ -902,7 +891,7 @@
             </Catsland.Plugin.BasicPlugin.PointLight>
           </Value>
         </KeyValue>
-      </IDictionary>
+      </System.Collections.IDictionary>
       <String name="m_guid" value="61c87ded-5419-4525-96bf-1f8ce420a0c7" />
     </Catsland.Core.GameObject>
     <Catsland.Core.GameObject>
@@ -910,7 +899,7 @@
       <CatVector3 name="m_position" value="-5.77958,0.9262146,0" />
       <CatQuaternion name="m_rotation" value="0,0,0,1" />
       <CatVector3 name="m_scale" value="1,1,1" />
-      <IDictionary name="m_components" typeinfo="System.Collections.Generic.Dictionary`2[System.String,Catsland.Core.CatComponent]">
+      <System.Collections.IDictionary name="m_components" typeinfo="System.Collections.Generic.Dictionary`2[System.String,Catsland.Core.CatComponent]">
         <KeyValue>
           <Key>
             <String name="" value="Catsland.Plugin.BasicPlugin.PointLight" />
@@ -928,7 +917,7 @@
             </Catsland.Plugin.BasicPlugin.PointLight>
           </Value>
         </KeyValue>
-      </IDictionary>
+      </System.Collections.IDictionary>
       <String name="m_guid" value="34222594-dfcc-4c49-bc3e-ac350da246e4" />
     </Catsland.Core.GameObject>
     <Catsland.Core.GameObject>
@@ -936,7 +925,7 @@
       <CatVector3 name="m_position" value="-0.2118472,0.9737625,0" />
       <CatQuaternion name="m_rotation" value="0,0,0,1" />
       <CatVector3 name="m_scale" value="1,1,1" />
-      <IDictionary name="m_components" typeinfo="System.Collections.Generic.Dictionary`2[System.String,Catsland.Core.CatComponent]">
+      <System.Collections.IDictionary name="m_components" typeinfo="System.Collections.Generic.Dictionary`2[System.String,Catsland.Core.CatComponent]">
         <KeyValue>
           <Key>
             <String name="" value="Catsland.Plugin.BasicPlugin.PointLight" />
@@ -954,7 +943,7 @@
             </Catsland.Plugin.BasicPlugin.PointLight>
           </Value>
         </KeyValue>
-      </IDictionary>
+      </System.Collections.IDictionary>
       <String name="m_guid" value="5e43b2b5-05e1-4571-ae33-d654923e3951" />
     </Catsland.Core.GameObject>
     <Catsland.Core.GameObject>
@@ -962,7 +951,7 @@
       <CatVector3 name="m_position" value="1.909704,3.35116,0" />
       <CatQuaternion name="m_rotation" value="0,0,0,1" />
       <CatVector3 name="m_scale" value="1,1,1" />
-      <IDictionary name="m_components" typeinfo="System.Collections.Generic.Dictionary`2[System.String,Catsland.Core.CatComponent]">
+      <System.Collections.IDictionary name="m_components" typeinfo="System.Collections.Generic.Dictionary`2[System.String,Catsland.Core.CatComponent]">
         <KeyValue>
           <Key>
             <String name="" value="Catsland.Plugin.BasicPlugin.SpotLight" />
@@ -982,7 +971,7 @@
             </Catsland.Plugin.BasicPlugin.SpotLight>
           </Value>
         </KeyValue>
-      </IDictionary>
+      </System.Collections.IDictionary>
       <String name="m_guid" value="443143b9-fef0-4089-b249-7b17d1a562c8" />
     </Catsland.Core.GameObject>
     <Catsland.Core.GameObject>
@@ -990,7 +979,7 @@
       <CatVector3 name="m_position" value="3.655947,1.235276,-1.192093E-07" />
       <CatQuaternion name="m_rotation" value="0,0,0,1" />
       <CatVector3 name="m_scale" value="1,1,1" />
-      <IDictionary name="m_components" typeinfo="System.Collections.Generic.Dictionary`2[System.String,Catsland.Core.CatComponent]">
+      <System.Collections.IDictionary name="m_components" typeinfo="System.Collections.Generic.Dictionary`2[System.String,Catsland.Core.CatComponent]">
         <KeyValue>
           <Key>
             <String name="" value="Catsland.Plugin.BasicPlugin.LightSensor" />
@@ -1011,7 +1000,7 @@
             </Catsland.Plugin.BasicPlugin.Prey>
           </Value>
         </KeyValue>
-      </IDictionary>
+      </System.Collections.IDictionary>
       <String name="m_guid" value="b65464d1-e8f7-42be-8579-fe80db7eb1e9" />
     </Catsland.Core.GameObject>
     <Catsland.Core.GameObject>
@@ -1019,7 +1008,7 @@
       <CatVector3 name="m_position" value="4.870725,2.376427,-1.192093E-07" />
       <CatQuaternion name="m_rotation" value="0,0,0,1" />
       <CatVector3 name="m_scale" value="1,1,1" />
-      <IDictionary name="m_components" typeinfo="System.Collections.Generic.Dictionary`2[System.String,Catsland.Core.CatComponent]">
+      <System.Collections.IDictionary name="m_components" typeinfo="System.Collections.Generic.Dictionary`2[System.String,Catsland.Core.CatComponent]">
         <KeyValue>
           <Key>
             <String name="" value="Catsland.Plugin.BasicPlugin.Blacklist" />
@@ -1036,6 +1025,8 @@
           </Key>
           <Value>
             <Catsland.Plugin.BasicPlugin.Hunter name="">
+              <CatFloat name="m_fanInDegree" value="15" />
+              <CatFloat name="m_directionToDown" value="0" />
               <CatFloat name="m_outRadius" value="3" />
               <CatFloat name="m_inRadius" value="0.9" />
               <CatVector2 name="m_offset" value="0,0" />
@@ -1047,7 +1038,7 @@
             </Catsland.Plugin.BasicPlugin.Hunter>
           </Value>
         </KeyValue>
-      </IDictionary>
+      </System.Collections.IDictionary>
       <String name="m_guid" value="d21b7276-476b-4dbe-9d40-fc4d0c95f15b" />
     </Catsland.Core.GameObject>
     <Catsland.Core.GameObject>
@@ -1055,7 +1046,7 @@
       <CatVector3 name="m_position" value="-4.919112,1.37792,-1.192093E-07" />
       <CatQuaternion name="m_rotation" value="0,0,0,1" />
       <CatVector3 name="m_scale" value="1,1,1" />
-      <IDictionary name="m_components" typeinfo="System.Collections.Generic.Dictionary`2[System.String,Catsland.Core.CatComponent]">
+      <System.Collections.IDictionary name="m_components" typeinfo="System.Collections.Generic.Dictionary`2[System.String,Catsland.Core.CatComponent]">
         <KeyValue>
           <Key>
             <String name="" value="Catsland.Plugin.BasicPlugin.ModelComponent" />
@@ -1112,7 +1103,7 @@
             </Catsland.Plugin.BasicPlugin.ShadingRectangle>
           </Value>
         </KeyValue>
-      </IDictionary>
+      </System.Collections.IDictionary>
       <String name="m_guid" value="dc447131-39e9-431a-8574-85323976dcf4" />
     </Catsland.Core.GameObject>
     <Catsland.Core.GameObject>
@@ -1120,7 +1111,7 @@
       <CatVector3 name="m_position" value="-2.742634,1.068858,-1.192093E-07" />
       <CatQuaternion name="m_rotation" value="0,0,0,1" />
       <CatVector3 name="m_scale" value="1,1,1" />
-      <IDictionary name="m_components" typeinfo="System.Collections.Generic.Dictionary`2[System.String,Catsland.Core.CatComponent]">
+      <System.Collections.IDictionary name="m_components" typeinfo="System.Collections.Generic.Dictionary`2[System.String,Catsland.Core.CatComponent]">
         <KeyValue>
           <Key>
             <String name="" value="Catsland.Plugin.BasicPlugin.ModelComponent" />
@@ -1177,7 +1168,7 @@
             </Catsland.Plugin.BasicPlugin.ShadingRectangle>
           </Value>
         </KeyValue>
-      </IDictionary>
+      </System.Collections.IDictionary>
       <String name="m_guid" value="495de6f8-e41c-47e0-92d4-26ca29ad7fec" />
     </Catsland.Core.GameObject>
     <Catsland.Core.GameObject>
@@ -1185,7 +1176,7 @@
       <CatVector3 name="m_position" value="1.306625,0.5696049,-1.192093E-07" />
       <CatQuaternion name="m_rotation" value="0,0,0,1" />
       <CatVector3 name="m_scale" value="1,1,1" />
-      <IDictionary name="m_components" typeinfo="System.Collections.Generic.Dictionary`2[System.String,Catsland.Core.CatComponent]">
+      <System.Collections.IDictionary name="m_components" typeinfo="System.Collections.Generic.Dictionary`2[System.String,Catsland.Core.CatComponent]">
         <KeyValue>
           <Key>
             <String name="" value="Catsland.Plugin.BasicPlugin.ModelComponent" />
@@ -1242,7 +1233,7 @@
             </Catsland.Plugin.BasicPlugin.ShadingRectangle>
           </Value>
         </KeyValue>
-      </IDictionary>
+      </System.Collections.IDictionary>
       <String name="m_guid" value="30b92dfb-90a6-4374-af98-f39d2637d378" />
     </Catsland.Core.GameObject>
     <Catsland.Core.GameObject>
@@ -1250,7 +1241,7 @@
       <CatVector3 name="m_position" value="-0.2118472,1.282824,-1.192093E-07" />
       <CatQuaternion name="m_rotation" value="0,0,0,1" />
       <CatVector3 name="m_scale" value="1,1,1" />
-      <IDictionary name="m_components" typeinfo="System.Collections.Generic.Dictionary`2[System.String,Catsland.Core.CatComponent]">
+      <System.Collections.IDictionary name="m_components" typeinfo="System.Collections.Generic.Dictionary`2[System.String,Catsland.Core.CatComponent]">
         <KeyValue>
           <Key>
             <String name="" value="Catsland.Plugin.BasicPlugin.ModelComponent" />
@@ -1296,7 +1287,7 @@
             </Catsland.Plugin.BasicPlugin.RectangleCollider>
           </Value>
         </KeyValue>
-      </IDictionary>
+      </System.Collections.IDictionary>
       <String name="m_guid" value="6e3375bb-994c-4391-8c19-cc559b0240fc" />
     </Catsland.Core.GameObject>
     <Catsland.Core.GameObject>
@@ -1304,7 +1295,7 @@
       <CatVector3 name="m_position" value="7.839142,2.199413,-1.192093E-07" />
       <CatQuaternion name="m_rotation" value="0,0,0,1" />
       <CatVector3 name="m_scale" value="1,1,1" />
-      <IDictionary name="m_components" typeinfo="System.Collections.Generic.Dictionary`2[System.String,Catsland.Core.CatComponent]">
+      <System.Collections.IDictionary name="m_components" typeinfo="System.Collections.Generic.Dictionary`2[System.String,Catsland.Core.CatComponent]">
         <KeyValue>
           <Key>
             <String name="" value="Catsland.Plugin.BasicPlugin.ModelComponent" />
@@ -1350,7 +1341,7 @@
             </Catsland.Plugin.BasicPlugin.RectangleCollider>
           </Value>
         </KeyValue>
-      </IDictionary>
+      </System.Collections.IDictionary>
       <String name="m_guid" value="4fd1c0cb-3513-49f4-8939-4aeb7dea0a23" />
     </Catsland.Core.GameObject>
     <Catsland.Core.GameObject>
@@ -1358,7 +1349,7 @@
       <CatVector3 name="m_position" value="6.746741,2.422352,-1.192093E-07" />
       <CatQuaternion name="m_rotation" value="0,0,0,1" />
       <CatVector3 name="m_scale" value="1,1,1" />
-      <IDictionary name="m_components" typeinfo="System.Collections.Generic.Dictionary`2[System.String,Catsland.Core.CatComponent]">
+      <System.Collections.IDictionary name="m_components" typeinfo="System.Collections.Generic.Dictionary`2[System.String,Catsland.Core.CatComponent]">
         <KeyValue>
           <Key>
             <String name="" value="Catsland.Plugin.BasicPlugin.ModelComponent" />
@@ -1404,7 +1395,7 @@
             </Catsland.Plugin.BasicPlugin.RectangleCollider>
           </Value>
         </KeyValue>
-      </IDictionary>
+      </System.Collections.IDictionary>
       <String name="m_guid" value="cd03f136-c4d2-4bef-8e9b-c3b35e0c3637" />
     </Catsland.Core.GameObject>
     <Catsland.Core.GameObject>
@@ -1412,7 +1403,7 @@
       <CatVector3 name="m_position" value="7.824279,3.091169,-1.192093E-07" />
       <CatQuaternion name="m_rotation" value="0,0,0,1" />
       <CatVector3 name="m_scale" value="1,1,1" />
-      <IDictionary name="m_components" typeinfo="System.Collections.Generic.Dictionary`2[System.String,Catsland.Core.CatComponent]">
+      <System.Collections.IDictionary name="m_components" typeinfo="System.Collections.Generic.Dictionary`2[System.String,Catsland.Core.CatComponent]">
         <KeyValue>
           <Key>
             <String name="" value="Catsland.Plugin.BasicPlugin.ModelComponent" />
@@ -1458,7 +1449,7 @@
             </Catsland.Plugin.BasicPlugin.RectangleCollider>
           </Value>
         </KeyValue>
-      </IDictionary>
+      </System.Collections.IDictionary>
       <String name="m_guid" value="f397d757-00e2-41cf-a557-ed72753e96bc" />
     </Catsland.Core.GameObject>
     <Catsland.Core.GameObject>
@@ -1466,7 +1457,7 @@
       <CatVector3 name="m_position" value="5.773241,3.098601,-1.192093E-07" />
       <CatQuaternion name="m_rotation" value="0,0,0,1" />
       <CatVector3 name="m_scale" value="1,1,1" />
-      <IDictionary name="m_components" typeinfo="System.Collections.Generic.Dictionary`2[System.String,Catsland.Core.CatComponent]">
+      <System.Collections.IDictionary name="m_components" typeinfo="System.Collections.Generic.Dictionary`2[System.String,Catsland.Core.CatComponent]">
         <KeyValue>
           <Key>
             <String name="" value="Catsland.Plugin.BasicPlugin.ModelComponent" />
@@ -1512,7 +1503,7 @@
             </Catsland.Plugin.BasicPlugin.RectangleCollider>
           </Value>
         </KeyValue>
-      </IDictionary>
+      </System.Collections.IDictionary>
       <String name="m_guid" value="a5d1cdeb-5fcb-4a73-a95a-ee8473c967e2" />
     </Catsland.Core.GameObject>
     <Catsland.Core.GameObject>
@@ -1520,7 +1511,7 @@
       <CatVector3 name="m_position" value="2.20751,1.917961,-1" />
       <CatQuaternion name="m_rotation" value="0,0,0,1" />
       <CatVector3 name="m_scale" value="1,1,1" />
-      <IDictionary name="m_components" typeinfo="System.Collections.Generic.Dictionary`2[System.String,Catsland.Core.CatComponent]">
+      <System.Collections.IDictionary name="m_components" typeinfo="System.Collections.Generic.Dictionary`2[System.String,Catsland.Core.CatComponent]">
         <KeyValue>
           <Key>
             <String name="" value="Catsland.Plugin.BasicPlugin.ModelComponent" />
@@ -1550,8 +1541,139 @@
             </Catsland.Plugin.BasicPlugin.QuadRender>
           </Value>
         </KeyValue>
-      </IDictionary>
+      </System.Collections.IDictionary>
       <String name="m_guid" value="568cc381-bdf1-4abc-b7ec-55babb1024ec" />
+    </Catsland.Core.GameObject>
+    <Catsland.Core.GameObject>
+      <String name="m_name" value="dist1" />
+      <CatVector3 name="m_position" value="2.615481,-0.1887462,0" />
+      <CatQuaternion name="m_rotation" value="0,0,0,1" />
+      <CatVector3 name="m_scale" value="1,1,1" />
+      <String name="m_guid" value="37864317-4fc2-4d61-b947-7470245c60f3" />
+    </Catsland.Core.GameObject>
+    <Catsland.Core.GameObject>
+      <String name="m_name" value="real" />
+      <CatVector3 name="m_position" value="3.085434,1.155614,0" />
+      <CatQuaternion name="m_rotation" value="0,0,0,1" />
+      <CatVector3 name="m_scale" value="1,1,1" />
+      <System.Collections.IDictionary name="m_components" typeinfo="System.Collections.Generic.Dictionary`2[System.String,Catsland.Core.CatComponent]">
+        <KeyValue>
+          <Key>
+            <String name="" value="Catsland.Plugin.BasicPlugin.ModelComponent" />
+          </Key>
+          <Value>
+            <Catsland.Plugin.BasicPlugin.ModelComponent name="">
+              <String name="m_guid" value="f10212c8-51f6-41eb-9012-d81fa20ff9b4" />
+              <Post_ModelName value="juandetail" />
+              <Material name="BasicLightEffect">
+                <Parameter name="LightInstance" type="Catsland.Core.CatFloat" value="1" />
+                <Parameter name="Alpha" type="Catsland.Core.CatFloat" value="1" />
+                <Parameter name="DiffuseMap" type="Catsland.Core.CatTexture" value="juan_detail" />
+                <Parameter name="BiasColor" type="Catsland.Core.CatColor" value="0,0,0,0" />
+              </Material>
+            </Catsland.Plugin.BasicPlugin.ModelComponent>
+          </Value>
+        </KeyValue>
+        <KeyValue>
+          <Key>
+            <String name="" value="Catsland.Plugin.BasicPlugin.QuadRender" />
+          </Key>
+          <Value>
+            <Catsland.Plugin.BasicPlugin.QuadRender name="">
+              <CatVector2 name="m_size" value="0.7,0.7" />
+              <CatVector2 name="m_offset" value="0,0" />
+              <String name="m_guid" value="cbb3ee6b-e1d1-4d70-b796-af1887f78d70" />
+            </Catsland.Plugin.BasicPlugin.QuadRender>
+          </Value>
+        </KeyValue>
+        <KeyValue>
+          <Key>
+            <String name="" value="Catsland.Plugin.BasicPlugin.CatController" />
+          </Key>
+          <Value>
+            <Catsland.Plugin.BasicPlugin.CatController name="">
+              <CatVector2 name="m_outSize" value="0.3,0.6" />
+              <CatVector2 name="m_inSize" value="0.2,0.5" />
+              <CatFloat name="m_mass" value="5" />
+              <CatFloat name="m_restitution" value="0" />
+              <CatFloat name="m_friction" value="0.8" />
+              <CatFloat name="m_damping" value="0" />
+              <CatFloat name="m_walkSpeed" value="0.8" />
+              <CatFloat name="m_runAcc" value="0.2" />
+              <CatFloat name="m_breakAcc" value="0.4" />
+              <CatFloat name="m_runSpeed" value="1.6" />
+              <CatFloat name="m_jumpForce" value="64" />
+              <CatFloat name="m_horjumpBias" value="0.1" />
+              <CatFloat name="m_wallJumpForce" value="40" />
+              <CatFloat name="m_airBiasOffset" value="0.2" />
+              <CatFloat name="m_jumpLiftForce" value="56" />
+              <CatFloat name="m_stealthSpeed" value="0.4" />
+              <String name="m_aniStand" value="stand" />
+              <String name="m_aniWalk" value="run" />
+              <String name="m_aniRun" value="run" />
+              <String name="m_aniJumpUp" value="jumpup" />
+              <String name="m_aniFall" value="fall" />
+              <String name="m_aniAttach" value="attach" />
+              <String name="m_guid" value="915db2f0-a18f-4ab1-8562-5bfa4a1e9c21" />
+            </Catsland.Plugin.BasicPlugin.CatController>
+          </Value>
+        </KeyValue>
+        <KeyValue>
+          <Key>
+            <String name="" value="Catsland.Plugin.BasicPlugin.KeyboardInput" />
+          </Key>
+          <Value>
+            <Catsland.Plugin.BasicPlugin.KeyboardInput name="">
+              <String name="m_guid" value="c0389592-151b-4df0-8fef-0a0e8f0e917c" />
+            </Catsland.Plugin.BasicPlugin.KeyboardInput>
+          </Value>
+        </KeyValue>
+        <KeyValue>
+          <Key>
+            <String name="" value="Catsland.Plugin.BasicPlugin.Prey" />
+          </Key>
+          <Value>
+            <Catsland.Plugin.BasicPlugin.Prey name="">
+              <String name="m_guid" value="24409eea-3962-462e-a322-ad55dfcaa1db" />
+            </Catsland.Plugin.BasicPlugin.Prey>
+          </Value>
+        </KeyValue>
+        <KeyValue>
+          <Key>
+            <String name="" value="Catsland.Plugin.BasicPlugin.GamepadInput" />
+          </Key>
+          <Value>
+            <Catsland.Plugin.BasicPlugin.GamepadInput name="">
+              <String name="m_guid" value="d2c1ced5-1e25-408a-a378-4a5064c10c47" />
+            </Catsland.Plugin.BasicPlugin.GamepadInput>
+          </Value>
+        </KeyValue>
+        <KeyValue>
+          <Key>
+            <String name="" value="Catsland.Plugin.BasicPlugin.Animator" />
+          </Key>
+          <Value>
+            <Catsland.Plugin.BasicPlugin.Animator name="">
+              <CatBool name="m_isPlaying" value="True" />
+              <CatInteger name="m_millionSecondPreFrame" value="100" />
+              <String name="m_currentAnimationName" value="stand" />
+              <String name="m_guid" value="c47e9d98-8112-418f-9344-b833df2b302f" />
+            </Catsland.Plugin.BasicPlugin.Animator>
+          </Value>
+        </KeyValue>
+        <KeyValue>
+          <Key>
+            <String name="" value="Catsland.Plugin.BasicPlugin.CameraLookAt" />
+          </Key>
+          <Value>
+            <Catsland.Plugin.BasicPlugin.CameraLookAt name="">
+              <CatBool name="m_isOnlyX" value="True" />
+              <String name="m_guid" value="9a075cd6-47a4-41e4-a55c-2a6289773222" />
+            </Catsland.Plugin.BasicPlugin.CameraLookAt>
+          </Value>
+        </KeyValue>
+      </System.Collections.IDictionary>
+      <String name="m_guid" value="fcaf05c0-49b0-4869-b631-4d38d367e48c" />
     </Catsland.Core.GameObject>
   </GameObjects>
 </Scene>

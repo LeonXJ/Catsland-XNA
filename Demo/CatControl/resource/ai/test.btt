@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<BTTree>
+  <Root>
+    <Catsland.Core.BTLinearSelectNode>
+      <System.Collections.IList name="m_children" typeinfo="System.Collections.Generic.List`1[Catsland.Core.BTNode]">
+        <Catsland.Plugin.TestPlugin.BTConditionInMode name="">
+          <Catsland.Core.BTLinearSelectNode name="m_child">
+            <System.Collections.IList name="m_children" typeinfo="System.Collections.Generic.List`1[Catsland.Core.BTNode]">
+              <Catsland.Plugin.TestPlugin.BTConditionSpotAny name="">
+                <Catsland.Core.BTParallelSelectNode name="m_child">
+                  <System.Collections.IList name="m_children" typeinfo="System.Collections.Generic.List`1[Catsland.Core.BTNode]">
+                    <Catsland.Plugin.TestPlugin.BTActionSetHotspot name="">
+                      <String name="m_guid" value="8f27a003-a7ad-4652-863c-36a0cdfa8968" />
+                    </Catsland.Plugin.TestPlugin.BTActionSetHotspot>
+                    <Catsland.Plugin.TestPlugin.BTActionChangeMode name="">
+                      <String name="m_guid" value="b0899a41-2037-49d0-a6a3-921f37d16d15" />
+                    </Catsland.Plugin.TestPlugin.BTActionChangeMode>
+                  </System.Collections.IList>
+                  <String name="m_guid" value="93b4455f-26eb-44a9-b139-75d9290af207" />
+                </Catsland.Core.BTParallelSelectNode>
+                <String name="m_guid" value="d7f4ad17-f48d-4b42-9ddc-0ad7db6aee19" />
+              </Catsland.Plugin.TestPlugin.BTConditionSpotAny>
+              <Catsland.Plugin.TestPlugin.BTConditionNotArrivePoint name="">
+                <Catsland.Plugin.TestPlugin.BTActionMoveToPoint name="m_child">
+                  <String name="m_guid" value="626e9f6e-8044-4543-8062-618fb8e4131b" />
+                </Catsland.Plugin.TestPlugin.BTActionMoveToPoint>
+                <String name="m_guid" value="8348faa7-79d4-48e9-9852-ccf811675f36" />
+              </Catsland.Plugin.TestPlugin.BTConditionNotArrivePoint>
+              <Catsland.Plugin.TestPlugin.BTActionIdle name="">
+                <String name="m_guid" value="9852381c-3523-4e6c-8eef-c88f68b38708" />
+              </Catsland.Plugin.TestPlugin.BTActionIdle>
+            </System.Collections.IList>
+            <String name="m_guid" value="08688072-ced3-480a-a684-00a590250787" />
+          </Catsland.Core.BTLinearSelectNode>
+          <String name="m_guid" value="5e89ac2b-f1b7-4bd2-a9c4-f39c503d78f0" />
+        </Catsland.Plugin.TestPlugin.BTConditionInMode>
+        <Catsland.Plugin.TestPlugin.BTConditionInMode name="">
+          <Catsland.Core.BTParallelSelectNode name="m_child">
+            <System.Collections.IList name="m_children" typeinfo="System.Collections.Generic.List`1[Catsland.Core.BTNode]">
+              <Catsland.Plugin.TestPlugin.BTConditionSpotAny name="">
+                <Catsland.Core.BTParallelSelectNode name="m_child">
+                  <System.Collections.IList name="m_children" typeinfo="System.Collections.Generic.List`1[Catsland.Core.BTNode]">
+                    <Catsland.Plugin.TestPlugin.BTActionIncreaseSuspection name="">
+                      <String name="m_guid" value="01831917-ade6-4b82-a14d-3a204951a333" />
+                    </Catsland.Plugin.TestPlugin.BTActionIncreaseSuspection>
+                    <Catsland.Plugin.TestPlugin.BTActionSetHotspot name="">
+                      <String name="m_guid" value="8f27a003-a7ad-4652-863c-36a0cdfa8968" />
+                    </Catsland.Plugin.TestPlugin.BTActionSetHotspot>
+                  </System.Collections.IList>
+                  <String name="m_guid" value="579bc9ee-43a9-4404-b93f-ab9423ffa3be" />
+                </Catsland.Core.BTParallelSelectNode>
+                <String name="m_guid" value="5db5a452-0c0f-40ec-a847-aa3a9144ce21" />
+              </Catsland.Plugin.TestPlugin.BTConditionSpotAny>
+              <Catsland.Core.BTLinearSelectNode name="">
+                <System.Collections.IList name="m_children" typeinfo="System.Collections.Generic.List`1[Catsland.Core.BTNode]">
+                  <Catsland.Plugin.TestPlugin.BTConditionNotArrivePoint name="">
+                    <Catsland.Plugin.TestPlugin.BTActionMoveToPoint name="m_child">
+                      <String name="m_guid" value="7932d108-a4cc-4fd9-b6f3-52649f9b0af6" />
+                    </Catsland.Plugin.TestPlugin.BTActionMoveToPoint>
+                    <String name="m_guid" value="2792e54f-6f39-452c-bede-3091cd6366cc" />
+                  </Catsland.Plugin.TestPlugin.BTConditionNotArrivePoint>
+                  <Catsland.Plugin.TestPlugin.BTActionIncreaseSuspection name="">
+                    <String name="m_guid" value="fc87568a-88ff-4b95-8800-c3ebecc50cc6" />
+                  </Catsland.Plugin.TestPlugin.BTActionIncreaseSuspection>
+                </System.Collections.IList>
+                <String name="m_guid" value="f70354e6-6b97-45b1-b67f-35093f1f8083" />
+              </Catsland.Core.BTLinearSelectNode>
+              <Catsland.Plugin.TestPlugin.BTConditionSuspectThreshold name="">
+                <Catsland.Plugin.TestPlugin.BTActionChangeMode name="m_child">
+                  <String name="m_guid" value="fb34d792-b5c4-4884-81a3-bf1b4e037970" />
+                </Catsland.Plugin.TestPlugin.BTActionChangeMode>
+                <String name="m_guid" value="cce9ef08-c90f-4ade-98cd-5c991452b0c3" />
+              </Catsland.Plugin.TestPlugin.BTConditionSuspectThreshold>
+              <Catsland.Plugin.TestPlugin.BTConditionSuspectThreshold name="">
+                <Catsland.Plugin.TestPlugin.BTActionChangeMode name="m_child">
+                  <String name="m_guid" value="9309b5d5-4142-483e-b295-19303a4d7255" />
+                </Catsland.Plugin.TestPlugin.BTActionChangeMode>
+                <String name="m_guid" value="b9d982f1-fb98-4cbe-bdd1-716cbd226253" />
+              </Catsland.Plugin.TestPlugin.BTConditionSuspectThreshold>
+            </System.Collections.IList>
+            <String name="m_guid" value="e81bb25b-866b-47dc-b995-cb379e89198a" />
+          </Catsland.Core.BTParallelSelectNode>
+          <String name="m_guid" value="3de877d6-7609-4365-8fa5-242bd23c3360" />
+        </Catsland.Plugin.TestPlugin.BTConditionInMode>
+      </System.Collections.IList>
+      <String name="m_guid" value="f6030165-f883-400a-b1b5-ec9cfd7b471a" />
+    </Catsland.Core.BTLinearSelectNode>
+  </Root>
+</BTTree>

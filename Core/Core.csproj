@@ -121,6 +121,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AI\BehaviorTree\BTActionNode.cs" />
+    <Compile Include="AI\BehaviorTree\BTCompositeNode.cs" />
+    <Compile Include="AI\BehaviorTree\BTConditionNode.cs" />
+    <Compile Include="AI\BehaviorTree\BTLinearSelectNode.cs" />
+    <Compile Include="AI\BehaviorTree\BTLinearSequenceNode.cs" />
+    <Compile Include="AI\BehaviorTree\BTNode.cs" />
+    <Compile Include="AI\BehaviorTree\BTParallelSelectNode.cs" />
+    <Compile Include="AI\BehaviorTree\BTTree.cs" />
+    <Compile Include="AI\BehaviorTree\BTTreeComponent.cs" />
+    <Compile Include="AI\BehaviorTree\BTTreeManager.cs" />
     <Compile Include="Animation\ActionClip.cs" />
     <Compile Include="Animation\Animation.cs" />
     <Compile Include="Animation\AnimationClip.cs" />
@@ -185,6 +195,7 @@
     <Compile Include="Serialize\SerialAttribute.cs" />
     <Compile Include="Serialize\SerializeDictionary.cs" />
     <Compile Include="Serialize\SerializeIEffectParameter.cs" />
+    <Compile Include="Serialize\SerializeList.cs" />
     <Compile Include="Serialize\SerializeSerialable.cs" />
     <Compile Include="Serialize\SerializeString.cs" />
     <Compile Include="Shadow\Light.cs" />

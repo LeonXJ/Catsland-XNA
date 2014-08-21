@@ -14,6 +14,13 @@ namespace Catsland.Plugin.BasicPlugin {
 
 #region Properties
 
+        private Prey m_spotPrey = null;
+        public Prey LastSpot {
+            get {
+                return m_spotPrey;
+            }
+        }
+
 #endregion
 
         public Hunter(GameObject _gameObject)
@@ -23,6 +30,10 @@ namespace Catsland.Plugin.BasicPlugin {
 
         public Hunter()
             : base() {
+        }
+
+        public bool SpotAny() {
+            return m_spotPrey != null;
         }
 
         public override void Initialize(Scene scene) {
@@ -41,7 +52,7 @@ namespace Catsland.Plugin.BasicPlugin {
         public override void Update(int timeLastFrame) {
             base.Update(timeLastFrame);
 
-            bool alarm = false;
+            m_spotPrey = null;
             Blacklist blacklist = Mgr<Scene>.Singleton.GetSharedObject(typeof(Blacklist).ToString()) 
                 as Blacklist;
             if (blacklist != null) {
@@ -49,11 +60,11 @@ namespace Catsland.Plugin.BasicPlugin {
                     if (IsPointInOnLight(prey.GetPointInWorld())) {
                         m_debugShape.DiffuseColor = Color.Red;
                         DiffuseColor = Color.Red;
-                        alarm = true;
+                        m_spotPrey = prey;
                     }
                 }
             }
-            if (!alarm) {
+            if (!SpotAny()) {
                 m_debugShape.DiffuseColor = Color.Green;
                 DiffuseColor = Color.Green;
             }

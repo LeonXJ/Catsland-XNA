@@ -21,7 +21,7 @@ namespace Catsland.Core {
                 ISerializeType keyIType = Serialable.FindSuitableSerialType(keyValueType[0]);
                 ISerializeType valueIType = Serialable.FindSuitableSerialType(keyValueType[1]);
 
-                XmlElement root = _doc.CreateElement(typeof(IDictionary).Name);
+                XmlElement root = _doc.CreateElement(typeof(IDictionary).ToString()); // FROM .Name
                 root.SetAttribute("name", _nameField);
                 root.SetAttribute("typeinfo", _object.GetType().ToString());
 

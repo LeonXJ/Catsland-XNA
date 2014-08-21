@@ -13,7 +13,7 @@ namespace Catsland.Plugin.BasicPlugin {
         static private int DegreePerPoint = 10;
 
         [SerialAttribute]
-        private CatFloat m_fanInDegree = new CatFloat(15.0f);
+        protected CatFloat m_fanInDegree = new CatFloat(15.0f);
         public float FanInDegree {
             set {
                 m_fanInDegree.SetValue(MathHelper.Clamp(value, 0.0f, 90.0f));
@@ -27,7 +27,7 @@ namespace Catsland.Plugin.BasicPlugin {
         }
 
         [SerialAttribute]
-        private CatFloat m_directionToDown = new CatFloat(0.0f);
+        protected CatFloat m_directionToDown = new CatFloat(0.0f);
         public float DirectionToDown {
             set {
                 m_directionToDown.SetValue(MathHelper.Clamp(value, -180.0f, 180.0f));
@@ -62,15 +62,15 @@ namespace Catsland.Plugin.BasicPlugin {
             int curIndex = 1;
             while (beginDegree > endDegree) {
                 m_verticeList[curIndex] = m_outRadius
-                    * new Vector2((float)Math.Sin(beginDegree * 2 * MathHelper.Pi / 180),
-                                  -(float)Math.Cos(beginDegree * 2 * MathHelper.Pi / 180));
+                    * new Vector2((float)Math.Sin(MathHelper.ToRadians(beginDegree)),
+                                  -(float)Math.Cos(MathHelper.ToRadians(beginDegree)));
                 beginDegree -= DegreePerPoint;
                 curIndex += 1;
             }
             if (curIndex < m_verticeList.Count) {
                 m_verticeList[curIndex] = m_outRadius
-                    * new Vector2((float)Math.Sin(endDegree * 2 * MathHelper.Pi / 180),
-                                  -(float)Math.Cos(endDegree * 2 * MathHelper.Pi / 180));
+                    * new Vector2((float)Math.Sin(MathHelper.ToRadians(endDegree)),
+                                  -(float)Math.Cos(MathHelper.ToRadians(endDegree)));
             }
             m_debugShape.SetVertices(m_verticeList);
             UpdateDrawVertex();
@@ -95,8 +95,8 @@ namespace Catsland.Plugin.BasicPlugin {
             if (delta.LengthSquared() > m_outRadius * m_outRadius) {
                 return false;
             }
-            Vector2 frontPoint = Vector2.Transform(new Vector2((float)Math.Sin(m_directionToDown * 2 * MathHelper.Pi / 180),
-                                                              -(float)Math.Cos(m_directionToDown * 2 * MathHelper.Pi / 180)),
+            Vector2 frontPoint = Vector2.Transform(new Vector2((float)Math.Sin(MathHelper.ToRadians(m_directionToDown)),
+                                                              -(float)Math.Cos(MathHelper.ToRadians(m_directionToDown))),
                                                    Matrix.CreateTranslation(new Vector3(m_offset.X, m_offset.Y, 0.0f)) * m_gameObject.AbsTransform);
             Vector2 frontDirection = frontPoint - centroid;
             frontDirection.Normalize();

@@ -126,6 +126,9 @@ namespace Catsland.Core {
                 // check in type manager
                 objectType = Mgr<TypeManager>.Singleton.GetCatComponentType(typeName);
             }
+            if (objectType == null) {
+                objectType = Mgr<TypeManager>.Singleton.GetBTTreeNodeType(typeName);
+            }
             Debug.Assert(objectType != null, "Cannot find type: " + typeName);
             Debug.Assert(objectType.IsSubclassOf(typeof(Serialable)), "Instantiating non-serialiable type: " + typeName);
 

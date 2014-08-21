@@ -67,6 +67,7 @@ float4 PixelShaderFunction(VertexShaderOutput input) : COLOR0
     float4 light = tex2D(LightMapSampler, screenUV);
     light.rgb = light.rgb*light.a;
     float4 originalColor = tex2D(ColorMapSampler, input.UV) * float4(1.0, 1.0, 1.0, Alpha) + BiasColor;
+    originalColor = clamp(originalColor, 0.0, 1.0);
     return float4(originalColor.rgb * light.rgb * LightInstance + (1.0 - LightInstance) * originalColor.rgb, originalColor.a);
 }
 

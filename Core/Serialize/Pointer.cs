@@ -20,11 +20,14 @@ namespace Catsland.Core {
         private IDictionary m_dictionary;
         private Object m_dictionaryKey;
         private IEffectParameter m_ieffectParameter;
+        private IList m_list;
+        private int m_listIndex;
 
         private enum ContentType {
             ContentField,
             ContentIDictionaryEnumerator,
             ContentIEffectParameter,
+            ContentIListEnumerator,
         };
         private ContentType m_contentType;
 #endregion
@@ -63,6 +66,18 @@ namespace Catsland.Core {
         }
 
         /**
+         * @brief point to a value of list
+         * 
+         * @param _list
+         * @param _index
+         * */
+        public Pointer(IList _list, int _index) {
+            m_list = _list;
+            m_listIndex = _index;
+            m_contentType = ContentType.ContentIListEnumerator;
+        }
+
+        /**
          * @brief set *pointer
          * have not check type here
          * 
@@ -77,6 +92,12 @@ namespace Catsland.Core {
             }
             else if (m_contentType == ContentType.ContentIEffectParameter) {
                 m_ieffectParameter.FromString((string)(_value));
+            }
+            else if (m_contentType == ContentType.ContentIListEnumerator) {
+                while (m_list.Count <= m_listIndex) {
+                    m_list.Add(_value);
+                }
+                m_list[m_listIndex] = _value;
             }
         }
 
@@ -94,6 +115,9 @@ namespace Catsland.Core {
             }
             else if (m_contentType == ContentType.ContentIEffectParameter) {
                 return m_ieffectParameter;
+            }
+            else if (m_contentType == ContentType.ContentIListEnumerator) {
+                return m_list[m_listIndex];
             }
             return null;
         }

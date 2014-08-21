@@ -92,8 +92,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GuardBTPack.cs" />
+    <Compile Include="GuardBTPackTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SkyController.cs" />
+    <Compile Include="TestBTTree.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BasicPlugin\BasicPlugin.csproj">

@@ -178,7 +178,10 @@ namespace Catsland.Core {
                 HashSet<int> lights = m_shadingBody2LightDict[shadingBoydID];
                 foreach (int lightID in lights) {
                     // remove from light2ShadingBody
-                    m_light2ShadingBodyDict[lightID].Remove(shadingBoydID);
+                    // TODO: compromise
+                    if (m_light2ShadingBodyDict.ContainsKey(lightID)) {
+                        m_light2ShadingBodyDict[lightID].Remove(shadingBoydID);
+                    }
                     // remove lightShadow
                     int lightShadingBodyEdgeID = GetLightShadowBodyEdgeID(lightID, shadingBoydID, _shadingBody.GetVerticesNumber());
                     if (m_lightShadowEdgeDict.ContainsKey(lightShadingBodyEdgeID)) {

@@ -49,6 +49,12 @@ namespace Catsland.Core {
    //     public ModelList modelList;
   //      public MaterialList materialList;
         public TypeManager typeManager;
+        private BTTreeManager m_btTreeManager;
+        public BTTreeManager BTTreeManager {
+            get {
+                return m_btTreeManager;
+            }
+        }
         public SoundManager m_soundManager;
         public SoundManager SoundManager {
             get {
@@ -105,6 +111,7 @@ namespace Catsland.Core {
             TestCreateDirectory(resourceDirectory + "model");
             TestCreateDirectory(resourceDirectory + "prefab");
             TestCreateDirectory(resourceDirectory + "scene");
+            TestCreateDirectory(resourceDirectory + "ai");
             // copy basic resource
             string[] fxs = Directory.GetFiles("resource/effect");
             foreach (String fx in fxs) {
@@ -128,6 +135,8 @@ namespace Catsland.Core {
 
             newProject.contentManger = new ContentManager(_game.Services);
             newProject.contentManger.RootDirectory = projectRoot + ASSET_DIR + '/' + RESOURCE_DIR;
+            newProject.m_btTreeManager = new BTTreeManager();
+            newProject.m_btTreeManager.BTTreeDirectoryRoot = newProject.projectRoot + '/' + ASSET_DIR + "/ai";
 
             // save project files
             newProject.SaveProject(newProject.GetProjectXMLAddress(), true);
@@ -136,6 +145,7 @@ namespace Catsland.Core {
             Scene scene = Scene.CreateEmptyScene(newProject);
             scene.SaveScene(newProject.projectRoot + RESOURCE_DIR + "/scene/" + newProject.currentSceneName + ".scene");
             newProject.SynchronizeScene();
+            newProject.SynchronizeBTTrees();
 
             return newProject;
         }
@@ -164,8 +174,11 @@ namespace Catsland.Core {
             modelList1.SaveModels(projectRoot + RESOURCE_DIR + "/model/");
             /*prefabList.SavePrefabs(projectRoot + RESOURCE_DIR + "/prefab/");*/
             prefabList.SavePrefabs(projectRoot + RESOURCE_DIR + "/prefab");
+            m_btTreeManager.SaveAllBTTree(projectRoot + RESOURCE_DIR + "/ai");
             // consider to recompile here
             CompileResource(_synchronized);
+            SynchronizeBTTrees();
+            SynchronizeScene();
 
             return true;
         }
@@ -204,6 +217,8 @@ namespace Catsland.Core {
             // load shader
             if (Mgr<GameEngine>.Singleton._gameEngineMode == GameEngine.GameEngineMode.MapEditor) {
                 newProject.CompileResource();
+                newProject.SynchronizeScene();
+                newProject.SynchronizeBTTrees();
             }
             //newProject.CompileShader(newProject.projectRoot);
 
@@ -229,11 +244,14 @@ namespace Catsland.Core {
             newProject.typeManager = new TypeManager();
             newProject.typeManager.Load_Plugins(newProject.projectRoot + PLUGIN_DIR + '/');
             newProject.typeManager.LoadConsoleCommands(newProject.projectRoot + PLUGIN_DIR + '/');
+            newProject.typeManager.LoadBTTreeNodes(newProject.projectRoot + PLUGIN_DIR + '/');
             Mgr<GameEngine>.Singleton.CatConsole.SetTypeManager(newProject.typeManager);
             if (Mgr<GameEngine>.Singleton._gameEngineMode == GameEngine.GameEngineMode.MapEditor) {
                 newProject.typeManager.Load_EditorScripts(newProject.projectRoot + PLUGIN_DIR + '/');
             }
             Mgr<TypeManager>.Singleton = newProject.typeManager;
+            newProject.m_btTreeManager = new BTTreeManager();
+            newProject.m_btTreeManager.BTTreeDirectoryRoot = newProject.projectRoot + '/' + ASSET_DIR + "/ai";
 
 //             newProject.prefabList = PrefabList.LoadPrefabs(
 //                 newProject.GetConfigurePath(newProject.prefabConfigure),
@@ -343,21 +361,29 @@ namespace Catsland.Core {
             }
         }
 
-        public void SynchronizeScene() {
+        private void SynchronizeDirectory(string _dirName) {
             // delete files in scene in asset folder
-            String assetSceneDir = projectRoot + '/' + ASSET_DIR + '/' + RESOURCE_DIR + "/scene";
-            if (Directory.Exists(assetSceneDir)) {
-                foreach (String file in Directory.GetFiles(assetSceneDir)) {
+            String assetDir = projectRoot + '/' + ASSET_DIR + '/' + RESOURCE_DIR + '/' + _dirName;
+            if (Directory.Exists(assetDir)) {
+                foreach (String file in Directory.GetFiles(assetDir)) {
                     File.Delete(file);
                 }
             }
             else {
-                Directory.CreateDirectory(assetSceneDir);
+                Directory.CreateDirectory(assetDir);
             }
             // copy from resource to files
-            foreach (String file in Directory.GetFiles(projectRoot + '/' + RESOURCE_DIR + "/scene")) {
-                File.Copy(file, assetSceneDir + '/' + Path.GetFileName(file));
+            foreach (String file in Directory.GetFiles(projectRoot + '/' + RESOURCE_DIR + '/' + _dirName)) {
+                File.Copy(file, assetDir + '/' + Path.GetFileName(file));
             }
+        }
+
+        public void SynchronizeScene() {
+            SynchronizeDirectory("scene");
+        }
+
+        public void SynchronizeBTTrees() {
+            SynchronizeDirectory("ai");
         }
 
         public void PublishProject(string _path) {
@@ -374,6 +400,9 @@ namespace Catsland.Core {
             System.IO.File.Copy("FarseerPhysics XNA.dll", _path + "/" + "FarseerPhysics XNA.dll");
             // compile resource
             CompileResource();
+            SynchronizeBTTrees();
+            SynchronizeScene();
+
             copyFolder(projectRoot + CatProject.ASSET_DIR, _path + '/' + CatProject.ASSET_DIR + '/');  
         }
 

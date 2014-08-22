@@ -77,6 +77,12 @@
     <Compile Include="AnimationSelector.Designer.cs">
       <DependentUpon>AnimationSelector.cs</DependentUpon>
     </Compile>
+    <Compile Include="BTTreeEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BTTreeEditor.Designer.cs">
+      <DependentUpon>BTTreeEditor.cs</DependentUpon>
+    </Compile>
     <Compile Include="ComponentSelector.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -178,6 +184,9 @@
     </Compile>
     <EmbeddedResource Include="AnimationSelector.resx">
       <DependentUpon>AnimationSelector.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="BTTreeEditor.resx">
+      <DependentUpon>BTTreeEditor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ComponentSelector.resx">
       <DependentUpon>ComponentSelector.cs</DependentUpon>

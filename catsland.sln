@@ -4,7 +4,6 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Core\Core.csproj", "{41C978A2-5207-4B4C-AE18-3020A45A0477}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A4E37A70-AD63-4759-9714-581C2B16F7B5} = {A4E37A70-AD63-4759-9714-581C2B16F7B5}
-		{04FC96EE-963B-466C-87F8-8B8EC036EA94} = {04FC96EE-963B-466C-87F8-8B8EC036EA94}
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FontProcessor", "FontProcessor\FontProcessor.csproj", "{A4E37A70-AD63-4759-9714-581C2B16F7B5}"

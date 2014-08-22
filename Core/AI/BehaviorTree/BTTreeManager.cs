@@ -77,9 +77,5 @@ namespace Catsland.Core {
                 Debug.Assert(false, "Cannot find directory: " + _directory);
             }
         }
-
-
-
-
     }
 }

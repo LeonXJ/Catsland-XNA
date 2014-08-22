@@ -227,12 +227,6 @@
     <Content Include="messages.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MapEditorControlLibrary\MapEditorControlLibrary.csproj">
-      <Project>{04FC96EE-963B-466C-87F8-8B8EC036EA94}</Project>
-      <Name>MapEditorControlLibrary</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0,Profile=Client">
       <Visible>False</Visible>
       <ProductName>Microsoft .NET Framework 4 Client Profile %28x86 和 x64%29</ProductName>

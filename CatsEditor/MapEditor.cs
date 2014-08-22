@@ -52,10 +52,14 @@ namespace Catsland.Editor {
         MovingMode curMovingMode = MovingMode.XY;
         float observingXYheight = 0.0f;
 
+        // test
+        public BTTreeEditor m_btTreeEditor;
+
         public MapEditor(bool _showWelcomeDialog = true) {
             m_boolWelcomeDialog = _showWelcomeDialog;
             InitializeComponent();
             InitializeEditor();
+            Mgr<MapEditor>.Singleton = this;
         }
 
         void InitializeEditor() {
@@ -144,6 +148,8 @@ namespace Catsland.Editor {
             //updateEditorScriptMenu();
             if (m_boolWelcomeDialog) {
                 new WelcomeDialog(this).ShowDialog(this);
+                m_btTreeEditor = new BTTreeEditor();
+                m_btTreeEditor.Show();
             }
 //             else {
 //                 CatProject newProject = CatProject.CreateEmptyProject("defaultProject", System.AppDomain.CurrentDomain.BaseDirectory, m_gameEngine);

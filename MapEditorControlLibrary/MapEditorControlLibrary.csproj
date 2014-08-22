@@ -43,6 +43,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BTTreeViewer\BTEditorLine.cs" />
+    <Compile Include="BTTreeViewer\BTEditorRectangleBTActionNode.cs" />
+    <Compile Include="BTTreeViewer\BTEditorRectangleBTCompositeNode.cs" />
+    <Compile Include="BTTreeViewer\BTEditorRectangle.cs" />
+    <Compile Include="BTTreeViewer\BTEditorRectangleBTConditionNode.cs" />
+    <Compile Include="BTTreeViewer\BTTreeViewer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BTTreeViewer\BTTreeViewer.Designer.cs">
+      <DependentUpon>BTTreeViewer.cs</DependentUpon>
+    </Compile>
     <Compile Include="PackableBox.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -64,6 +75,9 @@
     <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="BTTreeViewer\BTTreeViewer.resx">
+      <DependentUpon>BTTreeViewer.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="PackableBox.resx">
       <DependentUpon>PackableBox.cs</DependentUpon>
     </EmbeddedResource>
@@ -75,6 +89,13 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Core\Core.csproj">
+      <Project>{41C978A2-5207-4B4C-AE18-3020A45A0477}</Project>
+      <Name>Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -105,8 +105,6 @@
     </Entities>
     <Relationships>
       <Relationship type="Association" first="0" second="1">
-        <Label>
-        </Label>
         <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Vertical</EndOrientation>
         <BendPoint relativeToStartShape="False">
@@ -117,16 +115,12 @@
         <AssociationType>Composition</AssociationType>
       </Relationship>
       <Relationship type="Association" first="0" second="2">
-        <Label>
-        </Label>
         <StartOrientation>Horizontal</StartOrientation>
         <EndOrientation>Horizontal</EndOrientation>
         <Direction>Unidirectional</Direction>
         <AssociationType>Composition</AssociationType>
       </Relationship>
       <Relationship type="Association" first="0" second="3">
-        <Label>
-        </Label>
         <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Vertical</EndOrientation>
         <BendPoint relativeToStartShape="True">
@@ -141,6 +135,8 @@
         <AssociationType>Composition</AssociationType>
       </Relationship>
       <Relationship type="Association" first="3" second="2">
+        <Label>
+        </Label>
         <StartOrientation>Horizontal</StartOrientation>
         <EndOrientation>Horizontal</EndOrientation>
         <BendPoint relativeToStartShape="False">
@@ -153,6 +149,8 @@
         <EndMultiplicity>1</EndMultiplicity>
       </Relationship>
       <Relationship type="Association" first="1" second="3">
+        <Label>
+        </Label>
         <StartOrientation>Horizontal</StartOrientation>
         <EndOrientation>Horizontal</EndOrientation>
         <BendPoint relativeToStartShape="True">
@@ -224,8 +222,6 @@
     </Entities>
     <Relationships>
       <Relationship type="Association" first="0" second="1">
-        <Label>
-        </Label>
         <StartOrientation>Horizontal</StartOrientation>
         <EndOrientation>Horizontal</EndOrientation>
         <Direction>Bidirectional</Direction>
@@ -364,8 +360,6 @@
     </Entities>
     <Relationships>
       <Relationship type="Association" first="0" second="1">
-        <Label>
-        </Label>
         <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Horizontal</EndOrientation>
         <Direction>Unidirectional</Direction>
@@ -374,8 +368,6 @@
         <EndMultiplicity>*</EndMultiplicity>
       </Relationship>
       <Relationship type="Association" first="1" second="2">
-        <Label>
-        </Label>
         <StartOrientation>Horizontal</StartOrientation>
         <EndOrientation>Horizontal</EndOrientation>
         <Direction>Unidirectional</Direction>
@@ -506,6 +498,8 @@
     </Entities>
     <Relationships>
       <Relationship type="Association" first="1" second="2">
+        <Label>
+        </Label>
         <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Horizontal</EndOrientation>
         <Direction>Unidirectional</Direction>
@@ -604,20 +598,14 @@
     </Entities>
     <Relationships>
       <Relationship type="Dependency" first="1" second="0">
-        <Label>
-        </Label>
         <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Vertical</EndOrientation>
       </Relationship>
       <Relationship type="Dependency" first="2" second="0">
-        <Label>
-        </Label>
         <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Vertical</EndOrientation>
       </Relationship>
       <Relationship type="Dependency" first="3" second="0">
-        <Label>
-        </Label>
         <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Vertical</EndOrientation>
       </Relationship>
@@ -630,25 +618,26 @@
       <Entity type="Class">
         <Name>BTNode</Name>
         <Access>Public</Access>
-        <Location left="382" top="42" />
+        <Location left="872" top="65" />
         <Size width="215" height="94" />
         <Collapsed>False</Collapsed>
-        <Member type="Method">public virtual bool Execute(BTTree _btTree)</Member>
+        <Member type="Method">public virtual bool Execute(BTTreeRuntimePack _runtimePack)</Member>
         <Modifier>None</Modifier>
       </Entity>
       <Entity type="Class">
         <Name>BTCompositeNode</Name>
         <Access>Public</Access>
-        <Location left="241" top="232" />
+        <Location left="731" top="255" />
         <Size width="162" height="216" />
         <Collapsed>False</Collapsed>
-        <Member type="Property">public List&lt;BTNode&gt; Children { get; set; }</Member>
+        <Member type="Field">protected List&lt;BTNode&gt; m_children</Member>
+        <Member type="Method">public void AddChild(BTNode _btNode)</Member>
         <Modifier>None</Modifier>
       </Entity>
       <Entity type="Class">
         <Name>BTDecoratorNode</Name>
         <Access>Public</Access>
-        <Location left="511" top="232" />
+        <Location left="1001" top="255" />
         <Size width="162" height="216" />
         <Collapsed>False</Collapsed>
         <Member type="Property">public BTNode Child { get; set; }</Member>
@@ -657,26 +646,30 @@
       <Entity type="Class">
         <Name>BTConditionNode</Name>
         <Access>Public</Access>
-        <Location left="701" top="232" />
+        <Location left="1191" top="255" />
         <Size width="162" height="216" />
         <Collapsed>False</Collapsed>
         <Member type="Property">public BTNode Child { get; set; }</Member>
+        <Member type="Method">protected virtual bool JudgeCondition(BTTreeRuntimePack _runtimePack)</Member>
+        <Member type="Method">public sealed override bool Execute(BTTreeRuntimePack _runtimePack)</Member>
         <Modifier>None</Modifier>
       </Entity>
       <Entity type="Class">
         <Name>BTActionNode</Name>
         <Access>Public</Access>
-        <Location left="896" top="232" />
+        <Location left="1386" top="255" />
         <Size width="162" height="216" />
         <Collapsed>False</Collapsed>
-        <Member type="Method">public virtual void Enter()</Member>
-        <Member type="Method">public virtual void Exit()</Member>
+        <Member type="Method">public virtual void OnEnter(BTTreeRuntimePack _runtimePack)</Member>
+        <Member type="Method">public bool OnRunning(BTTreeRuntimePack _runtimePack)</Member>
+        <Member type="Method">public virtual void OnExit(BTTreeRuntimePack _runtimePack)</Member>
+        <Member type="Method">public sealed override bool Execute(BTTreeRuntimePack _runtimePack)</Member>
         <Modifier>None</Modifier>
       </Entity>
       <Entity type="Class">
         <Name>BTLinearSelectorNode</Name>
         <Access>Public</Access>
-        <Location left="35" top="524" />
+        <Location left="525" top="547" />
         <Size width="162" height="216" />
         <Collapsed>False</Collapsed>
         <Modifier>None</Modifier>
@@ -684,15 +677,15 @@
       <Entity type="Class">
         <Name>BTLinearSequenceNode</Name>
         <Access>Public</Access>
-        <Location left="210" top="524" />
+        <Location left="700" top="547" />
         <Size width="162" height="216" />
         <Collapsed>False</Collapsed>
         <Modifier>None</Modifier>
       </Entity>
       <Entity type="Class">
-        <Name>BTParallelNode</Name>
+        <Name>BTParallelSelectNode</Name>
         <Access>Public</Access>
-        <Location left="382" top="524" />
+        <Location left="872" top="547" />
         <Size width="162" height="216" />
         <Collapsed>False</Collapsed>
         <Modifier>None</Modifier>
@@ -700,12 +693,51 @@
       <Entity type="Class">
         <Name>BTTree</Name>
         <Access>Public</Access>
-        <Location left="35" top="42" />
+        <Location left="525" top="65" />
         <Size width="162" height="216" />
         <Collapsed>False</Collapsed>
         <Member type="Field">BTNode m_root</Member>
         <Member type="Field">Dictionary&lt;string, object&gt; m_blackboard</Member>
         <Member type="Field">Set&lt;BTActionNote&gt; m_runningAction</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>BTTreeManager</Name>
+        <Access>Public</Access>
+        <Location left="204" top="65" />
+        <Size width="162" height="148" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">public string BTTreeDirectoryRoot { set; }</Member>
+        <Member type="Method">public BTTree LoadBTTree(string _name, bool _forceLoad = false)</Member>
+        <Member type="Method">public void AddBTTree(string _name, BTTree _btTree)</Member>
+        <Member type="Method">public void SaveAllBTTree(string _directory)</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>BTTreeRuntimePack</Name>
+        <Access>Public</Access>
+        <Location left="204" top="313" />
+        <Size width="162" height="230" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">public GameObject GameObject { set; }</Member>
+        <Member type="Property">public BTTree BTTree { get; }</Member>
+        <Member type="Property">public string BTTreeName { set; }</Member>
+        <Member type="Constructor">public BTTreeRuntimePack(GameObject _gameObject, string _btTreeName)</Member>
+        <Member type="Method">public bool IsActionRunning(BTActionNode _actionNode)</Member>
+        <Member type="Method">public void DeclareRunning(BTActionNode _actionNode)</Member>
+        <Member type="Method">public void UpdateBTTree(int _timeLastFrameInMS)</Member>
+        <Member type="Method">public void AddToBlackboard(string _key, object _value)</Member>
+        <Member type="Method">public object GetFromBlackboard(string _key, object _backup = null)</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>BTTreeComponent</Name>
+        <Access>Public</Access>
+        <Location left="10" top="313" />
+        <Size width="162" height="111" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">public BTTreeRuntimePack RuntimePack { get; }</Member>
+        <Member type="Property">public string BTTreeName { get; set; }</Member>
         <Modifier>None</Modifier>
       </Entity>
     </Entities>
@@ -739,7 +771,33 @@
         <EndOrientation>Vertical</EndOrientation>
       </Relationship>
       <Relationship type="Association" first="8" second="0">
+        <Label>
+        </Label>
         <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Composition</AssociationType>
+        <StartMultiplicity>1</StartMultiplicity>
+        <EndMultiplicity>1</EndMultiplicity>
+      </Relationship>
+      <Relationship type="Association" first="9" second="8">
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Composition</AssociationType>
+        <StartMultiplicity>1</StartMultiplicity>
+        <EndMultiplicity>*</EndMultiplicity>
+      </Relationship>
+      <Relationship type="Association" first="10" second="8">
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+        <StartMultiplicity>*</StartMultiplicity>
+        <EndMultiplicity>1</EndMultiplicity>
+      </Relationship>
+      <Relationship type="Association" first="11" second="10">
+        <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Horizontal</EndOrientation>
         <Direction>Unidirectional</Direction>
         <AssociationType>Composition</AssociationType>

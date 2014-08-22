@@ -10,6 +10,11 @@ namespace Catsland.Core {
 
         [SerialAttribute]
         protected List<BTNode> m_children = new List<BTNode>();
+        public List<BTNode> Children {
+            get {
+                return m_children;
+            }
+        }
 
 #endregion
 

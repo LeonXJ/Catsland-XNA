@@ -6,7 +6,7 @@
     <ZBound min="0" max="4" />
   </SceneBasic>
   <Catsland.Core.Camera>
-    <CatVector3 name="m_targetPosition" value="4.490008,1.136434,0" />
+    <CatVector3 name="m_targetPosition" value="4.557418,1.001615,0" />
     <CatFloat name="m_cameraDistance" value="2" />
     <CatVector3 name="m_cameraPRY" value="0,0,0" />
     <CatVector2 name="m_viewSize" value="8.426173,4.251504" />
@@ -141,7 +141,7 @@
     </Catsland.Core.GameObject>
     <Catsland.Core.GameObject>
       <String name="m_name" value="player" />
-      <CatVector3 name="m_position" value="6.840675,-0.3491902,-5.960464E-08" />
+      <CatVector3 name="m_position" value="6.840675,-0.2817808,0" />
       <CatQuaternion name="m_rotation" value="0,0,0,1" />
       <CatVector3 name="m_scale" value="1,1,1" />
       <System.Collections.IDictionary name="m_components" typeinfo="System.Collections.Generic.Dictionary`2[System.String,Catsland.Core.CatComponent]">
@@ -247,6 +247,30 @@
               <CatBool name="m_isOnlyX" value="True" />
               <String name="m_guid" value="7fba6593-4949-4551-bad5-654449b51a60" />
             </Catsland.Plugin.BasicPlugin.CameraLookAt>
+          </Value>
+        </KeyValue>
+        <KeyValue>
+          <Key>
+            <String name="" value="Catsland.Plugin.BTTreeComponent" />
+          </Key>
+          <Value>
+            <Catsland.Plugin.BTTreeComponent name="">
+              <String name="m_btTreeName" value="test" />
+              <String name="m_guid" value="8b3c49b2-b5d9-47e6-bc6d-8f2357d7c890" />
+            </Catsland.Plugin.BTTreeComponent>
+          </Value>
+        </KeyValue>
+        <KeyValue>
+          <Key>
+            <String name="" value="Catsland.Plugin.TestPlugin.GuardBTPack" />
+          </Key>
+          <Value>
+            <Catsland.Plugin.TestPlugin.GuardBTPack name="">
+              <String name="m_guardPointGameObjectName" value="dist1" />
+              <CatFloat name="m_arriveDistance" value="0.2" />
+              <CatInteger name="m_suspectThreshold" value="200" />
+              <String name="m_guid" value="f08f561f-ec44-4b08-af64-5de3613ddb81" />
+            </Catsland.Plugin.TestPlugin.GuardBTPack>
           </Value>
         </KeyValue>
       </System.Collections.IDictionary>

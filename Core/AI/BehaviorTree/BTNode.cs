@@ -6,6 +6,6 @@ using System.Text;
 namespace Catsland.Core {
     public class BTNode : Serialable {
 
-        public virtual bool Execute(BTTreeComponent _btTree) { return true; }
+        public virtual bool Execute(BTTreeRuntimePack _btTree) { return true; }
     }
 }

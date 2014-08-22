@@ -5,14 +5,28 @@ using System.Text;
 using Catsland.Core;
 
 namespace Catsland.Core {
-    public class BTTreeComponent : CatComponent{
+    public class BTTreeRuntimePack {
 
 #region Properties
 
-        private BTNode m_root = null;
-        public BTNode Root {
+        private GameObject m_gameObject;
+        public GameObject GameObject {
+            get {
+                return m_gameObject;
+            }
+        }
+
+        private string m_btTreeName = "";
+        public string BTTreeName {
             set {
-                m_root = value;
+                m_btTreeName = value;
+            }
+        }
+        // to keep constance, we don't store the reference to bttree
+        // case: editor update the tree by create a new one with the same name.
+        public BTTree BTTree {
+            get{
+                return Mgr<CatProject>.Singleton.BTTreeManager.LoadBTTree(m_btTreeName);
             }
         }
         private Dictionary<string, object> m_blackboard = new Dictionary<string, object>();
@@ -21,10 +35,10 @@ namespace Catsland.Core {
 
 #endregion
 
-        public BTTreeComponent(GameObject _gameObject)
-            : base(_gameObject) { }
-
-        public BTTreeComponent() : base() { }
+        public BTTreeRuntimePack(GameObject _gameObject, string _btTreeName) {
+            m_gameObject = _gameObject;
+            m_btTreeName = _btTreeName;
+        }
 
         public bool IsActionRunning(BTActionNode _actionNode) {
             if (_actionNode == null || m_runningAction == null) {
@@ -39,16 +53,13 @@ namespace Catsland.Core {
             }
         }
 
-        public override void Update(int timeLastFrame) {
-            UpdateBTTree(timeLastFrame);
-        }
-
-        private void UpdateBTTree(int _timeLastFrameInMS) {
-            if (m_root == null) {
+        public void UpdateBTTree(int _timeLastFrameInMS) {
+            BTTree btTree = BTTree;
+            if (btTree == null || btTree.Root == null) {
                 return;
             }
 
-            m_root.Execute(this);
+            btTree.Root.Execute(this);
             // on exit
             foreach (BTActionNode actionNode in m_runningAction) {
                 if (!m_nextRunningAction.Contains(actionNode)) {
@@ -61,10 +72,6 @@ namespace Catsland.Core {
             m_nextRunningAction = m_runningAction;
             m_runningAction = tmp;
             m_nextRunningAction.Clear();
-        }
-
-        public static string GetMenuNames(){
-            return "Controller|BtTreeComponent";
         }
 
         //blackboard

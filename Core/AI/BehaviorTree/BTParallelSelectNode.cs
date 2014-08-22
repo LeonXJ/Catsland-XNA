@@ -6,7 +6,7 @@ using System.Text;
 namespace Catsland.Core {
     public class BTParallelSelectNode : BTCompositeNode {
 
-        public override bool Execute(BTTreeComponent _btTree) {
+        public override bool Execute(BTTreeRuntimePack _btTree) {
             if (m_children != null) {
                 bool res = false;
                 foreach (BTNode node in m_children) {

@@ -21,11 +21,11 @@ namespace Catsland.Core {
 
 #endregion
 
-        protected virtual bool JudgeCondition(BTTreeComponent _btTree) {
+        protected virtual bool JudgeCondition(BTTreeRuntimePack _btTree) {
             return true;
         }
 
-        sealed public override bool Execute(BTTreeComponent _btTree) {
+        sealed public override bool Execute(BTTreeRuntimePack _btTree) {
             if (m_child != null) {
                 if (JudgeCondition(_btTree)) {
                     return m_child.Execute(_btTree);

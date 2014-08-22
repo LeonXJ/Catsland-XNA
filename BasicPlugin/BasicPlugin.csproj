@@ -107,6 +107,7 @@
     <Compile Include="CatController.cs" />
     <Compile Include="CircleCollider.cs" />
     <Compile Include="Controller\AmbientLightController.cs" />
+    <Compile Include="Controller\BTTreeComponent.cs" />
     <Compile Include="Controller\DiffuseLightController.cs" />
     <Compile Include="Controller\SkyTimeController.cs" />
     <Compile Include="DialogAnimator.cs" />

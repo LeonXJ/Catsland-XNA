@@ -6,13 +6,13 @@ using System.Text;
 namespace Catsland.Core {
     public class BTActionNode : BTNode {
 
-        public virtual void OnEnter(BTTreeComponent _btTree) { }
+        public virtual void OnEnter(BTTreeRuntimePack _btTree) { }
 
-        public virtual bool OnRunning(BTTreeComponent _btTree) { return true; }
+        public virtual bool OnRunning(BTTreeRuntimePack _btTree) { return true; }
 
-        public virtual void OnExit(BTTreeComponent _btTree) { }
+        public virtual void OnExit(BTTreeRuntimePack _btTree) { }
 
-        sealed public override bool Execute(BTTreeComponent _btTree) {
+        sealed public override bool Execute(BTTreeRuntimePack _btTree) {
             if (!_btTree.IsActionRunning(this)) {
                 OnEnter(_btTree);
             }

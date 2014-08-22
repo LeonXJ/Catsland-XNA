@@ -129,7 +129,7 @@
     <Compile Include="AI\BehaviorTree\BTNode.cs" />
     <Compile Include="AI\BehaviorTree\BTParallelSelectNode.cs" />
     <Compile Include="AI\BehaviorTree\BTTree.cs" />
-    <Compile Include="AI\BehaviorTree\BTTreeComponent.cs" />
+    <Compile Include="AI\BehaviorTree\BTTreeRuntimePack.cs" />
     <Compile Include="AI\BehaviorTree\BTTreeManager.cs" />
     <Compile Include="Animation\ActionClip.cs" />
     <Compile Include="Animation\Animation.cs" />

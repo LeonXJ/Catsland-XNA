@@ -29,9 +29,11 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScroll = true;
             this.DoubleBuffered = true;
             this.Name = "BTTreeViewer";
             this.Size = new System.Drawing.Size(649, 298);
+            this.Scroll += new System.Windows.Forms.ScrollEventHandler(this.BTTreeViewer_Scroll);
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.BTTreeViewer_MouseDown);
             this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.BTTreeViewer_MouseMove);
             this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.BTTreeViewer_MouseUp);

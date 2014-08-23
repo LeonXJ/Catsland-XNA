@@ -79,7 +79,8 @@ namespace Catsland.MapEditorControlLibrary {
             Graphics gc = e.Graphics;
             Point parentPoint = m_treeViewer.GetRectangle(m_parentNode).GetChildPoint();
             Point childPoint = m_treeViewer.GetRectangle(m_childNode).GetParentPoint();
-            gc.DrawLine(Pens.Black, parentPoint, childPoint);
+            gc.DrawLine(Pens.Black, m_treeViewer.GetDrawPosition(parentPoint), 
+                m_treeViewer.GetDrawPosition(childPoint));
         }
     }
 }

@@ -21,5 +21,14 @@ namespace Catsland.Editor {
         public void OpenBTTree(BTTree _btTree) {
             btTreeViewer.SetBTTree(_btTree);
         }
+
+        /**
+         * @brief A BTNode is clicked
+         **/ 
+        private void btTreeViewer_OnBTNodeSelected(object sender, MapEditorControlLibrary.BTNodeSelectedArgs e) {
+            if (e.BTNode != null) {
+                propertyEditor.SelectedObject = e.BTNode;
+            }
+        }
     }
 }

@@ -26,7 +26,7 @@ namespace Catsland.MapEditorControlLibrary {
                 return m_node;
             }
         }
-        protected Rectangle m_bound = new Rectangle(0, 0, 50, 20);
+        protected Rectangle m_bound = new Rectangle(0, 0, 200, 40);
 
         #endregion
 
@@ -102,8 +102,22 @@ namespace Catsland.MapEditorControlLibrary {
         public override void OnPaint(PaintEventArgs e) {
             base.OnPaint(e);
             Graphics gc = e.Graphics;
-            gc.FillRectangle(Brushes.Black, m_bound);
-            gc.DrawRectangle(Pens.Black, m_bound);
+            Rectangle rect = GetDrawBound();
+            gc.FillRectangle(Brushes.Black, rect);
+            gc.DrawRectangle(Pens.Black, rect);
+            DeclareRightBottom();
+            
+        }
+
+        protected Rectangle GetDrawBound() {
+            return new Rectangle(
+                new Point(m_treeViewer.AutoScrollPosition.X + m_bound.Location.X,
+                    m_treeViewer.AutoScrollPosition.Y + m_bound.Y), 
+                m_bound.Size);
+        }
+
+        protected void DeclareRightBottom() {
+            m_treeViewer.DeclareRightBottom(new Point(m_bound.Right, m_bound.Bottom));
         }
 
         public override bool IsMouseOn(Point _pos) {
@@ -117,6 +131,19 @@ namespace Catsland.MapEditorControlLibrary {
             m_bound.X = m_bound.X + _delta.X;
             m_bound.Y = m_bound.Y + _delta.Y;
             m_treeViewer.Refresh();
+        }
+
+        public override void OnMouseClick(Point _pos) {
+            base.OnMouseClick(_pos);
+            m_treeViewer.RaiseOnBTNodeSelected(m_node); 
+        }
+
+        protected void DrawStringCentreAlign(string _text, Graphics _gc, Brush _brush) {
+            Rectangle rect = GetDrawBound();
+            SizeF stringSize = _gc.MeasureString(_text, font);
+            _gc.DrawString(_text, font, Brushes.Black,
+                rect.X + (rect.Width - stringSize.Width) / 2,
+                rect.Y + (rect.Height - stringSize.Height) / 2);
         }
     }
 }

@@ -73,8 +73,11 @@ namespace Catsland.MapEditorControlLibrary {
 
         public override void OnPaint(PaintEventArgs e) {
             Graphics gc = e.Graphics;
-            gc.FillRectangle(Brushes.BlueViolet, m_bound);
-            gc.DrawRectangle(Pens.Black, m_bound);
+            DeclareRightBottom();
+            Rectangle rect = GetDrawBound();
+            gc.FillRectangle(Brushes.BlueViolet, rect);
+            gc.DrawRectangle(Pens.Black, rect);
+            DrawStringCentreAlign(m_node.GetType().Name, gc, Brushes.Black);
         }
     }
 }

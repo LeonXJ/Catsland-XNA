@@ -26,9 +26,9 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.btTreeViewer = new Catsland.MapEditorControlLibrary.BTTreeViewer();
             this.splitter1 = new System.Windows.Forms.Splitter();
             this.propertyEditor = new System.Windows.Forms.PropertyGrid();
+            this.btTreeViewer = new Catsland.MapEditorControlLibrary.BTTreeViewer();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -69,15 +69,6 @@
             this.splitContainer1.SplitterDistance = 810;
             this.splitContainer1.TabIndex = 2;
             // 
-            // btTreeViewer
-            // 
-            this.btTreeViewer.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.btTreeViewer.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btTreeViewer.Location = new System.Drawing.Point(175, 0);
-            this.btTreeViewer.Name = "btTreeViewer";
-            this.btTreeViewer.Size = new System.Drawing.Size(635, 384);
-            this.btTreeViewer.TabIndex = 1;
-            // 
             // splitter1
             // 
             this.splitter1.Location = new System.Drawing.Point(0, 0);
@@ -93,6 +84,16 @@
             this.propertyEditor.Name = "propertyEditor";
             this.propertyEditor.Size = new System.Drawing.Size(222, 384);
             this.propertyEditor.TabIndex = 0;
+            // 
+            // btTreeViewer
+            // 
+            this.btTreeViewer.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.btTreeViewer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btTreeViewer.Location = new System.Drawing.Point(175, 0);
+            this.btTreeViewer.Name = "btTreeViewer";
+            this.btTreeViewer.Size = new System.Drawing.Size(635, 384);
+            this.btTreeViewer.TabIndex = 1;
+            this.btTreeViewer.OnBTNodeSelected += new System.EventHandler<Catsland.MapEditorControlLibrary.BTNodeSelectedArgs>(this.btTreeViewer_OnBTNodeSelected);
             // 
             // BTTreeEditor
             // 

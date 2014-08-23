@@ -10,8 +10,13 @@ using System.Windows.Forms;
 namespace Catsland.MapEditorControlLibrary {
     public class BTEditorRectangleBTConditionNode : BTEditorRectangle {
 
-        public override BTEditorRectangle Clone() {
-            return new BTEditorRectangleBTConditionNode();
+        public BTEditorRectangleBTConditionNode(BTTreeViewer _treeViewer) 
+            :base(_treeViewer) {
+
+        }
+
+        public override BTEditorRectangle Clone(BTTreeViewer _treeViewer) {
+            return new BTEditorRectangleBTConditionNode(_treeViewer);
         }
 
         protected override bool IsThisType(BTNode _btNode) {
@@ -23,12 +28,12 @@ namespace Catsland.MapEditorControlLibrary {
                 BTConditionNode node = m_node as BTConditionNode;
                 if (node.Child != null) {
                     // create link
-                    BTEditorLine line = new BTEditorLine();
+                    BTEditorLine line = new BTEditorLine(m_treeViewer);
                     line.ParentNode = m_node;
                     line.ChildNode = node.Child;
                     _sprites.Add(line.GetKey(), line);
                     // do for children
-                    RecursivelyCreateSprites(_sprites, node.Child);
+                    RecursivelyCreateSprites(_sprites, node.Child, m_treeViewer);
                 }
             }
         }
@@ -58,21 +63,6 @@ namespace Catsland.MapEditorControlLibrary {
                 int needHeight = (m_bound.Height > (y - _leftTop.Y)) ? (m_bound.Height) : (y - _leftTop.Y);
                 m_bound.X = _leftTop.X;
                 m_bound.Y = _leftTop.Y + (needHeight - m_bound.Height) / 2;
-                // lines
-                if (node.Child != null) {
-                    BTNode child = node.Child;
-                    string keyChild = GetKey(child);
-                    string keyLine = BTEditorLine.GetKey(m_node, child);
-                    if (_sprites.ContainsKey(keyLine) && _sprites.ContainsKey(keyChild)) {
-                        BTEditorLine line = _sprites[keyLine] as BTEditorLine;
-                        BTEditorRectangle childNode = _sprites[keyChild] as BTEditorRectangle;
-                        line.ParentPoint = GetChildPoint();
-                        line.ChildPoint = childNode.GetParentPoint();
-                    }
-                    else {
-                        Debug.Assert(false, "Cannot find line or node sprite");
-                    }
-                }
                 return needHeight;
             }
             else {

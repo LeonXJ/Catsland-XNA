@@ -32,27 +32,31 @@ namespace Catsland.MapEditorControlLibrary {
             }
         }
 
-        protected Point m_parentPoint;
-        protected Point m_childPoint;
-        public Point ParentPoint {
-            set {
-                m_parentPoint = value;
-            }
-            get {
-                return m_parentPoint;
-            }
-        }
-        public Point ChildPoint {
-            set {
-                m_childPoint = value;
-            }
-            get {
-                return m_childPoint;
-            }
-        }
+//         protected Point m_parentPoint;
+//         protected Point m_childPoint;
+//         public Point ParentPoint {
+//             set {
+//                 m_parentPoint = value;
+//             }
+//             get {
+//                 return m_parentPoint;
+//             }
+//         }
+//         public Point ChildPoint {
+//             set {
+//                 m_childPoint = value;
+//             }
+//             get {
+//                 return m_childPoint;
+//             }
+//         }
 
 
         #endregion
+
+        public BTEditorLine(BTTreeViewer _treeViewer)
+            :base(_treeViewer) {
+        }
 
         public string GetKey() {
             return GetKey(m_parentNode, m_childNode);
@@ -68,9 +72,14 @@ namespace Catsland.MapEditorControlLibrary {
             }
         }
 
-        public override void OnPaint(PaintEventArgs e) {
+        public override void OnPaint(PaintEventArgs e) {     
+            if (m_parentNode == null || m_childNode == null) {
+                return;
+            }
             Graphics gc = e.Graphics;
-            gc.DrawLine(Pens.Black, m_parentPoint, m_childPoint);
+            Point parentPoint = m_treeViewer.GetRectangle(m_parentNode).GetChildPoint();
+            Point childPoint = m_treeViewer.GetRectangle(m_childNode).GetParentPoint();
+            gc.DrawLine(Pens.Black, parentPoint, childPoint);
         }
     }
 }

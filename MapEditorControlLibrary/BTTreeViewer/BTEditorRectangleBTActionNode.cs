@@ -10,8 +10,12 @@ using System.Windows.Forms;
 namespace Catsland.MapEditorControlLibrary {
     public class BTEditorRectangleBTActionNode : BTEditorRectangle{
 
-        public override BTEditorRectangle Clone() {
-            return new BTEditorRectangleBTActionNode();
+        public BTEditorRectangleBTActionNode(BTTreeViewer _treeViewer)
+            : base(_treeViewer) {
+        }
+
+        public override BTEditorRectangle Clone(BTTreeViewer _treeViewer) {
+            return new BTEditorRectangleBTActionNode(_treeViewer);
         }
 
         protected override bool IsThisType(BTNode _btNode) {

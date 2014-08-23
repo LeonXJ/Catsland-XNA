@@ -32,6 +32,9 @@
             this.DoubleBuffered = true;
             this.Name = "BTTreeViewer";
             this.Size = new System.Drawing.Size(649, 298);
+            this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.BTTreeViewer_MouseDown);
+            this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.BTTreeViewer_MouseMove);
+            this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.BTTreeViewer_MouseUp);
             this.ResumeLayout(false);
 
         }

@@ -60,5 +60,27 @@ namespace Catsland.Core {
 
             doc.Save(_filepath);
         }
+
+        public BTNode FindParent(BTNode _target) {
+            if (_target == null || _target == m_root) {
+                return null;
+            }
+            if (m_root != null) {
+                return m_root.FindParent(_target);
+            }
+            return null;
+            
+        }
+
+        public bool RemoveSubTree(BTNode _subRoot) {
+            if (_subRoot != null) {
+                BTNode parent = FindParent(_subRoot);
+                if (parent != null) {
+                    parent.RemoveChild(_subRoot);
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 }

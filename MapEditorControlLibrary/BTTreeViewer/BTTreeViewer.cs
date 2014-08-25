@@ -15,9 +15,9 @@ namespace Catsland.MapEditorControlLibrary {
         #region Properties
 
         public event EventHandler<BTNodeSelectedArgs> OnBTNodeSelected;
-        
+        public event EventHandler<BTNodeSelectedArgs> OnBTNodeDeselected;
 
-        private Dictionary<string, BTEditorSprite> m_sprites;
+        private Dictionary<string, BTEditorSprite> m_sprites; 
         private BTTree m_btTree;
 
         private string m_mouseDownSpriteKey = "";
@@ -49,6 +49,8 @@ namespace Catsland.MapEditorControlLibrary {
             MouseUp,
         };
 
+        private string m_selectedSpriteID = "";
+
         #endregion
 
         public BTTreeViewer() {
@@ -57,7 +59,6 @@ namespace Catsland.MapEditorControlLibrary {
         }
 
         public void SetBTTree(BTTree _btree) {
-            m_btTree = _btree;
             m_btTree = _btree;
             CreateChart();
             AutoLayoutChart();
@@ -113,7 +114,6 @@ namespace Catsland.MapEditorControlLibrary {
             if (!m_ongoingRightBottom.Equals(m_currentRightBottom)) {
                 this.AutoScrollMinSize = new Size(m_ongoingRightBottom.X, m_ongoingRightBottom.Y);
                 m_currentRightBottom = m_ongoingRightBottom;
-                // refresh()?
                 Refresh();
             }
             m_ongoingRightBottom.X = 0;
@@ -146,11 +146,57 @@ namespace Catsland.MapEditorControlLibrary {
         private void BTTreeViewer_MouseUp(object sender, MouseEventArgs e) {
             Point worldPosition = GetWorldPosition(e.Location);
             string mouseUpSpriteKey = GetEditorSpriteKeyByPosition(worldPosition, MouseAction.MouseUp);
-            if (m_mouseDownSpriteKey == mouseUpSpriteKey && m_mouseDownSpriteKey != ""
-                && m_sprites != null && m_sprites.ContainsKey(m_mouseDownSpriteKey)) {
-                m_sprites[m_mouseDownSpriteKey].OnMouseClick(worldPosition);
+            if (m_sprites != null && m_sprites.ContainsKey(m_mouseDownSpriteKey)) { // mouse down on object 
+                if (mouseUpSpriteKey != "") {   // mouse up on object
+                    if (mouseUpSpriteKey == m_mouseDownSpriteKey) {   // on the same object, click
+                        m_sprites[m_mouseDownSpriteKey].OnMouseClick(worldPosition);
+                        if (m_selectedSpriteID != m_mouseDownSpriteKey) {   // not the previous selected object
+                            DoDeselect();
+                            DeSelect(m_mouseDownSpriteKey);
+                        }
+                    }
+                    else {  // on different object
+                        DoDeselect();
+                        m_sprites[mouseUpSpriteKey].OnDragOn(worldPosition, m_sprites[m_mouseDownSpriteKey]);
+                    }
+                }
+                else {  // mouse up on space
+                    DoDeselect();
+                    UpdateChildrenSequence(m_mouseDownSpriteKey, GetWorldPosition(e.Location));
+                }
+            }
+            else {
+                DoDeselect();
             }
             m_mouseDownSpriteKey = "";
+        }
+
+        private void DeSelect(string _spriteID) {
+            m_sprites[m_mouseDownSpriteKey].OnSelect();
+            m_selectedSpriteID = _spriteID;
+        }
+
+        private void DoDeselect() {
+            if (m_selectedSpriteID != "") {
+                m_sprites[m_selectedSpriteID].OnDeselect();
+                m_selectedSpriteID = "";
+            }
+        }
+
+        private void UpdateChildrenSequence(string _node, Point _worldPos) {
+            if (m_sprites.ContainsKey(_node)) {
+                BTEditorRectangle editorNode = m_sprites[_node] as BTEditorRectangle;
+                BTNode node = editorNode.Node;
+                if (node != null) {
+                    BTNode parent = m_btTree.FindParent(node);
+                    if (parent != null && parent.GetType().IsSubclassOf(typeof(BTCompositeNode))) {
+                        (GetRectangle(parent) as BTEditorRectangleBTCompositeNode).AdjustChildrenSequence(editorNode, _worldPos);
+                        AutoLayoutChart();
+                        Refresh();
+                    }
+                }
+            }
+
         }
 
         private void BTTreeViewer_MouseMove(object sender, MouseEventArgs e) {
@@ -169,11 +215,73 @@ namespace Catsland.MapEditorControlLibrary {
             OnBTNodeSelected(this, args);
         }
 
+        public void RaiseOnBTNodeDeselected(BTNode _node) {
+            BTNodeSelectedArgs args = new BTNodeSelectedArgs(_node);
+            OnBTNodeDeselected(this, args);
+        }
+
         private void BTTreeViewer_Scroll(object sender, ScrollEventArgs e) {
             Refresh();
         }
-       
+
+        public bool SetParent(string _child, string _newParent) {
+            if (!m_sprites.ContainsKey(_child) || !m_sprites.ContainsKey(_newParent)) {
+                return false;
+            }
+            BTEditorRectangle child = m_sprites[_child] as BTEditorRectangle;
+            BTEditorRectangle newParent = m_sprites[_newParent] as BTEditorRectangle;
+            // check cycle
+            if (child.Node.FindParent(newParent.Node) != null) {
+                System.Windows.Forms.MessageBox.Show("Cycle structor is illegal.");
+                return false;
+            }
+            // check newParent
+            if (newParent.Node.GetType().IsSubclassOf(typeof(BTConditionNode))) {
+                BTNode otherChild = (newParent.Node as BTConditionNode).Child;
+                if (otherChild != null) {
+                    System.Windows.Forms.MessageBox.Show("Condition node cannot have more than one child.");
+                    return false;
+                }
+            }
+            // destroy old edge
+            BTNode oldBTParent = m_btTree.FindParent(child.Node);
+            if (oldBTParent != null) {
+                string oldEdgeKey = BTEditorLine.GetKey(oldBTParent, child.Node);
+                if (m_sprites.ContainsKey(oldEdgeKey)) {
+                    m_sprites.Remove(oldEdgeKey);
+                }
+                if (oldBTParent.GetType().IsSubclassOf(typeof(BTCompositeNode))) {
+                    (oldBTParent as BTCompositeNode).RemoveChild(child.Node);
+                }
+                else if (oldBTParent.GetType().IsSubclassOf(typeof(BTConditionNode))) {
+                    (oldBTParent as BTConditionNode).Child = null;
+                }
+            }
+            // create new link
+            // destroy other edge if necessary
+            if (newParent.Node.GetType().IsSubclassOf(typeof(BTConditionNode))) {
+                (newParent.Node as BTConditionNode).Child = child.Node;
+                
+            }
+            else if (newParent.Node.GetType().IsSubclassOf(typeof(BTCompositeNode))) {
+                (newParent.Node as BTCompositeNode).AddChild(child.Node);
+            }
+            else {
+                Debug.Assert(false, "Cannot add key to node with type: " + newParent.Node.GetType().Name);
+                return false;
+            }
+            BTEditorLine newLine = new BTEditorLine(this);
+            newLine.ParentNode = newParent.Node;
+            newLine.ChildNode = child.Node;
+            m_sprites.Add(newLine.GetKey(), newLine);
+
+            AutoLayoutChart();
+            Refresh();
+            return true;
+        }
     }
+
+   
 
     public class BTNodeSelectedArgs : EventArgs {
         private BTNode m_btNode;
@@ -211,6 +319,13 @@ namespace Catsland.MapEditorControlLibrary {
         public virtual void OnMouseClick(Point _pos) { }
 
         public virtual void OnMouseDrag(Point _pos, Point _delta) { }
+
+        public virtual void OnDragOn(Point _pos, BTEditorSprite _source) { }
+
+        public virtual void OnSelect() { }
+
+        public virtual void OnDeselect() { }
+    
     }
 
 

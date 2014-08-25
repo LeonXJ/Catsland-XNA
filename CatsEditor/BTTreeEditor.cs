@@ -30,5 +30,9 @@ namespace Catsland.Editor {
                 propertyEditor.SelectedObject = e.BTNode;
             }
         }
+
+        private void btTreeViewer_OnBTNodeDeselected(object sender, MapEditorControlLibrary.BTNodeSelectedArgs e) {
+            propertyEditor.SelectedObject = null;
+        }
     }
 }

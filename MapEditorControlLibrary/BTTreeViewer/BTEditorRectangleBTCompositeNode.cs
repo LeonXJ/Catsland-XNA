@@ -76,12 +76,38 @@ namespace Catsland.MapEditorControlLibrary {
 
         public override void OnPaint(PaintEventArgs e) {
             Graphics gc = e.Graphics;
+            Pen edge = Pens.Black;
+            if (m_isSelected) {
+                edge = Pens.Red;
+            }
             DeclareRightBottom();
             Rectangle rect = GetDrawBound();
             gc.FillRectangle(Brushes.LightSeaGreen, rect);
-            gc.DrawRectangle(Pens.Black, rect);
+            gc.DrawRectangle(edge, rect);
             DrawStringCentreAlign(m_node.GetType().Name, gc, Brushes.Black);
         }
-    
+
+        public override void OnDragOn(Point _pos, BTEditorSprite _source) {
+            if (_source.GetType().IsSubclassOf(typeof(BTEditorRectangle))) {
+                m_treeViewer.SetParent((_source as BTEditorRectangle).GetKey(), GetKey());
+            }
+        }
+
+        public void AdjustChildrenSequence(BTEditorRectangle _rectangle, Point _worldPos) {
+            BTCompositeNode node = m_node as BTCompositeNode;
+            if (node.Children != null) {
+                node.Children.Remove(_rectangle.Node);
+                int targetIndex = 0;
+                foreach (BTNode child in node.Children) {
+                    if (m_treeViewer.GetRectangle(child).GetPosition().Y > 
+                        _worldPos.Y) {
+                        break;
+                    }
+                    ++targetIndex;
+                }
+                node.Children.Insert(targetIndex, _rectangle.Node);   
+            }
+        }
+
     }
 }

@@ -15,6 +15,7 @@ namespace Catsland.MapEditorControlLibrary {
 
         public static int HorizontalInterval = 20;
         public static int VerticalInterval = 5;
+        
 
         private static List<BTEditorRectangle> nodePrototype;
         protected BTNode m_node;
@@ -27,6 +28,12 @@ namespace Catsland.MapEditorControlLibrary {
             }
         }
         protected Rectangle m_bound = new Rectangle(0, 0, 200, 40);
+        public Point GetPosition() {
+            return m_bound.Location;
+        }
+
+        protected bool m_isSelected = false;
+
 
         #endregion
 
@@ -128,14 +135,28 @@ namespace Catsland.MapEditorControlLibrary {
         }
 
         public override void OnMouseDrag(Point _pos, Point _delta) {
-            m_bound.X = m_bound.X + _delta.X;
-            m_bound.Y = m_bound.Y + _delta.Y;
-            m_treeViewer.Refresh();
+//             m_bound.X = m_bound.X + _delta.X;
+//             m_bound.Y = m_bound.Y + _delta.Y;
+//             m_treeViewer.Refresh();
         }
 
         public override void OnMouseClick(Point _pos) {
             base.OnMouseClick(_pos);
-            m_treeViewer.RaiseOnBTNodeSelected(m_node); 
+
+        }
+
+        public override void OnSelect() {
+            base.OnSelect();
+            m_isSelected = true;
+            m_treeViewer.RaiseOnBTNodeSelected(m_node);
+            m_treeViewer.Refresh();
+        }
+
+        public override void OnDeselect() {
+            base.OnDeselect();
+            m_isSelected = false;
+            m_treeViewer.RaiseOnBTNodeDeselected(m_node);
+            m_treeViewer.Refresh();
         }
 
         protected void DrawStringCentreAlign(string _text, Graphics _gc, Brush _brush) {

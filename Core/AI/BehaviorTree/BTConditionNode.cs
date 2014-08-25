@@ -25,7 +25,7 @@ namespace Catsland.Core {
             return true;
         }
 
-        sealed public override bool Execute(BTTreeRuntimePack _btTree) {
+        public sealed override bool Execute(BTTreeRuntimePack _btTree) {
             if (m_child != null) {
                 if (JudgeCondition(_btTree)) {
                     return m_child.Execute(_btTree);
@@ -34,6 +34,36 @@ namespace Catsland.Core {
             }
             else {
                 return JudgeCondition(_btTree);
+            }
+        }
+
+        public override BTNode FindParent(BTNode _target) {
+            // check children
+            if (m_child != null) {
+                if (_target == m_child) {
+                    return this;
+                }
+                return m_child.FindParent(_target);
+            }
+            return null;
+        }
+
+        public override bool IsAncestorOf(BTNode _target) {
+            if (m_child != null) {
+                if (_target == m_child) {
+                    return true;
+                }
+                else {
+                    return m_child.IsAncestorOf(_target);
+                }
+            }
+            return false;
+        }
+
+        public override void RemoveChild(BTNode _target) {
+            base.RemoveChild(_target);
+            if (m_child == _target) {
+                m_child = null;
             }
         }
     }

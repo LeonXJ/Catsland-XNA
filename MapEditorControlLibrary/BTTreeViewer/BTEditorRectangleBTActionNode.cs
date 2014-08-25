@@ -41,10 +41,14 @@ namespace Catsland.MapEditorControlLibrary {
 
         public override void OnPaint(PaintEventArgs e) {
             Graphics gc = e.Graphics;
+            Pen edge = Pens.Black;
+            if (m_isSelected) {
+                edge = Pens.Red;
+            }
             DeclareRightBottom();
             Rectangle rect = GetDrawBound();
             gc.FillRectangle(Brushes.OrangeRed, rect);
-            gc.DrawRectangle(Pens.Black, rect);
+            gc.DrawRectangle(edge, rect);
             DrawStringCentreAlign(m_node.GetType().Name, gc, Brushes.Black);
         }
     }

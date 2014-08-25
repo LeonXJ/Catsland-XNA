@@ -88,10 +88,12 @@ namespace Catsland.MapEditorControlLibrary {
             if (_btNode == null) {
                 return;
             }
-            BTEditorRectangle node = GetRectangleNodeFromBTNode(_btNode, _btTreeViewer);
-            node.Node = _btNode;
-            _sprites.Add(_btNode.GUID, node);
-            node.RecursivelyCreatChildren(_sprites);
+            if (!_sprites.ContainsKey(BTEditorRectangle.GetKey(_btNode))) {
+                BTEditorRectangle node = GetRectangleNodeFromBTNode(_btNode, _btTreeViewer);
+                node.Node = _btNode;
+                _sprites.Add(node.GetKey(), node);
+            }
+            (_sprites[BTEditorRectangle.GetKey(_btNode)] as BTEditorRectangle).RecursivelyCreatChildren(_sprites);
         }
 
         public virtual int AutoRecursivelyLayout(Dictionary<string, BTEditorSprite> _sprites, Point _leftTop) {

@@ -28,10 +28,13 @@ namespace Catsland.MapEditorControlLibrary {
                 BTConditionNode node = m_node as BTConditionNode;
                 if (node.Child != null) {
                     // create link
-                    BTEditorLine line = new BTEditorLine(m_treeViewer);
-                    line.ParentNode = m_node;
-                    line.ChildNode = node.Child;
-                    _sprites.Add(line.GetKey(), line);
+                    string lineKey = BTEditorLine.GetKey(m_node, node.Child);
+                    if (!_sprites.ContainsKey(lineKey)) {
+                        BTEditorLine line = new BTEditorLine(m_treeViewer);
+                        line.ParentNode = m_node;
+                        line.ChildNode = node.Child;
+                        _sprites.Add(line.GetKey(), line);
+                    }
                     // do for children
                     RecursivelyCreateSprites(_sprites, node.Child, m_treeViewer);
                 }

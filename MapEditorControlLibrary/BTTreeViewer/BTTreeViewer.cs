@@ -86,6 +86,19 @@ namespace Catsland.MapEditorControlLibrary {
             }
         }
 
+        /**
+         * @brief call this after _treeNode is added to bttree
+         **/
+        public void DeclareAddNode(BTNode _treeNode) {
+            BTNode parent = m_btTree.FindParent(_treeNode);
+            string parentKey = BTEditorRectangle.GetKey(parent);
+            if(m_sprites.ContainsKey(parentKey)){
+                BTEditorRectangle.RecursivelyCreateSprites(m_sprites, parent, this);
+                AutoLayoutChart();
+                Refresh();
+            }
+        }
+
         protected void AutoLayoutChart() {
             if (m_btTree != null && m_btTree.Root != null && m_sprites != null) {
                 string rootKey = BTEditorRectangle.GetKey(m_btTree.Root);

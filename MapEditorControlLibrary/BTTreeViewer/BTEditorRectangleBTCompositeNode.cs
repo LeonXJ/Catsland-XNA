@@ -28,11 +28,14 @@ namespace Catsland.MapEditorControlLibrary {
                 BTCompositeNode node = m_node as BTCompositeNode;
                 if (node.Children != null) {
                     foreach (BTNode child in node.Children) {
-                        // create link
-                        BTEditorLine line = new BTEditorLine(m_treeViewer);
-                        line.ParentNode = m_node;
-                        line.ChildNode = child;
-                        _sprites.Add(line.GetKey(), line);
+                        string lineKey = BTEditorLine.GetKey(m_node, child);
+                        if (!_sprites.ContainsKey(lineKey)) {
+                            // create link
+                            BTEditorLine line = new BTEditorLine(m_treeViewer);
+                            line.ParentNode = m_node;
+                            line.ChildNode = child;
+                            _sprites.Add(line.GetKey(), line);
+                        }
                         // do for children
                         RecursivelyCreateSprites(_sprites, child, m_treeViewer);
                     }

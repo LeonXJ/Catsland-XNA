@@ -30,6 +30,11 @@ namespace Catsland.Core {
             }
         }
         private Dictionary<string, object> m_blackboard = new Dictionary<string, object>();
+        public Dictionary<string, object> Blackboard {
+            get {
+                return m_blackboard;
+            }
+        }
         private HashSet<BTActionNode> m_runningAction = new HashSet<BTActionNode>();
         private HashSet<BTActionNode> m_nextRunningAction = new HashSet<BTActionNode>();
 

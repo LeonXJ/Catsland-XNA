@@ -19,6 +19,11 @@ namespace Catsland.MapEditorControlLibrary {
 
         private Dictionary<string, BTEditorSprite> m_sprites; 
         private BTTree m_btTree;
+        public BTTree BTTree {
+            get {
+                return m_btTree;
+            }
+        }
 
         private string m_mouseDownSpriteKey = "";
         private Point m_mouseLastPosition = new Point();
@@ -97,6 +102,16 @@ namespace Catsland.MapEditorControlLibrary {
                 AutoLayoutChart();
                 Refresh();
             }
+        }
+
+        /**
+         * @brief call this after _treeNode is removed from bttree
+         **/ 
+        public void DeclareRemoveNode(BTNode _treeNode) {
+            DoDeselect();
+            CreateChart();
+            AutoLayoutChart();
+            Refresh();
         }
 
         protected void AutoLayoutChart() {
@@ -185,12 +200,14 @@ namespace Catsland.MapEditorControlLibrary {
         }
 
         private void DeSelect(string _spriteID) {
-            m_sprites[m_mouseDownSpriteKey].OnSelect();
-            m_selectedSpriteID = _spriteID;
+            if (m_sprites.ContainsKey(m_mouseDownSpriteKey)) {
+                m_sprites[m_mouseDownSpriteKey].OnSelect();
+                m_selectedSpriteID = _spriteID;
+            }
         }
 
         private void DoDeselect() {
-            if (m_selectedSpriteID != "") {
+            if (m_selectedSpriteID != "" && m_sprites.ContainsKey(m_selectedSpriteID)) {
                 m_sprites[m_selectedSpriteID].OnDeselect();
                 m_selectedSpriteID = "";
             }

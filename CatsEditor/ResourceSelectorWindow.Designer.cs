@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ResourceSelectorWindow));
             this.label1 = new System.Windows.Forms.Label();
             this.typeSelector = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
@@ -35,7 +36,11 @@
             this.contentList = new System.Windows.Forms.ListBox();
             this.panel1 = new System.Windows.Forms.Panel();
             this.button1 = new System.Windows.Forms.Button();
+            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.toolNew = new System.Windows.Forms.ToolStripButton();
+            this.toolEdit = new System.Windows.Forms.ToolStripButton();
             this.panel1.SuspendLayout();
+            this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -81,7 +86,7 @@
             this.filterBox.MaximumSize = new System.Drawing.Size(99999, 4);
             this.filterBox.MinimumSize = new System.Drawing.Size(200, 21);
             this.filterBox.Name = "filterBox";
-            this.filterBox.Size = new System.Drawing.Size(275, 21);
+            this.filterBox.Size = new System.Drawing.Size(292, 21);
             this.filterBox.TabIndex = 2;
             this.filterBox.TextChanged += new System.EventHandler(this.filterBox_TextChanged);
             // 
@@ -92,31 +97,32 @@
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.contentList.FormattingEnabled = true;
             this.contentList.ItemHeight = 12;
-            this.contentList.Location = new System.Drawing.Point(0, 30);
+            this.contentList.Location = new System.Drawing.Point(0, 58);
             this.contentList.Margin = new System.Windows.Forms.Padding(0);
             this.contentList.Name = "contentList";
-            this.contentList.Size = new System.Drawing.Size(576, 136);
+            this.contentList.Size = new System.Drawing.Size(596, 208);
             this.contentList.TabIndex = 3;
             this.contentList.DoubleClick += new System.EventHandler(this.contentList_DoubleClick);
             // 
             // panel1
             // 
-            this.panel1.AutoSize = true;
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.panel1.Controls.Add(this.button1);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Controls.Add(this.filterBox);
             this.panel1.Controls.Add(this.typeSelector);
             this.panel1.Controls.Add(this.label2);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel1.Location = new System.Drawing.Point(0, 0);
+            this.panel1.Location = new System.Drawing.Point(0, 28);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(579, 27);
+            this.panel1.Size = new System.Drawing.Size(596, 27);
             this.panel1.TabIndex = 4;
             // 
             // button1
             // 
             this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button1.Location = new System.Drawing.Point(501, 1);
+            this.button1.Location = new System.Drawing.Point(518, 1);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 3;
@@ -124,11 +130,40 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
+            // toolStrip1
+            // 
+            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolNew,
+            this.toolEdit});
+            this.toolStrip1.Location = new System.Drawing.Point(0, 0);
+            this.toolStrip1.Name = "toolStrip1";
+            this.toolStrip1.Size = new System.Drawing.Size(596, 25);
+            this.toolStrip1.TabIndex = 4;
+            this.toolStrip1.Text = "toolStrip1";
+            // 
+            // toolNew
+            // 
+            this.toolNew.Image = ((System.Drawing.Image)(resources.GetObject("toolNew.Image")));
+            this.toolNew.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolNew.Name = "toolNew";
+            this.toolNew.Size = new System.Drawing.Size(54, 22);
+            this.toolNew.Text = "New";
+            this.toolNew.Click += new System.EventHandler(this.toolNew_Click);
+            // 
+            // toolEdit
+            // 
+            this.toolEdit.Image = ((System.Drawing.Image)(resources.GetObject("toolEdit.Image")));
+            this.toolEdit.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolEdit.Name = "toolEdit";
+            this.toolEdit.Size = new System.Drawing.Size(50, 22);
+            this.toolEdit.Text = "Edit";
+            // 
             // ResourceSelectorWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(579, 168);
+            this.ClientSize = new System.Drawing.Size(596, 275);
+            this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.contentList);
             this.Name = "ResourceSelectorWindow";
@@ -136,6 +171,8 @@
             this.Load += new System.EventHandler(this.ResourceSelectorWindow_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            this.toolStrip1.ResumeLayout(false);
+            this.toolStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -150,5 +187,8 @@
         private System.Windows.Forms.ListBox contentList;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.ToolStrip toolStrip1;
+        private System.Windows.Forms.ToolStripButton toolNew;
+        private System.Windows.Forms.ToolStripButton toolEdit;
     }
 }

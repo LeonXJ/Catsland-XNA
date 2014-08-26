@@ -183,6 +183,17 @@ namespace Catsland.Core {
             return true;
         }
 
+        public string GetBTTreeWriteDirectory() {
+            return projectRoot + RESOURCE_DIR + "/ai";
+        }
+
+        public static string GetStandardPath(string _path) {
+            if (!_path.EndsWith("/") && !_path.EndsWith("\\")) {
+                return _path + "/";
+            }
+            return _path;
+        }
+
         public static CatProject OpenProject(string _fileName, Game _game) {
 
             if (!File.Exists(_fileName)) {

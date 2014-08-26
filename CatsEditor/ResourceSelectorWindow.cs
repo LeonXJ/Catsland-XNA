@@ -8,12 +8,16 @@ using System.Text;
 using System.Windows.Forms;
 using System.IO;
 using Catsland.Core;
+using System.Drawing.Design;
+using System.Windows.Forms.Design;
+using Catsland.Editor;
 
 namespace Catsland.CatsEditor {
     public partial class ResourceSelectorWindow : Form {
         public enum ObserveType {
             Texture = 0,
             Model,
+            BTTree,
             All,
         };
         string m_selectedString;
@@ -27,6 +31,38 @@ namespace Catsland.CatsEditor {
             }
         }
 
+        private void InitializeMenu(ObserveType _type) {
+            if (_type == ObserveType.BTTree) {
+                InitializeMenuForBTTree();
+            }
+        }
+
+        private void InitializeMenuForBTTree() {
+            toolNew.Enabled = true;
+            toolNew.Click += OnNewBTNodeClick;
+            toolEdit.Enabled = true;
+            toolEdit.Click += OnEditBTNodeClick;
+        }
+
+        public void OnNewBTNodeClick(object sender, EventArgs e) {
+            if (Mgr<CatProject>.Singleton != null && Mgr<CatProject>.Singleton.BTTreeManager != null) {
+                Mgr<CatProject>.Singleton.BTTreeManager.CreateAndSaveEmptyBTTree();
+                Mgr<CatProject>.Singleton.BTTreeManager.SaveAllBTTree(Mgr<CatProject>.Singleton.GetBTTreeWriteDirectory());
+                Mgr<CatProject>.Singleton.SynchronizeBTTrees();
+                UpdateList();
+            }
+        }
+
+        public void OnEditBTNodeClick(object sender, EventArgs e) {
+            if (Mgr<CatProject>.Singleton != null && Mgr<CatProject>.Singleton.BTTreeManager != null) {
+                string selected = (string)(contentList.SelectedItem);
+                if (selected != null) {
+                    BTTree btTree = Mgr<CatProject>.Singleton.BTTreeManager.LoadBTTree(selected);
+                    Mgr<MapEditor>.Singleton.BTTreeEditor.OpenBTTree(btTree);
+                    Mgr<MapEditor>.Singleton.BTTreeEditor.ShowDialog(this);
+                }
+            }
+        }
 
         public static string SelectResource(ObserveType _resourceType, 
             string _defaultResourceName = "", 
@@ -49,6 +85,7 @@ namespace Catsland.CatsEditor {
         // called by user function
         public void SetType(ObserveType _type) {
             typeSelector.SelectedIndex = (int)_type;
+            InitializeMenu(_type);
         }
 
         public void CanTypeModify(bool _can) {
@@ -62,6 +99,9 @@ namespace Catsland.CatsEditor {
             }
             else if (strType == ObserveType.Model.ToString()) {
                 UpdateListBySuffix(Mgr<CatProject>.Singleton.projectRoot + "\\asset\\resource\\model", "model");
+            }
+            else if (strType == ObserveType.BTTree.ToString()) {
+                UpdateListBySuffix(Mgr<CatProject>.Singleton.projectRoot + "\\asset\\resource\\ai", "btt");
             }
         }
 
@@ -126,6 +166,39 @@ namespace Catsland.CatsEditor {
 
         private void ResourceSelectorWindow_Load(object sender, EventArgs e) {
 
+        }
+
+        private void toolNew_Click(object sender, EventArgs e) {
+
+        }
+    }
+
+    public class PropertyGridBTTreeSelector : UITypeEditor {
+
+        public PropertyGridBTTreeSelector() { }
+
+        public override UITypeEditorEditStyle GetEditStyle(System.ComponentModel.ITypeDescriptorContext context) {
+            return UITypeEditorEditStyle.Modal;
+        }
+
+        public override object EditValue(System.ComponentModel.ITypeDescriptorContext context, IServiceProvider provider, object value) {
+            try {
+                IWindowsFormsEditorService edSvc =
+                    (IWindowsFormsEditorService)provider.GetService(typeof(IWindowsFormsEditorService));
+                if (edSvc != null) {
+                    string btName = ResourceSelectorWindow.SelectResource(ResourceSelectorWindow.ObserveType.BTTree, value as string);
+                    if (btName != "") {
+                        return btName;
+                    }
+                    else {
+                        return value;
+                    }
+                }
+            }
+            catch (System.Exception ex) {
+                Console.Out.WriteLine("" + ex);
+            }
+            return value;
         }
     }
 }

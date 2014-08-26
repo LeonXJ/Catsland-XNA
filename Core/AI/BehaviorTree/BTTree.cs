@@ -40,6 +40,12 @@ namespace Catsland.Core {
             return newBTTree;
         }
 
+        public static BTTree CreateEmptyBTTree() {
+            BTTree newBTTree = new BTTree();
+            newBTTree.m_root = new BTRootNode();
+            return newBTTree;
+        }
+
         /**
          * @brief save bttree to file
          **/ 

@@ -23,14 +23,13 @@ namespace Catsland.Editor {
             InitializeComponent();
         }
 
-       
-
         private void InitializeAttribute() {
             m_selectedNode = null;
         }
 
         private void InitializeMenu() {
             menuInsert.Enabled = false;
+            menuRemoveNode.Enabled = false;
             InitializeInsertMenu();
         }
 
@@ -102,6 +101,10 @@ namespace Catsland.Editor {
                 m_selectedNode = e.BTNode;
                 if (CanBeParentNode(e.BTNode)) {
                     menuInsert.Enabled = true;
+                    if (m_selectedNode != btTreeViewer.BTTree.Root) {
+                        // cannot remove root
+                        menuRemoveNode.Enabled = true;
+                    }
                 }
             }
         }
@@ -110,6 +113,7 @@ namespace Catsland.Editor {
             propertyEditor.SelectedObject = null;
             m_selectedNode = null;
             menuInsert.Enabled = false;
+            menuRemoveNode.Enabled = false;
         }
 
         private bool CanBeParentNode(BTNode _node) {
@@ -124,6 +128,56 @@ namespace Catsland.Editor {
                     return true;
             }
             return false;
+        }
+
+        private void removeToolStripMenuItem_Click(object sender, EventArgs e) {
+            if (m_selectedNode != null) {
+                btTreeViewer.BTTree.RemoveSubTree(m_selectedNode);
+                btTreeViewer.DeclareRemoveNode(m_selectedNode);
+                btTreeViewer_OnBTNodeDeselected(null, null);
+            }
+        }
+
+        private BTTreeRuntimePack m_observingRuntimePack;
+        public bool IsObservingThisRuntimePack(BTTreeRuntimePack _runtimePack) {
+            return m_observingRuntimePack == _runtimePack;
+        }
+        private Dictionary<string, int> m_blackboardMap;
+
+        public void ObserveLiveBTTree(BTTreeRuntimePack _runtimePack) {
+            OpenBTTree(_runtimePack.BTTree);
+            BindRuntimePack(_runtimePack);
+        }
+
+        private void BindRuntimePack(BTTreeRuntimePack _runtimePack) {
+            m_observingRuntimePack = _runtimePack;
+            blackboard.Rows.Clear();
+            m_blackboardMap = new Dictionary<string, int>();
+        }
+
+        public void UpdateBlackboard() {
+            if (m_observingRuntimePack.Blackboard == null) {
+                return;
+            }
+            foreach (KeyValuePair<string, object> keyValue in m_observingRuntimePack.Blackboard) {
+                string key = keyValue.Key;
+                if (!m_blackboardMap.ContainsKey(key)) {
+                    int index = blackboard.RowCount;
+                    blackboard.Rows.Add(new object[2]{key, ""});
+                    m_blackboardMap.Add(key, index-1);
+                }
+                string valueString = "";
+                if (keyValue.Value.GetType().GetInterface(typeof(IEffectParameter).ToString()) != null) {
+                    valueString = (keyValue.Value as IEffectParameter).ToValueString();
+                }
+                else {
+                    valueString = keyValue.Value.ToString();
+                }
+                int i = m_blackboardMap[key];
+                if(blackboard.RowCount > i){
+                    blackboard.Rows[i].Cells[1].Value = valueString;
+                } 
+            }
         }
     }
 }

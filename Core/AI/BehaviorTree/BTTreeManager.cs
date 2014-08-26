@@ -28,6 +28,24 @@ namespace Catsland.Core {
     
 #endregion
 
+        public BTTree CreateAndSaveEmptyBTTree() {
+            BTTree newTree = BTTree.CreateEmptyBTTree();
+            // find a name
+            string baseName = "UntitleBTTree";
+            string surfix = ".btt";
+            int index = 0;
+            string name = baseName;
+            string fullname = name + surfix;
+            string path = CatProject.GetStandardPath(m_btTreeReadDirectoryRoot);
+            while (File.Exists(path + fullname)) {
+                ++index;
+                name = baseName + index;
+                fullname = name + surfix;
+            }
+            m_btTrees.Add(name, newTree);
+            return newTree;
+        }
+
         /**
          * @brief load and update bttree. (if exist, it update the existing tree)
          **/

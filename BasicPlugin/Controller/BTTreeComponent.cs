@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Catsland.Core;
+using System.ComponentModel;
+using Catsland.CatsEditor;
+using Catsland.Editor;
 
 namespace Catsland.Plugin {
     public class BTTreeComponent : CatComponent{
@@ -17,6 +20,8 @@ namespace Catsland.Plugin {
         }
         [SerialAttribute]
         private string m_btTreeName = "";
+        [EditorAttribute(typeof(PropertyGridBTTreeSelector),
+            typeof(System.Drawing.Design.UITypeEditor))]
         public string BTTreeName {
             set {
                 m_btTreeName = value;
@@ -24,6 +29,18 @@ namespace Catsland.Plugin {
             }
             get {
                 return m_btTreeName;
+            }
+        }
+
+        public bool ObserveBTTree {
+            get {
+                return false;
+            }
+            set {
+                if (Mgr<MapEditor>.Singleton != null && Mgr<MapEditor>.Singleton.BTTreeEditor != null) {
+                    Mgr<MapEditor>.Singleton.BTTreeEditor.ObserveLiveBTTree(m_btTreeRuntimePack);
+                    Mgr<MapEditor>.Singleton.BTTreeEditor.Show();
+                }
             }
         }
 
@@ -52,6 +69,11 @@ namespace Catsland.Plugin {
         public override void Update(int timeLastFrame) {
             if (m_btTreeRuntimePack != null) {
                 m_btTreeRuntimePack.UpdateBTTree(timeLastFrame);
+                if (Mgr<GameEngine>.Singleton._gameEngineMode == GameEngine.GameEngineMode.MapEditor
+                    && Mgr<MapEditor>.Singleton != null && Mgr<MapEditor>.Singleton.BTTreeEditor != null &&
+                    Mgr<MapEditor>.Singleton.BTTreeEditor.IsObservingThisRuntimePack(m_btTreeRuntimePack)) {
+                        Mgr<MapEditor>.Singleton.BTTreeEditor.UpdateBlackboard();
+                }
             }
         }
 

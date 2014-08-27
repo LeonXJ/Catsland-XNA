@@ -12,7 +12,7 @@ namespace Catsland.Core {
 
         public virtual void OnExit(BTTreeRuntimePack _btTree) { }
 
-        sealed public override bool Execute(BTTreeRuntimePack _btTree) {
+        sealed protected override bool Execute(BTTreeRuntimePack _btTree) {
             if (!_btTree.IsActionRunning(this)) {
                 OnEnter(_btTree);
             }

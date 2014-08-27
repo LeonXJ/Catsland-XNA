@@ -55,6 +55,9 @@ namespace Catsland.MapEditorControlLibrary {
         };
 
         private string m_selectedSpriteID = "";
+        private BTTreeRuntimePack m_observingRuntimePack;
+
+
 
         #endregion
 
@@ -68,6 +71,21 @@ namespace Catsland.MapEditorControlLibrary {
             CreateChart();
             AutoLayoutChart();
             Refresh();
+        }
+
+        public void SetObservingRuntimePack(BTTreeRuntimePack _runtimePack) {
+            m_observingRuntimePack = _runtimePack;
+        }
+
+        public bool IsObservingRuntimePack() {
+            return (m_observingRuntimePack != null);
+        }
+
+        public BTTreeRuntimePack.RuntimeState GetRuntimeState(BTNode _btNode) {
+            if (m_observingRuntimePack != null) {
+                return m_observingRuntimePack.GetRuntimeState(_btNode);
+            }
+            return BTTreeRuntimePack.RuntimeState.Norun;
         }
 
         public BTEditorRectangle GetRectangle(BTNode _node) {

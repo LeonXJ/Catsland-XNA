@@ -25,10 +25,10 @@ namespace Catsland.Core {
             return true;
         }
 
-        public sealed override bool Execute(BTTreeRuntimePack _btTree) {
+        protected sealed override bool Execute(BTTreeRuntimePack _btTree) {
             if (m_child != null) {
                 if (JudgeCondition(_btTree)) {
-                    return m_child.Execute(_btTree);
+                    return m_child.DoExecute(_btTree);
                 }
                 return false;
             }

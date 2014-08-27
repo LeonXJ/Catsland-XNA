@@ -968,6 +968,7 @@ namespace Catsland.Editor {
 
         private void stopScene() {
             m_gameEngine._gameInEditorMode = GameEngine.InEditorMode.Editing;
+            m_btTreeEditor.ObserveLiveBTTree(null);
             OpenScene(m_tmp_filename);
             btn_play.Enabled = true;
             btn_stop.Enabled = false;

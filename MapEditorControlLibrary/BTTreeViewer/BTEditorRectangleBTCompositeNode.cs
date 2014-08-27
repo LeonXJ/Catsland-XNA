@@ -10,9 +10,15 @@ using System.Windows.Forms;
 namespace Catsland.MapEditorControlLibrary {
     public class BTEditorRectangleBTCompositeNode : BTEditorRectangle {
 
+        #region Properties
+
+        protected static Brush NodeColor = new SolidBrush(Color.FromArgb(189, 221, 244));
+        protected static Brush SelectedColor = new SolidBrush(Color.FromArgb(54, 65, 76));
+
+        #endregion
+
         public BTEditorRectangleBTCompositeNode(BTTreeViewer _treeViewer)
             : base(_treeViewer) {
-
         }
 
         public override BTEditorRectangle Clone(BTTreeViewer _treeViewer) {
@@ -79,15 +85,17 @@ namespace Catsland.MapEditorControlLibrary {
 
         public override void OnPaint(PaintEventArgs e) {
             Graphics gc = e.Graphics;
-            Pen edge = Pens.Black;
-            if (m_isSelected) {
-                edge = Pens.Red;
-            }
-            DeclareRightBottom();
-            Rectangle rect = GetDrawBound();
-            gc.FillRectangle(Brushes.LightSeaGreen, rect);
-            gc.DrawRectangle(edge, rect);
-            DrawStringCentreAlign(m_node.GetType().Name, gc, Brushes.Black);
+            DefaultPaintProcess(gc, NodeColor, SelectedColor);
+//             Pen edge = Pens.Black;
+//             if (m_isSelected) {
+//                 edge = Pens.Red;
+//             }
+//             DeclareRightBottom();
+//             Rectangle rect = GetDrawBound();
+//             gc.FillRectangle(FillBrush, rect);
+//             gc.DrawRectangle(edge, rect);
+//             DrawDebugTrail(gc, rect);
+//             DrawStringCentreAlign(m_node.GetType().Name, gc, Brushes.Black);
         }
 
         public override void OnDragOn(Point _pos, BTEditorSprite _source) {

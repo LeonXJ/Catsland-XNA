@@ -84,6 +84,10 @@ namespace Catsland.Plugin.TestPlugin {
             string mode = _btTree.GetFromBlackboard("Mode", "") as string;
             return (mode == m_mode);
         }
+
+        public override string GetDisplayName() {
+            return "In Mode?";
+        }
     }
 
     public class BTConditionSpotAny : BTConditionNode {
@@ -97,6 +101,10 @@ namespace Catsland.Plugin.TestPlugin {
                 return hunter.SpotAny();
             }
             return false;
+        }
+
+        public override string GetDisplayName() {
+            return "Spot?";
         }
     }
 
@@ -176,6 +184,10 @@ namespace Catsland.Plugin.TestPlugin {
             _runTimePack.AddToBlackboard(m_outputDeltaName, new CatVector3(delta));
             return delta.X * delta.X > btpack.ArriveDistance * btpack.ArriveDistance;
         }
+
+        public override string GetDisplayName() {
+            return "Not Arrive?";
+        }
     }
 
     public class BTActionMoveToPoint : BTActionNode {
@@ -213,6 +225,10 @@ namespace Catsland.Plugin.TestPlugin {
             }
             return true;
         }
+
+        public override string GetDisplayName() {
+            return "Move To";
+        }
     }
 
     public class BTActionIdle : BTActionNode {
@@ -224,6 +240,10 @@ namespace Catsland.Plugin.TestPlugin {
             }
             controller.m_wantJump = true;
             return true;
+        }
+
+        public override string GetDisplayName() {
+            return "Idle";
         }
     }
 
@@ -247,6 +267,10 @@ namespace Catsland.Plugin.TestPlugin {
         public override bool OnRunning(BTTreeRuntimePack _runtimePack) {
             _runtimePack.AddToBlackboard("Mode", m_mode);
             return false;
+        }
+
+        public override string GetDisplayName() {
+            return "Change Mode";
         }
     }
 
@@ -276,6 +300,11 @@ namespace Catsland.Plugin.TestPlugin {
             }
             return false;
         }
+
+        public override string GetDisplayName() {
+            return "Set Hotspot";
+        }
+
     }
 
     public class BTActionIncreaseSuspection : BTActionNode {
@@ -311,6 +340,10 @@ namespace Catsland.Plugin.TestPlugin {
             suspect.SetValue(suspect + m_increament);
             _runtimePack.AddToBlackboard(m_suspectName, suspect);
             return true;
+        }
+
+        public override string GetDisplayName() {
+            return "Change Suspect";
         }
 
     }
@@ -356,6 +389,10 @@ namespace Catsland.Plugin.TestPlugin {
             else {
                 return suspect <= 0;
             }
+        }
+
+        public override string GetDisplayName() {
+            return "Suspect Limit?";
         }
     }
 }

@@ -73,6 +73,7 @@ namespace Catsland.Plugin {
                     && Mgr<MapEditor>.Singleton != null && Mgr<MapEditor>.Singleton.BTTreeEditor != null &&
                     Mgr<MapEditor>.Singleton.BTTreeEditor.IsObservingThisRuntimePack(m_btTreeRuntimePack)) {
                         Mgr<MapEditor>.Singleton.BTTreeEditor.UpdateBlackboard();
+                        Mgr<MapEditor>.Singleton.BTTreeEditor.UpdateBTTreeViewer();
                 }
             }
         }

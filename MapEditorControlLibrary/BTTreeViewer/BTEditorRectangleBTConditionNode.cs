@@ -10,6 +10,13 @@ using System.Windows.Forms;
 namespace Catsland.MapEditorControlLibrary {
     public class BTEditorRectangleBTConditionNode : BTEditorRectangle {
 
+        #region Properties
+
+        protected static Brush NodeColor = new SolidBrush(Color.FromArgb(244, 240, 189));
+        protected static Brush SelectedColor = new SolidBrush(Color.FromArgb(76,65,54));
+
+        #endregion
+
         public BTEditorRectangleBTConditionNode(BTTreeViewer _treeViewer) 
             :base(_treeViewer) {
 
@@ -76,15 +83,17 @@ namespace Catsland.MapEditorControlLibrary {
 
         public override void OnPaint(PaintEventArgs e) {
             Graphics gc = e.Graphics;
-            Pen edge = Pens.Black;
-            if (m_isSelected) {
-                edge = Pens.Red;
-            }
-            DeclareRightBottom();
-            Rectangle rect = GetDrawBound();
-            gc.FillRectangle(Brushes.BlueViolet, rect);
-            gc.DrawRectangle(edge, rect);
-            DrawStringCentreAlign(m_node.GetType().Name, gc, Brushes.Black);
+            DefaultPaintProcess(gc, NodeColor, SelectedColor);
+//             Pen edge = Pens.Black;
+//             if (m_isSelected) {
+//                 edge = Pens.Red;
+//             }
+//             DeclareRightBottom();
+//             Rectangle rect = GetDrawBound();
+//             gc.FillRectangle(Brushes.BlueViolet, rect);
+//             gc.DrawRectangle(edge, rect);
+//             DrawDebugTrail(gc, rect);
+//             DrawStringCentreAlign(m_node.GetType().Name, gc, Brushes.Black);
         }
 
         public override void OnDragOn(Point _pos, BTEditorSprite _source) {

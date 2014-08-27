@@ -145,8 +145,18 @@ namespace Catsland.Editor {
         private Dictionary<string, int> m_blackboardMap;
 
         public void ObserveLiveBTTree(BTTreeRuntimePack _runtimePack) {
-            OpenBTTree(_runtimePack.BTTree);
+            if (_runtimePack == null) {
+                OpenBTTree(null);
+            }
+            else {
+                OpenBTTree(_runtimePack.BTTree);
+            }
             BindRuntimePack(_runtimePack);
+            btTreeViewer.SetObservingRuntimePack(_runtimePack);
+        }
+
+        public void UpdateBTTreeViewer() {
+            btTreeViewer.Refresh();
         }
 
         private void BindRuntimePack(BTTreeRuntimePack _runtimePack) {

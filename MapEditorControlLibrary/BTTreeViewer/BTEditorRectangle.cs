@@ -14,8 +14,15 @@ namespace Catsland.MapEditorControlLibrary {
         #region Properties
 
         public static int HorizontalInterval = 20;
-        public static int VerticalInterval = 5;
-        
+        public static int VerticalInterval = 7;
+        protected static Brush FalseFillBrush = new SolidBrush(Color.FromArgb(149,68,68));
+        protected static Brush TrueFillBrush = new SolidBrush(Color.FromArgb(78,148,68));
+        protected static Brush NonSelectedBrush = new SolidBrush(Color.FromArgb(94,94,94));
+        protected static int runStateBorderWidth = 3;
+        protected static int selectedBarHeight = 5;
+
+        private static Brush DefaultNodeColor = new SolidBrush(Color.FromArgb(180,180,180));
+        private static Brush DefaultSelectedColor = new SolidBrush(Color.FromArgb(10,10,10));
 
         private static List<BTEditorRectangle> nodePrototype;
         protected BTNode m_node;
@@ -27,7 +34,7 @@ namespace Catsland.MapEditorControlLibrary {
                 return m_node;
             }
         }
-        protected Rectangle m_bound = new Rectangle(0, 0, 200, 40);
+        protected Rectangle m_bound = new Rectangle(0, 0, 100, 30);
         public Point GetPosition() {
             return m_bound.Location;
         }
@@ -111,11 +118,7 @@ namespace Catsland.MapEditorControlLibrary {
         public override void OnPaint(PaintEventArgs e) {
             base.OnPaint(e);
             Graphics gc = e.Graphics;
-            Rectangle rect = GetDrawBound();
-            gc.FillRectangle(Brushes.Black, rect);
-            gc.DrawRectangle(Pens.Black, rect);
-            DeclareRightBottom();
-            
+            DefaultPaintProcess(gc, DefaultNodeColor, DefaultSelectedColor);
         }
 
         protected Rectangle GetDrawBound() {
@@ -167,6 +170,49 @@ namespace Catsland.MapEditorControlLibrary {
             _gc.DrawString(_text, font, Brushes.Black,
                 rect.X + (rect.Width - stringSize.Width) / 2,
                 rect.Y + (rect.Height - stringSize.Height) / 2);
+        }
+
+        protected void DefaultPaintProcess(Graphics _gc, Brush _nodeColor, Brush _selectColor) {
+            DeclareRightBottom();
+            Rectangle rect = GetDrawBound();
+            DrawDebugTrail(_gc, rect);
+            DrawSelectBar(_gc, rect, _selectColor);
+            DrawMainPart(_gc, rect, _nodeColor);
+        }
+
+        protected void DrawMainPart(Graphics _gc, Rectangle _rect, Brush _nodeColor) {
+            Rectangle main = new Rectangle(_rect.Left, _rect.Top + selectedBarHeight, _rect.Width, _rect.Height - 2 * selectedBarHeight);
+            _gc.FillRectangle(_nodeColor, main);
+            DrawStringCentreAlign(m_node.GetDisplayName(), _gc, Brushes.Black);
+            _gc.DrawRectangle(Pens.Black, _rect);
+        }
+
+        protected void DrawSelectBar(Graphics _gc, Rectangle _rect, Brush _selectColor) {
+            Rectangle upper = new Rectangle(_rect.Left, _rect.Top, _rect.Width, selectedBarHeight);
+            Rectangle lower = new Rectangle(_rect.Left, _rect.Bottom - selectedBarHeight, _rect.Width, selectedBarHeight);
+            //Brush brush = NonSelectedBrush;
+            if (m_isSelected) {
+                //brush = _selectColor;
+                _gc.FillRectangles(_selectColor, new Rectangle[2] { upper, lower });
+            }
+            
+        }
+
+        protected void DrawDebugTrail(Graphics _gc, Rectangle _rect) {
+            if (m_treeViewer.IsObservingRuntimePack()) {
+                BTTreeRuntimePack.RuntimeState state = m_treeViewer.GetRuntimeState(m_node);
+                Point location = new Point(_rect.Location.X - runStateBorderWidth, 
+                    _rect.Location.Y - runStateBorderWidth);
+                Size size = new Size(_rect.Size.Width + 2 * runStateBorderWidth, 
+                                    _rect.Size.Height + 2* runStateBorderWidth);
+                Rectangle rect= new Rectangle(location, size);
+                if (state == BTTreeRuntimePack.RuntimeState.True) {
+                    _gc.FillRectangle(TrueFillBrush, rect);
+                }
+                else if (state == BTTreeRuntimePack.RuntimeState.False) {
+                    _gc.FillRectangle(FalseFillBrush, rect);
+                }
+            }
         }
     }
 }

@@ -9,15 +9,19 @@ namespace Catsland.Core {
         /**
          * @brief execute till the first False return
          **/
-        public override bool Execute(BTTreeRuntimePack _btTree) {
+        protected override bool Execute(BTTreeRuntimePack _btTree) {
             if (m_children != null) {
                 foreach (BTNode node in m_children) {
-                    if (!node.Execute(_btTree)) {
+                    if (!node.DoExecute(_btTree)) {
                         return false;
                     }
                 }
             }
             return true;
+        }
+
+        public override string GetDisplayName() {
+            return "Linear Sequence";
         }
     }
 }

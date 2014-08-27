@@ -37,6 +37,12 @@ namespace Catsland.Core {
         }
         private HashSet<BTActionNode> m_runningAction = new HashSet<BTActionNode>();
         private HashSet<BTActionNode> m_nextRunningAction = new HashSet<BTActionNode>();
+        private Dictionary<string, bool> m_debugTrail;
+        public enum RuntimeState {
+            Norun = 0,
+            True,
+            False,
+        };
 
 #endregion
 
@@ -64,7 +70,10 @@ namespace Catsland.Core {
                 return;
             }
 
-            btTree.Root.Execute(this);
+            if (Mgr<GameEngine>.Singleton._gameEngineMode == GameEngine.GameEngineMode.MapEditor) {
+                InitDebugTrail();
+            }
+            btTree.Root.DoExecute(this);
             // on exit
             foreach (BTActionNode actionNode in m_runningAction) {
                 if (!m_nextRunningAction.Contains(actionNode)) {
@@ -94,6 +103,33 @@ namespace Catsland.Core {
                 return m_blackboard[_key];
             }
             return _backup;
+        }
+
+        public void InitDebugTrail() {
+            if (m_debugTrail == null) {
+                m_debugTrail = new Dictionary<string, bool>();
+            }
+            else {
+                m_debugTrail.Clear();
+            }
+        }
+
+        public void UpdateNodeExecutionState(BTNode _node, bool _res) {
+            if (m_debugTrail != null) {
+                m_debugTrail.Add(_node.GUID, _res);
+            }
+        }
+
+        public RuntimeState GetRuntimeState(BTNode _node) {
+            if (m_debugTrail != null && m_debugTrail.ContainsKey(_node.GUID)) {
+                if (m_debugTrail[_node.GUID] == true) {
+                    return RuntimeState.True;
+                }
+                else {
+                    return RuntimeState.False;
+                }
+            }
+            return RuntimeState.Norun;
         }
     }
 }

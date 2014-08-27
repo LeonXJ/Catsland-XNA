@@ -12,14 +12,14 @@ namespace Catsland.MapEditorControlLibrary {
     public class BTEditorRectangle : BTEditorSprite {
 
         #region Properties
+        protected static Brush FalseFillBrush = new SolidBrush(FalseFillColor);
+        protected static Brush TrueFillBrush = new SolidBrush(TrueFillColor);
 
         public static int HorizontalInterval = 20;
         public static int VerticalInterval = 7;
-        protected static Brush FalseFillBrush = new SolidBrush(Color.FromArgb(149,68,68));
-        protected static Brush TrueFillBrush = new SolidBrush(Color.FromArgb(78,148,68));
+       
         protected static Brush NonSelectedBrush = new SolidBrush(Color.FromArgb(94,94,94));
         protected static int runStateBorderWidth = 3;
-        protected static int selectedBarHeight = 5;
 
         private static Brush DefaultNodeColor = new SolidBrush(Color.FromArgb(180,180,180));
         private static Brush DefaultSelectedColor = new SolidBrush(Color.FromArgb(10,10,10));
@@ -34,7 +34,7 @@ namespace Catsland.MapEditorControlLibrary {
                 return m_node;
             }
         }
-        protected Rectangle m_bound = new Rectangle(0, 0, 100, 30);
+        protected Rectangle m_bound = new Rectangle(0, 0, 100, 22);
         public Point GetPosition() {
             return m_bound.Location;
         }
@@ -176,26 +176,19 @@ namespace Catsland.MapEditorControlLibrary {
             DeclareRightBottom();
             Rectangle rect = GetDrawBound();
             DrawDebugTrail(_gc, rect);
-            DrawSelectBar(_gc, rect, _selectColor);
-            DrawMainPart(_gc, rect, _nodeColor);
+            DrawMainPart(_gc, rect, _nodeColor, _selectColor);
+            //DrawSelectBar(_gc, rect, _selectColor);
         }
 
-        protected void DrawMainPart(Graphics _gc, Rectangle _rect, Brush _nodeColor) {
-            Rectangle main = new Rectangle(_rect.Left, _rect.Top + selectedBarHeight, _rect.Width, _rect.Height - 2 * selectedBarHeight);
-            _gc.FillRectangle(_nodeColor, main);
+        protected void DrawMainPart(Graphics _gc, Rectangle _rect, Brush _nodeColor, Brush _selectColor) {
+            if (m_isSelected) {
+                _gc.FillRectangle(_selectColor, _rect);
+            }
+            else {
+                _gc.FillRectangle(_nodeColor, _rect);
+            }
             DrawStringCentreAlign(m_node.GetDisplayName(), _gc, Brushes.Black);
             _gc.DrawRectangle(Pens.Black, _rect);
-        }
-
-        protected void DrawSelectBar(Graphics _gc, Rectangle _rect, Brush _selectColor) {
-            Rectangle upper = new Rectangle(_rect.Left, _rect.Top, _rect.Width, selectedBarHeight);
-            Rectangle lower = new Rectangle(_rect.Left, _rect.Bottom - selectedBarHeight, _rect.Width, selectedBarHeight);
-            //Brush brush = NonSelectedBrush;
-            if (m_isSelected) {
-                //brush = _selectColor;
-                _gc.FillRectangles(_selectColor, new Rectangle[2] { upper, lower });
-            }
-            
         }
 
         protected void DrawDebugTrail(Graphics _gc, Rectangle _rect) {

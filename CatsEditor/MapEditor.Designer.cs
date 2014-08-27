@@ -119,6 +119,8 @@
             this.attr_postprocesses = new System.Windows.Forms.Panel();
             this.button2 = new System.Windows.Forms.Button();
             this.attr_camera = new System.Windows.Forms.PropertyGrid();
+            this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.bTTreeEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -315,7 +317,8 @@
             this.fileToolStripMenuItem,
             this.editToolStripMenuItem,
             this.insertToolStripMenuItem,
-            this.resourceToolStripMenuItem});
+            this.resourceToolStripMenuItem,
+            this.viewToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(1028, 25);
@@ -1106,6 +1109,21 @@
             this.attr_camera.Size = new System.Drawing.Size(356, 173);
             this.attr_camera.TabIndex = 0;
             // 
+            // viewToolStripMenuItem
+            // 
+            this.viewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.bTTreeEditorToolStripMenuItem});
+            this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
+            this.viewToolStripMenuItem.Size = new System.Drawing.Size(47, 21);
+            this.viewToolStripMenuItem.Text = "View";
+            // 
+            // bTTreeEditorToolStripMenuItem
+            // 
+            this.bTTreeEditorToolStripMenuItem.Name = "bTTreeEditorToolStripMenuItem";
+            this.bTTreeEditorToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.bTTreeEditorToolStripMenuItem.Text = "BTTreeEditor";
+            this.bTTreeEditorToolStripMenuItem.Click += new System.EventHandler(this.bTTreeEditorToolStripMenuItem_Click);
+            // 
             // MapEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -1260,5 +1278,7 @@
         private System.Windows.Forms.ToolStripMenuItem cameraToolStripMenuItem;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.PictureBox renderArea;
+        private System.Windows.Forms.ToolStripMenuItem viewToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem bTTreeEditorToolStripMenuItem;
 	}
 }

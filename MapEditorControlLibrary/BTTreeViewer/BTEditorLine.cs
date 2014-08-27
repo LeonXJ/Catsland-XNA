@@ -13,6 +13,10 @@ namespace Catsland.MapEditorControlLibrary {
 
         #region Properties
 
+        protected static int TrailPenWidth = 5;
+        protected static Pen FalseDrawPen = new Pen(FalseFillColor, TrailPenWidth);
+        protected static Pen TrueDrawPen = new Pen(TrueFillColor, TrailPenWidth);
+
         protected BTNode m_parentNode;
         protected BTNode m_childNode;
         public BTNode ParentNode {
@@ -32,30 +36,10 @@ namespace Catsland.MapEditorControlLibrary {
             }
         }
 
-//         protected Point m_parentPoint;
-//         protected Point m_childPoint;
-//         public Point ParentPoint {
-//             set {
-//                 m_parentPoint = value;
-//             }
-//             get {
-//                 return m_parentPoint;
-//             }
-//         }
-//         public Point ChildPoint {
-//             set {
-//                 m_childPoint = value;
-//             }
-//             get {
-//                 return m_childPoint;
-//             }
-//         }
-
-
         #endregion
 
         public BTEditorLine(BTTreeViewer _treeViewer)
-            :base(_treeViewer) {
+            : base(_treeViewer) {
         }
 
         public string GetKey() {
@@ -72,15 +56,29 @@ namespace Catsland.MapEditorControlLibrary {
             }
         }
 
-        public override void OnPaint(PaintEventArgs e) {     
+        public override void OnPaint(PaintEventArgs e) {
             if (m_parentNode == null || m_childNode == null) {
                 return;
             }
             Graphics gc = e.Graphics;
             Point parentPoint = m_treeViewer.GetRectangle(m_parentNode).GetChildPoint();
             Point childPoint = m_treeViewer.GetRectangle(m_childNode).GetParentPoint();
-            gc.DrawLine(Pens.Black, m_treeViewer.GetDrawPosition(parentPoint), 
-                m_treeViewer.GetDrawPosition(childPoint));
+            if (m_treeViewer.IsObservingRuntimePack()) {
+                BTTreeRuntimePack.RuntimeState parentState = m_treeViewer.GetRuntimeState(m_parentNode);
+                BTTreeRuntimePack.RuntimeState childState = m_treeViewer.GetRuntimeState(m_childNode);
+                if (parentState != BTTreeRuntimePack.RuntimeState.Norun &&
+                    childState != BTTreeRuntimePack.RuntimeState.Norun) {
+                    Pen pen = TrueDrawPen;
+                    if (parentState == BTTreeRuntimePack.RuntimeState.False &&
+                        childState == BTTreeRuntimePack.RuntimeState.False) {
+                        pen = FalseDrawPen;
+                    }
+                    gc.DrawLine(pen, m_treeViewer.GetDrawPosition(parentPoint),
+                        m_treeViewer.GetDrawPosition(childPoint));
+                }
+            }
+            gc.DrawLine(Pens.Black, m_treeViewer.GetDrawPosition(parentPoint),
+            m_treeViewer.GetDrawPosition(childPoint));
         }
     }
 }

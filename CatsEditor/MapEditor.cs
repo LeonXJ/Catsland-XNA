@@ -56,7 +56,7 @@ namespace Catsland.Editor {
         public BTTreeEditor m_btTreeEditor;
         public BTTreeEditor BTTreeEditor{
             get {
-                if (m_btTreeEditor == null) {
+                if (m_btTreeEditor == null || m_btTreeEditor.IsDisposed) {
                     m_btTreeEditor = new BTTreeEditor();
                 }
                 return m_btTreeEditor;
@@ -1649,6 +1649,11 @@ namespace Catsland.Editor {
                                 m_observingGameObject.Position.Y + _amount.Y * ratio, 
                                 0.0f);
             }
+        }
+
+        private void bTTreeEditorToolStripMenuItem_Click(object sender, EventArgs e) {
+            BTTreeEditor.Show(this);
+            BTTreeEditor.Focus();
         }
 
     }

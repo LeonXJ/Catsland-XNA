@@ -9,6 +9,8 @@ using System.Windows.Forms;
 using Catsland.Core;
 using System.Diagnostics;
 using System.Reflection;
+using CatsEditor;
+using Catsland.CatsEditor;
 
 namespace Catsland.Editor {
     public partial class BTTreeEditor : Form {
@@ -99,21 +101,36 @@ namespace Catsland.Editor {
             if (e.BTNode != null) {
                 propertyEditor.SelectedObject = e.BTNode;
                 m_selectedNode = e.BTNode;
-                if (CanBeParentNode(e.BTNode)) {
+                UpdateMenu();
+            }
+        }
+
+        private void UpdateMenu() {
+            if (m_selectedNode != null) {
+                if (CanBeParentNode(m_selectedNode)) {
                     menuInsert.Enabled = true;
-                    if (m_selectedNode != btTreeViewer.BTTree.Root) {
-                        // cannot remove root
-                        menuRemoveNode.Enabled = true;
-                    }
                 }
+                else {
+                    menuInsert.Enabled = false;
+                }
+                if (m_selectedNode != btTreeViewer.BTTree.Root) {
+                    // cannot remove root
+                    menuRemoveNode.Enabled = true;
+                }
+                else {
+                    menuRemoveNode.Enabled = false;
+                }
+            }
+            else {
+                menuInsert.Enabled = false;
+                menuRemoveNode.Enabled = false;
             }
         }
 
         private void btTreeViewer_OnBTNodeDeselected(object sender, MapEditorControlLibrary.BTNodeSelectedArgs e) {
             propertyEditor.SelectedObject = null;
             m_selectedNode = null;
-            menuInsert.Enabled = false;
-            menuRemoveNode.Enabled = false;
+            UpdateMenu();
         }
 
         private bool CanBeParentNode(BTNode _node) {
@@ -131,11 +148,7 @@ namespace Catsland.Editor {
         }
 
         private void removeToolStripMenuItem_Click(object sender, EventArgs e) {
-            if (m_selectedNode != null) {
-                btTreeViewer.BTTree.RemoveSubTree(m_selectedNode);
-                btTreeViewer.DeclareRemoveNode(m_selectedNode);
-                btTreeViewer_OnBTNodeDeselected(null, null);
-            }
+            
         }
 
         private BTTreeRuntimePack m_observingRuntimePack;
@@ -189,5 +202,82 @@ namespace Catsland.Editor {
                 } 
             }
         }
+
+        private void BTTreeEditor_FormClosing(object sender, FormClosingEventArgs e) {
+        }
+
+        private void newToolStripMenuItem_Click(object sender, EventArgs e) {
+            CreateNewBTTree();
+        }
+
+        protected void CreateNewBTTree() {
+            string treeName = "UntitledBTTree";
+            InputDialog inputDialog = new InputDialog();
+            inputDialog.InitializeDate("Input a name for BTTree", "Input a name for BTTree", treeName);
+            if (inputDialog.ShowDialog(this) == DialogResult.OK) {
+                treeName = inputDialog.Result;
+                if (Mgr<CatProject>.Singleton != null && Mgr<CatProject>.Singleton.BTTreeManager != null) {
+                    while (Mgr<CatProject>.Singleton.BTTreeManager.HasBTTreeWithName(treeName)) {
+                        inputDialog = new InputDialog();
+                        inputDialog.InitializeDate("Tree " + treeName + "exists", "Input a new name for BTTree", treeName);
+                        if (inputDialog.ShowDialog(this) == DialogResult.OK) {
+                            treeName = inputDialog.Result;
+                        }
+                        else {
+                            return;
+                        }
+                    }
+                    BTTree btTree = Mgr<CatProject>.Singleton.BTTreeManager.CreateAndSaveEmptyBTTree(treeName);
+                    OpenBTTree(btTree);
+                }
+                else {
+                    Debug.Assert(false, "Cannot find CatProject instance.");
+                    return;
+                }
+            }
+            else {
+                return;
+            }
+        }
+
+        private void LoadBTTree(string _btTreeName) {
+            if (Mgr<CatProject>.Singleton != null && Mgr<CatProject>.Singleton.BTTreeManager != null) {
+                BTTree btTree = Mgr<CatProject>.Singleton.BTTreeManager.LoadBTTree(_btTreeName);
+                if (btTree != null) {
+                    OpenBTTree(btTree);
+                }
+                else {
+                    Debug.Assert(false, "Cannot open BTTree: " + _btTreeName);
+                }
+            }
+        }
+
+        private void openToolStripMenuItem_Click(object sender, EventArgs e) {
+            string treeName = ResourceSelectorWindow.SelectResource(ResourceSelectorWindow.ObserveType.BTTree, "", this);
+            if (treeName != "") {
+                LoadBTTree(treeName);
+            }
+        }
+
+        private void menuRemoveNode_Click(object sender, EventArgs e) {
+            if (m_selectedNode != null) {
+                btTreeViewer.BTTree.RemoveSubTree(m_selectedNode);
+                btTreeViewer.DeclareRemoveNode(m_selectedNode);
+                btTreeViewer_OnBTNodeDeselected(null, null);
+            }
+        }
+
+        private void synchronizeAllEditToolStripMenuItem_Click(object sender, EventArgs e) {
+            if (Mgr<CatProject>.Singleton != null && Mgr<CatProject>.Singleton.BTTreeManager != null) {
+                Mgr<CatProject>.Singleton.BTTreeManager.SaveAllBTTree();
+                Mgr<CatProject>.Singleton.SynchronizeBTTrees();
+            }
+        }
+
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e) {
+            Close();
+        }
+
+        
     }
 }

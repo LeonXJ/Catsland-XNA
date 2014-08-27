@@ -17,21 +17,21 @@ namespace Catsland.Core {
             }
         }
 
-//         private string m_btTreeWriteDirectory = "";
-//         public string BTTreeWriteDirectory {
-//             set {
-//                 m_btTreeWriteDirectory = value;
-//             }
-//         }
+        private string m_btTreeWriteDirectory = "";
+        public string BTTreeWriteDirectory {
+            set {
+                m_btTreeWriteDirectory = value;
+            }
+        }
 
         private Dictionary<string, BTTree> m_btTrees = new Dictionary<string, BTTree>();
     
 #endregion
 
-        public BTTree CreateAndSaveEmptyBTTree() {
+        public BTTree CreateAndSaveEmptyBTTree(string _name = "UntitleBTTree") {
             BTTree newTree = BTTree.CreateEmptyBTTree();
             // find a name
-            string baseName = "UntitleBTTree";
+            string baseName = _name;
             string surfix = ".btt";
             int index = 0;
             string name = baseName;
@@ -43,6 +43,10 @@ namespace Catsland.Core {
                 fullname = name + surfix;
             }
             m_btTrees.Add(name, newTree);
+            newTree.Save(CatProject.GetStandardPath(m_btTreeWriteDirectory) + fullname);
+            if (Mgr<CatProject>.Singleton != null) {
+                Mgr<CatProject>.Singleton.SynchronizeBTTrees();
+            }
             return newTree;
         }
 
@@ -77,14 +81,29 @@ namespace Catsland.Core {
             m_btTrees.Add(_name, _btTree);
         }
 
-        public void SaveAllBTTree(string _directory){
+        public bool HasBTTreeWithName(string _name) {
+            // check in memory: new trees might have not been saved to files yet.
+            if (m_btTrees.ContainsKey(_name)) {
+                return true;
+            }
+            string[] files = Directory.GetFiles(m_btTreeReadDirectoryRoot, "*.btt");
+            foreach (string file in files) {
+                if (Path.GetFileNameWithoutExtension(file) == _name) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public void SaveAllBTTree(){
             if(m_btTrees == null){
                 return;
             }
-            if(Directory.Exists(_directory)){
-                string fineDirectory = _directory;
-                if(!_directory.EndsWith("/") && !_directory.EndsWith("\\")){
-                    fineDirectory = _directory + '/';
+            
+            if(Directory.Exists(m_btTreeWriteDirectory)){
+                string fineDirectory = m_btTreeWriteDirectory;
+                if (!m_btTreeWriteDirectory.EndsWith("/") && !m_btTreeWriteDirectory.EndsWith("\\")) {
+                    fineDirectory = m_btTreeWriteDirectory + '/';
                 }
                 foreach(KeyValuePair<string, BTTree> keyValue in m_btTrees){
                     string filepath = fineDirectory + keyValue.Key + ".btt";
@@ -92,7 +111,7 @@ namespace Catsland.Core {
                 }
             }
             else{
-                Debug.Assert(false, "Cannot find directory: " + _directory);
+                Debug.Assert(false, "Cannot find directory: " + m_btTreeWriteDirectory);
             }
         }
     }

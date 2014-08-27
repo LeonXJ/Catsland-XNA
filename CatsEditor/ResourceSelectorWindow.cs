@@ -47,7 +47,7 @@ namespace Catsland.CatsEditor {
         public void OnNewBTNodeClick(object sender, EventArgs e) {
             if (Mgr<CatProject>.Singleton != null && Mgr<CatProject>.Singleton.BTTreeManager != null) {
                 Mgr<CatProject>.Singleton.BTTreeManager.CreateAndSaveEmptyBTTree();
-                Mgr<CatProject>.Singleton.BTTreeManager.SaveAllBTTree(Mgr<CatProject>.Singleton.GetBTTreeWriteDirectory());
+                Mgr<CatProject>.Singleton.BTTreeManager.SaveAllBTTree();
                 Mgr<CatProject>.Singleton.SynchronizeBTTrees();
                 UpdateList();
             }

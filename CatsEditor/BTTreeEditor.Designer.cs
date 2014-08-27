@@ -30,17 +30,23 @@
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.blackboard = new System.Windows.Forms.DataGridView();
+            this.ColName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColValue = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btTreeViewer = new Catsland.MapEditorControlLibrary.BTTreeViewer();
             this.propertyEditor = new System.Windows.Forms.PropertyGrid();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.bTTreeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.synchronizeAllEditToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuInsert = new System.Windows.Forms.ToolStripMenuItem();
             this.menuInsertCompositeNode = new System.Windows.Forms.ToolStripMenuItem();
             this.menuInsertConditionNode = new System.Windows.Forms.ToolStripMenuItem();
             this.menuInsertActionNode = new System.Windows.Forms.ToolStripMenuItem();
             this.removeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuRemoveNode = new System.Windows.Forms.ToolStripMenuItem();
-            this.ColName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ColValue = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -133,6 +139,20 @@
             this.blackboard.Size = new System.Drawing.Size(196, 452);
             this.blackboard.TabIndex = 2;
             // 
+            // ColName
+            // 
+            this.ColName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.ColName.HeaderText = "Name";
+            this.ColName.Name = "ColName";
+            this.ColName.ReadOnly = true;
+            // 
+            // ColValue
+            // 
+            this.ColValue.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.ColValue.HeaderText = "Value";
+            this.ColValue.Name = "ColValue";
+            this.ColValue.ReadOnly = true;
+            // 
             // btTreeViewer
             // 
             this.btTreeViewer.AutoScroll = true;
@@ -156,6 +176,7 @@
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.bTTreeToolStripMenuItem,
             this.menuInsert,
             this.removeToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
@@ -163,6 +184,51 @@
             this.menuStrip1.Size = new System.Drawing.Size(860, 25);
             this.menuStrip1.TabIndex = 3;
             this.menuStrip1.Text = "menuStrip1";
+            // 
+            // bTTreeToolStripMenuItem
+            // 
+            this.bTTreeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.newToolStripMenuItem,
+            this.openToolStripMenuItem,
+            this.synchronizeAllEditToolStripMenuItem,
+            this.toolStripSeparator1,
+            this.exitToolStripMenuItem});
+            this.bTTreeToolStripMenuItem.Name = "bTTreeToolStripMenuItem";
+            this.bTTreeToolStripMenuItem.Size = new System.Drawing.Size(61, 21);
+            this.bTTreeToolStripMenuItem.Text = "BTTree";
+            // 
+            // newToolStripMenuItem
+            // 
+            this.newToolStripMenuItem.Name = "newToolStripMenuItem";
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
+            this.newToolStripMenuItem.Text = "New";
+            this.newToolStripMenuItem.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
+            // 
+            // openToolStripMenuItem
+            // 
+            this.openToolStripMenuItem.Name = "openToolStripMenuItem";
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
+            this.openToolStripMenuItem.Text = "Open";
+            this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
+            // 
+            // synchronizeAllEditToolStripMenuItem
+            // 
+            this.synchronizeAllEditToolStripMenuItem.Name = "synchronizeAllEditToolStripMenuItem";
+            this.synchronizeAllEditToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
+            this.synchronizeAllEditToolStripMenuItem.Text = "Synchronize All";
+            this.synchronizeAllEditToolStripMenuItem.Click += new System.EventHandler(this.synchronizeAllEditToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(160, 6);
+            // 
+            // exitToolStripMenuItem
+            // 
+            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
+            this.exitToolStripMenuItem.Text = "Exit";
+            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
             // menuInsert
             // 
@@ -206,20 +272,7 @@
             this.menuRemoveNode.Name = "menuRemoveNode";
             this.menuRemoveNode.Size = new System.Drawing.Size(109, 22);
             this.menuRemoveNode.Text = "Node";
-            // 
-            // ColName
-            // 
-            this.ColName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.ColName.HeaderText = "Name";
-            this.ColName.Name = "ColName";
-            this.ColName.ReadOnly = true;
-            // 
-            // ColValue
-            // 
-            this.ColValue.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.ColValue.HeaderText = "Value";
-            this.ColValue.Name = "ColValue";
-            this.ColValue.ReadOnly = true;
+            this.menuRemoveNode.Click += new System.EventHandler(this.menuRemoveNode_Click);
             // 
             // BTTreeEditor
             // 
@@ -233,6 +286,7 @@
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "BTTreeEditor";
             this.Text = "BTTreeEditor";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.BTTreeEditor_FormClosing);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
             this.splitContainer1.Panel1.ResumeLayout(false);
@@ -270,6 +324,12 @@
         private System.Windows.Forms.DataGridView blackboard;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColName;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColValue;
+        private System.Windows.Forms.ToolStripMenuItem bTTreeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem newToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem synchronizeAllEditToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
 
     }
 }

@@ -137,7 +137,7 @@ namespace Catsland.Core {
             newProject.contentManger.RootDirectory = projectRoot + ASSET_DIR + '/' + RESOURCE_DIR;
             newProject.m_btTreeManager = new BTTreeManager();
             newProject.m_btTreeManager.BTTreeDirectoryRoot = newProject.projectRoot + '/' + ASSET_DIR + '/' + RESOURCE_DIR + "/ai";
-
+            newProject.m_btTreeManager.BTTreeWriteDirectory = newProject.projectRoot + '/' + RESOURCE_DIR + "/ai";
             // save project files
             newProject.SaveProject(newProject.GetProjectXMLAddress(), true);
             Mgr<CatProject>.Singleton = newProject;
@@ -174,7 +174,7 @@ namespace Catsland.Core {
             modelList1.SaveModels(projectRoot + RESOURCE_DIR + "/model/");
             /*prefabList.SavePrefabs(projectRoot + RESOURCE_DIR + "/prefab/");*/
             prefabList.SavePrefabs(projectRoot + RESOURCE_DIR + "/prefab");
-            m_btTreeManager.SaveAllBTTree(projectRoot + RESOURCE_DIR + "/ai");
+            m_btTreeManager.SaveAllBTTree();
             // consider to recompile here
             CompileResource(_synchronized);
             SynchronizeBTTrees();
@@ -263,7 +263,7 @@ namespace Catsland.Core {
             Mgr<TypeManager>.Singleton = newProject.typeManager;
             newProject.m_btTreeManager = new BTTreeManager();
             newProject.m_btTreeManager.BTTreeDirectoryRoot = newProject.projectRoot + '/' + ASSET_DIR + '/' + RESOURCE_DIR + "/ai";
-
+            newProject.m_btTreeManager.BTTreeWriteDirectory = newProject.projectRoot + '/' + RESOURCE_DIR + "/ai";
 //             newProject.prefabList = PrefabList.LoadPrefabs(
 //                 newProject.GetConfigurePath(newProject.prefabConfigure),
 //                 newProject);

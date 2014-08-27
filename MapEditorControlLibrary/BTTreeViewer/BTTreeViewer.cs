@@ -136,7 +136,7 @@ namespace Catsland.MapEditorControlLibrary {
             if (m_btTree != null && m_btTree.Root != null && m_sprites != null) {
                 string rootKey = BTEditorRectangle.GetKey(m_btTree.Root);
                 // auto layout
-                Point leftTop = new Point(0, 0);
+                Point leftTop = new Point(10, 10);
                 if (m_sprites.ContainsKey(rootKey)) {
                     (m_sprites[rootKey] as BTEditorRectangle).AutoRecursivelyLayout(m_sprites, leftTop);
                 }
@@ -345,6 +345,9 @@ namespace Catsland.MapEditorControlLibrary {
     }
 
     public class BTEditorSprite {
+
+        protected static Color FalseFillColor = Color.FromArgb(149, 68, 68);
+        protected static Color TrueFillColor = Color.FromArgb(78, 148, 68);
 
         protected BTTreeViewer m_treeViewer;
         protected static Font font;

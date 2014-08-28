@@ -169,7 +169,9 @@ namespace Catsland.Editor {
         }
 
         public void UpdateBTTreeViewer() {
-            btTreeViewer.Refresh();
+            if (Visible) {
+                btTreeViewer.Refresh();
+            }
         }
 
         private void BindRuntimePack(BTTreeRuntimePack _runtimePack) {
@@ -179,6 +181,9 @@ namespace Catsland.Editor {
         }
 
         public void UpdateBlackboard() {
+            if (!Visible) {
+                return;
+            }
             if (m_observingRuntimePack.Blackboard == null) {
                 return;
             }
@@ -204,6 +209,8 @@ namespace Catsland.Editor {
         }
 
         private void BTTreeEditor_FormClosing(object sender, FormClosingEventArgs e) {
+            e.Cancel = true;
+            this.Hide();
         }
 
         private void newToolStripMenuItem_Click(object sender, EventArgs e) {

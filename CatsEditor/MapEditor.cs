@@ -288,7 +288,7 @@ namespace Catsland.Editor {
 
         protected override void OnClosed(EventArgs e) {
             base.OnClosed(e);
-            Application.Exit();
+            
         }
 
         private void renderArea_SizeChanged(object sender, EventArgs e) {
@@ -1656,6 +1656,13 @@ namespace Catsland.Editor {
             BTTreeEditor.Focus();
         }
 
+        private void MapEditor_FormClosing(object sender, FormClosingEventArgs e) {
+            if (m_btTreeEditor != null && !m_btTreeEditor.IsDisposed) {
+                m_btTreeEditor.Close();
+                m_btTreeEditor.Dispose();
+            }
+            Application.Exit();
+        }
     }
 
 }

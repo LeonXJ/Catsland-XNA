@@ -67,6 +67,8 @@
             this.menu_component = new System.Windows.Forms.ToolStripMenuItem();
             this.resourceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.rescanPluginToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.bTTreeEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.renderArea = new System.Windows.Forms.PictureBox();
@@ -119,8 +121,6 @@
             this.attr_postprocesses = new System.Windows.Forms.Panel();
             this.button2 = new System.Windows.Forms.Button();
             this.attr_camera = new System.Windows.Forms.PropertyGrid();
-            this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.bTTreeEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -478,6 +478,21 @@
             this.rescanPluginToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
             this.rescanPluginToolStripMenuItem.Text = "Rescan Plugin";
             this.rescanPluginToolStripMenuItem.Click += new System.EventHandler(this.rescanPluginToolStripMenuItem_Click);
+            // 
+            // viewToolStripMenuItem
+            // 
+            this.viewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.bTTreeEditorToolStripMenuItem});
+            this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
+            this.viewToolStripMenuItem.Size = new System.Drawing.Size(47, 21);
+            this.viewToolStripMenuItem.Text = "View";
+            // 
+            // bTTreeEditorToolStripMenuItem
+            // 
+            this.bTTreeEditorToolStripMenuItem.Name = "bTTreeEditorToolStripMenuItem";
+            this.bTTreeEditorToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.bTTreeEditorToolStripMenuItem.Text = "BTTreeEditor";
+            this.bTTreeEditorToolStripMenuItem.Click += new System.EventHandler(this.bTTreeEditorToolStripMenuItem_Click);
             // 
             // splitContainer1
             // 
@@ -1109,21 +1124,6 @@
             this.attr_camera.Size = new System.Drawing.Size(356, 173);
             this.attr_camera.TabIndex = 0;
             // 
-            // viewToolStripMenuItem
-            // 
-            this.viewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.bTTreeEditorToolStripMenuItem});
-            this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
-            this.viewToolStripMenuItem.Size = new System.Drawing.Size(47, 21);
-            this.viewToolStripMenuItem.Text = "View";
-            // 
-            // bTTreeEditorToolStripMenuItem
-            // 
-            this.bTTreeEditorToolStripMenuItem.Name = "bTTreeEditorToolStripMenuItem";
-            this.bTTreeEditorToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.bTTreeEditorToolStripMenuItem.Text = "BTTreeEditor";
-            this.bTTreeEditorToolStripMenuItem.Click += new System.EventHandler(this.bTTreeEditorToolStripMenuItem_Click);
-            // 
             // MapEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -1138,6 +1138,7 @@
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "MapEditor";
             this.Text = "CatsEngine Editor";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MapEditor_FormClosing);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MapEditor_KeyDown);
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.MapEditor_KeyUp);
             this.toolStrip1.ResumeLayout(false);

@@ -17,11 +17,11 @@ namespace Catsland.MapEditorControlLibrary {
 
         #endregion
 
-        public BTEditorRectangleBTActionNode(BTTreeViewer _treeViewer)
+        internal BTEditorRectangleBTActionNode(BTTreeViewer _treeViewer)
             : base(_treeViewer) {
         }
 
-        public override BTEditorRectangle Clone(BTTreeViewer _treeViewer) {
+        internal override BTEditorRectangle Clone(BTTreeViewer _treeViewer) {
             return new BTEditorRectangleBTActionNode(_treeViewer);
         }
 
@@ -33,7 +33,7 @@ namespace Catsland.MapEditorControlLibrary {
             return;
         }
 
-        public override int AutoRecursivelyLayout(Dictionary<string, BTEditorSprite> _sprites, Point _leftTop) {
+        internal override int AutoRecursivelyLayout(Dictionary<string, BTEditorSprite> _sprites, Point _leftTop) {
             if (m_node != null) {
                 //BTActionNode node = m_node as BTActionNode;
                 m_bound.X = _leftTop.X;
@@ -46,19 +46,9 @@ namespace Catsland.MapEditorControlLibrary {
             }
         }
 
-        public override void OnPaint(PaintEventArgs e) {
+        internal override void OnPaint(PaintEventArgs e) {
             Graphics gc = e.Graphics;
             DefaultPaintProcess(gc, NodeColor, SelectedColor);
-//             Pen edge = Pens.Black;
-//             if (m_isSelected) {
-//                 edge = Pens.Red;
-//             }
-//             DeclareRightBottom();
-//             Rectangle rect = GetDrawBound();
-//             gc.FillRectangle(FillBrush, rect);
-//             gc.DrawRectangle(edge, rect);
-//             DrawDebugTrail(gc, rect);
-//             DrawStringCentreAlign(m_node.GetType().Name, gc, Brushes.Black);
         }
     }
 }

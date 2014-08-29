@@ -105,6 +105,8 @@
     </Entities>
     <Relationships>
       <Relationship type="Association" first="0" second="1">
+        <Label>
+        </Label>
         <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Vertical</EndOrientation>
         <BendPoint relativeToStartShape="False">
@@ -115,12 +117,16 @@
         <AssociationType>Composition</AssociationType>
       </Relationship>
       <Relationship type="Association" first="0" second="2">
+        <Label>
+        </Label>
         <StartOrientation>Horizontal</StartOrientation>
         <EndOrientation>Horizontal</EndOrientation>
         <Direction>Unidirectional</Direction>
         <AssociationType>Composition</AssociationType>
       </Relationship>
       <Relationship type="Association" first="0" second="3">
+        <Label>
+        </Label>
         <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Vertical</EndOrientation>
         <BendPoint relativeToStartShape="True">
@@ -135,8 +141,6 @@
         <AssociationType>Composition</AssociationType>
       </Relationship>
       <Relationship type="Association" first="3" second="2">
-        <Label>
-        </Label>
         <StartOrientation>Horizontal</StartOrientation>
         <EndOrientation>Horizontal</EndOrientation>
         <BendPoint relativeToStartShape="False">
@@ -149,8 +153,6 @@
         <EndMultiplicity>1</EndMultiplicity>
       </Relationship>
       <Relationship type="Association" first="1" second="3">
-        <Label>
-        </Label>
         <StartOrientation>Horizontal</StartOrientation>
         <EndOrientation>Horizontal</EndOrientation>
         <BendPoint relativeToStartShape="True">
@@ -222,6 +224,8 @@
     </Entities>
     <Relationships>
       <Relationship type="Association" first="0" second="1">
+        <Label>
+        </Label>
         <StartOrientation>Horizontal</StartOrientation>
         <EndOrientation>Horizontal</EndOrientation>
         <Direction>Bidirectional</Direction>
@@ -360,6 +364,8 @@
     </Entities>
     <Relationships>
       <Relationship type="Association" first="0" second="1">
+        <Label>
+        </Label>
         <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Horizontal</EndOrientation>
         <Direction>Unidirectional</Direction>
@@ -368,6 +374,8 @@
         <EndMultiplicity>*</EndMultiplicity>
       </Relationship>
       <Relationship type="Association" first="1" second="2">
+        <Label>
+        </Label>
         <StartOrientation>Horizontal</StartOrientation>
         <EndOrientation>Horizontal</EndOrientation>
         <Direction>Unidirectional</Direction>
@@ -498,8 +506,6 @@
     </Entities>
     <Relationships>
       <Relationship type="Association" first="1" second="2">
-        <Label>
-        </Label>
         <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Horizontal</EndOrientation>
         <Direction>Unidirectional</Direction>
@@ -598,14 +604,20 @@
     </Entities>
     <Relationships>
       <Relationship type="Dependency" first="1" second="0">
+        <Label>
+        </Label>
         <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Vertical</EndOrientation>
       </Relationship>
       <Relationship type="Dependency" first="2" second="0">
+        <Label>
+        </Label>
         <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Vertical</EndOrientation>
       </Relationship>
       <Relationship type="Dependency" first="3" second="0">
+        <Label>
+        </Label>
         <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Vertical</EndOrientation>
       </Relationship>
@@ -771,8 +783,6 @@
         <EndOrientation>Vertical</EndOrientation>
       </Relationship>
       <Relationship type="Association" first="8" second="0">
-        <Label>
-        </Label>
         <StartOrientation>Horizontal</StartOrientation>
         <EndOrientation>Horizontal</EndOrientation>
         <Direction>Unidirectional</Direction>
@@ -781,6 +791,8 @@
         <EndMultiplicity>1</EndMultiplicity>
       </Relationship>
       <Relationship type="Association" first="9" second="8">
+        <Label>
+        </Label>
         <StartOrientation>Horizontal</StartOrientation>
         <EndOrientation>Horizontal</EndOrientation>
         <Direction>Unidirectional</Direction>
@@ -789,6 +801,8 @@
         <EndMultiplicity>*</EndMultiplicity>
       </Relationship>
       <Relationship type="Association" first="10" second="8">
+        <Label>
+        </Label>
         <StartOrientation>Horizontal</StartOrientation>
         <EndOrientation>Horizontal</EndOrientation>
         <Direction>Unidirectional</Direction>
@@ -797,12 +811,498 @@
         <EndMultiplicity>1</EndMultiplicity>
       </Relationship>
       <Relationship type="Association" first="11" second="10">
+        <Label>
+        </Label>
         <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Horizontal</EndOrientation>
         <Direction>Unidirectional</Direction>
         <AssociationType>Composition</AssociationType>
         <StartMultiplicity>1</StartMultiplicity>
         <EndMultiplicity>1</EndMultiplicity>
+      </Relationship>
+    </Relationships>
+  </ProjectItem>
+  <ProjectItem type="NClass.DiagramEditor.ClassDiagram.Diagram" assembly="NClass.DiagramEditor, Version=2.4.1823.0, Culture=neutral, PublicKeyToken=null">
+    <Name>BTTreeEditor Use Case</Name>
+    <Language>CSharp</Language>
+    <Entities>
+      <Entity type="Class">
+        <Name>OpenTheEditorView</Name>
+        <Access>Public</Access>
+        <Location left="199" top="296" />
+        <Size width="218" height="77" />
+        <Collapsed>True</Collapsed>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>OpenViewAndOpenBTTree</Name>
+        <Access>Public</Access>
+        <Location left="10" top="383" />
+        <Size width="218" height="77" />
+        <Collapsed>True</Collapsed>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>OpenViewAndObserveTree</Name>
+        <Access>Public</Access>
+        <Location left="615" top="383" />
+        <Size width="223" height="77" />
+        <Collapsed>True</Collapsed>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>CreateNewBTTree</Name>
+        <Access>Public</Access>
+        <Location left="475" top="30" />
+        <Size width="162" height="216" />
+        <Collapsed>True</Collapsed>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>OpenBTTree</Name>
+        <Access>Public</Access>
+        <Location left="475" top="104" />
+        <Size width="162" height="216" />
+        <Collapsed>True</Collapsed>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>SynchronizeTrees</Name>
+        <Access>Public</Access>
+        <Location left="475" top="180" />
+        <Size width="162" height="216" />
+        <Collapsed>True</Collapsed>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>InsertBTNode</Name>
+        <Access>Public</Access>
+        <Location left="675" top="29" />
+        <Size width="162" height="216" />
+        <Collapsed>True</Collapsed>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>RemoveBTNode</Name>
+        <Access>Public</Access>
+        <Location left="675" top="103" />
+        <Size width="162" height="216" />
+        <Collapsed>True</Collapsed>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>ChangeBTNodeParent</Name>
+        <Access>Public</Access>
+        <Location left="675" top="179" />
+        <Size width="162" height="216" />
+        <Collapsed>True</Collapsed>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>ChangeBTNodeSequence</Name>
+        <Access>Public</Access>
+        <Location left="675" top="253" />
+        <Size width="162" height="77" />
+        <Collapsed>True</Collapsed>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>OpenViewWithoutTreeLoaded</Name>
+        <Access>Public</Access>
+        <Location left="199" top="482" />
+        <Size width="213" height="216" />
+        <Collapsed>True</Collapsed>
+        <Modifier>Abstract</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>OpenViewWithTreeLoaded</Name>
+        <Access>Public</Access>
+        <Location left="199" top="645" />
+        <Size width="213" height="216" />
+        <Collapsed>True</Collapsed>
+        <Modifier>Abstract</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>OpenViewWithTreeObserved</Name>
+        <Access>Public</Access>
+        <Location left="615" top="482" />
+        <Size width="223" height="216" />
+        <Collapsed>True</Collapsed>
+        <Modifier>Abstract</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Visible</Name>
+        <Access>Public</Access>
+        <Location left="884" top="482" />
+        <Size width="162" height="97" />
+        <Collapsed>True</Collapsed>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Invisible</Name>
+        <Access>Public</Access>
+        <Location left="1133" top="482" />
+        <Size width="162" height="216" />
+        <Collapsed>True</Collapsed>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Comment">
+        <Text>Keep update Blackboard and BTTreeView</Text>
+        <Location left="884" top="586" />
+        <Size width="160" height="50" />
+      </Entity>
+      <Entity type="Comment">
+        <Text>Pause update Blackboard and BTTreeViewer</Text>
+        <Location left="1133" top="586" />
+        <Size width="160" height="50" />
+      </Entity>
+      <Entity type="Class">
+        <Name>CloseView</Name>
+        <Access>Public</Access>
+        <Location left="884" top="30" />
+        <Size width="162" height="216" />
+        <Collapsed>True</Collapsed>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>ShowView</Name>
+        <Access>Public</Access>
+        <Location left="884" top="104" />
+        <Size width="162" height="216" />
+        <Collapsed>True</Collapsed>
+        <Modifier>None</Modifier>
+      </Entity>
+    </Entities>
+    <Relationships>
+      <Relationship type="Generalization" first="1" second="0">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+      </Relationship>
+      <Relationship type="Generalization" first="2" second="1">
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>506</X>
+          <Y>406</Y>
+        </BendPoint>
+      </Relationship>
+      <Relationship type="Association" first="10" second="11">
+        <Label>OpenBTTree/CreatedNewBTTree</Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="10" second="12">
+        <Label>OpenObserveBTTree</Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>437</X>
+          <Y>494</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="12" second="10">
+        <Label>StopObserveTre</Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <BendPoint relativeToStartShape="False">
+          <X>441</X>
+          <Y>517</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="11" second="12">
+        <Label>OpenObserveBTTree</Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>437</X>
+          <Y>657</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="12" second="11">
+        <Label>StopObserveTree</Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>759</X>
+          <Y>552</Y>
+        </BendPoint>
+        <BendPoint relativeToStartShape="False">
+          <X>498</X>
+          <Y>682</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="2" second="12">
+        <Label>
+        </Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="0" second="10">
+        <Label>
+        </Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="1" second="11">
+        <Label>
+        </Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <BendPoint relativeToStartShape="False">
+          <X>120</X>
+          <Y>669</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="13" second="14">
+        <Label>Close</Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>1075</X>
+          <Y>492</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="14" second="13">
+        <Label>Open</Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <BendPoint relativeToStartShape="False">
+          <X>1071</X>
+          <Y>517</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Comment" first="15" second="13">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Comment" first="16" second="14">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+    </Relationships>
+  </ProjectItem>
+  <ProjectItem type="NClass.DiagramEditor.ClassDiagram.Diagram" assembly="NClass.DiagramEditor, Version=2.4.1823.0, Culture=neutral, PublicKeyToken=null">
+    <Name>BTTreeEditor</Name>
+    <Language>CSharp</Language>
+    <Entities>
+      <Entity type="Class">
+        <Name>BTTreeEditor</Name>
+        <Access>Public</Access>
+        <Location left="27" top="104" />
+        <Size width="229" height="162" />
+        <Collapsed>False</Collapsed>
+        <Member type="Constructor">public BTTreeEditor()</Member>
+        <Member type="Method">public void OpenBTTree(BTTree _btTree)</Member>
+        <Member type="Method">public void ObserveLiveBTTree(BTTreeRuntimePack _runtimePack)</Member>
+        <Member type="Method">public bool IsObservingThisRuntimePack(BTTreeRuntimePack _runtimePack)</Member>
+        <Member type="Method">public void UpdateBTTreeViewer()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>BTTreeViewer</Name>
+        <Access>Public</Access>
+        <Location left="323" top="104" />
+        <Size width="373" height="332" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">public BTTree BTTree { get; }</Member>
+        <Member type="Method">public void DeclareAddNode(BTNode _treeNode)</Member>
+        <Member type="Method">public void DeclareRemoveNode(BTNode _treeNode)</Member>
+        <Member type="Method">public void SetBTTree(BTTree _bttree)</Member>
+        <Member type="Method">public void SetBTTreeAndObservingRuntimePack(BTTreeRuntimePack _runtimePack)</Member>
+        <Member type="Event">public event EventHandler&lt;BTNodeSelectedArgs&gt; OnBTNodeDeselected</Member>
+        <Member type="Event">public event EventHandler&lt;BTNodeSelectedArgs&gt; OnBTNodeSelected</Member>
+        <Member type="Method">internal void DeclareRightBottom(Point _point)</Member>
+        <Member type="Method">internal Point GetDrawPosition(Point _point)</Member>
+        <Member type="Method">internal BTEditorRectangle GetRectangle(BTNode _node)</Member>
+        <Member type="Method">internal BTEditorRectangle GetRectangle(BTNode _node)</Member>
+        <Member type="Method">internal BTTreeRuntimePack.RuntimeState GetRuntimeState(BTNode _btNode)</Member>
+        <Member type="Method">internal BTTreRuntimePack.RuntimeState GetRuntimeState(BTNode _btNode)</Member>
+        <Member type="Method">internal Point GetWorldPosition(Point _point)</Member>
+        <Member type="Method">internal bool IsObservingRuntimePack()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>BTEditorSprite</Name>
+        <Access>Public</Access>
+        <Location left="380" top="504" />
+        <Size width="275" height="315" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">protected static Color FalseFillColor</Member>
+        <Member type="Field">protected static Color TrueFillColor</Member>
+        <Member type="Field">protected BTTreeViewer m_treeViewer</Member>
+        <Member type="Field">protected static Font font</Member>
+        <Member type="Constructor">internal BTEditorSprite(BTTreeViewer _treeViewer)</Member>
+        <Member type="Method">internal virtual bool IsMouseOn(Point _pos)</Member>
+        <Member type="Method">internal virtual void OnPaint(PaintEventArgs e)</Member>
+        <Member type="Method">internal virtual void OnMouseDown(Point _pos)</Member>
+        <Member type="Method">internal virtual void OnMouseUp(Point _pos)</Member>
+        <Member type="Method">internal virtual void OnMouseClick(Point _pos)</Member>
+        <Member type="Method">internal virtual void OnDragOn(Point _pos, BTEditorSprite _source)</Member>
+        <Member type="Method">internal virtual void OnMouseDrag(Point _pos, Point _delta)</Member>
+        <Member type="Method">internal virtual void OnSelect()</Member>
+        <Member type="Method">internal virtual void OnDeselect()</Member>
+        <Modifier>Abstract</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>BTEditorRectangle</Name>
+        <Access>Public</Access>
+        <Location left="711" top="740" />
+        <Size width="309" height="417" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">protected static Brush FalseFillBrush</Member>
+        <Member type="Field">protected static int HorizontalInterval</Member>
+        <Member type="Field">protected static Brush NonSelectedBrush</Member>
+        <Member type="Field">protected static int runStateBorderWidth</Member>
+        <Member type="Field">protected static Brush TrueFillBrush</Member>
+        <Member type="Field">protected static int VerticalInterval</Member>
+        <Member type="Property">internal BTNode Node { get; set; }</Member>
+        <Member type="Method">internal abstract int AutoRecursivelyLayout(Dictionary&lt;string, BTEditorSprite&gt; _sprites, Point _leftTop)</Member>
+        <Member type="Method">internal abstract BTEditorRectangle Clone(BTTreeViewer _treeViewer)</Member>
+        <Member type="Method">internal virtual Point GetChildPoint()</Member>
+        <Member type="Method">internal static string GetKey(BTNode _node)</Member>
+        <Member type="Method">internal string GetKey()</Member>
+        <Member type="Method">internal virtual Point GetParentPoint()</Member>
+        <Member type="Method">internal Point GetPosition()</Member>
+        <Member type="Method">internal static void RecursivelyCreateSprites(Dictionary&lt;string, BTEditorSprite&gt; _sprites, BTNode _btNode, BTTreeViewer _btTreeViewer)</Member>
+        <Member type="Method">protected Rectangle GetDrawBound()</Member>
+        <Member type="Method">protected abstract bool IsThisType(BTNode _btNode)</Member>
+        <Member type="Method">protected void DrawStringCentreAlign(string _text, Graphics _gc, Brush _brush)</Member>
+        <Member type="Method">protected abstract void RecursivelyCreatChildren(Dictionary&lt;string, BTEditorSprite&gt; _sprites)</Member>
+        <Member type="Method">protected void DefaultPaintProcess(Graphics _gc, Brush _nodeColor, Brush _selectColor)</Member>
+        <Modifier>Abstract</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>BTEditorLine</Name>
+        <Access>Public</Access>
+        <Location left="145" top="740" />
+        <Size width="162" height="196" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">protected static int TrailPenWidth</Member>
+        <Member type="Field">protected static Pen FalseDrawPen</Member>
+        <Member type="Field">protected static Pen TrueDrawPen</Member>
+        <Member type="Property">internal BTNode ParentNode { get; set; }</Member>
+        <Member type="Property">internal BTNode ChildNode { get; set; }</Member>
+        <Member type="Method">internal string GetKey()</Member>
+        <Member type="Method">internal static string GetKey(BTNode _parent, BTNode _child)</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>BTEditorRectangleBTActionNode</Name>
+        <Access>Public</Access>
+        <Location left="442" top="1243" />
+        <Size width="234" height="77" />
+        <Collapsed>False</Collapsed>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>BTEditorRectangleBTCompositeNode</Name>
+        <Access>Public</Access>
+        <Location left="711" top="1243" />
+        <Size width="309" height="94" />
+        <Collapsed>False</Collapsed>
+        <Member type="Method">internal void AdjustChildrenSequence(BTEditorRectangle _rectangle, Point _worldPos)</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>BTEditorRectangleBTConditionNode</Name>
+        <Access>Public</Access>
+        <Location left="1049" top="1243" />
+        <Size width="248" height="77" />
+        <Collapsed>False</Collapsed>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>BTNodeSelectedArgs</Name>
+        <Access>Public</Access>
+        <Location left="754" top="91" />
+        <Size width="162" height="94" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">public BTNode BTNode { get; }</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Enum">
+        <Name>MouseAction</Name>
+        <Access>Public</Access>
+        <Location left="754" top="213" />
+        <Size width="162" height="112" />
+        <Collapsed>False</Collapsed>
+        <Value>MouseDown</Value>
+        <Value>MouseMove</Value>
+        <Value>MouseUp</Value>
+      </Entity>
+    </Entities>
+    <Relationships>
+      <Relationship type="Association" first="0" second="1">
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Composition</AssociationType>
+        <StartMultiplicity>1</StartMultiplicity>
+        <EndMultiplicity>1</EndMultiplicity>
+      </Relationship>
+      <Relationship type="Generalization" first="4" second="2">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+      </Relationship>
+      <Relationship type="Generalization" first="3" second="2">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+      </Relationship>
+      <Relationship type="Generalization" first="5" second="3">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Generalization" first="6" second="3">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Generalization" first="7" second="3">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Association" first="1" second="2">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <BendPoint relativeToStartShape="False">
+          <X>681</X>
+          <Y>527</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Composition</AssociationType>
+        <StartMultiplicity>1</StartMultiplicity>
+        <EndMultiplicity>*</EndMultiplicity>
+      </Relationship>
+      <Relationship type="Association" first="8" second="1">
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <Direction>Bidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="9" second="1">
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
       </Relationship>
     </Relationships>
   </ProjectItem>

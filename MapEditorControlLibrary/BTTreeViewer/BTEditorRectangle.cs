@@ -9,24 +9,24 @@ using System.Windows.Forms;
 
 namespace Catsland.MapEditorControlLibrary {
 
-    public class BTEditorRectangle : BTEditorSprite {
+    public abstract class BTEditorRectangle : BTEditorSprite {
 
         #region Properties
+
+        internal static int HorizontalInterval = 20;
+        internal static int VerticalInterval = 7;
+
+        private static Brush DefaultNodeBrush = new SolidBrush(Color.FromArgb(180, 180, 180));
+        private static Brush DefaultSelectedBrush = new SolidBrush(Color.FromArgb(10, 10, 10));
+
         protected static Brush FalseFillBrush = new SolidBrush(FalseFillColor);
         protected static Brush TrueFillBrush = new SolidBrush(TrueFillColor);
-
-        public static int HorizontalInterval = 20;
-        public static int VerticalInterval = 7;
-       
-        protected static Brush NonSelectedBrush = new SolidBrush(Color.FromArgb(94,94,94));
         protected static int runStateBorderWidth = 3;
-
-        private static Brush DefaultNodeColor = new SolidBrush(Color.FromArgb(180,180,180));
-        private static Brush DefaultSelectedColor = new SolidBrush(Color.FromArgb(10,10,10));
-
+ 
         private static List<BTEditorRectangle> nodePrototype;
+
         protected BTNode m_node;
-        public BTNode Node {
+        internal BTNode Node {
             set {
                 m_node = value;
             }
@@ -34,52 +34,51 @@ namespace Catsland.MapEditorControlLibrary {
                 return m_node;
             }
         }
+       
         protected Rectangle m_bound = new Rectangle(0, 0, 100, 22);
-        public Point GetPosition() {
-            return m_bound.Location;
-        }
-
         protected bool m_isSelected = false;
-
 
         #endregion
 
-        public BTEditorRectangle(BTTreeViewer _treeViewer)
+        internal BTEditorRectangle(BTTreeViewer _treeViewer)
             :base(_treeViewer) {
             m_treeViewer = _treeViewer;
         }
 
-        public static void InitializePrototypes() {
+        /**
+         * @brief initialize nodePrototype. In the creation of the chart, the viewer
+         *  find appropriate node in nodePrototype for the given BTNode, clone it and add to
+         *  sprite list.
+         **/ 
+        internal static void InitializePrototypes() {
             nodePrototype = new List<BTEditorRectangle>();
             nodePrototype.Add(new BTEditorRectangleBTCompositeNode(null));
             nodePrototype.Add(new BTEditorRectangleBTConditionNode(null));
             nodePrototype.Add(new BTEditorRectangleBTActionNode(null));
         }
 
-        public virtual BTEditorRectangle Clone(BTTreeViewer _treeViewer) { return new BTEditorRectangle(_treeViewer); }
-
-        protected virtual bool IsThisType(BTNode _btNode) {
-            return false;
-        }
-
-        protected static BTEditorRectangle GetRectangleNodeFromBTNode(BTNode _btNode, BTTreeViewer _treeViewer) {
+        /**
+         * @brief create a BTEditorRectangle according to the given BTNode
+         **/ 
+        protected static BTEditorRectangle CreateRectangleNodeFromBTNode(BTNode _btNode, BTTreeViewer _treeViewer) {
             if (nodePrototype != null) {
                 foreach (BTEditorRectangle prototype in nodePrototype) {
                     if (prototype.IsThisType(_btNode)) {
                         return prototype.Clone(_treeViewer);
                     }
                 }
-
             }
             Debug.Assert(false, "Cannot find rectangle for type: " + _btNode.GetType().Name);
             return null;
         }
 
-        public string GetKey() {
+        internal abstract BTEditorRectangle Clone(BTTreeViewer _treeViewer);
+
+        internal string GetKey() {
             return GetKey(m_node);
         }
 
-        public static string GetKey(BTNode _node) {
+        internal static string GetKey(BTNode _node) {
             if (_node != null) {
                 return _node.GUID;
             }
@@ -89,81 +88,108 @@ namespace Catsland.MapEditorControlLibrary {
             }
         }
 
-        protected virtual void RecursivelyCreatChildren(Dictionary<string, BTEditorSprite> _sprites) { }
+        internal Point GetPosition() {
+            return m_bound.Location;
+        }
 
-        public static void RecursivelyCreateSprites(Dictionary<string, BTEditorSprite> _sprites, BTNode _btNode, BTTreeViewer _btTreeViewer) {
+        protected abstract bool IsThisType(BTNode _btNode);
+
+        /**
+         * @brief recursively create sprites and insert into _sprites
+         **/ 
+        internal static void RecursivelyCreateSprites(Dictionary<string, BTEditorSprite> _sprites, BTNode _btNode, BTTreeViewer _btTreeViewer) {
             if (_btNode == null) {
                 return;
             }
             if (!_sprites.ContainsKey(BTEditorRectangle.GetKey(_btNode))) {
-                BTEditorRectangle node = GetRectangleNodeFromBTNode(_btNode, _btTreeViewer);
+                BTEditorRectangle node = CreateRectangleNodeFromBTNode(_btNode, _btTreeViewer);
                 node.Node = _btNode;
                 _sprites.Add(node.GetKey(), node);
             }
             (_sprites[BTEditorRectangle.GetKey(_btNode)] as BTEditorRectangle).RecursivelyCreatChildren(_sprites);
         }
 
-        public virtual int AutoRecursivelyLayout(Dictionary<string, BTEditorSprite> _sprites, Point _leftTop) {
-            return 0;
-        }
+        /**
+         * @brief recursively create children (including lines and nodes) and insert into _sprites
+         **/
+        protected abstract void RecursivelyCreatChildren(Dictionary<string, BTEditorSprite> _sprites);
 
-        public virtual Point GetParentPoint() {
+        /**
+         * @brief layout the node and its children with lefttop on _leftTop
+         **/ 
+        internal abstract int AutoRecursivelyLayout(Dictionary<string, BTEditorSprite> _sprites, Point _leftTop);
+
+        /**
+         * @brief get parent attach point
+         **/ 
+        internal virtual Point GetParentPoint() {
             return new Point(m_bound.X, m_bound.Y + m_bound.Height / 2);
         }
 
-        public virtual Point GetChildPoint() {
+        /**
+         * @brief get child attach point
+         **/ 
+        internal virtual Point GetChildPoint() {
             return new Point(m_bound.X + m_bound.Width, m_bound.Y + m_bound.Height / 2);
         }
 
-        public override void OnPaint(PaintEventArgs e) {
-            base.OnPaint(e);
-            Graphics gc = e.Graphics;
-            DefaultPaintProcess(gc, DefaultNodeColor, DefaultSelectedColor);
-        }
-
+        /**
+         * @brief get the bound of rectangle in draw coordinates
+         **/
         protected Rectangle GetDrawBound() {
             return new Rectangle(
                 new Point(m_treeViewer.AutoScrollPosition.X + m_bound.Location.X,
-                    m_treeViewer.AutoScrollPosition.Y + m_bound.Y), 
+                    m_treeViewer.AutoScrollPosition.Y + m_bound.Y),
                 m_bound.Size);
         }
 
+        internal override void OnPaint(PaintEventArgs e) {
+            base.OnPaint(e);
+            Graphics gc = e.Graphics;
+            DefaultPaintProcess(gc, DefaultNodeBrush, DefaultSelectedBrush);
+        }
+
+        /**
+         * @brief declare the right bottom position for measuring the size of the canvas
+         **/ 
         protected void DeclareRightBottom() {
             m_treeViewer.DeclareRightBottom(new Point(m_bound.Right, m_bound.Bottom));
         }
 
-        public override bool IsMouseOn(Point _pos) {
+        internal override bool IsMouseOn(Point _pos) {
             if (_pos.X < m_bound.Left || _pos.X > m_bound.Right || _pos.Y < m_bound.Top || _pos.Y > m_bound.Bottom) {
                 return false;
             }
             return true;
         }
 
-        public override void OnMouseDrag(Point _pos, Point _delta) {
+        internal override void OnMouseDrag(Point _pos, Point _delta) {
 //             m_bound.X = m_bound.X + _delta.X;
 //             m_bound.Y = m_bound.Y + _delta.Y;
 //             m_treeViewer.Refresh();
         }
 
-        public override void OnMouseClick(Point _pos) {
+        internal override void OnMouseClick(Point _pos) {
             base.OnMouseClick(_pos);
-
         }
 
-        public override void OnSelect() {
+        internal override void OnSelect() {
             base.OnSelect();
             m_isSelected = true;
             m_treeViewer.RaiseOnBTNodeSelected(m_node);
             m_treeViewer.Refresh();
         }
 
-        public override void OnDeselect() {
+        internal override void OnDeselect() {
             base.OnDeselect();
             m_isSelected = false;
             m_treeViewer.RaiseOnBTNodeDeselected(m_node);
             m_treeViewer.Refresh();
         }
 
+        /**
+         * @brief draw text with _brush in center alignment
+         **/ 
         protected void DrawStringCentreAlign(string _text, Graphics _gc, Brush _brush) {
             Rectangle rect = GetDrawBound();
             SizeF stringSize = _gc.MeasureString(_text, font);
@@ -172,14 +198,19 @@ namespace Catsland.MapEditorControlLibrary {
                 rect.Y + (rect.Height - stringSize.Height) / 2);
         }
 
+        /**
+         * @brief a default process to draw the rectangle
+         **/ 
         protected void DefaultPaintProcess(Graphics _gc, Brush _nodeColor, Brush _selectColor) {
             DeclareRightBottom();
             Rectangle rect = GetDrawBound();
             DrawDebugTrail(_gc, rect);
             DrawMainPart(_gc, rect, _nodeColor, _selectColor);
-            //DrawSelectBar(_gc, rect, _selectColor);
         }
 
+        /**
+         * @brief draw the main part of rectangle
+         **/ 
         protected void DrawMainPart(Graphics _gc, Rectangle _rect, Brush _nodeColor, Brush _selectColor) {
             if (m_isSelected) {
                 _gc.FillRectangle(_selectColor, _rect);
@@ -191,6 +222,9 @@ namespace Catsland.MapEditorControlLibrary {
             _gc.DrawRectangle(Pens.Black, _rect);
         }
 
+        /**
+         * @brief draw the debug trail of the rectangle
+         **/ 
         protected void DrawDebugTrail(Graphics _gc, Rectangle _rect) {
             if (m_treeViewer.IsObservingRuntimePack()) {
                 BTTreeRuntimePack.RuntimeState state = m_treeViewer.GetRuntimeState(m_node);

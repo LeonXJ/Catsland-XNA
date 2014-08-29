@@ -17,7 +17,12 @@ namespace Catsland.MapEditorControlLibrary {
         public event EventHandler<BTNodeSelectedArgs> OnBTNodeSelected;
         public event EventHandler<BTNodeSelectedArgs> OnBTNodeDeselected;
 
-        private Dictionary<string, BTEditorSprite> m_sprites; 
+        public enum MouseAction {
+            MouseDown = 0,
+            MouseMove,
+            MouseUp,
+        };
+
         private BTTree m_btTree;
         public BTTree BTTree {
             get {
@@ -25,12 +30,79 @@ namespace Catsland.MapEditorControlLibrary {
             }
         }
 
+        private Dictionary<string, BTEditorSprite> m_sprites;
+        private BTTreeRuntimePack m_observingRuntimePack;
         private string m_mouseDownSpriteKey = "";
+        private string m_selectedSpriteID = "";
         private Point m_mouseLastPosition = new Point();
-
         private Point m_currentRightBottom = new Point(0, 0);
         private Point m_ongoingRightBottom = new Point(0, 0);
-        public void DeclareRightBottom(Point _point) {
+
+#endregion
+
+        public BTTreeViewer() {
+            InitializeComponent();
+            BTEditorRectangle.InitializePrototypes();
+        }
+
+        /**
+         * @brief set BTTree
+         *   Warning: if it is observing a runtimepack, this action will stop
+         *      the observation
+         **/
+        public void SetBTTree(BTTree _btree) {
+            if (IsObservingRuntimePack()) {
+                m_observingRuntimePack = null;
+            }
+            m_btTree = _btree;
+            CreateChart();
+            AutoLayoutChart();
+            Refresh();
+        }
+
+        /**
+         * @brief set BTTreeRuntimePack and start observing the tree
+         **/ 
+        public void SetBTTreeAndObservingRuntimePack(BTTreeRuntimePack _runtimePack) {
+            if (!IsObservingRuntimePack()
+                || m_observingRuntimePack.BTTree != m_btTree) {
+                SetBTTree(_runtimePack.BTTree);
+            }
+            m_observingRuntimePack = _runtimePack;
+        }
+
+        internal bool IsObservingRuntimePack() {
+            return (m_observingRuntimePack != null);
+        }
+
+        /**
+         * @brief call this after _treeNode is added to bttree
+         **/
+        public void DeclareAddNode(BTNode _treeNode) {
+            BTNode parent = m_btTree.FindParent(_treeNode);
+            string parentKey = BTEditorRectangle.GetKey(parent);
+            if (m_sprites.ContainsKey(parentKey)) {
+                BTEditorRectangle.RecursivelyCreateSprites(m_sprites, parent, this);
+                AutoLayoutChart();
+                Refresh();
+            }
+        }
+
+        /**
+         * @brief call this after _treeNode is removed from bttree
+         **/
+        public void DeclareRemoveNode(BTNode _treeNode) {
+            DoDeselect();
+            CreateChart();
+            AutoLayoutChart();
+            Refresh();
+        }
+
+        /**
+         * @brief [Only called by BTEditorSprite] announce the position of the sprite
+         *  in order to get the size of the canvas
+         **/ 
+        internal void DeclareRightBottom(Point _point) {
             if (_point.X > m_ongoingRightBottom.X) {
                 m_ongoingRightBottom.X = _point.X;
             }
@@ -39,56 +111,38 @@ namespace Catsland.MapEditorControlLibrary {
             }
         }
 
-        public Point GetDrawPosition(Point _point) {
+        /** 
+         * @brief Convert the world position into draw position
+         *    because we use scrollbar.
+         **/ 
+        internal Point GetDrawPosition(Point _point) {
             Point offset = AutoScrollPosition;
             return new Point(_point.X + offset.X, _point.Y + offset.Y);
         }
-        public Point GetWorldPosition(Point _pointInDraw) {
+
+        /** 
+         * @brief Convert the draw position into world position
+         *    because we use scrollbar.
+         **/ 
+        internal Point GetWorldPosition(Point _pointInDraw) {
             Point offset = AutoScrollPosition;
             return new Point(_pointInDraw.X - offset.X, _pointInDraw.Y - offset.Y);
         }
 
-        public enum MouseAction{
-            MouseDown = 0,
-            MouseMove,
-            MouseUp,
-        };
-
-        private string m_selectedSpriteID = "";
-        private BTTreeRuntimePack m_observingRuntimePack;
-
-
-
-        #endregion
-
-        public BTTreeViewer() {
-            InitializeComponent();
-            BTEditorRectangle.InitializePrototypes();
-        }
-
-        public void SetBTTree(BTTree _btree) {
-            m_btTree = _btree;
-            CreateChart();
-            AutoLayoutChart();
-            Refresh();
-        }
-
-        public void SetObservingRuntimePack(BTTreeRuntimePack _runtimePack) {
-            m_observingRuntimePack = _runtimePack;
-        }
-
-        public bool IsObservingRuntimePack() {
-            return (m_observingRuntimePack != null);
-        }
-
-        public BTTreeRuntimePack.RuntimeState GetRuntimeState(BTNode _btNode) {
+        /**
+         * @brief [Only called by BTEditorSprite] Get the runtime state of a BTnode
+         **/
+        internal BTTreeRuntimePack.RuntimeState GetRuntimeState(BTNode _btNode) {
             if (m_observingRuntimePack != null) {
                 return m_observingRuntimePack.GetRuntimeState(_btNode);
             }
             return BTTreeRuntimePack.RuntimeState.Norun;
         }
 
-        public BTEditorRectangle GetRectangle(BTNode _node) {
+        /**
+         * @brief get the existing BTEditorRectangle for the given BTNode
+         **/ 
+        internal BTEditorRectangle GetRectangle(BTNode _node) {
             if (_node == null) {
                 return null;
             }
@@ -99,7 +153,11 @@ namespace Catsland.MapEditorControlLibrary {
             return null;
         }
 
-        protected void CreateChart() {
+        /**
+         * @brief create chart according to m_btTree. if it is null, it will clear
+         *  the view
+         **/ 
+        private void CreateChart() {
             if (m_btTree == null) {
                 m_sprites = null;
             }
@@ -110,29 +168,9 @@ namespace Catsland.MapEditorControlLibrary {
         }
 
         /**
-         * @brief call this after _treeNode is added to bttree
-         **/
-        public void DeclareAddNode(BTNode _treeNode) {
-            BTNode parent = m_btTree.FindParent(_treeNode);
-            string parentKey = BTEditorRectangle.GetKey(parent);
-            if(m_sprites.ContainsKey(parentKey)){
-                BTEditorRectangle.RecursivelyCreateSprites(m_sprites, parent, this);
-                AutoLayoutChart();
-                Refresh();
-            }
-        }
-
-        /**
-         * @brief call this after _treeNode is removed from bttree
+         * @brief recursively layout the nodes
          **/ 
-        public void DeclareRemoveNode(BTNode _treeNode) {
-            DoDeselect();
-            CreateChart();
-            AutoLayoutChart();
-            Refresh();
-        }
-
-        protected void AutoLayoutChart() {
+        private void AutoLayoutChart() {
             if (m_btTree != null && m_btTree.Root != null && m_sprites != null) {
                 string rootKey = BTEditorRectangle.GetKey(m_btTree.Root);
                 // auto layout
@@ -146,8 +184,6 @@ namespace Catsland.MapEditorControlLibrary {
 
         protected override void OnPaint(PaintEventArgs e) {
             base.OnPaint(e);
-            // background
-            e.Graphics.FillRectangle(Brushes.AliceBlue, new Rectangle(0, 0, this.Width, this.Height));
             if (m_sprites != null) {
                 foreach (KeyValuePair<string, BTEditorSprite> keyValue in m_sprites) {
                     keyValue.Value.OnPaint(e);
@@ -156,6 +192,9 @@ namespace Catsland.MapEditorControlLibrary {
             DecideAndUpdateScroll();
         }
 
+        /**
+         * @brief decide whether to update scrollbar by checking if the m_ongoingRightBottom changed
+         **/ 
         private void DecideAndUpdateScroll() {
             if (!m_ongoingRightBottom.Equals(m_currentRightBottom)) {
                 this.AutoScrollMinSize = new Size(m_ongoingRightBottom.X, m_ongoingRightBottom.Y);
@@ -166,7 +205,11 @@ namespace Catsland.MapEditorControlLibrary {
             m_ongoingRightBottom.Y = 0;
         }
 
-        protected string GetEditorSpriteKeyByPosition(Point _pos, MouseAction _mouseAction) {
+        /**
+         * @brief get the key of the sprite with the given position
+         *      return "" if no sprite is hit
+         **/
+        private string GetEditorSpriteKeyByPosition(Point _pos, MouseAction _mouseAction) {
             if (m_sprites != null) {
                 foreach (KeyValuePair<string, BTEditorSprite> keyValue in m_sprites) {
                     if (keyValue.Value.IsMouseOn(_pos)) {
@@ -183,12 +226,18 @@ namespace Catsland.MapEditorControlLibrary {
             return "";
         }
 
+        /**
+         * @brief mouse-down event
+         **/ 
         private void BTTreeViewer_MouseDown(object sender, MouseEventArgs e) {
             Point worldPosition = GetWorldPosition(e.Location);
             m_mouseDownSpriteKey = GetEditorSpriteKeyByPosition(worldPosition, MouseAction.MouseDown);
             m_mouseLastPosition = worldPosition;
         }
 
+        /**
+         * @brief mouse-up event
+         **/ 
         private void BTTreeViewer_MouseUp(object sender, MouseEventArgs e) {
             Point worldPosition = GetWorldPosition(e.Location);
             string mouseUpSpriteKey = GetEditorSpriteKeyByPosition(worldPosition, MouseAction.MouseUp);
@@ -217,6 +266,23 @@ namespace Catsland.MapEditorControlLibrary {
             m_mouseDownSpriteKey = "";
         }
 
+        /**
+         * @brief mouse-move event
+         **/ 
+        private void BTTreeViewer_MouseMove(object sender, MouseEventArgs e) {
+            if (m_mouseDownSpriteKey != "") {
+                Point worldPosition = GetWorldPosition(e.Location);
+                if (m_sprites != null && m_sprites.ContainsKey(m_mouseDownSpriteKey)) {
+                    m_sprites[m_mouseDownSpriteKey].OnMouseDrag(worldPosition,
+                        new Point(worldPosition.X - m_mouseLastPosition.X, worldPosition.Y - m_mouseLastPosition.Y));
+                    m_mouseLastPosition = worldPosition;
+                }
+            }
+        }
+
+        /**
+         * @brief select the given sprite
+         **/ 
         private void DeSelect(string _spriteID) {
             if (m_sprites.ContainsKey(m_mouseDownSpriteKey)) {
                 m_sprites[m_mouseDownSpriteKey].OnSelect();
@@ -224,6 +290,9 @@ namespace Catsland.MapEditorControlLibrary {
             }
         }
 
+        /**
+         * @brief deselect the given sprite
+         **/ 
         private void DoDeselect() {
             if (m_selectedSpriteID != "" && m_sprites.ContainsKey(m_selectedSpriteID)) {
                 m_sprites[m_selectedSpriteID].OnDeselect();
@@ -231,6 +300,10 @@ namespace Catsland.MapEditorControlLibrary {
             }
         }
 
+        /**
+         * @brief change _node's order among its siblings according to _worldPos
+         *      in BTEditorRectangle's world y positions
+         **/
         private void UpdateChildrenSequence(string _node, Point _worldPos) {
             if (m_sprites.ContainsKey(_node)) {
                 BTEditorRectangle editorNode = m_sprites[_node] as BTEditorRectangle;
@@ -247,32 +320,38 @@ namespace Catsland.MapEditorControlLibrary {
 
         }
 
-        private void BTTreeViewer_MouseMove(object sender, MouseEventArgs e) {
-            if (m_mouseDownSpriteKey != "") {
-                Point worldPosition = GetWorldPosition(e.Location);
-                if (m_sprites != null && m_sprites.ContainsKey(m_mouseDownSpriteKey)) {
-                    m_sprites[m_mouseDownSpriteKey].OnMouseDrag(worldPosition,
-                        new Point(worldPosition.X - m_mouseLastPosition.X, worldPosition.Y - m_mouseLastPosition.Y));
-                    m_mouseLastPosition = worldPosition;
-                }
-            }
-        }
-
-        public void RaiseOnBTNodeSelected(BTNode _node) {
+        /**
+         * @brief [Only called by BTEditorRectangle] invoke OnBTNodeSelected event by BTEditorRectangle
+         **/ 
+        internal void RaiseOnBTNodeSelected(BTNode _node) {
             BTNodeSelectedArgs args = new BTNodeSelectedArgs(_node);
             OnBTNodeSelected(this, args);
         }
 
-        public void RaiseOnBTNodeDeselected(BTNode _node) {
+        /**
+         * @brief [Only called by BTEditorRectangle] invoke OnBTNodeDeselected event by BTEditorRectangle
+         **/ 
+        internal void RaiseOnBTNodeDeselected(BTNode _node) {
             BTNodeSelectedArgs args = new BTNodeSelectedArgs(_node);
             OnBTNodeDeselected(this, args);
         }
 
+        /**
+         * @brief scollbar move event
+         **/ 
         private void BTTreeViewer_Scroll(object sender, ScrollEventArgs e) {
             Refresh();
         }
 
-        public bool SetParent(string _child, string _newParent) {
+        /**
+         * @brief Set child's parent to _newParent. the function do the following things
+         *  1. check whether the child and parent exist
+         *  2. check whether there would be cycle structure: if the _child is _newParent's ancestor
+         *  3. if the _newParent is ConditionNode, check if it has child. If it does, the action is illege
+         *  4. break the old edge
+         *  5. make new connection
+         **/ 
+        internal bool SetParent(string _child, string _newParent) {
             if (!m_sprites.ContainsKey(_child) || !m_sprites.ContainsKey(_newParent)) {
                 return false;
             }
@@ -329,8 +408,6 @@ namespace Catsland.MapEditorControlLibrary {
         }
     }
 
-   
-
     public class BTNodeSelectedArgs : EventArgs {
         private BTNode m_btNode;
         public BTNode BTNode {
@@ -338,46 +415,8 @@ namespace Catsland.MapEditorControlLibrary {
                 return m_btNode;
             }
         }
-
         public BTNodeSelectedArgs(BTNode _btNode) {
             m_btNode = _btNode;
         }
     }
-
-    public class BTEditorSprite {
-
-        protected static Color FalseFillColor = Color.FromArgb(149, 68, 68);
-        protected static Color TrueFillColor = Color.FromArgb(78, 148, 68);
-
-        protected BTTreeViewer m_treeViewer;
-        protected static Font font;
-
-        public BTEditorSprite(BTTreeViewer _treeViewer) {
-            m_treeViewer = _treeViewer;
-            if (font == null) {
-                font = new Font("Arial", 10.5f);
-            }
-        }
-
-        public virtual bool IsMouseOn(Point _pos) { return false; }
-
-        public virtual void OnPaint(PaintEventArgs e) { }
-
-        public virtual void OnMouseDown(Point _pos) { }
-
-        public virtual void OnMouseUp(Point _pos) { }
-
-        public virtual void OnMouseClick(Point _pos) { }
-
-        public virtual void OnMouseDrag(Point _pos, Point _delta) { }
-
-        public virtual void OnDragOn(Point _pos, BTEditorSprite _source) { }
-
-        public virtual void OnSelect() { }
-
-        public virtual void OnDeselect() { }
-    
-    }
-
-
 }

@@ -17,11 +17,11 @@ namespace Catsland.MapEditorControlLibrary {
 
         #endregion
 
-        public BTEditorRectangleBTCompositeNode(BTTreeViewer _treeViewer)
+        internal BTEditorRectangleBTCompositeNode(BTTreeViewer _treeViewer)
             : base(_treeViewer) {
         }
 
-        public override BTEditorRectangle Clone(BTTreeViewer _treeViewer) {
+        internal override BTEditorRectangle Clone(BTTreeViewer _treeViewer) {
             return new BTEditorRectangleBTCompositeNode(_treeViewer);
         }
 
@@ -49,7 +49,7 @@ namespace Catsland.MapEditorControlLibrary {
             }
         }
 
-        public override int AutoRecursivelyLayout(Dictionary<string, BTEditorSprite> _sprites, Point _leftTop) {
+        internal override int AutoRecursivelyLayout(Dictionary<string, BTEditorSprite> _sprites, Point _leftTop) {
             if (m_node != null) {
                 // children
                 BTCompositeNode node = m_node as BTCompositeNode;
@@ -83,28 +83,18 @@ namespace Catsland.MapEditorControlLibrary {
             }
         }
 
-        public override void OnPaint(PaintEventArgs e) {
+        internal override void OnPaint(PaintEventArgs e) {
             Graphics gc = e.Graphics;
             DefaultPaintProcess(gc, NodeColor, SelectedColor);
-//             Pen edge = Pens.Black;
-//             if (m_isSelected) {
-//                 edge = Pens.Red;
-//             }
-//             DeclareRightBottom();
-//             Rectangle rect = GetDrawBound();
-//             gc.FillRectangle(FillBrush, rect);
-//             gc.DrawRectangle(edge, rect);
-//             DrawDebugTrail(gc, rect);
-//             DrawStringCentreAlign(m_node.GetType().Name, gc, Brushes.Black);
         }
 
-        public override void OnDragOn(Point _pos, BTEditorSprite _source) {
+        internal override void OnDragOn(Point _pos, BTEditorSprite _source) {
             if (_source.GetType().IsSubclassOf(typeof(BTEditorRectangle))) {
                 m_treeViewer.SetParent((_source as BTEditorRectangle).GetKey(), GetKey());
             }
         }
 
-        public void AdjustChildrenSequence(BTEditorRectangle _rectangle, Point _worldPos) {
+        internal void AdjustChildrenSequence(BTEditorRectangle _rectangle, Point _worldPos) {
             BTCompositeNode node = m_node as BTCompositeNode;
             if (node.Children != null) {
                 node.Children.Remove(_rectangle.Node);

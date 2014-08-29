@@ -46,5 +46,9 @@ namespace Catsland.Core {
             }
             return null;
         }
+
+        public override bool CanAddMoreChild() {
+            return true;
+        }
     }
 }

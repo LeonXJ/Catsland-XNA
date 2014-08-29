@@ -72,8 +72,7 @@ namespace Catsland.Plugin {
                 if (Mgr<GameEngine>.Singleton._gameEngineMode == GameEngine.GameEngineMode.MapEditor
                     && Mgr<MapEditor>.Singleton != null && Mgr<MapEditor>.Singleton.BTTreeEditor != null &&
                     Mgr<MapEditor>.Singleton.BTTreeEditor.IsObservingThisRuntimePack(m_btTreeRuntimePack)) {
-                        Mgr<MapEditor>.Singleton.BTTreeEditor.UpdateBlackboard();
-                        Mgr<MapEditor>.Singleton.BTTreeEditor.UpdateBTTreeViewer();
+                        Mgr<MapEditor>.Singleton.BTTreeEditor.UpdateBTTreeEditor();
                 }
             }
         }

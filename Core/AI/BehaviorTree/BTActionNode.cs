@@ -12,6 +12,10 @@ namespace Catsland.Core {
 
         public virtual void OnExit(BTTreeRuntimePack _btTree) { }
 
+        public override bool CanAddMoreChild() {
+            return false;
+        }
+
         sealed protected override bool Execute(BTTreeRuntimePack _btTree) {
             if (!_btTree.IsActionRunning(this)) {
                 OnEnter(_btTree);
@@ -19,5 +23,7 @@ namespace Catsland.Core {
             _btTree.DeclareRunning(this);
             return OnRunning(_btTree);
         }
+
+        
     }
 }

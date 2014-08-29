@@ -24,5 +24,10 @@ namespace Catsland.Core {
 
         public virtual string GetDisplayName() { return GetType().Name; }
 
+        /**
+         * @brief can this node add one more child?
+         **/ 
+        public virtual bool CanAddMoreChild() { return false; }
+
     }
 }

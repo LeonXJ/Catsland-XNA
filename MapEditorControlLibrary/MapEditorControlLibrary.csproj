@@ -48,6 +48,7 @@
     <Compile Include="BTTreeViewer\BTEditorRectangleBTCompositeNode.cs" />
     <Compile Include="BTTreeViewer\BTEditorRectangle.cs" />
     <Compile Include="BTTreeViewer\BTEditorRectangleBTConditionNode.cs" />
+    <Compile Include="BTTreeViewer\BTEditorSprite.cs" />
     <Compile Include="BTTreeViewer\BTTreeViewer.cs">
       <SubType>UserControl</SubType>
     </Compile>

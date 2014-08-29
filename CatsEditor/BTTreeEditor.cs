@@ -18,6 +18,8 @@ namespace Catsland.Editor {
 #region Properties
 
         private BTNode m_selectedNode;
+        private BTTreeRuntimePack m_observingRuntimePack;
+        private Dictionary<string, int> m_blackboardMap;
 
 #endregion
 
@@ -25,8 +27,51 @@ namespace Catsland.Editor {
             InitializeComponent();
         }
 
-        private void InitializeAttribute() {
+        /**
+         * @brief open BTTree
+         **/
+        public void OpenBTTree(BTTree _btTree) {
+            InitializeAll();
+            btTreeViewer.SetBTTree(_btTree);
+        }
+
+        /**
+         * @brief open BTTree and observe RuntimePack
+         **/ 
+        public void ObserveLiveBTTree(BTTreeRuntimePack _runtimePack) {
+            InitializeAll();
+            BindRuntimePack(_runtimePack);
+            btTreeViewer.SetBTTreeAndObservingRuntimePack(_runtimePack);
+        }
+
+        /**
+         * @brief if the given runtimePack is being observed.
+         *  Note that if _runtimePack == null and no runtimePack is observing, 
+         *  the result is true
+         * */
+        public bool IsObservingThisRuntimePack(BTTreeRuntimePack _runtimePack) {
+            return m_observingRuntimePack == _runtimePack;
+        }
+
+        /**
+         * @brief [Called by BTTreeComponent only] impulse to show runtimePack
+         **/
+        public void UpdateBTTreeEditor() {
+            if (Visible) {
+                UpdateBlackboard();
+                btTreeViewer.Refresh();
+            }
+        }
+
+        private void InitializeAll() {
+            InitializeMenu();
+            InitializeForm();
+        }
+
+        private void InitializeForm() {
             m_selectedNode = null;
+            m_observingRuntimePack = null;
+            m_blackboardMap = null;
         }
 
         private void InitializeMenu() {
@@ -61,6 +106,9 @@ namespace Catsland.Editor {
             }
         }
 
+        /**
+         * @brief [Only called by insert menu item] create and insert the node as child node
+         **/ 
         private void ExecuteAddTreeNode(object sender, EventArgs e) {
             if (m_selectedNode != null) {
                 string nodeName = (string)((ToolStripMenuItem)sender).Tag;
@@ -88,14 +136,8 @@ namespace Catsland.Editor {
 
         }
 
-        public void OpenBTTree(BTTree _btTree) {
-            btTreeViewer.SetBTTree(_btTree);
-            InitializeMenu();
-            InitializeAttribute();
-        }
-
         /**
-         * @brief A BTNode is clicked
+         * @brief A BTNode is selected
          **/ 
         private void btTreeViewer_OnBTNodeSelected(object sender, MapEditorControlLibrary.BTNodeSelectedArgs e) {
             if (e.BTNode != null) {
@@ -105,9 +147,21 @@ namespace Catsland.Editor {
             }
         }
 
+        /**
+         * @brief A BTNode is deselected
+         **/ 
+        private void btTreeViewer_OnBTNodeDeselected(object sender, MapEditorControlLibrary.BTNodeSelectedArgs e) {
+            propertyEditor.SelectedObject = null;
+            m_selectedNode = null;
+            UpdateMenu();
+        }
+
+        /**
+         * @brief set the menu according to current m_selectedNode
+         **/ 
         private void UpdateMenu() {
             if (m_selectedNode != null) {
-                if (CanBeParentNode(m_selectedNode)) {
+                if (m_selectedNode.CanAddMoreChild()) {
                     menuInsert.Enabled = true;
                 }
                 else {
@@ -127,60 +181,20 @@ namespace Catsland.Editor {
             }
         }
 
-        private void btTreeViewer_OnBTNodeDeselected(object sender, MapEditorControlLibrary.BTNodeSelectedArgs e) {
-            propertyEditor.SelectedObject = null;
-            m_selectedNode = null;
-            UpdateMenu();
-        }
-
-        private bool CanBeParentNode(BTNode _node) {
-            if(_node == null){
-                return false;
-            }
-            if (_node.GetType().IsSubclassOf(typeof(BTCompositeNode))) {
-                return true;
-            }
-            else if (_node.GetType().IsSubclassOf(typeof(BTConditionNode)) &&
-                (_node as BTConditionNode).Child == null) {
-                    return true;
-            }
-            return false;
-        }
-
         private void removeToolStripMenuItem_Click(object sender, EventArgs e) {
             
         }
 
-        private BTTreeRuntimePack m_observingRuntimePack;
-        public bool IsObservingThisRuntimePack(BTTreeRuntimePack _runtimePack) {
-            return m_observingRuntimePack == _runtimePack;
-        }
-        private Dictionary<string, int> m_blackboardMap;
-
-        public void ObserveLiveBTTree(BTTreeRuntimePack _runtimePack) {
-            if (_runtimePack == null) {
-                OpenBTTree(null);
-            }
-            else {
-                OpenBTTree(_runtimePack.BTTree);
-            }
-            BindRuntimePack(_runtimePack);
-            btTreeViewer.SetObservingRuntimePack(_runtimePack);
-        }
-
-        public void UpdateBTTreeViewer() {
-            if (Visible) {
-                btTreeViewer.Refresh();
-            }
-        }
-
+        /**
+         * @brief set the runtime pack to blackboard
+         **/ 
         private void BindRuntimePack(BTTreeRuntimePack _runtimePack) {
             m_observingRuntimePack = _runtimePack;
             blackboard.Rows.Clear();
             m_blackboardMap = new Dictionary<string, int>();
         }
 
-        public void UpdateBlackboard() {
+        private void UpdateBlackboard() {
             if (!Visible) {
                 return;
             }
@@ -208,16 +222,21 @@ namespace Catsland.Editor {
             }
         }
 
+        /**
+         * @brief not actually close, we just hide it. we close it along with the editor
+         **/ 
         private void BTTreeEditor_FormClosing(object sender, FormClosingEventArgs e) {
             e.Cancel = true;
             this.Hide();
         }
 
+        /**
+         * @brief create new tree command
+         **/ 
         private void newToolStripMenuItem_Click(object sender, EventArgs e) {
             CreateNewBTTree();
         }
-
-        protected void CreateNewBTTree() {
+        private void CreateNewBTTree() {
             string treeName = "UntitledBTTree";
             InputDialog inputDialog = new InputDialog();
             inputDialog.InitializeDate("Input a name for BTTree", "Input a name for BTTree", treeName);
@@ -247,6 +266,15 @@ namespace Catsland.Editor {
             }
         }
 
+        /**
+         * @brief load tree command
+         **/
+        private void openToolStripMenuItem_Click(object sender, EventArgs e) {
+            string treeName = ResourceSelectorWindow.SelectResource(ResourceSelectorWindow.ObserveType.BTTree, "", this);
+            if (treeName != "") {
+                LoadBTTree(treeName);
+            }
+        }
         private void LoadBTTree(string _btTreeName) {
             if (Mgr<CatProject>.Singleton != null && Mgr<CatProject>.Singleton.BTTreeManager != null) {
                 BTTree btTree = Mgr<CatProject>.Singleton.BTTreeManager.LoadBTTree(_btTreeName);
@@ -259,13 +287,9 @@ namespace Catsland.Editor {
             }
         }
 
-        private void openToolStripMenuItem_Click(object sender, EventArgs e) {
-            string treeName = ResourceSelectorWindow.SelectResource(ResourceSelectorWindow.ObserveType.BTTree, "", this);
-            if (treeName != "") {
-                LoadBTTree(treeName);
-            }
-        }
-
+        /**
+         * @brief remove node command
+         **/ 
         private void menuRemoveNode_Click(object sender, EventArgs e) {
             if (m_selectedNode != null) {
                 btTreeViewer.BTTree.RemoveSubTree(m_selectedNode);
@@ -274,6 +298,9 @@ namespace Catsland.Editor {
             }
         }
 
+        /**
+         * @brief synchronize command
+         **/ 
         private void synchronizeAllEditToolStripMenuItem_Click(object sender, EventArgs e) {
             if (Mgr<CatProject>.Singleton != null && Mgr<CatProject>.Singleton.BTTreeManager != null) {
                 Mgr<CatProject>.Singleton.BTTreeManager.SaveAllBTTree();
@@ -282,9 +309,7 @@ namespace Catsland.Editor {
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e) {
-            Close();
+            Hide();
         }
-
-        
     }
 }

@@ -38,15 +38,15 @@ namespace Catsland.MapEditorControlLibrary {
 
         #endregion
 
-        public BTEditorLine(BTTreeViewer _treeViewer)
+        internal BTEditorLine(BTTreeViewer _treeViewer)
             : base(_treeViewer) {
         }
 
-        public string GetKey() {
+        internal string GetKey() {
             return GetKey(m_parentNode, m_childNode);
         }
 
-        public static string GetKey(BTNode _parent, BTNode _child) {
+        internal static string GetKey(BTNode _parent, BTNode _child) {
             if (_parent != null && _child != null) {
                 return _parent.GUID + _child.GUID;
             }
@@ -56,7 +56,7 @@ namespace Catsland.MapEditorControlLibrary {
             }
         }
 
-        public override void OnPaint(PaintEventArgs e) {
+        internal override void OnPaint(PaintEventArgs e) {
             if (m_parentNode == null || m_childNode == null) {
                 return;
             }

@@ -56,7 +56,7 @@ namespace Catsland.Plugin.BasicPlugin {
             Down = Keys.Down;
 
             Defence = Keys.None;
-            Attack = Keys.None;
+            Attack = Keys.J;
             Jump = Keys.Space;
             Run = Keys.LeftShift;
 
@@ -75,6 +75,16 @@ namespace Catsland.Plugin.BasicPlugin {
             characterController.m_wantUp = characterController.m_wantUp || keyboardState.IsKeyDown(Up);
             characterController.m_wantDown = characterController.m_wantDown || keyboardState.IsKeyDown(Down);
             characterController.m_wantRun = characterController.m_wantRun || keyboardState.IsKeyDown(Run);
+
+            if (!oldKeyboardState.IsKeyDown(Jump) && keyboardState.IsKeyDown(Jump)) {
+                characterController.m_wantJump = true;
+            }
+            if (!oldKeyboardState.IsKeyDown(Attack) && keyboardState.IsKeyDown(Attack)) {
+                characterController.m_wantKill = true;
+            }
+
+
+            
             characterController.m_wantJump = characterController.m_wantJump || keyboardState.IsKeyDown(Jump);
 
             if (keyboardState.IsKeyDown(Keys.C)) {
@@ -84,97 +94,97 @@ namespace Catsland.Plugin.BasicPlugin {
             }
 
             // TODO: just test sound
-            if (keyboardState.IsKeyDown(Keys.M)) {
-                if (oldKeyboardState != null && !oldKeyboardState.IsKeyDown(Keys.M)) {
-                    Mgr<CatProject>.Singleton.m_soundManager.PlayMusic("music\\highsea");
-                }
-            }
-            if (keyboardState.IsKeyDown(Keys.N)) {
-                if (oldKeyboardState != null && !oldKeyboardState.IsKeyDown(Keys.N)) {
-                    Mgr<CatProject>.Singleton.m_soundManager.PlayMusic("music\\buc");
-                }
-            }
-            if (keyboardState.IsKeyDown(Keys.B)) {
-                if (oldKeyboardState != null && !oldKeyboardState.IsKeyDown(Keys.B)) {
-                    Mgr<CatProject>.Singleton.m_soundManager.PlayMusic("music\\fight");
-                }
-            }
-            if (keyboardState.IsKeyDown(Keys.RightControl)) {
-                if (oldKeyboardState != null && !oldKeyboardState.IsKeyDown(Keys.RightControl)) {
-                    Mgr<CatProject>.Singleton.m_soundManager.PlaySound("sound\\m4a1",
-                        new Vector3(0.0f, 0.0f, 1.0f));
-                }                
-            }
-            // test post process
-            if (keyboardState.IsKeyDown(Keys.D2)) {
-                PostProcessColorAdjustment colorAdjustment = Mgr<Scene>.Singleton.PostProcessManager.
-                    GetPostProcess(typeof(PostProcessColorAdjustment).ToString()) 
-                    as PostProcessColorAdjustment;
-                if (colorAdjustment != null) {
-                    colorAdjustment.Saturability += 0.01f;
-                }
-            }
-            if (keyboardState.IsKeyDown(Keys.D1)) {
-                PostProcessColorAdjustment colorAdjustment = Mgr<Scene>.Singleton.PostProcessManager.
-                    GetPostProcess(typeof(PostProcessColorAdjustment).ToString())
-                    as PostProcessColorAdjustment;
-                if (colorAdjustment != null) {
-                    colorAdjustment.Saturability -= 0.01f;
-                }
-            }
-            if (keyboardState.IsKeyDown(Keys.D4)) {
-                PostProcessColorAdjustment colorAdjustment = Mgr<Scene>.Singleton.PostProcessManager.
-                    GetPostProcess(typeof(PostProcessColorAdjustment).ToString())
-                    as PostProcessColorAdjustment;
-                if (colorAdjustment != null) {
-                    colorAdjustment.Illuminate += 0.01f;
-                }
-            }
-            if (keyboardState.IsKeyDown(Keys.D3)) {
-                PostProcessColorAdjustment colorAdjustment = Mgr<Scene>.Singleton.PostProcessManager.
-                    GetPostProcess(typeof(PostProcessColorAdjustment).ToString())
-                    as PostProcessColorAdjustment;
-                if (colorAdjustment != null) {
-                    colorAdjustment.Illuminate -= 0.01f;
-                }
-            }
-            // HDR
-            if (keyboardState.IsKeyDown(Keys.D5)) {
-                PostProcessHDR hdr = Mgr<Scene>.Singleton.PostProcessManager.
-                    GetPostProcess(typeof(PostProcessHDR).ToString())
-                    as PostProcessHDR;
-                if (hdr != null) {
-                    hdr.Exposure -= 0.1f;
-                }
-            }
-            if (keyboardState.IsKeyDown(Keys.D6)) {
-                PostProcessHDR hdr = Mgr<Scene>.Singleton.PostProcessManager.
-                    GetPostProcess(typeof(PostProcessHDR).ToString())
-                    as PostProcessHDR;
-                if (hdr != null) {
-                    hdr.Exposure += 0.1f;
-                }
-            }
-            // Vignette
-            // HDR
-            if (keyboardState.IsKeyDown(Keys.D7)) {
-                PostProcessVignette vignette = Mgr<Scene>.Singleton.PostProcessManager.
-                    GetPostProcess(typeof(PostProcessVignette).ToString())
-                    as PostProcessVignette;
-                if (vignette != null) {
-                    vignette.Radius = new Vector2(vignette.Radius.X - 0.01f,
-                                                  vignette.Radius.Y);
-                }
-            }
-            if (keyboardState.IsKeyDown(Keys.D8)) {
-                PostProcessVignette vignette = Mgr<Scene>.Singleton.PostProcessManager.
-                    GetPostProcess(typeof(PostProcessVignette).ToString())
-                    as PostProcessVignette;
-                if (vignette != null) {
-                    vignette.Radius = new Vector2(vignette.Radius.X + 0.01f,
-                                                  vignette.Radius.Y);
-                }
-            }
+//             if (keyboardState.IsKeyDown(Keys.M)) {
+//                 if (oldKeyboardState != null && !oldKeyboardState.IsKeyDown(Keys.M)) {
+//                     Mgr<CatProject>.Singleton.m_soundManager.PlayMusic("music\\highsea");
+//                 }
+//             }
+//             if (keyboardState.IsKeyDown(Keys.N)) {
+//                 if (oldKeyboardState != null && !oldKeyboardState.IsKeyDown(Keys.N)) {
+//                     Mgr<CatProject>.Singleton.m_soundManager.PlayMusic("music\\buc");
+//                 }
+//             }
+//             if (keyboardState.IsKeyDown(Keys.B)) {
+//                 if (oldKeyboardState != null && !oldKeyboardState.IsKeyDown(Keys.B)) {
+//                     Mgr<CatProject>.Singleton.m_soundManager.PlayMusic("music\\fight");
+//                 }
+//             }
+//             if (keyboardState.IsKeyDown(Keys.RightControl)) {
+//                 if (oldKeyboardState != null && !oldKeyboardState.IsKeyDown(Keys.RightControl)) {
+//                     Mgr<CatProject>.Singleton.m_soundManager.PlaySound("sound\\m4a1",
+//                         new Vector3(0.0f, 0.0f, 1.0f));
+//                 }                
+//             }
+//             // test post process
+//             if (keyboardState.IsKeyDown(Keys.D2)) {
+//                 PostProcessColorAdjustment colorAdjustment = Mgr<Scene>.Singleton.PostProcessManager.
+//                     GetPostProcess(typeof(PostProcessColorAdjustment).ToString()) 
+//                     as PostProcessColorAdjustment;
+//                 if (colorAdjustment != null) {
+//                     colorAdjustment.Saturability += 0.01f;
+//                 }
+//             }
+//             if (keyboardState.IsKeyDown(Keys.D1)) {
+//                 PostProcessColorAdjustment colorAdjustment = Mgr<Scene>.Singleton.PostProcessManager.
+//                     GetPostProcess(typeof(PostProcessColorAdjustment).ToString())
+//                     as PostProcessColorAdjustment;
+//                 if (colorAdjustment != null) {
+//                     colorAdjustment.Saturability -= 0.01f;
+//                 }
+//             }
+//             if (keyboardState.IsKeyDown(Keys.D4)) {
+//                 PostProcessColorAdjustment colorAdjustment = Mgr<Scene>.Singleton.PostProcessManager.
+//                     GetPostProcess(typeof(PostProcessColorAdjustment).ToString())
+//                     as PostProcessColorAdjustment;
+//                 if (colorAdjustment != null) {
+//                     colorAdjustment.Illuminate += 0.01f;
+//                 }
+//             }
+//             if (keyboardState.IsKeyDown(Keys.D3)) {
+//                 PostProcessColorAdjustment colorAdjustment = Mgr<Scene>.Singleton.PostProcessManager.
+//                     GetPostProcess(typeof(PostProcessColorAdjustment).ToString())
+//                     as PostProcessColorAdjustment;
+//                 if (colorAdjustment != null) {
+//                     colorAdjustment.Illuminate -= 0.01f;
+//                 }
+//             }
+//             // HDR
+//             if (keyboardState.IsKeyDown(Keys.D5)) {
+//                 PostProcessHDR hdr = Mgr<Scene>.Singleton.PostProcessManager.
+//                     GetPostProcess(typeof(PostProcessHDR).ToString())
+//                     as PostProcessHDR;
+//                 if (hdr != null) {
+//                     hdr.Exposure -= 0.1f;
+//                 }
+//             }
+//             if (keyboardState.IsKeyDown(Keys.D6)) {
+//                 PostProcessHDR hdr = Mgr<Scene>.Singleton.PostProcessManager.
+//                     GetPostProcess(typeof(PostProcessHDR).ToString())
+//                     as PostProcessHDR;
+//                 if (hdr != null) {
+//                     hdr.Exposure += 0.1f;
+//                 }
+//             }
+//             // Vignette
+//             // HDR
+//             if (keyboardState.IsKeyDown(Keys.D7)) {
+//                 PostProcessVignette vignette = Mgr<Scene>.Singleton.PostProcessManager.
+//                     GetPostProcess(typeof(PostProcessVignette).ToString())
+//                     as PostProcessVignette;
+//                 if (vignette != null) {
+//                     vignette.Radius = new Vector2(vignette.Radius.X - 0.01f,
+//                                                   vignette.Radius.Y);
+//                 }
+//             }
+//             if (keyboardState.IsKeyDown(Keys.D8)) {
+//                 PostProcessVignette vignette = Mgr<Scene>.Singleton.PostProcessManager.
+//                     GetPostProcess(typeof(PostProcessVignette).ToString())
+//                     as PostProcessVignette;
+//                 if (vignette != null) {
+//                     vignette.Radius = new Vector2(vignette.Radius.X + 0.01f,
+//                                                   vignette.Radius.Y);
+//                 }
+//             }
 
 
             oldKeyboardState = keyboardState;  

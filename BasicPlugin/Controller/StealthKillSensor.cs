@@ -65,9 +65,9 @@ namespace Catsland.Plugin.BasicPlugin {
             UpdateSensor();
         }
 
-        ~StealthKillSensor() {
+        public void UnbindFromScene(Scene _scene) {
             if (m_fixture != null) {
-                PhysicsSystem physicsSystem = Mgr<Scene>.Singleton.GetPhysicsSystem();
+                PhysicsSystem physicsSystem = _scene.GetPhysicsSystem();
                 m_body.DestroyFixture(m_fixture);
             }
         }

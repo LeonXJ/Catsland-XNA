@@ -348,7 +348,7 @@ namespace Catsland.Plugin.BasicPlugin {
             m_body.SleepingAllowed = false;
             m_body.FixedRotation = true;
             m_body.Position = new Vector2(0.0f, 0.0f);
-            m_body.UserData = new Tag(0, 0.0f, m_gameObject);
+            m_body.UserData = new Tag(4, 0.0f, m_gameObject);
             m_body.CollisionGroup = -2;
             // create tail part
             m_taller = FixtureFactory.AttachRectangle(m_inSize.X - 0.1f, m_inSize.Y / 2.0f, 0.01f,
@@ -460,7 +460,8 @@ namespace Catsland.Plugin.BasicPlugin {
             m_wantDown = false;
             m_wantJump = false;
             m_wantRun = false;
-            m_wantLift = false;           
+            m_wantLift = false;
+            m_wantKill = false;
         }
 
         public void UpdateDebugVertex() {
@@ -540,7 +541,8 @@ namespace Catsland.Plugin.BasicPlugin {
 
         private bool IsTallBlocker(Fixture _fixture) {
             if (_fixture.Body.UserData != null) {
-                if (Tag.Platform != _fixture.Body.UserData as Tag) {
+                if (Tag.Platform != _fixture.Body.UserData as Tag &&
+                    Tag.Role != _fixture.Body.UserData as Tag) {
                     return true;
                 }
             }
@@ -587,6 +589,13 @@ namespace Catsland.Plugin.BasicPlugin {
                 return false;
             }
             return (m_stealthKillSensor.ToBeKilled != null);
+        }
+
+        public GameObject GetToBeKilled() {
+            if (m_stealthKillSensor != null) {
+                return m_stealthKillSensor.ToBeKilled;
+            }
+            return null;
         }
 
         public float GetDepth() {
@@ -858,7 +867,6 @@ namespace Catsland.Plugin.BasicPlugin {
     }
 
     class StateFall : ControllState {
-        static private StateFall state;
         private Body m_ignoreBody;
         public Body IgnoreBody {
             set {
@@ -867,10 +875,7 @@ namespace Catsland.Plugin.BasicPlugin {
         }
 
         static public StateFall GetState() {
-            if (StateFall.state == null) {
-                StateFall.state = new StateFall();
-            }
-            return StateFall.state;
+            return new StateFall();
         }
 
         private void RestoreIgnoreBody(Body _body) {
@@ -1019,22 +1024,76 @@ namespace Catsland.Plugin.BasicPlugin {
     }
 
     class StateStealthKill : ControllState {
-        static private StateStealthKill state;
+        static private int moveInMS = 400;
+
+        private int m_phase = 0; // 0 - to init, 1 - to move
+        private int m_moveProgressInMS = 0;
+        private Vector2 m_initPosition;
+
+        private GameObject m_toBeKilled = null;
 
         static public StateStealthKill GetState() {
-            if (StateStealthKill.state == null) {
-                StateStealthKill.state = new StateStealthKill();
-            }
-            return StateStealthKill.state;
+            StateStealthKill state = new StateStealthKill();
+            state.m_phase = 0;
+            return state;
         }
 
         public void Do(CatController _controller, int _delta) {
-            System.Console.Out.WriteLine("Performing Stealth Killed");
-            _controller.CurrentState = StateStealth.GetState();
+            if (m_phase == 0) { // to init
+                m_toBeKilled = _controller.GetToBeKilled();
+                if (m_toBeKilled == null) {
+                    _controller.CurrentState = StateStealth.GetState();
+                }
+                // send commend to m_toBeKilled
+                m_moveProgressInMS = 0;
+                m_initPosition = _controller.m_body.Position;
+                m_phase = 1;
+            }
+            else if (m_phase == 1) {    // to move
+                m_moveProgressInMS += _delta;
+                if(m_moveProgressInMS > moveInMS){
+                    m_phase = 2;
+                    m_moveProgressInMS = moveInMS;
+                }
+                float progress = (float)m_moveProgressInMS / moveInMS;
+                Vector2 targetPosition = new Vector2(m_toBeKilled.AbsPosition.X,
+                                                    m_toBeKilled.AbsPosition.Y);
+                Vector2 setPosition = m_initPosition + (targetPosition - m_initPosition) * progress;
+                _controller.m_body.SetTransform(setPosition, _controller.m_body.Rotation);
+            }
+            else if (m_phase == 2) {
+                m_phase = 0;
+                CanBeStealthKilled canBeStealthKilled = m_toBeKilled.GetComponent(typeof(CanBeStealthKilled))
+                    as CanBeStealthKilled;
+                if (canBeStealthKilled != null) {
+                    canBeStealthKilled.Killed();
+                }
+                m_toBeKilled = null;
+                System.Console.Out.WriteLine("Performing Stealth Killed");
+                _controller.CurrentState = StateStealth.GetState();
+            }
         }
 
         public void UpdateAnimation(CatController _controller, Animator _animator, int _delta) {
             /*throw new NotImplementedException();*/
+        }
+    }
+
+    public class StateStealthKillToDeath : ControllState {
+        static private StateStealthKillToDeath state;
+        static public StateStealthKillToDeath GetState() {
+            if (StateStealthKillToDeath.state == null) {
+                StateStealthKillToDeath.state = new StateStealthKillToDeath();
+            }
+            return StateStealthKillToDeath.state;
+        }
+
+        public void Do(CatController _controller, int _delta) {
+            _controller.GameObject.Scene._gameObjectList.RemoveGameObject(_controller.GameObject.GUID);
+        }
+
+        public void UpdateAnimation(CatController _controller, Animator _animator, int _delta) {
+
         }
     }
 }

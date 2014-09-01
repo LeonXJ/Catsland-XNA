@@ -83,6 +83,8 @@ namespace Catsland.Core {
     public class Tag {
         static readonly public Tag Platform = new Tag(1);
         static readonly public Tag AttachPoint = new Tag(2);
+        static readonly public Tag Sensor = new Tag(3);
+        static readonly public Tag Role = new Tag(4);
 
         private int m_kind = 0;
         private float m_halfHeight = 0.0f;

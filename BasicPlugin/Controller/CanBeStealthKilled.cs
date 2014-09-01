@@ -11,5 +11,12 @@ namespace Catsland.Plugin.BasicPlugin {
 
         public CanBeStealthKilled()
             : base() { }
+
+        public void Killed() {
+            CatController controller = m_gameObject.GetComponent(typeof(CatController)) as CatController;
+            if (controller != null) {
+                controller.CurrentState = StateStealthKillToDeath.GetState();
+            }
+        }
     }
 }

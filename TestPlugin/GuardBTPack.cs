@@ -238,7 +238,6 @@ namespace Catsland.Plugin.TestPlugin {
             if (controller == null) {
                 return false;
             }
-            controller.m_wantJump = true;
             return true;
         }
 

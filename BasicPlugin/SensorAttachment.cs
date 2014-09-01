@@ -89,9 +89,9 @@ namespace Catsland.Plugin.BasicPlugin {
             }
         }
 
-        ~SensorAttachment() {
+        public void UnbindFromScene(Scene scene) {
             if (m_fixture != null) {
-                PhysicsSystem physicsSystem = Mgr<Scene>.Singleton.GetPhysicsSystem();
+                PhysicsSystem physicsSystem = scene.GetPhysicsSystem();
                 m_body.DestroyFixture(m_fixture);
             }
         }

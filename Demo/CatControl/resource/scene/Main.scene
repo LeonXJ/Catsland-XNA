@@ -273,6 +273,16 @@
             </Catsland.Plugin.TestPlugin.GuardBTPack>
           </Value>
         </KeyValue>
+        <KeyValue>
+          <Key>
+            <String name="" value="Catsland.Plugin.BasicPlugin.CanBeStealthKilled" />
+          </Key>
+          <Value>
+            <Catsland.Plugin.BasicPlugin.CanBeStealthKilled name="">
+              <String name="m_guid" value="512a2a11-ef95-4cf7-9ac5-8a1931a3c4ad" />
+            </Catsland.Plugin.BasicPlugin.CanBeStealthKilled>
+          </Value>
+        </KeyValue>
       </System.Collections.IDictionary>
       <String name="m_guid" value="2c4561f6-8281-495a-82a6-471ab202a45f" />
     </Catsland.Core.GameObject>

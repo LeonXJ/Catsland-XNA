@@ -16,7 +16,7 @@ namespace Catsland.Plugin.BasicPlugin {
 #region Properties
 
         [SerialAttribute]
-        private readonly CatVector2 m_offset = new CatVector2();
+        protected readonly CatVector2 m_offset = new CatVector2();
         public Vector2 Offset {
             set {
                 m_offset.SetValue(value);
@@ -53,8 +53,8 @@ namespace Catsland.Plugin.BasicPlugin {
             }
         }
 
-        private Body m_body;
-        private Fixture m_fixture;
+        protected Body m_body;
+        protected Fixture m_fixture;
 
         private VertexPositionColor []m_vertex;
         private VertexBuffer m_vertexBuffer;
@@ -106,6 +106,7 @@ namespace Catsland.Plugin.BasicPlugin {
             m_fixture.IsSensor = true;
             m_fixture.OnCollision += OnCollision;
             m_fixture.OnSeparation += OnSeparation;
+            m_fixture.CollisionGroup = -1;
         }
 
         public void UpdateDebugVertex() {

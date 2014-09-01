@@ -86,10 +86,20 @@ namespace Catsland.Core {
 
         private int m_kind = 0;
         private float m_halfHeight = 0.0f;
+        private GameObject m_gameObject;
+        public GameObject GameObject {
+            set {
+                m_gameObject = value;
+            }
+            get {
+                return m_gameObject;
+            }
+        }
 
-        public Tag(int _kind, float _halfHeight = 0.0f) {
+        public Tag(int _kind, float _halfHeight = 0.0f, GameObject _gameObject = null) {
             m_kind = _kind;
             m_halfHeight = _halfHeight;
+            m_gameObject = _gameObject;
         }
 
         public override bool Equals(object obj) {

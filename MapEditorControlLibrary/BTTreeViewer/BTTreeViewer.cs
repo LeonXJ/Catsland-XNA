@@ -38,7 +38,7 @@ namespace Catsland.MapEditorControlLibrary {
         private Point m_currentRightBottom = new Point(0, 0);
         private Point m_ongoingRightBottom = new Point(0, 0);
 
-#endregion
+        #endregion
 
         public BTTreeViewer() {
             InitializeComponent();
@@ -62,11 +62,16 @@ namespace Catsland.MapEditorControlLibrary {
 
         /**
          * @brief set BTTreeRuntimePack and start observing the tree
-         **/ 
+         **/
         public void SetBTTreeAndObservingRuntimePack(BTTreeRuntimePack _runtimePack) {
             if (!IsObservingRuntimePack()
                 || m_observingRuntimePack.BTTree != m_btTree) {
-                SetBTTree(_runtimePack.BTTree);
+                if (_runtimePack == null) {
+                    SetBTTree(null);
+                }
+                else {
+                    SetBTTree(_runtimePack.BTTree);
+                }
             }
             m_observingRuntimePack = _runtimePack;
         }
@@ -101,7 +106,7 @@ namespace Catsland.MapEditorControlLibrary {
         /**
          * @brief [Only called by BTEditorSprite] announce the position of the sprite
          *  in order to get the size of the canvas
-         **/ 
+         **/
         internal void DeclareRightBottom(Point _point) {
             if (_point.X > m_ongoingRightBottom.X) {
                 m_ongoingRightBottom.X = _point.X;
@@ -114,7 +119,7 @@ namespace Catsland.MapEditorControlLibrary {
         /** 
          * @brief Convert the world position into draw position
          *    because we use scrollbar.
-         **/ 
+         **/
         internal Point GetDrawPosition(Point _point) {
             Point offset = AutoScrollPosition;
             return new Point(_point.X + offset.X, _point.Y + offset.Y);
@@ -123,7 +128,7 @@ namespace Catsland.MapEditorControlLibrary {
         /** 
          * @brief Convert the draw position into world position
          *    because we use scrollbar.
-         **/ 
+         **/
         internal Point GetWorldPosition(Point _pointInDraw) {
             Point offset = AutoScrollPosition;
             return new Point(_pointInDraw.X - offset.X, _pointInDraw.Y - offset.Y);
@@ -141,7 +146,7 @@ namespace Catsland.MapEditorControlLibrary {
 
         /**
          * @brief get the existing BTEditorRectangle for the given BTNode
-         **/ 
+         **/
         internal BTEditorRectangle GetRectangle(BTNode _node) {
             if (_node == null) {
                 return null;
@@ -156,7 +161,7 @@ namespace Catsland.MapEditorControlLibrary {
         /**
          * @brief create chart according to m_btTree. if it is null, it will clear
          *  the view
-         **/ 
+         **/
         private void CreateChart() {
             if (m_btTree == null) {
                 m_sprites = null;
@@ -169,7 +174,7 @@ namespace Catsland.MapEditorControlLibrary {
 
         /**
          * @brief recursively layout the nodes
-         **/ 
+         **/
         private void AutoLayoutChart() {
             if (m_btTree != null && m_btTree.Root != null && m_sprites != null) {
                 string rootKey = BTEditorRectangle.GetKey(m_btTree.Root);
@@ -178,7 +183,7 @@ namespace Catsland.MapEditorControlLibrary {
                 if (m_sprites.ContainsKey(rootKey)) {
                     (m_sprites[rootKey] as BTEditorRectangle).AutoRecursivelyLayout(m_sprites, leftTop);
                 }
-                
+
             }
         }
 
@@ -194,7 +199,7 @@ namespace Catsland.MapEditorControlLibrary {
 
         /**
          * @brief decide whether to update scrollbar by checking if the m_ongoingRightBottom changed
-         **/ 
+         **/
         private void DecideAndUpdateScroll() {
             if (!m_ongoingRightBottom.Equals(m_currentRightBottom)) {
                 this.AutoScrollMinSize = new Size(m_ongoingRightBottom.X, m_ongoingRightBottom.Y);
@@ -216,7 +221,7 @@ namespace Catsland.MapEditorControlLibrary {
                         if (_mouseAction == MouseAction.MouseDown) {
                             keyValue.Value.OnMouseDown(_pos);
                         }
-                        else if(_mouseAction == MouseAction.MouseUp) {
+                        else if (_mouseAction == MouseAction.MouseUp) {
                             keyValue.Value.OnMouseUp(_pos);
                         }
                         return keyValue.Key;
@@ -228,7 +233,7 @@ namespace Catsland.MapEditorControlLibrary {
 
         /**
          * @brief mouse-down event
-         **/ 
+         **/
         private void BTTreeViewer_MouseDown(object sender, MouseEventArgs e) {
             Point worldPosition = GetWorldPosition(e.Location);
             m_mouseDownSpriteKey = GetEditorSpriteKeyByPosition(worldPosition, MouseAction.MouseDown);
@@ -237,7 +242,7 @@ namespace Catsland.MapEditorControlLibrary {
 
         /**
          * @brief mouse-up event
-         **/ 
+         **/
         private void BTTreeViewer_MouseUp(object sender, MouseEventArgs e) {
             Point worldPosition = GetWorldPosition(e.Location);
             string mouseUpSpriteKey = GetEditorSpriteKeyByPosition(worldPosition, MouseAction.MouseUp);
@@ -268,7 +273,7 @@ namespace Catsland.MapEditorControlLibrary {
 
         /**
          * @brief mouse-move event
-         **/ 
+         **/
         private void BTTreeViewer_MouseMove(object sender, MouseEventArgs e) {
             if (m_mouseDownSpriteKey != "") {
                 Point worldPosition = GetWorldPosition(e.Location);
@@ -282,7 +287,7 @@ namespace Catsland.MapEditorControlLibrary {
 
         /**
          * @brief select the given sprite
-         **/ 
+         **/
         private void DeSelect(string _spriteID) {
             if (m_sprites.ContainsKey(m_mouseDownSpriteKey)) {
                 m_sprites[m_mouseDownSpriteKey].OnSelect();
@@ -292,7 +297,7 @@ namespace Catsland.MapEditorControlLibrary {
 
         /**
          * @brief deselect the given sprite
-         **/ 
+         **/
         private void DoDeselect() {
             if (m_selectedSpriteID != "" && m_sprites.ContainsKey(m_selectedSpriteID)) {
                 m_sprites[m_selectedSpriteID].OnDeselect();
@@ -322,7 +327,7 @@ namespace Catsland.MapEditorControlLibrary {
 
         /**
          * @brief [Only called by BTEditorRectangle] invoke OnBTNodeSelected event by BTEditorRectangle
-         **/ 
+         **/
         internal void RaiseOnBTNodeSelected(BTNode _node) {
             BTNodeSelectedArgs args = new BTNodeSelectedArgs(_node);
             OnBTNodeSelected(this, args);
@@ -330,7 +335,7 @@ namespace Catsland.MapEditorControlLibrary {
 
         /**
          * @brief [Only called by BTEditorRectangle] invoke OnBTNodeDeselected event by BTEditorRectangle
-         **/ 
+         **/
         internal void RaiseOnBTNodeDeselected(BTNode _node) {
             BTNodeSelectedArgs args = new BTNodeSelectedArgs(_node);
             OnBTNodeDeselected(this, args);
@@ -338,7 +343,7 @@ namespace Catsland.MapEditorControlLibrary {
 
         /**
          * @brief scollbar move event
-         **/ 
+         **/
         private void BTTreeViewer_Scroll(object sender, ScrollEventArgs e) {
             Refresh();
         }
@@ -350,7 +355,7 @@ namespace Catsland.MapEditorControlLibrary {
          *  3. if the _newParent is ConditionNode, check if it has child. If it does, the action is illege
          *  4. break the old edge
          *  5. make new connection
-         **/ 
+         **/
         internal bool SetParent(string _child, string _newParent) {
             if (!m_sprites.ContainsKey(_child) || !m_sprites.ContainsKey(_newParent)) {
                 return false;
@@ -388,7 +393,7 @@ namespace Catsland.MapEditorControlLibrary {
             // destroy other edge if necessary
             if (newParent.Node.GetType().IsSubclassOf(typeof(BTConditionNode))) {
                 (newParent.Node as BTConditionNode).Child = child.Node;
-                
+
             }
             else if (newParent.Node.GetType().IsSubclassOf(typeof(BTCompositeNode))) {
                 (newParent.Node as BTCompositeNode).AddChild(child.Node);

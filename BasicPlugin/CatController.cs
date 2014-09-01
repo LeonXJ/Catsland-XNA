@@ -208,6 +208,7 @@ namespace Catsland.Plugin.BasicPlugin {
         private SensorAttachment m_onGroundSensor;
         private SensorAttachment m_leftAttachableSensor;
         private SensorAttachment m_rightAttachableSensor;
+        private StealthKillSensor m_stealthKillSensor;
 
         private VertexPositionColor[] m_vertex;
         private VertexBuffer m_vertexBuffer;
@@ -292,6 +293,7 @@ namespace Catsland.Plugin.BasicPlugin {
         public bool m_wantRun = false;
         public bool m_wantJump = false;
         public bool m_wantLift = false;
+        public bool m_wantKill = false;
 
         #endregion
 
@@ -346,6 +348,7 @@ namespace Catsland.Plugin.BasicPlugin {
             m_body.SleepingAllowed = false;
             m_body.FixedRotation = true;
             m_body.Position = new Vector2(0.0f, 0.0f);
+            m_body.UserData = new Tag(0, 0.0f, m_gameObject);
             // create tail part
             m_taller = FixtureFactory.AttachRectangle(m_inSize.X - 0.1f, m_inSize.Y / 2.0f, 0.01f,
                 new Vector2(0.0f, m_inSize.Y / 2.0f), m_body);
@@ -397,6 +400,13 @@ namespace Catsland.Plugin.BasicPlugin {
             m_rightAttachableSensor.Size = new Vector2(sensorHalfSize, sensorHalfSize);
             m_rightAttachableSensor.Offset = new Vector2(m_inSize.X / 2.0f + sensorGap + sensorHalfSize,
                 m_inSize.Y * 0.75f - sensorHalfSize);
+            // stealth kill sensor
+            if (m_stealthKillSensor == null) {
+                m_stealthKillSensor = new StealthKillSensor(m_body);
+                m_stealthKillSensor.BindToScene(Mgr<Scene>.Singleton);
+            }
+            m_stealthKillSensor.Radius = 2.0f;
+            m_stealthKillSensor.Offset = Vector2.Zero;
         }
 
         public override void EditorUpdate(int timeLastFrame) {
@@ -416,6 +426,7 @@ namespace Catsland.Plugin.BasicPlugin {
         public override void Update(int timeLastFrame) {
             base.Update(timeLastFrame);
             MoveGameObjectToBody();
+            m_stealthKillSensor.Update(timeLastFrame);
             /*UpdateSensors();*/
             DoControll(timeLastFrame);
             UpdateAnimation(timeLastFrame);
@@ -567,6 +578,13 @@ namespace Catsland.Plugin.BasicPlugin {
 
         private bool IsAttachable(SensorAttachment _sensor) {
             return _sensor.IsTriggered;
+        }
+
+        public bool CanPerformStealthKill() {
+            if (m_stealthKillSensor == null) {
+                return false;
+            }
+            return (m_stealthKillSensor.ToBeKilled != null);
         }
 
         public float GetDepth() {
@@ -964,7 +982,13 @@ namespace Catsland.Plugin.BasicPlugin {
                 }
                 if (_controller.m_wantJump) {
                     _controller.DoJump(true);
+                    // return?
                 }
+                // try
+                if (_controller.m_wantKill && _controller.CanPerformStealthKill()) {
+                    _controller.CurrentState = StateStealthKill.GetState();
+                }
+                // end try
                 float hor_force = 0.0f;
                 if (_controller.m_wantLeft) {
                     hor_force -= 1.0f;
@@ -989,6 +1013,26 @@ namespace Catsland.Plugin.BasicPlugin {
 
             _animator.CheckPlayAnimation(_controller.m_aniStand);
             // TODO: should be stealth
+        }
+    }
+
+    class StateStealthKill : ControllState {
+        static private StateStealthKill state;
+
+        static public StateStealthKill GetState() {
+            if (StateStealthKill.state == null) {
+                StateStealthKill.state = new StateStealthKill();
+            }
+            return StateStealthKill.state;
+        }
+
+        public void Do(CatController _controller, int _delta) {
+            System.Console.Out.WriteLine("Performing Stealth Killed");
+            _controller.CurrentState = StateStealth.GetState();
+        }
+
+        public void UpdateAnimation(CatController _controller, Animator _animator, int _delta) {
+            /*throw new NotImplementedException();*/
         }
     }
 }

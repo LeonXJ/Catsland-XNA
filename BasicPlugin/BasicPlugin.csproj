@@ -108,8 +108,10 @@
     <Compile Include="CircleCollider.cs" />
     <Compile Include="Controller\AmbientLightController.cs" />
     <Compile Include="Controller\BTTreeComponent.cs" />
+    <Compile Include="Controller\CanBeStealthKilled.cs" />
     <Compile Include="Controller\DiffuseLightController.cs" />
     <Compile Include="Controller\SkyTimeController.cs" />
+    <Compile Include="Controller\StealthKillSensor.cs" />
     <Compile Include="DialogAnimator.cs" />
     <Compile Include="DialogResponser.cs" />
     <Compile Include="GamepadInput.cs" />

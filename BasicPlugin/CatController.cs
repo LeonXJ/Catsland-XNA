@@ -349,11 +349,13 @@ namespace Catsland.Plugin.BasicPlugin {
             m_body.FixedRotation = true;
             m_body.Position = new Vector2(0.0f, 0.0f);
             m_body.UserData = new Tag(0, 0.0f, m_gameObject);
+            m_body.CollisionGroup = -2;
             // create tail part
             m_taller = FixtureFactory.AttachRectangle(m_inSize.X - 0.1f, m_inSize.Y / 2.0f, 0.01f,
                 new Vector2(0.0f, m_inSize.Y / 2.0f), m_body);
             m_taller.OnCollision = OnCollision;
             m_taller.OnSeparation = OnSeparation;
+            m_taller.CollisionGroup = -2;
             MoveBodyToGameObject();
         }
 

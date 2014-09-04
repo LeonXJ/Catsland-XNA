@@ -9,7 +9,7 @@
     <CatVector3 name="m_targetPosition" value="3.019937,0.4314202,0" />
     <CatFloat name="m_cameraDistance" value="2" />
     <CatVector3 name="m_cameraPRY" value="0,0,0" />
-    <CatVector2 name="m_viewSize" value="8.426173,4.466969" />
+    <CatVector2 name="m_viewSize" value="11.13342,5.32468" />
     <CatFloat name="m_fieldOfView" value="90" />
     <CatVector2 name="m_clipDistance" value="0.1,100" />
     <CatColor name="m_backgroundColor" value="0.6784314,0.8470588,0.9019608,1" />
@@ -141,7 +141,7 @@
     </Catsland.Core.GameObject>
     <Catsland.Core.GameObject>
       <String name="m_name" value="player" />
-      <CatVector3 name="m_position" value="6.840675,-0.2817808,0" />
+      <CatVector3 name="m_position" value="6.733793,-0.3708482,0" />
       <CatQuaternion name="m_rotation" value="0,0,0,1" />
       <CatVector3 name="m_scale" value="1,1,1" />
       <System.Collections.IDictionary name="m_components" typeinfo="System.Collections.Generic.Dictionary`2[System.String,Catsland.Core.CatComponent]">
@@ -199,7 +199,7 @@
               <CatInteger name="m_attackPrepareTimeMS" value="200" />
               <CatInteger name="m_attackPostTimeMS" value="200" />
               <CatInteger name="m_attackCooldownTimeMS" value="200" />
-              <String name="m_attackPrefabName" value="" />
+              <String name="m_attackPrefabName" value="attackObject" />
               <String name="m_aniStand" value="stand" />
               <String name="m_aniWalk" value="run" />
               <String name="m_aniRun" value="run" />

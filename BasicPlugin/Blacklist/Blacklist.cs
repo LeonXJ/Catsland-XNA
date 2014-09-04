@@ -50,6 +50,12 @@ namespace Catsland.Plugin.BasicPlugin {
             m_preys.Add(_prey);
         }
 
+        public void RemoveFromBlacklist(Prey _prey) {
+            if (m_preys.Contains(_prey)) {
+                m_preys.Remove(_prey);
+            }
+        }
+
         public static string GetMenuNames() {
             return "Shadow|Blacklist";
         }

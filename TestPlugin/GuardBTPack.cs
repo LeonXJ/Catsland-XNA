@@ -394,4 +394,21 @@ namespace Catsland.Plugin.TestPlugin {
             return "Suspect Limit?";
         }
     }
+
+    public class BTActionAttack : BTActionNode {
+
+        public override bool OnRunning(BTTreeRuntimePack _runtimePack) {
+            CatController controller = _runtimePack.GameObject.GetComponent(
+                typeof(CatController)) as CatController;
+            if (controller != null) {
+                controller.m_wantKill = true;
+            }
+            return true;
+        }
+
+        public override string GetDisplayName() {
+            return "Attack";
+        }
+
+    }
 }

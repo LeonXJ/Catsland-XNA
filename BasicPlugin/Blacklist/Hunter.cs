@@ -55,9 +55,13 @@ namespace Catsland.Plugin.BasicPlugin {
             m_spotPrey = null;
             Blacklist blacklist = Mgr<Scene>.Singleton.GetSharedObject(typeof(Blacklist).ToString()) 
                 as Blacklist;
+            ShadowSystem shadowSystem = GameObject.Scene.m_shadowSystem;
             if (blacklist != null) {
                 foreach (Prey prey in blacklist.Preys) {
                     if (IsPointInOnLight(prey.GetPointInWorld())) {
+                        if (shadowSystem != null && !shadowSystem.IsPointEnlighted(prey.GetPointInWorld())){
+                            continue;
+                        }
                         m_debugShape.DiffuseColor = Color.Red;
                         DiffuseColor = Color.Red;
                         m_spotPrey = prey;

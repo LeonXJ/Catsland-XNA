@@ -56,13 +56,14 @@ namespace Catsland.Plugin.BasicPlugin {
             }
         }
 
+        private GameObject m_gameObject;
+
 #endregion
 
-        
-
-        public StealthKillSensor(Body _body){
+        public StealthKillSensor(GameObject _gameObject, Body _body){
             m_body = _body;
             UpdateSensor();
+            m_gameObject = _gameObject;
         }
 
         public void UnbindFromScene(Scene _scene) {
@@ -132,11 +133,37 @@ namespace Catsland.Plugin.BasicPlugin {
             float nearest = 99999.0f;
             if (m_suspectGameObject != null) {
                 foreach (GameObject candidate in m_suspectGameObject) {
-                    //Mgr<Scene>.Singleton.GetPhysicsSystem().GetWorld().RayCast()
-                    Transform transform;
-                    m_body.GetTransform(out transform);
-                    Vector2 myPosition = transform.p + m_offset;
+                    Vector2 myPosition = new Vector2(m_gameObject.AbsPosition.X, m_gameObject.AbsPosition.Y);
                     Vector2 canPosition = new Vector2(candidate.AbsPosition.X, candidate.AbsPosition.Y);
+                    Vector2 delta = canPosition - myPosition;
+                    // orientation
+                    if (m_gameObject.AbsRotation.Y < MathHelper.ToRadians(10.0f) && m_gameObject.AbsRotation.Y > -MathHelper.ToRadians(10.0f)) {
+                        if (delta.X < 0.0f) {  // right
+                           continue;
+                        }
+                    }
+                    else if (delta.X > 0.0f) {  // left
+                        continue;
+                    }
+                    // raycast
+                    bool blocked = false;
+                    List<Fixture> fixtures = Mgr<Scene>.Singleton.GetPhysicsSystem().GetWorld().RayCast(myPosition, canPosition);
+                    foreach (Fixture fixture in fixtures) {
+                        if (fixture.Body.UserData == null) {
+                            blocked = true;
+                            break;
+                        } 
+                        else {
+                            Tag tag = fixture.Body.UserData as Tag;
+                            if (tag != Tag.Role) {
+                                blocked = true;
+                                break;
+                            }
+                        }
+                    }
+                    if (blocked) {
+                        continue;
+                    }
                     float dist = (myPosition - canPosition).LengthSquared();
                     if (dist < nearest) {
                         nearest = dist;

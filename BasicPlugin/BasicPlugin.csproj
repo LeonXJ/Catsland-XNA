@@ -136,6 +136,8 @@
     <Compile Include="TestEchoCommand.cs" />
     <Compile Include="VelocityEstimator.cs" />
     <Compile Include="SoundEmitterTester.cs" />
+    <Compile Include="Weapon\OneTimeHurt.cs" />
+    <Compile Include="Weapon\Vulnerable.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CatsEditor\CatsEditor.csproj">

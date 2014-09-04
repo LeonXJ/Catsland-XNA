@@ -26,6 +26,8 @@ namespace Catsland.Plugin.BasicPlugin
 
 		}
 
+        public SelfDestroyer() : base() { }
+
 		public override void Update(int timeLastFrame)
 		{
 			base.Update(timeLastFrame);

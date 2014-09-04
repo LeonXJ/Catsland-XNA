@@ -127,8 +127,8 @@ namespace Catsland.Editor {
                 CatComponent component = (CatComponent)constructorInfo.Invoke(new Object[1] { m_observingGameObject });
 
                 m_observingGameObject.AddComponent(component);
-                component.BindToScene(Mgr<Scene>.Singleton);
-                component.Initialize(Mgr<Scene>.Singleton);
+//                 component.BindToScene(Mgr<Scene>.Singleton);
+//                 component.Initialize(Mgr<Scene>.Singleton);
                 UpdateGameObjectAttribute(m_observingGameObject);
             }
         }

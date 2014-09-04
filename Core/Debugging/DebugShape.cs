@@ -118,7 +118,7 @@ namespace Catsland.Core {
             List<Vector2> vertex = new List<Vector2>();
             for (int segment = 0; segment < CircleSegment; ++segment) {
                 vertex.Add(new Vector2((float)Math.Cos(2 * segment * MathHelper.Pi / CircleSegment),
-                                        (float)Math.Sin(2 * segment * MathHelper.Pi / CircleSegment)) + _offset);
+                                        (float)Math.Sin(2 * segment * MathHelper.Pi / CircleSegment)) * _radius + _offset);
             }
             SetVertices(vertex);
         }

@@ -203,6 +203,52 @@ namespace Catsland.Plugin.BasicPlugin {
             }
         }
 
+        [SerialAttribute]
+        private readonly CatInteger m_attackPrepareTimeMS = new CatInteger(200);
+        public int AttackPrepareTimeMS {
+            set {
+                m_attackPrepareTimeMS.SetValue((int)MathHelper.Max(value, 0));
+            }
+            get {
+                return m_attackPrepareTimeMS;
+            }
+        }
+
+        [SerialAttribute]
+        private readonly CatInteger m_attackPostTimeMS = new CatInteger(200);
+        public int AttackPostTimeMS {
+            set {
+                m_attackPostTimeMS.SetValue((int)MathHelper.Max(value, 0.0f));
+            }
+            get {
+                return m_attackPostTimeMS;
+            }
+        }
+
+        [SerialAttribute]
+        private readonly CatInteger m_attackCooldownTimeMS = new CatInteger(200);
+        public int AttackCooldownTimeMS {
+            set {
+                m_attackCooldownTimeMS.SetValue((int)MathHelper.Max(value, 0.0f));
+            }
+            get {
+                return m_attackCooldownTimeMS;
+            }
+        }
+
+        [SerialAttribute]
+        private string m_attackPrefabName = "";
+        public string AttackPrefabName {
+            set {
+                m_attackPrefabName = value;
+            }
+            get {
+                return m_attackPrefabName;
+            }
+        }
+
+        internal int m_currentAttackCooldownMS = 0;
+
         public Body m_body;
         public Fixture m_taller;
         private SensorAttachment m_onGroundSensor;
@@ -373,6 +419,18 @@ namespace Catsland.Plugin.BasicPlugin {
                 _timeLastFrame);
         }
 
+        protected void UpdateCooldown(int _timeInMS) {
+            if (m_currentAttackCooldownMS > 0) {
+                m_currentAttackCooldownMS -= _timeInMS;
+            }
+        }
+
+        internal void TryAttack() {
+            if (m_currentAttackCooldownMS <= 0) {
+                m_currentState = StateAttack.GetState();
+            }
+        }
+
         protected void UpdateSensors() {
             // onGroundSensor
             if (m_onGroundSensor == null) {
@@ -404,7 +462,7 @@ namespace Catsland.Plugin.BasicPlugin {
                 m_inSize.Y * 0.75f - sensorHalfSize);
             // stealth kill sensor
             if (m_stealthKillSensor == null) {
-                m_stealthKillSensor = new StealthKillSensor(m_body);
+                m_stealthKillSensor = new StealthKillSensor(m_gameObject, m_body);
                 m_stealthKillSensor.BindToScene(Mgr<Scene>.Singleton);
             }
             m_stealthKillSensor.Radius = 2.0f;
@@ -428,7 +486,10 @@ namespace Catsland.Plugin.BasicPlugin {
         public override void Update(int timeLastFrame) {
             base.Update(timeLastFrame);
             MoveGameObjectToBody();
-            m_stealthKillSensor.Update(timeLastFrame);
+            if (m_currentState == StateStealth.GetState()) {
+                m_stealthKillSensor.Update(timeLastFrame);
+            }
+            UpdateCooldown(timeLastFrame);
             /*UpdateSensors();*/
             DoControll(timeLastFrame);
             UpdateAnimation(timeLastFrame);
@@ -675,6 +736,9 @@ namespace Catsland.Plugin.BasicPlugin {
                 if (_controller.m_wantJump) {
                     _controller.DoJump();
                 }
+                else if (_controller.m_wantKill) {
+                    _controller.TryAttack();
+                }
                 // left / right
                 else if (_controller.m_wantDown) {
                     _controller.EnterStealth();
@@ -735,6 +799,9 @@ namespace Catsland.Plugin.BasicPlugin {
                 // jump
                 if (_controller.m_wantJump) {
                     _controller.DoJump();
+                }
+                else if (_controller.m_wantKill) {
+                    _controller.TryAttack();
                 }
                 else {
                     // want walk and same direction and slow enough,
@@ -1094,6 +1161,67 @@ namespace Catsland.Plugin.BasicPlugin {
 
         public void UpdateAnimation(CatController _controller, Animator _animator, int _delta) {
 
+        }
+    }
+
+    class StateAttack : ControllState {
+
+        private int m_phase = 0; // 0 - init, 1 - prepare, 2 - post
+        private int m_currentMS = 0;
+
+        static public StateAttack GetState() {
+            return new StateAttack();
+        }
+
+        public void Do(CatController _controller, int _delta) {
+            m_currentMS += _delta;
+            if (_controller.m_currentAttackCooldownMS <= 0) {
+                if (m_phase == 0) { // init
+                    _controller.m_currentAttackCooldownMS = _controller.AttackCooldownTimeMS;
+                    m_phase = 1;
+                }
+                if (m_phase == 1) { // prepare
+                    if (m_currentMS > _controller.AttackPrepareTimeMS) {
+                        m_currentMS -= _controller.AttackPrepareTimeMS;
+                        m_phase = 2;
+                        Attack(_controller);
+                    }
+                }
+                if (m_phase == 2) { // post
+                    if (m_currentMS > _controller.AttackPrepareTimeMS) {
+                        _controller.CurrentState = StateStandWalk.GetState();
+                    }
+                }
+            }
+        }
+
+        private void Attack(CatController _controller) {
+            GameObject attackObject = null;
+            if (_controller.AttackPrefabName != "") {
+                string prefabName = _controller.AttackPrefabName;
+                if (Mgr<CatProject>.Singleton != null
+                    && Mgr<CatProject>.Singleton.prefabList != null) {
+                    PrefabList prefabs = Mgr<CatProject>.Singleton.prefabList;
+                    if (prefabs.ContainKey(prefabName)) {
+                        Serialable.BeginSupportingDelayBinding();
+                        attackObject = prefabs.GetItem(prefabName).DoClone() as GameObject;
+                        Serialable.EndSupportingDelayBinding();
+                    }
+                }
+            }
+            if (attackObject != null) {
+                Vector3 absPosition = _controller.GameObject.AbsPosition + new Vector3(0.0f, 0.0f, 0.01f);
+                attackObject.Position = absPosition;
+                OneTimeHurt oneTimeHurt = attackObject.GetComponent(typeof(OneTimeHurt)) as OneTimeHurt;
+                if (oneTimeHurt != null) {
+                    oneTimeHurt.BelongGUID = _controller.GameObject.GUID;
+                }
+                _controller.GameObject.Scene._gameObjectList.AddGameObject(attackObject);
+            }
+        }
+
+        public void UpdateAnimation(CatController _controller, Animator _animator, int _delta) {
+            /*throw new NotImplementedException();*/
         }
     }
 }

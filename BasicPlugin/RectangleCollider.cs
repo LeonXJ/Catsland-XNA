@@ -31,17 +31,17 @@ namespace Catsland.Plugin.BasicPlugin {
             }
         }
 
-//         [SerialAttribute]
-//         protected readonly CatBool m_isPlatform = new CatBool(false);
-//         public bool IsPlatform {
-//             set {
-//                 m_isPlatform.SetValue(value);
-//                 UpdateIsPlatform();
-//             }
-//             get {
-//                 return m_isPlatform.GetValue();
-//             }
-//         }
+        [SerialAttribute]
+        protected readonly CatBool m_isPlatform = new CatBool(false);
+        public bool IsPlatform {
+            set {
+                m_isPlatform.SetValue(value);
+                UpdateIsPlatform();
+            }
+            get {
+                return m_isPlatform.GetValue();
+            }
+        }
 
         [SerialAttribute]
         protected readonly CatInteger m_collideType = new CatInteger(0);
@@ -77,18 +77,18 @@ namespace Catsland.Plugin.BasicPlugin {
 
         public override void Initialize(Scene scene) {
             base.Initialize(scene);
-            //UpdateIsPlatform();
+            UpdateIsPlatform();
             UpdateCollideType();
         }
 
-//         private void UpdateIsPlatform() {
-//             if (m_isPlatform) {
-//                 m_body.UserData = Tag.Platform;
-//             }
-//             else {
-//                 m_body.UserData = null;
-//             }
-//         }
+        private void UpdateIsPlatform() {
+            if (m_isPlatform) {
+                m_body.UserData = Tag.Platform;
+            }
+            else {
+                m_body.UserData = null;
+            }
+        }
 
         private void UpdateCollideType() {
             m_body.UserData = new Tag(m_collideType);

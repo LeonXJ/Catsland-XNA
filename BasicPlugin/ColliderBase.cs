@@ -195,8 +195,8 @@ namespace Catsland.Plugin.BasicPlugin {
             m_gameObject.Position = new Vector3(m_body.Position.X,
                                                         m_body.Position.Y,
                                                         m_gameObject.Position.Z);
-            m_gameObject.Rotation = new Vector3(m_gameObject.Rotation.X,
-                                                m_gameObject.Rotation.Y,
+            m_gameObject.RotationInDegree = new Vector3(m_gameObject.RotationInDegree.X,
+                                                m_gameObject.RotationInDegree.Y,
                                                 MathHelper.ToDegrees(m_body.Rotation));
         }
 

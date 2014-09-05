@@ -76,11 +76,24 @@
                     </Catsland.Plugin.TestPlugin.BTActionMoveToPoint>
                     <String name="m_guid" value="a5ee57be-7659-46c0-94b9-0abca3e4eee8" />
                   </Catsland.Plugin.TestPlugin.BTConditionNotArrivePoint>
-                  <Catsland.Plugin.TestPlugin.BTActionIncreaseSuspection name="">
-                    <String name="m_suspectName" value="suspect" />
-                    <CatInteger name="m_increament" value="-1" />
-                    <String name="m_guid" value="1d8e2401-9950-46b4-9346-4134470d9269" />
-                  </Catsland.Plugin.TestPlugin.BTActionIncreaseSuspection>
+                  <Catsland.Core.BTLinearSelectNode name="">
+                    <System.Collections.IList name="m_children" typeinfo="System.Collections.Generic.List`1[Catsland.Core.BTNode]">
+                      <Catsland.Plugin.TestPlugin.BTConditionSpotAny name="">
+                        <Catsland.Plugin.TestPlugin.BTActionIncreaseSuspection name="m_child">
+                          <String name="m_suspectName" value="suspect" />
+                          <CatInteger name="m_increament" value="0" />
+                          <String name="m_guid" value="d08b6425-cf3e-4de0-ace8-9e113f74148b" />
+                        </Catsland.Plugin.TestPlugin.BTActionIncreaseSuspection>
+                        <String name="m_guid" value="8b76e34e-8d7d-43c0-82d7-5f95e843f9bd" />
+                      </Catsland.Plugin.TestPlugin.BTConditionSpotAny>
+                      <Catsland.Plugin.TestPlugin.BTActionIncreaseSuspection name="">
+                        <String name="m_suspectName" value="suspect" />
+                        <CatInteger name="m_increament" value="-1" />
+                        <String name="m_guid" value="1d8e2401-9950-46b4-9346-4134470d9269" />
+                      </Catsland.Plugin.TestPlugin.BTActionIncreaseSuspection>
+                    </System.Collections.IList>
+                    <String name="m_guid" value="6decf791-14b7-4ec0-9c98-18f231879961" />
+                  </Catsland.Core.BTLinearSelectNode>
                 </System.Collections.IList>
                 <String name="m_guid" value="4f1fb7b5-5034-4534-be02-800ea0b99558" />
               </Catsland.Core.BTLinearSelectNode>

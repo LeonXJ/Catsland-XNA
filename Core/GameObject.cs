@@ -71,7 +71,7 @@ namespace Catsland.Core {
         [SerialAttribute]
         private readonly CatQuaternion m_rotation = new CatQuaternion(Quaternion.Identity);
         [CategoryAttribute("Location")]
-        public Vector3 Rotation {
+        public Vector3 RotationInDegree {   // in degree
             set {
                 m_rotation.SetValue(Quaternion.CreateFromYawPitchRoll(
                             MathHelper.ToRadians(value.Y), 
@@ -83,12 +83,27 @@ namespace Catsland.Core {
                 return CatQuaternion.QuaternionToEulerDegreeVector3(m_rotation);
             }
         }
+        public Vector3 RotationInRadian {
+            set{
+                m_rotation.SetValue(Quaternion.CreateFromYawPitchRoll(
+                    value.Y, value.X, value.Z));
+            }
+            get {
+                Vector3 rotationInDegree = CatQuaternion.QuaternionToEulerDegreeVector3(m_rotation);
+                return new Vector3(MathHelper.ToRadians(rotationInDegree.X),
+                                   MathHelper.ToRadians(rotationInDegree.Y),
+                                   MathHelper.ToRadians(rotationInDegree.Z));
+            }
+        }
         public CatQuaternion RotationRef {
             get { return m_rotation; }
         }
-        public Vector3 AbsRotation {
+        public Vector3 AbsRotationInDegreee {
             get {
-                return CatMath.MatrixToEulerAngleVector3(AbsTransform);
+                Vector3 absRotationInRadians = CatMath.MatrixToEulerAngleVector3(AbsTransform);
+                return new Vector3(MathHelper.ToDegrees(absRotationInRadians.X),
+                                   MathHelper.ToDegrees(absRotationInRadians.Y),
+                                   MathHelper.ToDegrees(absRotationInRadians.Z));
             }
         }
 

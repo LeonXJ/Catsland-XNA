@@ -129,7 +129,8 @@ namespace Catsland.Plugin.BasicPlugin {
                             Vulnerable vulnerable = tag.GameObject.GetComponent(typeof(Vulnerable)) 
                                 as Vulnerable;
                             vulnerable.GetHurt(m_damage);
-                            m_gameObject.Scene._gameObjectList.RemoveGameObject(m_gameObject.GUID);
+                            
+                            //m_gameObject.Scene._gameObjectList.RemoveGameObject(m_gameObject.GUID);
                         }
                     
                 }

@@ -43,7 +43,9 @@ namespace Catsland.Plugin.BasicPlugin {
                 && gamePadState.IsButtonDown(Buttons.A));
             catController.m_wantLift = catController.m_wantLift || gamePadState.IsButtonDown(Buttons.A);
             catController.m_wantRun = catController.m_wantRun || gamePadState.IsButtonDown(Buttons.LeftShoulder);
-            
+            catController.m_wantKill = catController.m_wantKill || (!m_preGamepadState.IsButtonDown(Buttons.X)
+                && gamePadState.IsButtonDown(Buttons.X));
+
             m_preGamepadState = gamePadState;
         }
 

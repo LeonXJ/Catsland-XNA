@@ -247,6 +247,17 @@ namespace Catsland.Plugin.BasicPlugin {
             }
         }
 
+        [SerialAttribute]
+        private CatInteger m_dieInMs = new CatInteger(200);
+        public int DieInMS {
+            set {
+                m_dieInMs.SetValue((int)MathHelper.Max(value, 0.0f));
+            }
+            get {
+                return m_dieInMs;
+            }
+        }
+
         internal int m_currentAttackCooldownMS = 0;
 
         public Body m_body;
@@ -332,6 +343,20 @@ namespace Catsland.Plugin.BasicPlugin {
             get { return m_aniAttach; }
         }
 
+        [SerialAttribute]
+        public string m_aniAttack = "attack";
+        public string AniAttack {
+            set { m_aniAttack = value; }
+            get { return m_aniAttack; }
+        }
+
+        [SerialAttribute]
+        public string m_aniDie = "die";
+        public string AniDie {
+            set { m_aniDie = value; }
+            get { return m_aniDie; }
+        }
+
         public bool m_wantLeft = false;
         public bool m_wantRight = false;
         public bool m_wantUp = false;
@@ -360,6 +385,9 @@ namespace Catsland.Plugin.BasicPlugin {
             if (m_body != null) {
                 physicsSystem.GetWorld().RemoveBody(m_body);
                 m_body = null;
+            }
+            if (Mgr<GameEngine>.Singleton._gameEngineMode == GameEngine.GameEngineMode.MapEditor) {
+                _scene._debugDrawableList.RemoveItem(this);
             }
         }
 
@@ -408,10 +436,10 @@ namespace Catsland.Plugin.BasicPlugin {
         protected void UpdateAnimation(int _timeLastFrame) {
 
             if (m_orientation == XOrientation.Right) {
-                m_gameObject.Rotation = new Vector3(0.0f, 0.0f, 0.0f);
+                m_gameObject.RotationInDegree = new Vector3(0.0f, 0.0f, 0.0f);
             }
             else {
-                m_gameObject.Rotation = new Vector3(0.0f, 180.0f, 0.0f);
+                m_gameObject.RotationInDegree = new Vector3(0.0f, 180.0f, 0.0f);
             }
 
             m_currentState.UpdateAnimation(this,
@@ -428,6 +456,7 @@ namespace Catsland.Plugin.BasicPlugin {
         internal void TryAttack() {
             if (m_currentAttackCooldownMS <= 0) {
                 m_currentState = StateAttack.GetState();
+                m_currentAttackCooldownMS = m_attackCooldownTimeMS;
             }
         }
 
@@ -676,9 +705,10 @@ namespace Catsland.Plugin.BasicPlugin {
                     && m_onGroundSensor.LastContactFixture.Body != null) {
                     Tag bodyTag = m_onGroundSensor.LastContactFixture.Body.UserData as Tag;
                     if (bodyTag != null && Tag.Platform == bodyTag) {
-                        StateFall.GetState().IgnoreBody = m_onGroundSensor.LastContactFixture.Body;
                         m_body.IgnoreCollisionWith(m_onGroundSensor.LastContactFixture.Body);
-                        CurrentState = StateFall.GetState();
+                        StateFall stateFall = StateFall.GetState();
+                        stateFall.IgnoreBody = m_onGroundSensor.LastContactFixture.Body;
+                        CurrentState = stateFall;
                     }
                 }
             }
@@ -1118,7 +1148,7 @@ namespace Catsland.Plugin.BasicPlugin {
             }
             else if (m_phase == 1) {    // to move
                 m_moveProgressInMS += _delta;
-                if(m_moveProgressInMS > moveInMS){
+                if (m_moveProgressInMS > moveInMS) {
                     m_phase = 2;
                     m_moveProgressInMS = moveInMS;
                 }
@@ -1142,25 +1172,31 @@ namespace Catsland.Plugin.BasicPlugin {
         }
 
         public void UpdateAnimation(CatController _controller, Animator _animator, int _delta) {
-            /*throw new NotImplementedException();*/
+            _animator.CheckPlayAnimation(_controller.m_aniAttack);
         }
     }
 
     public class StateStealthKillToDeath : ControllState {
-        static private StateStealthKillToDeath state;
+        private int m_timer = 0;
         static public StateStealthKillToDeath GetState() {
-            if (StateStealthKillToDeath.state == null) {
-                StateStealthKillToDeath.state = new StateStealthKillToDeath();
-            }
-            return StateStealthKillToDeath.state;
+            return new StateStealthKillToDeath();
         }
 
         public void Do(CatController _controller, int _delta) {
-            _controller.GameObject.Scene._gameObjectList.RemoveGameObject(_controller.GameObject.GUID);
+            if (m_timer == 0) {
+                Hunter hunter = _controller.GameObject.GetComponent(typeof(Hunter)) as Hunter;
+                if (hunter != null) {
+                    hunter.IsLightOn = false;
+                }
+            }
+            m_timer += _delta;
+            if (m_timer > _controller.DieInMS) {
+                _controller.GameObject.Scene._gameObjectList.RemoveGameObject(_controller.GameObject.GUID);
+            }
         }
 
         public void UpdateAnimation(CatController _controller, Animator _animator, int _delta) {
-
+            _animator.CheckPlayAnimation(_controller.m_aniDie);
         }
     }
 
@@ -1175,24 +1211,22 @@ namespace Catsland.Plugin.BasicPlugin {
 
         public void Do(CatController _controller, int _delta) {
             m_currentMS += _delta;
-            if (_controller.m_currentAttackCooldownMS <= 0) {
-                if (m_phase == 0) { // init
-                    _controller.m_currentAttackCooldownMS = _controller.AttackCooldownTimeMS;
-                    m_phase = 1;
-                }
-                if (m_phase == 1) { // prepare
-                    if (m_currentMS > _controller.AttackPrepareTimeMS) {
-                        m_currentMS -= _controller.AttackPrepareTimeMS;
-                        m_phase = 2;
-                        Attack(_controller);
-                    }
-                }
-                if (m_phase == 2) { // post
-                    if (m_currentMS > _controller.AttackPrepareTimeMS) {
-                        _controller.CurrentState = StateStandWalk.GetState();
-                    }
+            if (m_phase == 0) { // init
+                m_phase = 1;
+            }
+            if (m_phase == 1) { // prepare
+                if (m_currentMS > _controller.AttackPrepareTimeMS) {
+                    m_currentMS -= _controller.AttackPrepareTimeMS;
+                    m_phase = 2;
+                    Attack(_controller);
                 }
             }
+            if (m_phase == 2) { // post
+                if (m_currentMS > _controller.AttackPrepareTimeMS) {
+                    _controller.CurrentState = StateStandWalk.GetState();
+                }
+            }
+
         }
 
         private void Attack(CatController _controller) {
@@ -1212,7 +1246,17 @@ namespace Catsland.Plugin.BasicPlugin {
             if (attackObject != null) {
                 Vector3 absPosition = _controller.GameObject.AbsPosition + new Vector3(0.0f, 0.0f, 0.01f);
                 attackObject.Position = absPosition;
+                attackObject.RotationInDegree = _controller.GameObject.AbsRotationInDegreee;           
                 OneTimeHurt oneTimeHurt = attackObject.GetComponent(typeof(OneTimeHurt)) as OneTimeHurt;
+                if (oneTimeHurt == null && attackObject.Children != null) {
+                    // find in children
+                    foreach (GameObject child in attackObject.Children) {
+                        oneTimeHurt = child.GetComponent(typeof(OneTimeHurt)) as OneTimeHurt;
+                        if (oneTimeHurt != null) {
+                            break;
+                        }
+                    }
+                }
                 if (oneTimeHurt != null) {
                     oneTimeHurt.BelongGUID = _controller.GameObject.GUID;
                 }
@@ -1221,7 +1265,7 @@ namespace Catsland.Plugin.BasicPlugin {
         }
 
         public void UpdateAnimation(CatController _controller, Animator _animator, int _delta) {
-            /*throw new NotImplementedException();*/
+            _animator.CheckPlayAnimation(_controller.m_aniAttack);
         }
     }
 }

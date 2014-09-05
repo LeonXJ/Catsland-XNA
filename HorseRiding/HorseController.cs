@@ -326,7 +326,7 @@ namespace HorseRiding {
             float bodyY = (m_size.Y - m_lift) / 2.0f + m_lift;
             m_body.SetTransform(new Vector2(m_gameObject.AbsPosition.X,
                                           m_gameObject.AbsPosition.Y + bodyY),
-                                          m_gameObject.AbsRotation.Z);
+                                          MathHelper.ToRadians(m_gameObject.AbsRotationInDegreee.Z));
             m_wheel.SetTransform(new Vector2(m_gameObject.AbsPosition.X,
                                            m_gameObject.AbsPosition.Y + m_size.Y / 2.0f),
                                            0.0f);

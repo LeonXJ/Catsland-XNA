@@ -101,7 +101,7 @@ namespace Catsland.Plugin.BasicPlugin {
             Vector2 frontDirection = frontPoint - centroid;
             frontDirection.Normalize();
             delta.Normalize();
-            if (Vector2.Dot(frontDirection, delta) < Math.Cos(m_fanInDegree * MathHelper.Pi / 90)) {
+            if (Vector2.Dot(frontDirection, delta) < Math.Cos(MathHelper.ToRadians(m_fanInDegree))) {
                 return false;
             }
             return true;

@@ -10,10 +10,10 @@ namespace Catsland.Plugin.BasicPlugin {
 #region Properties
 
         [SerialAttribute]
-        protected int m_hp;
+        protected CatInteger m_hp = new CatInteger(1);
         public int HP {
             set {
-                m_hp = value;
+                m_hp.SetValue(value);
                 OnGetHurt();
             }
             get {

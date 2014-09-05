@@ -137,7 +137,7 @@ namespace Catsland.Plugin.BasicPlugin {
                     Vector2 canPosition = new Vector2(candidate.AbsPosition.X, candidate.AbsPosition.Y);
                     Vector2 delta = canPosition - myPosition;
                     // orientation
-                    if (m_gameObject.AbsRotation.Y < MathHelper.ToRadians(10.0f) && m_gameObject.AbsRotation.Y > -MathHelper.ToRadians(10.0f)) {
+                    if (m_gameObject.AbsRotationInDegreee.Y < 10.0f && m_gameObject.AbsRotationInDegreee.Y > -10.0f) {
                         if (delta.X < 0.0f) {  // right
                            continue;
                         }
@@ -147,20 +147,23 @@ namespace Catsland.Plugin.BasicPlugin {
                     }
                     // raycast
                     bool blocked = false;
-                    List<Fixture> fixtures = Mgr<Scene>.Singleton.GetPhysicsSystem().GetWorld().RayCast(myPosition, canPosition);
-                    foreach (Fixture fixture in fixtures) {
-                        if (fixture.Body.UserData == null) {
-                            blocked = true;
-                            break;
-                        } 
-                        else {
-                            Tag tag = fixture.Body.UserData as Tag;
-                            if (tag != Tag.Role) {
+                    if (delta.LengthSquared() > 0.01f) {    // avoid myPosition == canPosition
+                        List<Fixture> fixtures = Mgr<Scene>.Singleton.GetPhysicsSystem().GetWorld().RayCast(myPosition, canPosition);
+                        foreach (Fixture fixture in fixtures) {
+                            if (fixture.Body.UserData == null) {
                                 blocked = true;
                                 break;
                             }
+                            else {
+                                Tag tag = fixture.Body.UserData as Tag;
+                                if (tag != Tag.Role) {
+                                    blocked = true;
+                                    break;
+                                }
+                            }
                         }
                     }
+                    
                     if (blocked) {
                         continue;
                     }

@@ -91,6 +91,32 @@ namespace Catsland.Plugin.BasicPlugin {
             }
         }
 
+        [SerialAttribute]
+        protected readonly CatInteger m_collisionCategroy = new CatInteger((int)FixtureCollisionCategroy.Kind.SolidBlock);
+        public FixtureCollisionCategroy.Kind CollisionCategroy {
+            set {
+                m_collisionCategroy.SetValue((int)value);
+                UpdateCollisionCategroy();
+            }
+            get {
+                return (FixtureCollisionCategroy.Kind)(m_collisionCategroy.GetValue());
+            }
+        }
+
+        [SerialAttribute]
+        protected readonly CatBool m_collide = new CatBool(true);
+        public bool Collide {
+            set {
+                m_collide.SetValue(value);
+                if (m_body != null) {
+                    m_body.IsSensor = !value;
+                }
+            }
+            get {
+                return m_collide;
+            }
+        }
+
         // the vertex of collider debug box
         protected VertexPositionColor[] m_vertex;
         protected VertexBuffer m_vertexBuffer;
@@ -142,8 +168,15 @@ namespace Catsland.Plugin.BasicPlugin {
                 m_body = CreateBody(physicsSystem);
                 m_body.BodyType = BodyType;
                 m_body.Friction = m_friction;
+                m_body.IsSensor = !m_collide;
+                UpdateCollisionCategroy();
                 MoveBodyToGameObject();
              }
+        }
+
+        protected void UpdateCollisionCategroy() {
+            FixtureCollisionCategroy.SetCollsionCategroy(
+                m_body, (FixtureCollisionCategroy.Kind)(m_collisionCategroy.GetValue()));
         }
 
         protected void DeleteBody() {

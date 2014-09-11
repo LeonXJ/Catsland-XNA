@@ -37,21 +37,23 @@ namespace Catsland.Core {
 
             Fixture platform = null;
             Fixture thing = null;
-            if(fixtureA.Body.UserData != null){
-                if(Tag.Platform == (fixtureA.Body.UserData as Tag)){
-                    platform = fixtureA;
-                    thing = fixtureB;
-                }
+            if (FixtureCollisionCategroy.IsPlatform(fixtureA)) {
+                platform = fixtureA;
+                thing = fixtureB;
             }
-            if(fixtureB.Body.UserData != null){
-                if(Tag.Platform == (fixtureB.Body.UserData as Tag)){
-                    platform = fixtureB;
-                    thing = fixtureA;
-                }
+            else if (FixtureCollisionCategroy.IsPlatform(fixtureB)) {
+                platform = fixtureB;
+                thing = fixtureA;
             }
-            if (thing != null && platform != null) {
+            if (platform != null && thing != null) {
+                AABB platformAABB = new AABB();
+                platform.GetAABB(out platformAABB, 0);
                 Tag thingTag = thing.Body.UserData as Tag;
-                if (thing.Body.Position.Y < platform.Body.Position.Y + 0.05f + thingTag.getHalfHeight()) {
+                float centroidHeight = 0.0f;
+                if (thingTag != null) {
+                    centroidHeight = thingTag.getHalfHeight();
+                }
+                if (thing.Body.Position.Y - centroidHeight + 0.05f < platform.Body.Position.Y + platformAABB.Height / 2.0f) {
                     contact.Enabled = false;
                 }
             }
@@ -80,7 +82,131 @@ namespace Catsland.Core {
         }
     }
 
+    public class FixtureCollisionCategroy {
+        public enum Kind {
+            SolidBlock = 0, // cat1
+            OnesideBlock,   // cat2
+            EnvironmentSensor,  // cat3
+            RoleSensor,     // cat4
+            Role,           // cat5
+            AttachPoint,    // cat6
+            AttachPointSensor,  // cat7
+        }
+
+        public static void SetCollsionCategroy(Fixture _fixture, Kind _kind){
+            switch(_kind){
+                case Kind.SolidBlock:
+                    _fixture.CollisionCategories = Category.Cat1;
+                    _fixture.CollidesWith = Category.All & ~Category.Cat4;
+                    break;
+                case Kind.OnesideBlock:
+                    _fixture.CollisionCategories = Category.Cat2;
+                    _fixture.CollidesWith = Category.All & ~Category.Cat4;
+                    break;
+                case Kind.EnvironmentSensor:
+                    _fixture.CollisionCategories = Category.Cat3;
+                    _fixture.CollidesWith = Category.Cat1 | Category.Cat2;
+                    break;
+                case Kind.RoleSensor:
+                    _fixture.CollisionCategories = Category.Cat4;
+                    _fixture.CollidesWith = Category.Cat5;
+                    break;
+                case Kind.Role:
+                    _fixture.CollisionCategories = Category.Cat5;
+                    _fixture.CollidesWith = Category.All & ~ Category.Cat3 & ~Category.Cat5;
+                    break;
+                case Kind.AttachPoint:
+                    _fixture.CollisionCategories = Category.Cat6;
+                    _fixture.CollidesWith = Category.Cat7;
+                    break;
+                case Kind.AttachPointSensor:
+                    _fixture.CollisionCategories = Category.Cat7;
+                    _fixture.CollidesWith = Category.Cat6;
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        public static void SetCoolisionCategroyForRole(Body _body, GameObject _gameObject, float _centroidRise) {
+            _body.UserData = new Tag(4, _centroidRise, _gameObject);
+            SetCollsionCategroy(_body, Kind.Role);
+        }
+
+        public static void SetCollsionCategroy(Body _body, Kind _kind) {
+            switch (_kind) {
+                case Kind.SolidBlock:
+                    _body.CollisionCategories = Category.Cat1;
+                    _body.CollidesWith = Category.All & ~Category.Cat4;
+                    break;
+                case Kind.OnesideBlock:
+                    _body.CollisionCategories = Category.Cat2;
+                    _body.CollidesWith = Category.All & ~Category.Cat4;
+                    break;
+                case Kind.EnvironmentSensor:
+                    _body.CollisionCategories = Category.Cat3;
+                    _body.CollidesWith = Category.Cat1 | Category.Cat2;
+                    break;
+                case Kind.RoleSensor:
+                    _body.CollisionCategories = Category.Cat4;
+                    _body.CollidesWith = Category.Cat5;
+                    break;
+                case Kind.Role:
+                    _body.CollisionCategories = Category.Cat5;
+                    _body.CollidesWith = Category.All & ~Category.Cat3 & ~Category.Cat5;
+                    break;
+                case Kind.AttachPoint:
+                    _body.CollisionCategories = Category.Cat6;
+                    _body.CollidesWith = Category.Cat7;
+                    break;
+                case Kind.AttachPointSensor:
+                    _body.CollisionCategories = Category.Cat7;
+                    _body.CollidesWith = Category.Cat6;
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        public static bool IsRole(Fixture _fixture) {
+            return ((_fixture.CollisionCategories & Category.Cat5) != 0x0);
+        }
+
+        public static bool IsPlatform(Fixture _fixture) {
+            return ((_fixture.CollisionCategories & Category.Cat2) != 0x0);
+        }
+
+        public static bool IsPlatform(Body _body) {
+            if (_body == null || _body.FixtureList.Count < 0) {
+                return false;
+            }
+            else {
+                return IsPlatform(_body.FixtureList[0]);
+            }
+        }
+
+        public static GameObject GetGameObject(Fixture _fixture) {
+            if (_fixture != null) {
+                return GetGameObject(_fixture.Body);
+            }
+            return null;
+        }
+
+        public static GameObject GetGameObject(Body _body) {
+            if (_body != null && _body.UserData != null) {
+                Tag tag = _body.UserData as Tag;
+                if (tag != null) {
+                    return tag.GameObject;
+                }
+            }
+            return null;
+        }
+    }
+
     public class Tag {
+
+        
+
         static readonly public Tag Platform = new Tag(1);
         static readonly public Tag AttachPoint = new Tag(2);
         static readonly public Tag Sensor = new Tag(3);

@@ -9,9 +9,9 @@ using FarseerPhysics.Factories;
 using FarseerPhysics.Dynamics.Contacts;
 
 namespace Catsland.Plugin.BasicPlugin {
-    public class OneTimeHurt : CatComponent{
+    public class OneTimeHurt : CatComponent {
 
-#region Properties
+        #region Properties
 
         [SerialAttribute]
         protected readonly CatVector2 m_offset = new CatVector2();
@@ -62,8 +62,8 @@ namespace Catsland.Plugin.BasicPlugin {
         }
 
         private DebugShape m_debugShape;
-        
-#endregion
+
+        #endregion
 
         public OneTimeHurt(GameObject _gameObject)
             : base(_gameObject) {
@@ -107,8 +107,9 @@ namespace Catsland.Plugin.BasicPlugin {
                 physicsSystem.GetWorld().RemoveBody(m_body);
                 m_body = null;
             }
-            m_body = BodyFactory.CreateCircle(physicsSystem.GetWorld(), m_radius, 
+            m_body = BodyFactory.CreateCircle(physicsSystem.GetWorld(), m_radius,
                 0.1f, new Tag(3, 0.0f, m_gameObject));
+            FixtureCollisionCategroy.SetCollsionCategroy(m_body, FixtureCollisionCategroy.Kind.RoleSensor);
             m_body.BodyType = BodyType.Static;
             m_body.IsSensor = true;
             m_body.CollisionGroup = -1;
@@ -121,20 +122,17 @@ namespace Catsland.Plugin.BasicPlugin {
             if (_fixtureA.Body == m_body) {
                 other = _fixtureB;
             }
-            if (other.Body != null && other.Body.UserData != null) {
-                Tag tag = other.Body.UserData as Tag;
-                if (tag.GameObject != null &&
-                    tag.GameObject.GetComponent(typeof(Vulnerable)) != null) {
-                        if (m_belongToGUID == "" || m_belongToGUID != tag.GameObject.GUID) {
-                            Vulnerable vulnerable = tag.GameObject.GetComponent(typeof(Vulnerable)) 
-                                as Vulnerable;
-                            vulnerable.GetHurt(m_damage);
-                            
-                            //m_gameObject.Scene._gameObjectList.RemoveGameObject(m_gameObject.GUID);
-                        }
-                    
+            GameObject otherGameObject = FixtureCollisionCategroy.GetGameObject(other);
+            if (otherGameObject != null &&
+                    otherGameObject.GetComponent(typeof(Vulnerable)) != null) {
+                if (m_belongToGUID == "" || m_belongToGUID != otherGameObject.GUID) {
+                    Vulnerable vulnerable = otherGameObject.GetComponent(typeof(Vulnerable))
+                        as Vulnerable;
+                    vulnerable.GetHurt(m_damage);
                 }
+
             }
+
             return true;
         }
 

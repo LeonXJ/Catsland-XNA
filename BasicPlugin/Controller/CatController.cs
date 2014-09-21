@@ -711,12 +711,12 @@ namespace Catsland.Plugin.BasicPlugin {
             if (m_stealthKillSensor == null) {
                 return false;
             }
-            return (m_stealthKillSensor.GetCandidate() != null);
+            return (m_stealthKillSensor.GetVictim() != null);
         }
 
         public GameObject GetToBeKilled() {
             if (m_stealthKillSensor != null) {
-                return m_stealthKillSensor.GetCandidate();
+                return m_stealthKillSensor.GetVictim();
             }
             return null;
         }

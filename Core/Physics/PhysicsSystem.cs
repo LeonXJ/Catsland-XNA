@@ -83,45 +83,54 @@ namespace Catsland.Core {
     }
 
     public class FixtureCollisionCategroy {
+
+        private static readonly Category m_solidBlockCat = Category.Cat1;
+        private static readonly Category m_onesideBlockCat = Category.Cat2;
+        private static readonly Category m_environmentSensorCat = Category.Cat3;
+        private static readonly Category m_roleSensorCat = Category.Cat4;
+        private static readonly Category m_roleCat = Category.Cat5;
+        private static readonly Category m_attachPointCat = Category.Cat6;
+        private static readonly Category m_attachPointSensorCat = Category.Cat7;
+
         public enum Kind {
-            SolidBlock = 0, // cat1
-            OnesideBlock,   // cat2
-            EnvironmentSensor,  // cat3
-            RoleSensor,     // cat4
-            Role,           // cat5
-            AttachPoint,    // cat6
-            AttachPointSensor,  // cat7
+            SolidBlock = 0, 
+            OnesideBlock,   
+            EnvironmentSensor,
+            RoleSensor, 
+            Role, 
+            AttachPoint,
+            AttachPointSensor,
         }
 
         public static void SetCollsionCategroy(Fixture _fixture, Kind _kind){
             switch(_kind){
                 case Kind.SolidBlock:
-                    _fixture.CollisionCategories = Category.Cat1;
-                    _fixture.CollidesWith = Category.All & ~Category.Cat4;
+                    _fixture.CollisionCategories = m_solidBlockCat;
+                    _fixture.CollidesWith = Category.All & ~m_roleSensorCat;
                     break;
                 case Kind.OnesideBlock:
-                    _fixture.CollisionCategories = Category.Cat2;
-                    _fixture.CollidesWith = Category.All & ~Category.Cat4;
+                    _fixture.CollisionCategories = m_onesideBlockCat;
+                    _fixture.CollidesWith = Category.All & ~m_roleSensorCat;
                     break;
                 case Kind.EnvironmentSensor:
-                    _fixture.CollisionCategories = Category.Cat3;
-                    _fixture.CollidesWith = Category.Cat1 | Category.Cat2;
+                    _fixture.CollisionCategories = m_environmentSensorCat;
+                    _fixture.CollidesWith = m_solidBlockCat | m_onesideBlockCat;
                     break;
                 case Kind.RoleSensor:
-                    _fixture.CollisionCategories = Category.Cat4;
-                    _fixture.CollidesWith = Category.Cat5;
+                    _fixture.CollisionCategories = m_roleSensorCat;
+                    _fixture.CollidesWith = m_roleCat;
                     break;
                 case Kind.Role:
-                    _fixture.CollisionCategories = Category.Cat5;
-                    _fixture.CollidesWith = Category.All & ~ Category.Cat3 & ~Category.Cat5;
+                    _fixture.CollisionCategories = m_roleCat;
+                    _fixture.CollidesWith = Category.All & ~m_environmentSensorCat & ~m_roleCat;
                     break;
                 case Kind.AttachPoint:
-                    _fixture.CollisionCategories = Category.Cat6;
-                    _fixture.CollidesWith = Category.Cat7;
+                    _fixture.CollisionCategories = m_attachPointCat;
+                    _fixture.CollidesWith = m_attachPointSensorCat;
                     break;
                 case Kind.AttachPointSensor:
-                    _fixture.CollisionCategories = Category.Cat7;
-                    _fixture.CollidesWith = Category.Cat6;
+                    _fixture.CollisionCategories = m_attachPointSensorCat;
+                    _fixture.CollidesWith = m_attachPointCat;
                     break;
                 default:
                     break;
@@ -136,40 +145,40 @@ namespace Catsland.Core {
         public static void SetCollsionCategroy(Body _body, Kind _kind) {
             switch (_kind) {
                 case Kind.SolidBlock:
-                    _body.CollisionCategories = Category.Cat1;
-                    _body.CollidesWith = Category.All & ~Category.Cat4;
+                    _body.CollisionCategories = m_solidBlockCat;
+                    _body.CollidesWith = Category.All & ~m_roleSensorCat;
                     break;
                 case Kind.OnesideBlock:
-                    _body.CollisionCategories = Category.Cat2;
-                    _body.CollidesWith = Category.All & ~Category.Cat4;
+                    _body.CollisionCategories = m_onesideBlockCat;
+                    _body.CollidesWith = Category.All & ~m_roleSensorCat;
                     break;
                 case Kind.EnvironmentSensor:
-                    _body.CollisionCategories = Category.Cat3;
-                    _body.CollidesWith = Category.Cat1 | Category.Cat2;
+                    _body.CollisionCategories = m_environmentSensorCat;
+                    _body.CollidesWith = m_solidBlockCat | m_onesideBlockCat;
                     break;
                 case Kind.RoleSensor:
-                    _body.CollisionCategories = Category.Cat4;
-                    _body.CollidesWith = Category.Cat5;
+                    _body.CollisionCategories = m_roleSensorCat;
+                    _body.CollidesWith = m_roleCat;
                     break;
                 case Kind.Role:
-                    _body.CollisionCategories = Category.Cat5;
-                    _body.CollidesWith = Category.All & ~Category.Cat3 & ~Category.Cat5;
+                    _body.CollisionCategories = m_roleCat;
+                    _body.CollidesWith = Category.All & ~m_environmentSensorCat & ~m_roleCat;
                     break;
                 case Kind.AttachPoint:
-                    _body.CollisionCategories = Category.Cat6;
-                    _body.CollidesWith = Category.Cat7;
+                    _body.CollisionCategories = m_attachPointCat;
+                    _body.CollidesWith = m_attachPointSensorCat;
                     break;
                 case Kind.AttachPointSensor:
-                    _body.CollisionCategories = Category.Cat7;
-                    _body.CollidesWith = Category.Cat6;
+                    _body.CollisionCategories = m_attachPointSensorCat;
+                    _body.CollidesWith = m_attachPointCat;
                     break;
                 default:
                     break;
             }
         }
 
-        public static bool IsRole(Fixture _fixture) {
-            return ((_fixture.CollisionCategories & Category.Cat5) != 0x0);
+        public static bool IsSolidBlock(Fixture _fixture) {
+            return ((_fixture.CollisionCategories & m_solidBlockCat) != 0x0);
         }
 
         public static bool IsPlatform(Fixture _fixture) {
@@ -183,6 +192,26 @@ namespace Catsland.Core {
             else {
                 return IsPlatform(_body.FixtureList[0]);
             }
+        }
+
+        public static bool IsEnvironmentSensor(Fixture _fixture) {
+            return ((_fixture.CollisionCategories & m_environmentSensorCat) != 0x0);
+        }
+
+        public static bool IsRoleSensor(Fixture _fixture) {
+            return ((_fixture.CollisionCategories & m_roleSensorCat) != 0x0);
+        }
+
+        public static bool IsRole(Fixture _fixture) {
+            return ((_fixture.CollisionCategories & m_roleCat) != 0x0);
+        }
+
+        public static bool IsAttachPoint(Fixture _fixture) {
+            return ((_fixture.CollisionCategories & m_attachPointCat) != 0x0);
+        }
+
+        public static bool IsAttachPointSensor(Fixture _fixture) {
+            return ((_fixture.CollisionCategories & m_attachPointSensorCat) != 0x0);
         }
 
         public static GameObject GetGameObject(Fixture _fixture) {

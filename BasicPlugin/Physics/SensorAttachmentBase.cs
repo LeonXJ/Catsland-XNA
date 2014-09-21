@@ -26,17 +26,6 @@ namespace Catsland.Plugin.BasicPlugin {
             }
         }
 
-        [SerialAttribute]
-        private readonly CatBool m_enable = new CatBool(true);
-        public bool Enable {
-            set {
-                m_enable.SetValue(value);
-            }
-            get {
-                return m_enable;
-            }
-        }
-
         public enum SensorCollisionCategroy{
             EnvironmentSensor = (int)(FixtureCollisionCategroy.Kind.EnvironmentSensor),
             RoleSensor = (int)(FixtureCollisionCategroy.Kind.RoleSensor),
@@ -60,6 +49,10 @@ namespace Catsland.Plugin.BasicPlugin {
         protected Fixture m_fixture;
         protected DebugShape m_debugShape;
         protected GameObject m_gameObject;
+        protected int m_contactCount = 0;
+
+        protected Color TriggeredColor = Color.Red;
+        protected Color NotTriggeredColor = Color.Green;
 
 #endregion
 
@@ -72,7 +65,6 @@ namespace Catsland.Plugin.BasicPlugin {
             UpdateSensor();
             if (Mgr<GameEngine>.Singleton._gameEngineMode == GameEngine.GameEngineMode.MapEditor) {
                 UpdateDebugShape();
-                m_debugShape.BindToScene(_scene);
             }
         }
 
@@ -80,6 +72,22 @@ namespace Catsland.Plugin.BasicPlugin {
             if (m_debugShape != null 
                 && Mgr<GameEngine>.Singleton._gameEngineMode == GameEngine.GameEngineMode.MapEditor) {
                 m_debugShape.Destroy(_scene);
+            }
+        }
+
+        public bool HasContact() {
+            return (m_contactCount > 0);
+        }
+
+        /**
+         * @brief update position of debug shape. Call this in every update loop.
+         **/ 
+        public void UpdateDebugShapePosition(int _timeLastFrame) {
+            if (m_debugShape != null) {
+                Transform transform;
+                m_body.GetTransform(out transform);
+                Vector2 position = transform.p + m_offset;
+                m_debugShape.Position = new Vector3(position.X, position.Y, 0.0f);
             }
         }
 
@@ -98,34 +106,33 @@ namespace Catsland.Plugin.BasicPlugin {
         protected void UpdateDebugShape() {
             if (m_debugShape == null) {
                 m_debugShape = new DebugShape();
+                m_debugShape.BindToScene(m_gameObject.Scene);
             }
             m_debugShape.DiffuseColor = Color.Green;
             UpdateDebugShapeVertex();
+        }
+ 
+        private bool OnCollision(Fixture _fixtureA, Fixture _fixtureB, Contact _contact) {
+            if (m_contactCount == 0 && m_debugShape != null) {
+                m_debugShape.DiffuseColor = TriggeredColor;
+            }
+            ++m_contactCount;
+            return Collision(_fixtureA, _fixtureB, _contact);
+        }
+
+        private void OnSeparation(Fixture _fixtureA, Fixture _fixtureB) {
+            if (m_contactCount == 0 && m_debugShape != null) {
+                m_debugShape.DiffuseColor = NotTriggeredColor;
+            }
+            Separation(_fixtureA, _fixtureB);
         }
 
         protected abstract void UpdateDebugShapeVertex();
 
         protected abstract Fixture CreateSensor();
 
-        private bool OnCollision(Fixture _fixtureA, Fixture _fixtureB, Contact _contact) {
-            return Collision(_fixtureA, _fixtureB, _contact);
-        }
-
         protected abstract bool Collision(Fixture _fixtureA, Fixture _fixtureB, Contact _contact);
 
-        private void OnSeparation(Fixture _fixtureA, Fixture _fixtureB) {
-            Separation(_fixtureA, _fixtureB);
-        }
-
         protected abstract void Separation(Fixture _fixtureA, Fixture _fixtureB);
-
-        public void UpdateDebugShapePosition(int _timeLastFrame) {
-            if (m_debugShape != null) {
-                Transform transform;
-                m_body.GetTransform(out transform);
-                Vector2 position = transform.p + m_offset;
-                m_debugShape.Position = new Vector3(position.X, position.Y, 0.0f);
-            }
-        }
     }
 }

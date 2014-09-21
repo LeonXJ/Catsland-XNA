@@ -8,7 +8,7 @@ using FarseerPhysics.Dynamics;
 using FarseerPhysics.Factories;
 
 namespace Catsland.Plugin.BasicPlugin {
-    public abstract class CircleSensorAttachment : SensorAttachmentBase{
+    public class CircleSensorAttachment : SensorAttachmentBase{
 
 #region Properties
 
@@ -38,6 +38,14 @@ namespace Catsland.Plugin.BasicPlugin {
 
         protected override Fixture CreateSensor() {
             return FixtureFactory.AttachCircle(m_radius, 0.0f, m_body);
+        }
+
+        protected override bool Collision(Fixture _fixtureA, Fixture _fixtureB, FarseerPhysics.Dynamics.Contacts.Contact _contact) {
+            return true;
+        }
+
+        protected override void Separation(Fixture _fixtureA, Fixture _fixtureB) {
+            return;
         }
     }
 }
